@@ -1,10 +1,10 @@
 #pragma once
 
-#include "d3d.h"
+#include "Shape.h"
 
 namespace Moo
 {
-	class RectangleShape
+	class RectangleShape : public Shape
 	{
 	public:
 		RectangleShape(int width, int height, int x, int y, XMFLOAT4 color);
