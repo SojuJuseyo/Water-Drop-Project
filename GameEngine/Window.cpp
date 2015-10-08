@@ -18,7 +18,7 @@ namespace Moo
 		WNDCLASSEX wc;
 		int posX, posY;
 		auto hinstance = GetModuleHandle(NULL);
-		auto applicationName = "Engine";
+		auto applicationName = _config.getTitle().c_str();
 
 		// Setup the windows class with default settings.
 		wc.cbSize = sizeof(WNDCLASSEX);	//Size of our windows class

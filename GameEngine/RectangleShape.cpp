@@ -63,17 +63,17 @@ namespace Moo
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
 
-		bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-		bd.ByteWidth = sizeof(VERTEX) * sizeof(_vertices);             // size is the VERTEX struct * 3
-		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+		bd.ByteWidth = sizeof(VERTEX) * sizeof(_vertices);
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-		dev->CreateBuffer(&bd, NULL, &_vertexBuffer);       // create the buffer
+		dev->CreateBuffer(&bd, NULL, &_vertexBuffer);
 
 		D3D11_MAPPED_SUBRESOURCE ms;
-		devcon->Map(_vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);    // map the buffer
-		memcpy(ms.pData, _vertices, sizeof(_vertices));                 // copy the data
-		devcon->Unmap(_vertexBuffer, NULL);                                      // unmap the buffer
+		devcon->Map(_vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
+		memcpy(ms.pData, _vertices, sizeof(_vertices));
+		devcon->Unmap(_vertexBuffer, NULL);
 	}
 
 	ID3D11Buffer* const* RectangleShape::getVertexBuffer() const

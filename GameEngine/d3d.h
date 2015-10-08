@@ -30,7 +30,7 @@ struct VERTEX { XMFLOAT3 position; XMFLOAT4 color; };
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 600
 
-static int g_i = 0;
+static int g_i = 0; // tmp player position
 
 namespace Moo
 {
@@ -38,6 +38,7 @@ namespace Moo
 	{
 	public:
 
+		// Transform 3D points to 2D points
 		static XMFLOAT3 PointToNdc(int x, int y, float z)
 		{
 			XMFLOAT3 p;
@@ -134,10 +135,9 @@ namespace Moo
 			devcon->IASetInputLayout(pLayout);
 		}
 
-		// this is the function that cleans up Direct3D and COM
 		static void CleanD3D()
 		{
-			swapchain->SetFullscreenState(FALSE, NULL);    // switch to windowed mode
+			swapchain->SetFullscreenState(FALSE, NULL);
 		}
 	};
 }
