@@ -15,7 +15,7 @@
 
 using namespace DirectX;
 
-// global declarations
+// global declarations (NOTE: move them after the engine proof)
 static IDXGISwapChain *swapchain;             // the pointer to the swap chain interface
 static ID3D11Device *dev;                     // the pointer to our Direct3D device interface
 static ID3D11DeviceContext *devcon;           // the pointer to our Direct3D device context
