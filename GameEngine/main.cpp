@@ -24,22 +24,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	POINT ptClientLR;
 	static POINTS ptsBegin;
 
-	if (message == WM_LBUTTONDOWN)
-	{
-		SetCapture(hWnd);
-		GetClientRect(hWnd, &rcClient);
-		ptClientUL.x = rcClient.left;
-		ptClientUL.y = rcClient.top;
-		ptClientLR.x = rcClient.right + 1;
-		ptClientLR.y = rcClient.bottom + 1;
-		ClientToScreen(hWnd, &ptClientUL);
-		ClientToScreen(hWnd, &ptClientLR);
-		SetRect(&rcClient, ptClientUL.x, ptClientUL.y,
-			ptClientLR.x, ptClientLR.y);
-		ClipCursor(&rcClient);
-		ptsBegin = MAKEPOINTS(lParam);
-		PostMessage(hWnd, WM_CLICK, ptsBegin.x, ptsBegin.y);
-	}
 	if (wParam == VK_ESCAPE) {
 		PostQuitMessage(0);
 		return 0;

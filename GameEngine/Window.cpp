@@ -76,10 +76,6 @@ namespace Moo
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-			if (msg.message == WM_CLICK)
-			{
-				_rectangles.push_back(new Moo::RectangleShape(100, 100, msg.wParam, msg.lParam, XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f)));
-			}
 			if (msg.message == WM_LEFT)
 				if (g_i >= 0)
 					g_i -= 10;
@@ -117,7 +113,7 @@ namespace Moo
 		// select which vertex buffer to display
 		UINT stride = sizeof(VERTEX);
 		UINT offset = 0;
-		std::vector<RectangleShape *> _rectangles2(_rectangles);
+		std::vector<RectangleShape *> _rectangles2;
 		_rectangles2.push_back(new Moo::RectangleShape(SCREEN_WIDTH, 100, 0, SCREEN_HEIGHT - 100, XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f)));
 		_rectangles2.push_back(new Moo::RectangleShape(100, 100, g_i, SCREEN_HEIGHT - 200, XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f)));
 
