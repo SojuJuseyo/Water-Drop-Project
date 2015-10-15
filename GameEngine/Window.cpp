@@ -89,7 +89,12 @@ namespace Moo
 		}
 		return true;
 	}
+	/*
+	void	Window::events()
+	{
 
+	}
+	*/
 	void	Window::destroy()
 	{
 		ShowCursor(true);
@@ -103,28 +108,22 @@ namespace Moo
 	{
 		float color[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
 		devcon->ClearRenderTargetView(backbuffer, color);
+		devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	}
+
+	void	Window::draw(Shape *shape)
+	{
+		UINT stride = sizeof(VERTEX);
+		UINT offset = 0;
+
+		shape->draw(dev, devcon);
+		devcon->IASetVertexBuffers(0, 1, shape->getVertexBuffer(), &stride, &offset);
+		devcon->Draw(8, 0);
+		shape->release();
 	}
 
 	void	Window::display()
 	{
-		// select which primtive type we are using
-		devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		// select which vertex buffer to display
-		UINT stride = sizeof(VERTEX);
-		UINT offset = 0;
-		std::vector<RectangleShape *> _rectangles2;
-		_rectangles2.push_back(new Moo::RectangleShape(SCREEN_WIDTH, 100, 0, SCREEN_HEIGHT - 100, XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f)));
-		_rectangles2.push_back(new Moo::RectangleShape(100, 100, g_i, SCREEN_HEIGHT - 200, XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f)));
-
-		for (auto rectangle : _rectangles2)
-		{
-			rectangle->draw(dev, devcon);
-			devcon->IASetVertexBuffers(0, 1, rectangle->getVertexBuffer(), &stride, &offset);
-			devcon->Draw(8, 0);
-			rectangle->release();
-		}
-		_rectangles2.clear();
 		swapchain->Present(0, 0);
 	}
 }

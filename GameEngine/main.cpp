@@ -5,37 +5,15 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	Moo::Window window(hInstance, Moo::WindowSettings("test"));
+	Moo::RectangleShape *rectangle = new Moo::RectangleShape(200, 200, 200, 200, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
 
 	while (window.isOpen())
 	{
 		//window.events();
 		window.clear();
-		//window.draw();
+		window.draw(rectangle);
 		window.display();
 	}
 	window.destroy();
 	return 0;
-}
-
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	if (wParam == VK_ESCAPE) {
-		PostQuitMessage(0);
-		return 0;
-	}
-	if (wParam == VK_LEFT) {
-		PostMessage(hWnd, WM_LEFT, 0, 0);
-	}
-	if (wParam == VK_RIGHT) {
-		PostMessage(hWnd, WM_RIGHT, 0, 0);
-	}
-	if (wParam == VK_F1) {
-		PostMessage(hWnd, WM_FULLSCREEN, 0, 0);
-	}
-	if (message == WM_DESTROY)
-	{
-		PostQuitMessage(0);
-		return 0;
-	}
-	return DefWindowProc(hWnd, message, wParam, lParam);
 }
