@@ -1,5 +1,6 @@
 #pragma once
 #include "Window.h"
+#include "Keyboard.h"
 #include "d3d.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -9,7 +10,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	while (window.isOpen())
 	{
-		//window.events();
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
+		{
+
+		}
 		window.clear();
 		window.draw(rectangle);
 		window.display();

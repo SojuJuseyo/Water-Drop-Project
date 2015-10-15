@@ -76,12 +76,6 @@ namespace Moo
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-			if (msg.message == WM_LEFT)
-				if (g_i >= 0)
-					g_i -= 10;
-			if (msg.message == WM_RIGHT)
-				if (g_i <= SCREEN_WIDTH - 100)
-					g_i += 10;
 			if (msg.message == WM_FULLSCREEN)
 				swapchain->SetFullscreenState(TRUE, NULL);
 			if (msg.message == WM_QUIT)
@@ -89,12 +83,7 @@ namespace Moo
 		}
 		return true;
 	}
-	/*
-	void	Window::events()
-	{
 
-	}
-	*/
 	void	Window::destroy()
 	{
 		ShowCursor(true);

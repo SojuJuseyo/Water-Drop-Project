@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="RectangleShape.cpp" />
@@ -137,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3d.h" />
+    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RectangleShape.h" />
     <ClInclude Include="Shape.h" />
