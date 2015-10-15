@@ -128,12 +128,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="d3d.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="RectangleShape.cpp" />
     <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="VertexTypes.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowSettings.cpp" />
   </ItemGroup>
@@ -142,7 +140,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="RectangleShape.h" />
     <ClInclude Include="Shape.h" />
-    <ClInclude Include="VertexTypes.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowSettings.h" />
   </ItemGroup>

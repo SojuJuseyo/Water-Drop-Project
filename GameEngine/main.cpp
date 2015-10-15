@@ -19,11 +19,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	RECT rcClient;
-	POINT ptClientUL;
-	POINT ptClientLR;
-	static POINTS ptsBegin;
-
 	if (wParam == VK_ESCAPE) {
 		PostQuitMessage(0);
 		return 0;
