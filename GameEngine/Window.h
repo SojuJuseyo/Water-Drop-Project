@@ -6,6 +6,7 @@
 #include <windowsx.h>
 #include "WindowSettings.h"
 #include "d3d.h"
+#include "Fps.h"
 #include "RectangleShape.h"
 
 #define WM_FULLSCREEN WM_USER + 0
@@ -28,11 +29,15 @@ namespace Moo
 		void clear();
 		void draw(Shape * shape);
 		void display();
+		void setFpsLimit(float limit);
+		float getFps();
 
 	private:
 		WindowSettings _config;
 		HWND _hwnd;
 		std::vector<RectangleShape *> _rectangles;
+		float _fpsLimit;
+		Fps _fps;
 	};
 }
 
@@ -41,12 +46,6 @@ static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 	if (wParam == VK_ESCAPE) {
 		PostQuitMessage(0);
 		return 0;
-	}
-	if (wParam == VK_LEFT) {
-		PostMessage(hWnd, WM_LEFT, 0, 0);
-	}
-	if (wParam == VK_RIGHT) {
-		PostMessage(hWnd, WM_RIGHT, 0, 0);
 	}
 	if (wParam == VK_F1) {
 		PostMessage(hWnd, WM_FULLSCREEN, 0, 0);

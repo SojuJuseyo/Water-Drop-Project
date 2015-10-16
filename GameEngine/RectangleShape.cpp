@@ -18,10 +18,20 @@ namespace Moo
 
 	void RectangleShape::move(int x, int y)
 	{
-		_x = x;
-		_y = y;
+		_x += x;
+		_y += y;
 	}
 	
+	void RectangleShape::setX(int x)
+	{
+		_x = x;
+	}
+
+	void RectangleShape::setY(int y)
+	{
+		_y = y;
+	}
+
 	int RectangleShape::getX()
 	{
 		return _x;

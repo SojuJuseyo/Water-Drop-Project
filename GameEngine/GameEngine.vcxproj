@@ -128,20 +128,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Fps.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="RectangleShape.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowSettings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3d.h" />
+    <ClInclude Include="Fps.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RectangleShape.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowSettings.h" />
   </ItemGroup>

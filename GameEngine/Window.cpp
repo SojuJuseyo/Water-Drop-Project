@@ -5,6 +5,7 @@ namespace Moo
 	Window::Window(HINSTANCE hInstance, WindowSettings &config)
 	{
 		_config = config;
+		_fpsLimit = 60;
 		initialize(hInstance);
 	}
 
@@ -45,7 +46,6 @@ namespace Moo
 		posX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
 		posY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
 
-
 		_hwnd = CreateWindowEx(	//Create our Extended Window
 			WS_EX_APPWINDOW,	//Extended style
 			applicationName,	//Name of our windows class
@@ -69,6 +69,10 @@ namespace Moo
 
 	bool	Window::isOpen()
 	{
+		while (_fps.getFrameTime() <= 1.0f / _fpsLimit) {
+			_fps.update();
+		}
+
 		MSG msg;
 		ZeroMemory(&msg, sizeof(MSG));
 
@@ -76,10 +80,12 @@ namespace Moo
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-			if (msg.message == WM_FULLSCREEN)
+			if (msg.message == WM_FULLSCREEN) {
 				swapchain->SetFullscreenState(TRUE, NULL);
-			if (msg.message == WM_QUIT)
+			}
+			if (msg.message == WM_QUIT) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -107,12 +113,23 @@ namespace Moo
 
 		shape->draw(dev, devcon);
 		devcon->IASetVertexBuffers(0, 1, shape->getVertexBuffer(), &stride, &offset);
-		devcon->Draw(8, 0);
+		devcon->Draw(8, 0); // en dur, à changer en fonction de la taille du tableau de vertecies.
 		shape->release();
 	}
 
 	void	Window::display()
 	{
 		swapchain->Present(0, 0);
+		_fps.reset(_fpsLimit);
+	}
+
+	void	Window::setFpsLimit(float limit)
+	{
+		_fpsLimit = limit;
+	}
+
+	float	Window::getFps()
+	{
+		return 1.0f / _fps.getFrameTime();
 	}
 }

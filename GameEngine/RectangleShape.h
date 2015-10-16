@@ -10,6 +10,8 @@ namespace Moo
 		RectangleShape(int width, int height, int x, int y, XMFLOAT4 color);
 		~RectangleShape();
 		void move(int x, int y);
+		void setX(int x);
+		void setY(int y);
 		int getX();
 		int getY();
 		int getWidth();
