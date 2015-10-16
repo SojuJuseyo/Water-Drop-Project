@@ -11,7 +11,6 @@ namespace Moo
 
 	Window::~Window()
 	{
-		destroy();
 	}
 
 	void	Window::initialize(HINSTANCE hInstance)
@@ -92,10 +91,10 @@ namespace Moo
 
 	void	Window::destroy()
 	{
+		Moo::d3d::CleanD3D();
 		ShowCursor(true);
 		DestroyWindow(_hwnd);
 		_hwnd = NULL;
-		Moo::d3d::CleanD3D();
 		return;
 	}
 

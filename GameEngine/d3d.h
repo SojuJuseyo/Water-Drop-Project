@@ -23,7 +23,6 @@ static ID3D11RenderTargetView *backbuffer;    // global declaration
 static ID3D11InputLayout *pLayout;            // the pointer to the input layout
 static ID3D11VertexShader *pVS;               // the pointer to the vertex shader
 static ID3D11PixelShader *pPS;                // the pointer to the pixel shader
-static ID3D11Buffer *pVBuffer;                // the pointer to the vertex buffer
 
 struct VERTEX { XMFLOAT3 position; XMFLOAT4 color; };
 
@@ -137,6 +136,13 @@ namespace Moo
 		static void d3d::CleanD3D()
 		{
 			swapchain->SetFullscreenState(FALSE, NULL);
+			swapchain->Release();
+			pPS->Release();
+			pVS->Release();
+			pLayout->Release();
+			backbuffer->Release();
+			devcon->Release();
+			dev->Release();
 		}
 	};
 }
