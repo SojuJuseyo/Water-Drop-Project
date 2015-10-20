@@ -1,15 +1,25 @@
 #pragma once
 
 #include "RectangleShape.h"
+#include "Vector2f.h"
 #include "Entity.h"
+
+enum Direction
+{
+	LEFT,
+	RIGHT
+};
 
 namespace Moo
 {
 	class Character : public Entity
 	{
 	public:
-		Character();
+		Character(Vector2f, float, RectangleShape *);
 		virtual ~Character();
+		void	move(Direction);
+		void	jump();
+		void	update();
 
 	private:
 		RectangleShape *sprite;
