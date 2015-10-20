@@ -6,10 +6,6 @@ namespace Moo
 	{
 	}
 
-	Entity::~Entity()
-	{
-	}
-
 	void Entity::setVelocity(float velocity)
 	{
 		_velocity = velocity;

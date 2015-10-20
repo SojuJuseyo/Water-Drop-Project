@@ -12,7 +12,7 @@ namespace Moo
 	{
 	public:
 		Entity();
-		~Entity();
+		virtual ~Entity() {}
 
 		void setVelocity(float);
 		void setMass(float);
@@ -21,7 +21,7 @@ namespace Moo
 		float getVelocity() const;
 		float getMass() const;
 		Hitbox getHitbox() const;
-	private:
+	protected:
 		float	_velocity;
 		float	_mass;
 		Hitbox	_hitbox;
