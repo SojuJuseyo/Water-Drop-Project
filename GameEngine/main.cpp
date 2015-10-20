@@ -10,10 +10,10 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	Moo::Window window(hInstance, Moo::WindowSettings("test"));
-	Moo::RectangleShape *rectangle = new Moo::RectangleShape(50, 50, 200, 600 - 50, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
-	Moo::Character	*player = new Moo::Character(Moo::Vector2f(0, 50), 1, rectangle);
+	Moo::RectangleShape *rectangle = new Moo::RectangleShape(50, 50, 200, WINDOW_HEIGHT - 50, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+	Moo::Character	*player = new Moo::Character(Moo::Vector2f(1, 0), 50, rectangle);
 
-	window.setFpsLimit(60);
+	window.setFpsLimit(FPS_LIMIT);
 	FILE * pConsole;; AllocConsole();
 	freopen_s(&pConsole, "CONOUT$", "wb", stdout);
 	while (window.isOpen())

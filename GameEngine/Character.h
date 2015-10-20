@@ -1,5 +1,6 @@
 #pragma once
 
+#include "WindowSettings.h"
 #include "RectangleShape.h"
 #include "Vector2f.h"
 #include "Entity.h"
@@ -22,6 +23,7 @@ namespace Moo
 		void	update();
 
 	private:
-		RectangleShape *sprite;
+		RectangleShape *_sprite;
+		unsigned short	_multiplier;
 	};
 }

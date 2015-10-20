@@ -6,9 +6,10 @@ namespace Moo
 	{
 		this->setVelocity(velocity);
 		this->setMass(mass);
-		this->sprite = sprite;
+		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() + sprite->getHeight());
-		_acceleration.y = _mass * 1 / 60;
+		this->_acceleration.y = this->_mass / FPS_LIMIT;
+		_multiplier = 1;
 	}
 
 	Character::~Character()
@@ -19,37 +20,40 @@ namespace Moo
 	{
 		if (direction == LEFT)
 		{
-			sprite->move(-_velocity.x, 0);
+			_sprite->move(-_velocity.x, 0);
 		}
 		else
 		{
-			sprite->move(_velocity.x, 0);
+			_sprite->move(_velocity.x, 0);
 		}
 	}
 
 	void	Character::jump()
 	{
-		if (_velocity.y == 1)
-		{
-			this->setVelocity(Moo::Vector2f(0, 50)); 
-			sprite->move(0, -_velocity.y);
-		}
+		if (_velocity.y == 0)
+			this->setVelocity(Moo::Vector2f(1, JUMP_VELOCITY));
 	}
 
 	void	Character::update()
 	{
-		std::cout << "Y: " << sprite->getY() << " && Velocity: " << _acceleration.y << std::endl;
-		if (sprite->getY() < 600 - sprite->getHeight())
+		std::cout << "Y: " << _sprite->getY() << " && Velocity.y: " << _velocity.y << " && Acceleration: " << _acceleration.y << " && Multiplier: " << _multiplier << std::endl;
+		if (_sprite->getY() <= (WINDOW_HEIGHT - _sprite->getHeight()) && _velocity.y != 0)
 		{
-			sprite->setY(sprite->getY() + (_velocity.y + 5) / 60);
+			if (_velocity.y > 0 && _velocity.y < GRAVITY && _multiplier < 10)
+			{
+				_acceleration.y = _mass;
+				++_multiplier;
+			}
+			_acceleration.y += (_mass / FPS_LIMIT) * _multiplier;
+			_velocity.y -= (_velocity.y + _acceleration.y) / FPS_LIMIT;
+			_sprite->setY(_sprite->getY() - (_velocity.y - GRAVITY) / FPS_LIMIT);
 		}
-		if (_velocity.y > 1) {
-			_velocity.y -= (_velocity.y + _acceleration.y) * 1 / 60;
-			_acceleration.y += _mass * 1 / 60;
-		}
-		else if (_velocity.y < 1) {
-			_velocity.y = 1;
-			_acceleration.y = 0;
+		else if (_sprite->getY() > (WINDOW_HEIGHT - _sprite->getHeight()))
+		{
+			_velocity.y = 0;
+			_acceleration.y = _mass;
+			_multiplier = 1;
+			_sprite->setY(WINDOW_HEIGHT - _sprite->getHeight());
 		}
 	}
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Vector2f.h"
+#define	GRAVITY	5
+#define	JUMP_VELOCITY	500
 
 namespace Moo
 {
