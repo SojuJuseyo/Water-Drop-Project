@@ -1,11 +1,19 @@
 #pragma once
 
+#include "Vector2f.h"
+#define	GRAVITY	5
+#define	JUMP_VELOCITY	500
+
 namespace Moo
 {
 	typedef struct Hitbox
 	{
-		float x;
-		float y;
+		//Top right
+		float x1;
+		float y1;
+		//Bottom left
+		float x2;
+		float y2;
 	}			   Hitbox;
 
 	class Entity
@@ -14,16 +22,17 @@ namespace Moo
 		Entity();
 		virtual ~Entity() {}
 
-		void setVelocity(float);
+		void setVelocity(Vector2f);
 		void setMass(float);
-		void setHitbox(Hitbox);
+		void setHitbox(float, float, float, float);
 
-		float getVelocity() const;
+		Vector2f getVelocity() const;
 		float getMass() const;
 		Hitbox getHitbox() const;
 	protected:
-		float	_velocity;
+		Vector2f	_velocity;
 		float	_mass;
 		Hitbox	_hitbox;
+		Vector2f	_acceleration;
 	};
 }

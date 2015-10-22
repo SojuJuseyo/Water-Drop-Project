@@ -2,7 +2,7 @@
 
 namespace Moo
 {
-	RectangleShape::RectangleShape(int width, int height, int x, int y, XMFLOAT4 color)
+	RectangleShape::RectangleShape(float width, float height, float x, float y, XMFLOAT4 color)
 	{
 		ID3D11Buffer* _vertexBuffer = nullptr;
 		_width = width;
@@ -16,38 +16,38 @@ namespace Moo
 	{
 	}
 
-	void RectangleShape::move(int x, int y)
+	void RectangleShape::move(float x, float y)
 	{
 		_x += x;
 		_y += y;
 	}
 	
-	void RectangleShape::setX(int x)
+	void RectangleShape::setX(float x)
 	{
 		_x = x;
 	}
 
-	void RectangleShape::setY(int y)
+	void RectangleShape::setY(float y)
 	{
 		_y = y;
 	}
 
-	int RectangleShape::getX()
+	float RectangleShape::getX()
 	{
 		return _x;
 	}
 
-	int RectangleShape::getY()
+	float RectangleShape::getY()
 	{
 		return _y;
 	}
 
-	int RectangleShape::getWidth()
+	float RectangleShape::getWidth()
 	{
 		return _width;
 	}
 
-	int RectangleShape::getHeight()
+	float RectangleShape::getHeight()
 	{
 		return _height;
 	}

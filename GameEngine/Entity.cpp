@@ -6,7 +6,7 @@ namespace Moo
 	{
 	}
 
-	void Entity::setVelocity(float velocity)
+	void Entity::setVelocity(Vector2f velocity)
 	{
 		_velocity = velocity;
 	}
@@ -16,12 +16,15 @@ namespace Moo
 		_mass = mass;
 	}
 
-	void Entity::setHitbox(Hitbox hitbox)
+	void Entity::setHitbox(float x1, float x2, float y1, float y2)
 	{
-		_hitbox = hitbox;
+		_hitbox.x1 = x1;
+		_hitbox.y1 = y1;
+		_hitbox.x2 = x2;
+		_hitbox.y2 = y2;
 	}
 
-	float Entity::getVelocity() const
+	Vector2f Entity::getVelocity() const
 	{
 		return _velocity;
 	}

@@ -39,8 +39,8 @@ namespace Moo
 		auto screenWidth = GetSystemMetrics(SM_CXSCREEN);
 		auto screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-		screenWidth = 800;
-		screenHeight = 600;
+		screenWidth = WINDOW_WIDTH;
+		screenHeight = WINDOW_HEIGHT;
 
 		posX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
 		posY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;

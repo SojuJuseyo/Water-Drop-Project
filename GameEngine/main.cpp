@@ -1,27 +1,34 @@
 #pragma once
+
 #include "Window.h"
 #include "Keyboard.h"
 #include "d3d.h"
-#include <sstream>
 #include "Fps.h"
+#include "Vector2f.h"
+#include "Character.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	Moo::Window window(hInstance, Moo::WindowSettings("test"));
-	Moo::RectangleShape *rectangle = new Moo::RectangleShape(50, 50, 200, 200, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+	Moo::RectangleShape *rectangle = new Moo::RectangleShape(50, 50, 200, WINDOW_HEIGHT - 50, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f));
+	Moo::Character	*player = new Moo::Character(Moo::Vector2f(1, 0), 50, rectangle);
 
-	window.setFpsLimit(60);
+	window.setFpsLimit(FPS_LIMIT);
 	FILE * pConsole;; AllocConsole();
 	freopen_s(&pConsole, "CONOUT$", "wb", stdout);
 	while (window.isOpen())
 	{
-		std::cout << "FPS: " << window.getFps() << std::endl;
+		//std::cout << "FPS: " << window.getFps() << std::endl;
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left)) {
-			rectangle->move(-1, 0);
+			player->move(Direction::LEFT);
 		}
 		else if (Moo::Keyboard::isPressed(Moo::Keyboard::Right)) {
-			rectangle->move(1, 0);
+			player->move(Direction::RIGHT);
 		}
+		else if (Moo::Keyboard::isPressed(Moo::Keyboard::Space)) {
+			player->jump();
+		}
+		player->update();
 		window.clear();
 		window.draw(rectangle);
 		window.display();
