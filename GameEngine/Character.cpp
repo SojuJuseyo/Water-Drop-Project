@@ -36,7 +36,7 @@ namespace Moo
 
 	void	Character::update()
 	{
-		std::cout << "Y: " << _sprite->getY() << " && Velocity.y: " << _velocity.y << " && Acceleration: " << _acceleration.y << " && Multiplier: " << _multiplier << std::endl;
+		//std::cout << "Y: " << _sprite->getY() << " && Velocity.y: " << _velocity.y << " && Acceleration: " << _acceleration.y << " && Multiplier: " << _multiplier << std::endl;
 		if (_sprite->getY() <= (WINDOW_HEIGHT - _sprite->getHeight()) && _velocity.y != 0)
 		{
 			if (_velocity.y > 0 && _velocity.y < GRAVITY && _multiplier < 10)

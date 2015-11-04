@@ -16,20 +16,14 @@
 using namespace DirectX;
 
 // global declarations (NOTE: move them after the engine proof)
-static IDXGISwapChain *swapchain;             // the pointer to the swap chain interface
-static ID3D11Device *dev;                     // the pointer to our Direct3D device interface
-static ID3D11DeviceContext *devcon;           // the pointer to our Direct3D device context
-static ID3D11RenderTargetView *backbuffer;    // global declaration
-static ID3D11InputLayout *pLayout;            // the pointer to the input layout
-static ID3D11VertexShader *pVS;               // the pointer to the vertex shader
-static ID3D11PixelShader *pPS;                // the pointer to the pixel shader
 
-struct VERTEX { XMFLOAT3 position; XMFLOAT4 color; };
+extern ID3D11Device* getD3DDevice();
+extern ID3D11DeviceContext* getContext();
+
+struct VERTEX { XMFLOAT3 position; XMFLOAT4 color; XMFLOAT2 texture; };
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 600
-
-static int g_i = 0; // tmp player position
 
 namespace Moo
 {
@@ -48,7 +42,12 @@ namespace Moo
 			return p;
 		}
 
-		static void d3d::InitD3D(HWND hWnd)
+		d3d::d3d()
+		{
+
+		}
+
+		void d3d::init(HWND hWnd)
 		{
 			// create a struct to hold information about the swap chain
 			DXGI_SWAP_CHAIN_DESC scd;
@@ -65,10 +64,10 @@ namespace Moo
 			scd.OutputWindow = hWnd;                                // the window to be used
 			scd.SampleDesc.Count = 4;                               // how many multisamples
 			scd.Windowed = TRUE;                                    // windowed/full-screen mode
-			scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;     // allow full-screen switching
+			//scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;     // allow full-screen switching
 
-																	// create a device, device context and swap chain using the information in the scd struct
-			D3D11CreateDeviceAndSwapChain(NULL,
+											// create a device, device context and swap chain using the information in the scd struct
+			HRESULT hresult = D3D11CreateDeviceAndSwapChain(NULL,
 				D3D_DRIVER_TYPE_HARDWARE,
 				NULL,
 				D3D11_CREATE_DEVICE_DEBUG,
@@ -92,21 +91,10 @@ namespace Moo
 			// set the render target as the back buffer
 			devcon->OMSetRenderTargets(1, &backbuffer, NULL);
 
-			// Set the viewport
-			D3D11_VIEWPORT viewport;
-			ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
-
-			viewport.TopLeftX = 0;
-			viewport.TopLeftY = 0;
-			viewport.Width = SCREEN_WIDTH;
-			viewport.Height = SCREEN_HEIGHT;
-
-			devcon->RSSetViewports(1, &viewport);
-
 			initPipeline();
 		}
 
-		static void	d3d::initPipeline()
+		void	d3d::initPipeline()
 		{
 			// load and compile the two shaders
 			ID3D10Blob *VS, *PS;
@@ -127,13 +115,19 @@ namespace Moo
 			{
 				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 				{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			};
 
 			dev->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(), &pLayout);
 			devcon->IASetInputLayout(pLayout);
 		}
 
-		static void d3d::CleanD3D()
+		d3d::~d3d()
+		{
+
+		}
+
+		void d3d::release()
 		{
 			swapchain->SetFullscreenState(FALSE, NULL);
 			swapchain->Release();
@@ -144,5 +138,48 @@ namespace Moo
 			devcon->Release();
 			dev->Release();
 		}
+
+		void d3d::display()
+		{
+			swapchain->Present(0, 0);
+		}
+
+		void d3d::setFullScreen(bool value)
+		{
+			swapchain->SetFullscreenState(value, NULL);
+		}
+
+		void d3d::clearWindow(const float* color)
+		{
+			devcon->ClearRenderTargetView(backbuffer, color);
+		}
+
+		ID3D11Device* d3d::getD3DDevice()
+		{
+			return dev;
+		}
+
+		ID3D11DeviceContext* d3d::getContext()
+		{
+			return devcon;
+		}
+
+		static d3d& d3d::getInstance()
+		{
+			static d3d instance;
+				return instance;
+		}
+
+		private:
+		d3d(d3d const&) = delete;
+		void operator=(d3d const&) = delete;
+
+		ID3D11Device *dev;
+		ID3D11DeviceContext *devcon;
+		IDXGISwapChain *swapchain;
+		ID3D11RenderTargetView *backbuffer;
+		ID3D11InputLayout *pLayout;
+		ID3D11VertexShader *pVS;
+		ID3D11PixelShader *pPS;
 	};
 }

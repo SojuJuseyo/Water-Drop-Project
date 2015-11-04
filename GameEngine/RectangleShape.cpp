@@ -14,6 +14,7 @@ namespace Moo
 
 	RectangleShape::~RectangleShape()
 	{
+		release();
 	}
 
 	void RectangleShape::move(float x, float y)
@@ -59,13 +60,15 @@ namespace Moo
 
 	void RectangleShape::draw(ID3D11Device *dev, ID3D11DeviceContext *devcon)
 	{
-		auto rect = CD3D11_RECT(_x, _y, _x + _width, _y + _height);
+		auto rect = CD3D11_RECT((LONG)_x, (LONG)_y, (LONG)_x + (LONG)_width, (LONG)_y + (LONG)_height);
+
 		VERTEX _vertices[] =
 		{
-			{ Moo::d3d::PointToNdc(rect.left, rect.bottom, 0.0f), _color },
 			{ Moo::d3d::PointToNdc(rect.left, rect.top, 0.0f), _color },
-			{ Moo::d3d::PointToNdc(rect.right, rect.top, 0.0f), _color },
+			{ Moo::d3d::PointToNdc(rect.right, rect.bottom, 0.0f), _color },
 			{ Moo::d3d::PointToNdc(rect.left, rect.bottom, 0.0f), _color },
+
+			{ Moo::d3d::PointToNdc(rect.left, rect.top, 0.0f), _color },
 			{ Moo::d3d::PointToNdc(rect.right, rect.top, 0.0f), _color },
 			{ Moo::d3d::PointToNdc(rect.right, rect.bottom, 0.0f), _color },
 		};

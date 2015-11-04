@@ -62,7 +62,19 @@ namespace Moo
 		SetForegroundWindow(_hwnd);
 		SetFocus(_hwnd);
 		ShowCursor(true);
-		Moo::d3d::InitD3D(_hwnd);
+		d3d::getInstance().init(_hwnd);
+		_dev = d3d::getInstance().getD3DDevice();
+		_devcon = d3d::getInstance().getContext();
+		// Set the viewport
+		D3D11_VIEWPORT viewport;
+		ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+
+		viewport.TopLeftX = 0;
+		viewport.TopLeftY = 0;
+		viewport.Width = SCREEN_WIDTH;
+		viewport.Height = SCREEN_HEIGHT;
+
+		_devcon->RSSetViewports(1, &viewport);
 		return;
 	}
 
@@ -80,7 +92,7 @@ namespace Moo
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 			if (msg.message == WM_FULLSCREEN) {
-				swapchain->SetFullscreenState(TRUE, NULL);
+				d3d::getInstance().setFullScreen(true);
 			}
 			if (msg.message == WM_QUIT) {
 				return false;
@@ -91,7 +103,7 @@ namespace Moo
 
 	void	Window::destroy()
 	{
-		Moo::d3d::CleanD3D();
+		d3d::getInstance().release();
 		ShowCursor(true);
 		DestroyWindow(_hwnd);
 		_hwnd = NULL;
@@ -101,8 +113,8 @@ namespace Moo
 	void	Window::clear()
 	{
 		float color[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
-		devcon->ClearRenderTargetView(backbuffer, color);
-		devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		d3d::getInstance().clearWindow(color);
+		_devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
 	void	Window::draw(Shape *shape)
@@ -110,15 +122,19 @@ namespace Moo
 		UINT stride = sizeof(VERTEX);
 		UINT offset = 0;
 
-		shape->draw(dev, devcon);
-		devcon->IASetVertexBuffers(0, 1, shape->getVertexBuffer(), &stride, &offset);
-		devcon->Draw(8, 0); // en dur, à changer en fonction de la taille du tableau de vertecies.
-		shape->release();
+		shape->draw(_dev, _devcon);
+		_devcon->IASetVertexBuffers(0, 1, shape->getVertexBuffer(), &stride, &offset);
+		_devcon->Draw(8, 0);
+	}
+
+	void	Window::draw(Sprite *sprite)
+	{
+		sprite->draw();
 	}
 
 	void	Window::display()
 	{
-		swapchain->Present(0, 0);
+		d3d::getInstance().display();
 		_fps.reset(_fpsLimit);
 	}
 

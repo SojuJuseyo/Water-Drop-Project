@@ -8,6 +8,7 @@
 #include "d3d.h"
 #include "Fps.h"
 #include "RectangleShape.h"
+#include "Sprite.h"
 
 #define WM_FULLSCREEN WM_USER + 0
 #define WM_LEFT WM_USER + 1
@@ -28,6 +29,7 @@ namespace Moo
 		void destroy();
 		void clear();
 		void draw(Shape * shape);
+		void draw(Sprite * sprite);
 		void display();
 		void setFpsLimit(float limit);
 		float getFps();
@@ -38,6 +40,9 @@ namespace Moo
 		std::vector<RectangleShape *> _rectangles;
 		float _fpsLimit;
 		Fps _fps;
+		ID3D11Device *_dev;
+		ID3D11DeviceContext *_devcon;
+		d3d _system;
 	};
 }
 
