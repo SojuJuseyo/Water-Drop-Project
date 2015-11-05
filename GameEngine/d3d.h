@@ -8,22 +8,15 @@
 #include <d3dx11.h>
 #include <d3dx10.h>
 
-// include the Direct3D Library file
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dx11.lib")
 #pragma comment (lib, "d3dx10.lib")
 
 using namespace DirectX;
 
-// global declarations (NOTE: move them after the engine proof)
-
-extern ID3D11Device* getD3DDevice();
-extern ID3D11DeviceContext* getContext();
-
 struct VERTEX { XMFLOAT3 position; XMFLOAT4 color; XMFLOAT2 texture; };
 
-#define SCREEN_WIDTH  800
-#define SCREEN_HEIGHT 600
+#include "Vector2f.h"
 
 namespace Moo
 {
@@ -35,8 +28,8 @@ namespace Moo
 		{
 			XMFLOAT3 p;
 
-			p.x = 2.0f*(float)x / SCREEN_WIDTH - 1.0f;
-			p.y = 1.0f - 2.0f*(float)y / SCREEN_HEIGHT;
+			p.x = 2.0f*(float)x / d3d::getInstance().getScreenSize().x - 1.0f;
+			p.y = 1.0f - 2.0f*(float)y / d3d::getInstance().getScreenSize().y;
 			p.z = z;
 
 			return p;
@@ -47,19 +40,19 @@ namespace Moo
 
 		}
 
-		void d3d::init(HWND hWnd)
+		void d3d::init(HWND hWnd, Vector2f screenSize)
 		{
 			// create a struct to hold information about the swap chain
 			DXGI_SWAP_CHAIN_DESC scd;
 
 			// clear out the struct for use
 			ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
-
+			_screenSize = screenSize;
 			// fill the swap chain description struct
 			scd.BufferCount = 1;                                    // one back buffer
 			scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit color
-			scd.BufferDesc.Width = SCREEN_WIDTH;                    // set the back buffer width
-			scd.BufferDesc.Height = SCREEN_HEIGHT;                  // set the back buffer height
+			scd.BufferDesc.Width = (int)_screenSize.x;                    // set the back buffer width
+			scd.BufferDesc.Height = (int)_screenSize.y;                  // set the back buffer height
 			scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
 			scd.OutputWindow = hWnd;                                // the window to be used
 			scd.SampleDesc.Count = 4;                               // how many multisamples
@@ -91,7 +84,25 @@ namespace Moo
 			// set the render target as the back buffer
 			devcon->OMSetRenderTargets(1, &backbuffer, NULL);
 
-			initPipeline();
+			//initPipeline();
+		}
+
+		void	d3d::setViewPort()
+		{
+			D3D11_VIEWPORT viewport;
+			ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+
+			viewport.TopLeftX = 0;
+			viewport.TopLeftY = 0;
+			viewport.Width = _screenSize.x;
+			viewport.Height = _screenSize.y;
+
+			devcon->RSSetViewports(1, &viewport);
+		}
+
+		Vector2f	d3d::getScreenSize() const
+		{
+			return _screenSize;
 		}
 
 		void	d3d::initPipeline()
@@ -131,9 +142,9 @@ namespace Moo
 		{
 			swapchain->SetFullscreenState(FALSE, NULL);
 			swapchain->Release();
-			pPS->Release();
-			pVS->Release();
-			pLayout->Release();
+			//pPS->Release();
+			//pVS->Release();
+			//pLayout->Release();
 			backbuffer->Release();
 			devcon->Release();
 			dev->Release();
@@ -181,5 +192,6 @@ namespace Moo
 		ID3D11InputLayout *pLayout;
 		ID3D11VertexShader *pVS;
 		ID3D11PixelShader *pPS;
+		Vector2f _screenSize;
 	};
 }

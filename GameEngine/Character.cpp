@@ -2,7 +2,7 @@
 
 namespace Moo
 {
-	Character::Character(Vector2f velocity, float mass, RectangleShape *sprite)
+	Character::Character(Vector2f velocity, float mass, Sprite *sprite)
 	{
 		this->setVelocity(velocity);
 		this->setMass(mass);

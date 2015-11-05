@@ -62,19 +62,10 @@ namespace Moo
 		SetForegroundWindow(_hwnd);
 		SetFocus(_hwnd);
 		ShowCursor(true);
-		d3d::getInstance().init(_hwnd);
+		d3d::getInstance().init(_hwnd, Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT));
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
-		// Set the viewport
-		D3D11_VIEWPORT viewport;
-		ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
-
-		viewport.TopLeftX = 0;
-		viewport.TopLeftY = 0;
-		viewport.Width = SCREEN_WIDTH;
-		viewport.Height = SCREEN_HEIGHT;
-
-		_devcon->RSSetViewports(1, &viewport);
+		d3d::getInstance().setViewPort();
 		return;
 	}
 
@@ -122,7 +113,7 @@ namespace Moo
 		UINT stride = sizeof(VERTEX);
 		UINT offset = 0;
 
-		shape->draw(_dev, _devcon);
+		shape->draw();
 		_devcon->IASetVertexBuffers(0, 1, shape->getVertexBuffer(), &stride, &offset);
 		_devcon->Draw(8, 0);
 	}

@@ -10,6 +10,34 @@ namespace Moo
 		_x = x;
 		_y = y;
 		_color = color;
+
+		_dev = d3d::getInstance().getD3DDevice();
+		_devcon = d3d::getInstance().getContext();
+
+		// load and compile the two shaders
+		ID3D10Blob *VS, *PS;
+
+		D3DX11CompileFromFile("shaders.shader", 0, 0, "VShader", "vs_4_0", 0, 0, 0, &VS, 0, 0);
+		D3DX11CompileFromFile("shaders.shader", 0, 0, "PShader", "ps_4_0", 0, 0, 0, &PS, 0, 0);
+
+		// encapsulate both shaders into shader objects
+		_dev->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS);
+		_dev->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS);
+
+		// set the shader objects
+		_devcon->VSSetShader(pVS, 0, 0);
+		_devcon->PSSetShader(pPS, 0, 0);
+
+		// create the input layout object
+		D3D11_INPUT_ELEMENT_DESC ied[] =
+		{
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		};
+
+		_dev->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(), &pLayout);
+		_devcon->IASetInputLayout(pLayout);
 	}
 
 	RectangleShape::~RectangleShape()
@@ -58,7 +86,7 @@ namespace Moo
 		_vertexBuffer->Release();
 	}
 
-	void RectangleShape::draw(ID3D11Device *dev, ID3D11DeviceContext *devcon)
+	void RectangleShape::draw()
 	{
 		auto rect = CD3D11_RECT((LONG)_x, (LONG)_y, (LONG)_x + (LONG)_width, (LONG)_y + (LONG)_height);
 
@@ -81,12 +109,12 @@ namespace Moo
 		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-		dev->CreateBuffer(&bd, NULL, &_vertexBuffer);
+		_dev->CreateBuffer(&bd, NULL, &_vertexBuffer);
 
 		D3D11_MAPPED_SUBRESOURCE ms;
-		devcon->Map(_vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
+		_devcon->Map(_vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
 		memcpy(ms.pData, _vertices, sizeof(_vertices));
-		devcon->Unmap(_vertexBuffer, NULL);
+		_devcon->Unmap(_vertexBuffer, NULL);
 	}
 
 	ID3D11Buffer* const* RectangleShape::getVertexBuffer() const

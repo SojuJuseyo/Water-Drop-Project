@@ -1,19 +1,17 @@
 #pragma once
 
 #include "d3d.h"
+#include "Drawable.h"
+#include "Transformable.h"
 
 namespace Moo
 {
-	class Shape
+	class Shape : public Drawable, public Transformable
 	{
 	public:
 		Shape();
 		virtual ~Shape() {}
-		virtual void move(float x, float y) = 0;
-		virtual float getX() = 0;
-		virtual float getY() = 0;
-		virtual void release() = 0;
-		virtual void draw(ID3D11Device *dev, ID3D11DeviceContext *devcon) = 0;
+		virtual void draw() = 0;
 		virtual ID3D11Buffer* const* getVertexBuffer() const = 0;
 	};
 }

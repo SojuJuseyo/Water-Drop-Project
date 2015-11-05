@@ -1,9 +1,9 @@
 #pragma once
 
 #include "WindowSettings.h"
-#include "RectangleShape.h"
 #include "Vector2f.h"
 #include "Entity.h"
+#include "Sprite.h"
 
 enum Direction
 {
@@ -16,14 +16,15 @@ namespace Moo
 	class Character : public Entity
 	{
 	public:
-		Character(Vector2f, float, RectangleShape *);
+		Character(Vector2f, float, Sprite *);
+
 		virtual ~Character();
 		void	move(Direction);
 		void	jump();
 		void	update();
 
 	private:
-		RectangleShape *_sprite;
+		Sprite *_sprite;
 		unsigned short	_multiplier;
 	};
 }

@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Fps.cpp" />
     <ClCompile Include="Keyboard.cpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Transformable.cpp" />
     <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowSettings.cpp" />
@@ -150,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="d3d.h" />
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Fps.h" />
     <ClInclude Include="Keyboard.h" />
@@ -159,6 +162,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Transformable.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowSettings.h" />
@@ -167,14 +171,14 @@
     <None Include="shaders.shader" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Desktop\sprites-master\picture.dds" />
-    <Image Include="decal.dds" />
-    <Image Include="ressources\seafloor.dds" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="TextureMap.fx">
       <FileType>Document</FileType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="background.dds" />
+    <Image Include="ground.dds" />
+    <Image Include="mario.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -57,6 +57,12 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Drawable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Transformable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -101,19 +107,25 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transformable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders.shader" />
     <None Include="TextureMap.fx" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="ressources\seafloor.dds">
+    <Image Include="ground.dds">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\..\..\Desktop\sprites-master\picture.dds">
+    <Image Include="mario.dds">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="decal.dds">
+    <Image Include="background.dds">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

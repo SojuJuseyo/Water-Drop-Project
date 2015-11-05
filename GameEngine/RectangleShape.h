@@ -17,7 +17,7 @@ namespace Moo
 		float getWidth();
 		float getHeight();
 		void release();
-		void draw(ID3D11Device *dev, ID3D11DeviceContext *devcon);
+		void draw();
 		ID3D11Buffer* const* getVertexBuffer() const;
 	private:
 		ID3D11Buffer* _vertexBuffer;
@@ -27,5 +27,11 @@ namespace Moo
 		float _x;
 		float _y;
 		XMFLOAT4 _color;
+
+		ID3D11InputLayout *pLayout;
+		ID3D11Device *_dev;
+		ID3D11DeviceContext *_devcon;
+		ID3D11VertexShader *pVS;
+		ID3D11PixelShader *pPS;
 	};
 }
