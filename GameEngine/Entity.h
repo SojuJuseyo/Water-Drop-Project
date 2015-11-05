@@ -25,14 +25,19 @@ namespace Moo
 		void setVelocity(Vector2f);
 		void setMass(float);
 		void setHitbox(float, float, float, float);
+		void setGravity(bool);
 
-		Vector2f getVelocity() const;
-		float getMass() const;
-		Hitbox getHitbox() const;
+		Vector2f	getVelocity() const;
+		float		getMass() const;
+		Hitbox		getHitbox() const;
+		bool		getGravity() const;
+
 	protected:
 		Vector2f	_velocity;
-		float	_mass;
-		Hitbox	_hitbox;
+		float		_mass;
+		Hitbox		_hitbox;
 		Vector2f	_acceleration;
+		bool		_isCollidable;
+		bool		_hasGravity;
 	};
 }

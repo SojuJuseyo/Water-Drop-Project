@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <iostream>
 
 namespace Moo
 {
@@ -14,6 +15,11 @@ namespace Moo
 	void Entity::setMass(float mass)
 	{
 		_mass = mass;
+	}
+
+	void Entity::setGravity(bool hasGravity)
+	{
+		_hasGravity = hasGravity;
 	}
 
 	void Entity::setHitbox(float x1, float x2, float y1, float y2)
@@ -32,6 +38,11 @@ namespace Moo
 	float Entity::getMass() const
 	{
 		return _mass;
+	}
+
+	bool Entity::getGravity() const
+	{
+		return _hasGravity;
 	}
 
 	Hitbox Entity::getHitbox() const

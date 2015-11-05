@@ -11,16 +11,29 @@ enum Direction
 	RIGHT
 };
 
+enum HitZone
+{
+	TOP,
+	BOTTOM,
+	LEFT_SIDE,
+	RIGHT_SIDE,
+	NONE
+};
+
 namespace Moo
 {
 	class Character : public Entity
 	{
 	public:
-		Character(Vector2f, float, RectangleShape *);
+		Character(Vector2f, float, RectangleShape *, bool);
 		virtual ~Character();
 		void	move(Direction);
 		void	jump();
 		void	update();
+		void	resetPos();
+		Hitbox  resetHitbox();
+		HitZone	collisionAABB(Entity *entity);
+		RectangleShape	*getSprite() const;
 
 	private:
 		RectangleShape *_sprite;
