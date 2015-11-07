@@ -16,6 +16,7 @@ namespace Moo
 	{
 	public:
 		Sprite(float width, float height, float x, float y);
+		Sprite(Sprite &sprite);
 		~Sprite();
 
 		void* operator new(size_t i)

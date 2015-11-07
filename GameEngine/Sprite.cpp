@@ -16,6 +16,11 @@ namespace Moo
 		_devcon = d3d::getInstance().getContext();
 	}
 
+	Sprite::Sprite(Sprite & sprite)
+	{
+		*this = sprite;
+	}
+
 	Sprite::~Sprite()
 	{
 		//delete(_texture);
@@ -26,20 +31,6 @@ namespace Moo
 		D3DX11CompileFromFile(filePath, 0, 0, entry, shaderModel,
 			NULL, 0, 0, buffer, NULL, 0);
 		return true;
-	}
-
-	std::ostream& operator<<(std::ostream& os, CXMMATRIX m)
-	{
-		for (int i = 0; i < 4; ++i)
-		{
-			for (int j = 0; j < 4; ++j)
-			{
-				os << m.r[i].m128_f32[j] << "\t";
-
-			}
-			os << std::endl;
-		}
-		return os;
 	}
 
 	void	Sprite::loadTexture(const std::string &filename)
@@ -84,7 +75,6 @@ namespace Moo
 		_dev->CreateBuffer(&constDesc, 0, &mvpCB);
 
 		XMMATRIX view = DirectX::XMMatrixIdentity();
-		std::cout << view << std::endl;
 		XMMATRIX projection = DirectX::XMMatrixOrthographicOffCenterLH(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
 		vpMatrix = DirectX::XMMatrixMultiply(view, projection);
 		ID3D11Resource* colorTex;
