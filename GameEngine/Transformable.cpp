@@ -2,7 +2,7 @@
 
 namespace Moo
 {
-	Transformable::Transformable() : _position(0, 0), _scale(0, 0), _rotation(0), _origin(0, 0)
+	Transformable::Transformable() : _position(0, 0), _scale(1, 1), _rotation(0), _origin(0, 0)
 	{
 
 	}

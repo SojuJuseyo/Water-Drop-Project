@@ -11,6 +11,8 @@ namespace Moo
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		this->setGravity(hasGravity);
 		_multiplier = 1;
+		_hitboxSprite = new Sprite(*_sprite);
+		_hitboxSprite->loadTexture("hitbox.dds");
 	}
 
 	Character::~Character()
@@ -42,7 +44,7 @@ namespace Moo
 	void	Character::jump()
 	{
 		if (_velocity.y == 0)
-			this->setVelocity(Moo::Vector2f(1, JUMP_VELOCITY));
+			this->setVelocity(Vector2f(1, JUMP_VELOCITY));
 	}
 
 	void	Character::resetPos()
@@ -55,6 +57,7 @@ namespace Moo
 	void	Character::update()
 	{
 		//std::cout << "Y: " << _sprite->getY() << " && Velocity.y: " << _velocity.y << " && Acceleration: " << _acceleration.y << " && Multiplier: " << _multiplier << std::endl;
+		std::cout << _hitbox.y1 << std::endl;
 		if (_velocity.y > 0 && _velocity.y < GRAVITY)
 		{
 			_acceleration.y = _mass;
@@ -85,5 +88,10 @@ namespace Moo
 	Sprite	*Character::getSprite() const
 	{
 		return _sprite;
+	}
+
+	Sprite	*Character::getHitboxSprite() const
+	{
+		return _hitboxSprite;
 	}
 }

@@ -34,9 +34,11 @@ namespace Moo
 		Hitbox  resetHitbox();
 		HitZone	collisionAABB(Entity *entity);
 		Sprite	*getSprite() const;
+		Sprite  *getHitboxSprite() const;
 
 	private:
 		Sprite *_sprite;
 		unsigned short	_multiplier;
+		Sprite *_hitboxSprite;
 	};
 }

@@ -84,6 +84,10 @@ namespace Moo
 		D3D11_TEXTURE2D_DESC colorTexDesc;
 		((ID3D11Texture2D*)colorTex)->GetDesc(&colorTexDesc);
 		colorTex->Release();
+	}
+
+	void	Sprite::draw()
+	{	
 
 		float halfWidth = (float)_width / 2.0f;
 		float halfHeight = (float)_height / 2.0f;
@@ -123,16 +127,15 @@ namespace Moo
 		blendDesc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
 
 		float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-		
+
 		_dev->CreateBlendState(&blendDesc, &alphaBlendState);
 		_devcon->OMSetBlendState(alphaBlendState, blendFactor, 0xFFFFFFFF);
 
 		D3D11_SAMPLER_DESC desc = CD3D11_SAMPLER_DESC(CD3D11_DEFAULT());
 		_dev->CreateSamplerState(&desc, &colorMapSampler);
-	}
 
-	void	Sprite::draw()
-	{	
+
+
 		unsigned int stride = sizeof(VERTEX);
 		unsigned int offset = 0;
 
@@ -146,8 +149,15 @@ namespace Moo
 
 		_devcon->PSSetShaderResources(0, 1, &colorMap);
 		_devcon->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+		XMVECTOR axis = DirectX::XMVectorSet(0, 0, 0, 0);
+		
+		XMMATRIX translation = DirectX::XMMatrixTranslation(getPosition().x + (_width / 2), getPosition().y + (_height / 2), 0.5f);
+		XMMATRIX rotationZ = XMMatrixRotationZ(DirectX::XMConvertToRadians(getRotation()));
 
-		XMMATRIX world = DirectX::XMMatrixTranslation(getPosition().x + (_width / 2), getPosition().y + (_height / 2), 0.5f);
+		XMMATRIX scalling = DirectX::XMMatrixScaling(getScale().x, getScale().y, 1);
+		
+		XMMATRIX world = rotationZ * scalling * translation;
+
 		XMMATRIX mvp = DirectX::XMMatrixMultiply((XMMATRIX)world, (XMMATRIX)vpMatrix);
 		mvp = DirectX::XMMatrixTranspose(mvp);
 

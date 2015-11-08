@@ -57,6 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			entities[0].second->jump();
 			entities[0].second->setGravity(true);
+			entities[0].second->getSprite()->rotate(50);
 		}
 
 		for (unsigned int i = 0; i < entities.size(); ++i)
@@ -67,41 +68,43 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			if ((tmp = entities[0].second->collisionAABB(entities[i].second)) != HitZone::NONE)
 			{
-				std::cout << "COLLIDING with " << entities[i].first << " : ";
+				//std::cout << "COLLIDING with " << entities[i].first << " : ";
 				if (tmp == HitZone::BOTTOM || tmp == HitZone::TOP)
 				{
 					if (tmp == HitZone::BOTTOM)
 					{
 						entities[0].second->resetPos();
 						entities[0].second->setGravity(false);
-						std::cout << "BOTTOM";
+						//std::cout << "BOTTOM";
 					}
 					else
 					{
 						entities[0].second->getSprite()->setX(save_x);
-						std::cout << "TOP";
+						//std::cout << "TOP";
 					}
 					entities[0].second->getSprite()->setY(save_y);
 				}
 				else
 				{
-					if (tmp == HitZone::RIGHT_SIDE) std::cout << "RIGHT_SIDE";
-					else std::cout << "LEFT_SIDE";
+					//if (tmp == HitZone::RIGHT_SIDE) std::cout << "RIGHT_SIDE";
+					//else std::cout << "LEFT_SIDE";
 					entities[0].second->getSprite()->setX(save_x);
-					std::cout << std::endl;
+					//std::cout << std::endl;
 				}
-				std::cout << "nextX : " << entities[0].second->getSprite()->getX()
+				/*std::cout << "nextX : " << entities[0].second->getSprite()->getX()
 					<< " && X : " << save_x
 					<< "nextY : " << entities[0].second->getSprite()->getY()
-					<< " && Y : " << save_y << std::endl;
+					<< " && Y : " << save_y << std::endl;*/
 			}
 			else
 				entities[0].second->setGravity(true);
 		}
 
 		window.clear();
-		for (unsigned int i = 0; i < entities.size(); ++i)
+		for (unsigned int i = 0; i < entities.size(); ++i) {
 			window.draw(entities[i].second->getSprite());
+		}
+		window.draw(player->getHitboxSprite());
 		window.display();
 	}
 	mario->release();
