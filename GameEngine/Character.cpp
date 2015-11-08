@@ -57,7 +57,6 @@ namespace Moo
 	void	Character::update()
 	{
 		//std::cout << "Y: " << _sprite->getY() << " && Velocity.y: " << _velocity.y << " && Acceleration: " << _acceleration.y << " && Multiplier: " << _multiplier << std::endl;
-		std::cout << _hitbox.y1 << std::endl;
 		if (_velocity.y > 0 && _velocity.y < GRAVITY)
 		{
 			_acceleration.y = _mass;
@@ -67,13 +66,15 @@ namespace Moo
 		_acceleration.y += (_mass / FPS_LIMIT) * _multiplier;
 		_velocity.y -= (_velocity.y + _acceleration.y) / FPS_LIMIT;
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);
+		_hitboxSprite->setPosition(getHitbox().x1, getHitbox().y1);
+		std::cout << "x1: " << getHitbox().x1 << "; y1: " << getHitbox().y1 << ";" << std::endl;
 	}
 
 	HitZone Character::collisionAABB(Entity *entity)
 	{
 		Hitbox A = this->resetHitbox();
 		Hitbox B = entity->getHitbox();
-
+		
 		if (A.y2 < B.y1 && A.y2 > B.y2 && ((A.x2 < B.x2 && A.x2 > B.x1) || (A.x1 < B.x2 && A.x1 > B.x1)))
 			return HitZone::BOTTOM;
 		if (A.y1 > B.y2 && A.y1 < B.y1 && ((A.x2 < B.x2 && A.x2 > B.x1) || (A.x1 < B.x2 && A.x1 > B.x1)))

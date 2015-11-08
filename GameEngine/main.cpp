@@ -16,25 +16,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Moo::Sprite *mario = new Moo::Sprite(60, 60, 60, 100);
 	mario->loadTexture("mario.dds");
+	Moo::Sprite *enemySprite = new Moo::Sprite(60, 60, 250, 60);
+	enemySprite->loadTexture("mario.dds");
 	Moo::Sprite *platform = new Moo::Sprite(300, 40, 150, 150);
 	platform->loadTexture("platform.dds");
 	Moo::Sprite *background = new Moo::Sprite(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
 	background->loadTexture("background.dds");
 	Moo::Sprite *ground = new Moo::Sprite(40, 40, 0, 0);
 	ground->loadTexture("ground.dds");
-	Moo::Character	*player = new Moo::Character(Moo::Vector2f(1, 0), 50, mario, true);
+	Moo::Character *player = new Moo::Character(Moo::Vector2f(1, 0), 50, mario, true);
 
 	std::vector<std::pair<std::string, Moo::Character *>> entities;
-
+	Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), 0, enemySprite, false);
+	enemy->setCollision(false);
 	entities.push_back(std::make_pair("Player 1", new Moo::Character(Moo::Vector2f(1, 0), 50, mario, true)));
 	entities.push_back(std::make_pair("Platform", new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false)));
+	entities.push_back(std::make_pair("Enemy", enemy));
 
 	for (float i = 0; i < 20; ++i) {
 		Moo::Sprite *tmpGround = new Moo::Sprite(40, 40, i * 40, 0);
 		tmpGround->loadTexture("ground.dds");
 		entities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, tmpGround, false)));
 	}
-	//entities.push_back(std::make_pair("Background", new Moo::Character(Moo::Vector2f(1, 0), 0, background, false)));
 
 	HitZone tmp = HitZone::NONE;
 
@@ -57,7 +60,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{
 			entities[0].second->jump();
 			entities[0].second->setGravity(true);
-			entities[0].second->getSprite()->rotate(50);
 		}
 
 		for (unsigned int i = 0; i < entities.size(); ++i)
@@ -66,7 +68,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		for (unsigned int i = 1; i < entities.size(); ++i)
 		{
-			if ((tmp = entities[0].second->collisionAABB(entities[i].second)) != HitZone::NONE)
+			if ((tmp = entities[0].second->collisionAABB(entities[i].second)) != HitZone::NONE 
+				&& entities[i].second->isCollidable())
 			{
 				//std::cout << "COLLIDING with " << entities[i].first << " : ";
 				if (tmp == HitZone::BOTTOM || tmp == HitZone::TOP)
@@ -101,9 +104,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		window.clear();
+		window.draw(background);
 		for (unsigned int i = 0; i < entities.size(); ++i) {
 			window.draw(entities[i].second->getSprite());
 		}
+		player->getHitboxSprite()->setPosition(player->getHitbox().x1, player->getHitbox().y1);
 		window.draw(player->getHitboxSprite());
 		window.display();
 	}

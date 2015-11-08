@@ -55,7 +55,6 @@ namespace Moo
 		_dev->CreateInputLayout(solidColorLayout, totalLayoutElements,
 			vsBuffer->GetBufferPointer(), vsBuffer->GetBufferSize(), &inputLayout);
 
-
 		ID3DBlob* psBuffer = 0;
 
 		compileResult = CompileD3DShader("TextureMap.fx", "PS_Main", "ps_4_0", &psBuffer);
@@ -84,10 +83,6 @@ namespace Moo
 		D3D11_TEXTURE2D_DESC colorTexDesc;
 		((ID3D11Texture2D*)colorTex)->GetDesc(&colorTexDesc);
 		colorTex->Release();
-	}
-
-	void	Sprite::draw()
-	{	
 
 		float halfWidth = (float)_width / 2.0f;
 		float halfHeight = (float)_height / 2.0f;
@@ -133,9 +128,10 @@ namespace Moo
 
 		D3D11_SAMPLER_DESC desc = CD3D11_SAMPLER_DESC(CD3D11_DEFAULT());
 		_dev->CreateSamplerState(&desc, &colorMapSampler);
+	}
 
-
-
+	void	Sprite::draw()
+	{	
 		unsigned int stride = sizeof(VERTEX);
 		unsigned int offset = 0;
 

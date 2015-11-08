@@ -3,7 +3,7 @@
 
 namespace Moo
 {
-	Entity::Entity()
+	Entity::Entity() : _isCollidable(true)
 	{
 	}
 
@@ -20,6 +20,11 @@ namespace Moo
 	void Entity::setGravity(bool hasGravity)
 	{
 		_hasGravity = hasGravity;
+	}
+
+	void Entity::setCollision(bool collision)
+	{
+		_isCollidable = collision;
 	}
 
 	void Entity::setHitbox(float x1, float x2, float y1, float y2)
@@ -43,6 +48,11 @@ namespace Moo
 	bool Entity::getGravity() const
 	{
 		return _hasGravity;
+	}
+
+	bool Entity::isCollidable() const
+	{
+		return _isCollidable;
 	}
 
 	Hitbox Entity::getHitbox() const
