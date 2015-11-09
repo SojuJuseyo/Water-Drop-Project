@@ -12,6 +12,7 @@ namespace Moo
 			Left = VK_LEFT,
 			Right = VK_RIGHT,
 			Space = VK_SPACE,
+			Up = VK_UP
 		};
 		static bool isPressed(Keyboard::Key key);
 	private:

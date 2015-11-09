@@ -118,9 +118,9 @@ namespace Moo
 		_devcon->Draw(8, 0);
 	}
 
-	void	Window::draw(Sprite *sprite)
+	void	Window::draw(Drawable *drawable)
 	{
-		sprite->draw();
+		drawable->draw();
 	}
 
 	void	Window::display()

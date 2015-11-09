@@ -1,11 +1,3 @@
-/*
-    Beginning DirectX 11 Game Programming
-    By Allen Sherrod and Wendy Jones
-
-    Texture Mapping Shader for the Game Sprite Demo
-*/
-
-
 cbuffer cbChangesPerFrame : register( b0 )
 {
     matrix mvp_;

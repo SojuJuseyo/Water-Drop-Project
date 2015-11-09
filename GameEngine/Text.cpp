@@ -1,8 +1,8 @@
-#include "Sprite.h"
+#include "Text.h"
 
 namespace Moo
 {
-	Sprite::Sprite(float width, float height, float x, float y) :
+	Text::Text(const std::string &text, float width, float height, float x, float y) :
 		solidColorVS(0), solidColorPS(0),
 		inputLayout(0),
 		colorMap(0), colorMapSampler(0),
@@ -11,29 +11,31 @@ namespace Moo
 		_width = width;
 		_height = height;
 		setPosition(x, y);
+		_text = text;
 
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
+		loadTexture();
 	}
 
-	Sprite::Sprite(Sprite & sprite)
+	Text::Text(Text & Text)
 	{
-		*this = sprite;
+		*this = Text;
 	}
 
-	Sprite::~Sprite()
+	Text::~Text()
 	{
 		//delete(_texture);
 	}
 
-	bool Sprite::CompileD3DShader(char* filePath, char* entry, char* shaderModel, ID3DBlob** buffer)
+	bool Text::CompileD3DShader(char* filePath, char* entry, char* shaderModel, ID3DBlob** buffer)
 	{
 		D3DX11CompileFromFile(filePath, 0, 0, entry, shaderModel,
 			NULL, 0, 0, buffer, NULL, 0);
 		return true;
 	}
 
-	void	Sprite::loadTexture(const std::string &filename)
+	void	Text::loadTexture()
 	{
 		ID3DBlob* vsBuffer = 0;
 
@@ -63,7 +65,7 @@ namespace Moo
 			psBuffer->GetBufferSize(), 0, &solidColorPS);
 
 		D3DX11CreateShaderResourceViewFromFile(_dev,
-			filename.c_str(), 0, 0, &colorMap, 0);
+			"Font.dds", 0, 0, &colorMap, 0);
 
 		D3D11_BUFFER_DESC constDesc;
 		ZeroMemory(&constDesc, sizeof(constDesc));
@@ -80,19 +82,24 @@ namespace Moo
 		D3D11_TEXTURE2D_DESC colorTexDesc;
 		((ID3D11Texture2D*)colorTex)->GetDesc(&colorTexDesc);
 		colorTex->Release();
+	}
 
+	void	Text::createVertex(char letter, int offsetx)
+	{
 		float halfWidth = (float)_width / 2.0f;
 		float halfHeight = (float)_height / 2.0f;
 
+		float factor = (letter - '0') * 0.01;
+		_color = XMFLOAT4(1.0f, 0.1f, 0.1f, 1.0f);
 		VERTEX testing[] =
 		{
-			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(1.0f, 0.0f) },
-			{ XMFLOAT3(halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(1.0f, 1.0f) },
-			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.0f, 1.0f) },
+			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(0.18f + factor, 0.0f) },
+			{ XMFLOAT3(halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.18f + factor, 1.0f) },
+			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.17f + factor, 1.0f) },
 
-			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.0f, 1.0f) },
-			{ XMFLOAT3(-halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(0.0f, 0.0f) },
-			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(1.0f, 0.0f) },
+			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.17f + factor, 1.0f) },
+			{ XMFLOAT3(-halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(0.17f + factor, 0.0f) },
+			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(0.18f + factor, 0.0f) },
 		};
 
 		D3D11_BUFFER_DESC vertexDesc;
@@ -124,7 +131,7 @@ namespace Moo
 		rasterizerDesc.SlopeScaledDepthBias = 0.0f;
 
 		_dev->CreateRasterizerState(&rasterizerDesc, &rasterize);
-	    _devcon->RSSetState(rasterize);
+		_devcon->RSSetState(rasterize);
 
 		D3D11_BLEND_DESC blendDesc;
 		ZeroMemory(&blendDesc, sizeof(blendDesc));
@@ -144,10 +151,8 @@ namespace Moo
 
 		D3D11_SAMPLER_DESC desc = CD3D11_SAMPLER_DESC(CD3D11_DEFAULT());
 		_dev->CreateSamplerState(&desc, &colorMapSampler);
-	}
 
-	void	Sprite::draw()
-	{	
+
 		unsigned int stride = sizeof(VERTEX);
 		unsigned int offset = 0;
 
@@ -166,12 +171,12 @@ namespace Moo
 		_devcon->PSSetShaderResources(0, 1, &colorMap);
 		_devcon->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		XMVECTOR axis = DirectX::XMVectorSet(0, 0, 0, 0);
-		
-		XMMATRIX translation = DirectX::XMMatrixTranslation(getPosition().x + (_width / 2), getPosition().y + (_height / 2), 0.5f);
-		XMMATRIX rotationZ = XMMatrixRotationZ(DirectX::XMConvertToRadians(getRotation()));
+
+		XMMATRIX translation = DirectX::XMMatrixTranslation((offsetx * 10) + getPosition().x + (_width / 2), getPosition().y + (_height / 2), 0.5f);
+		XMMATRIX rotationZ = DirectX::XMMatrixRotationZ(DirectX::XMConvertToRadians(getRotation()));
 
 		XMMATRIX scalling = DirectX::XMMatrixScaling(getScale().x, getScale().y, 1);
-		
+
 		XMMATRIX world = scalling * rotationZ * translation;
 
 		XMMATRIX mvp = DirectX::XMMatrixMultiply((XMMATRIX)world, (XMMATRIX)vpMatrix);
@@ -182,22 +187,37 @@ namespace Moo
 		_devcon->Draw(6, 0);
 	}
 
-	float Sprite::getWidth()
+	void	Text::draw()
+	{
+		const char *writable = _text.c_str();
+		int i = 0;
+		while (writable[i] != '\0') {
+			createVertex(writable[i], i);
+			++i;
+		}
+	}
+
+	void  Text::setText(const std::string &text)
+	{
+		_text = text;
+	}
+
+	float Text::getWidth()
 	{
 		return _width * getScale().x;
 	}
 
-	float Sprite::getHeight()
+	float Text::getHeight()
 	{
 		return _height * getScale().y;
 	}
 
-	ID3D11Buffer* const* Sprite::getVertexBuffer() const
+	ID3D11Buffer* const* Text::getVertexBuffer() const
 	{
 		return &vertexBuffer;
 	}
 
-	void Sprite::release()
+	void Text::release()
 	{
 		if (vertexBuffer == nullptr) {
 			vertexBuffer->Release();

@@ -83,8 +83,6 @@ namespace Moo
 
 			// set the render target as the back buffer
 			devcon->OMSetRenderTargets(1, &backbuffer, NULL);
-
-			//initPipeline();
 		}
 
 		void	d3d::setViewPort()
@@ -96,8 +94,27 @@ namespace Moo
 			viewport.TopLeftY = 0;
 			viewport.Width = _screenSize.x;
 			viewport.Height = _screenSize.y;
+			viewport.MinDepth = 0.0f;
+			viewport.MaxDepth = 1.0f;
 
 			devcon->RSSetViewports(1, &viewport);
+		}
+
+		XMMATRIX	d3d::getView()
+		{
+			return DirectX::XMMatrixIdentity();
+		}
+
+		XMMATRIX	d3d::getProjection()
+		{
+			return
+				DirectX::XMMatrixOrthographicOffCenterLH(
+					0.0f,
+					(float)d3d::getInstance().getScreenSize().x,
+					0.0f,
+					(float)d3d::getInstance().getScreenSize().y,
+					0.0f,
+					100.0f);
 		}
 
 		Vector2f	d3d::getScreenSize() const

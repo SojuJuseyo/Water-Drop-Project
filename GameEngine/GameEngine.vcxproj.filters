@@ -63,6 +63,9 @@
     <ClCompile Include="Transformable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -113,6 +116,9 @@
     <ClInclude Include="Transformable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders.shader" />
@@ -126,6 +132,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="background.dds">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Font.dds">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

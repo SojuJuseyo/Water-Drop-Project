@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <windowsx.h>
+#include <sstream>
 #include "WindowSettings.h"
 #include "d3d.h"
 #include "Fps.h"
@@ -30,7 +31,7 @@ namespace Moo
 		void destroy();
 		void clear();
 		void draw(Shape * shape);
-		void draw(Sprite * sprite);
+		void draw(Drawable * drawable);
 		void display();
 		void setFpsLimit(float limit);
 		float getFps();
