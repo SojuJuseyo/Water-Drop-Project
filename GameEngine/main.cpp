@@ -17,7 +17,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 	//Moo::Text *text = new Moo::Text("test", 20, 20, 20, 0);
 
-	Moo::Sprite *mario = new Moo::Sprite(60, 60, 200, WINDOW_HEIGHT - 100);
+	Moo::Sprite *mario = new Moo::Sprite(60, 60, 0, WINDOW_HEIGHT);
 	mario->loadTexture("mario.dds");
 	Moo::Sprite *enemySprite = new Moo::Sprite(60, 60, 250, 40);
 	enemySprite->loadTexture("mario.dds");
@@ -28,12 +28,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Moo::Sprite *ground = new Moo::Sprite(40, 40, 0, 0);
 	ground->loadTexture("ground.dds");
 	Moo::Character *player = new Moo::Character(Moo::Vector2f(3, 0), 300, mario, true);
+	Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false);
 
 	std::vector<std::pair<std::string, Moo::Character *>> entities;
 	Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), 0, enemySprite, false);
 	enemy->setCollision(true);
 	entities.push_back(std::make_pair("Player 1", player));
-	entities.push_back(std::make_pair("Platform", new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false)));
+	entities.push_back(std::make_pair("Platform", platformEntity));
 	entities.push_back(std::make_pair("Enemy", enemy));
 
 	for (float i = 0; i < 20; ++i) {
@@ -122,6 +123,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			window.draw(entities[i].second->getSprite());
 		}
 		window.draw(player->getHitboxSprite());
+		window.draw(platformEntity->getHitboxSprite());
 		//text->setText(std::to_string(window.getFps()));
 		//window.draw(text);
 		window.display();

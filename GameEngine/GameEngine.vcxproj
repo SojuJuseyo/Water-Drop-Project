@@ -182,6 +182,7 @@
     <Image Include="Font.dds" />
     <Image Include="ground.dds" />
     <Image Include="mario.dds" />
+    <Image Include="platform.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -137,5 +137,8 @@
     <Image Include="Font.dds">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="platform.dds">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

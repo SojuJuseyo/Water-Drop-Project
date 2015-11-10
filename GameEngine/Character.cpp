@@ -84,7 +84,7 @@ namespace Moo
 
 	Sprite	*Character::getHitboxSprite() const
 	{
-		_hitboxSprite->setPosition(_sprite->getPosition());
+		_hitboxSprite->setPosition(_hitbox.x1, _hitbox.y1);
 
 		return _hitboxSprite;
 	}
