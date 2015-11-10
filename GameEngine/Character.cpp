@@ -7,10 +7,9 @@ namespace Moo
 		this->setVelocity(velocity);
 		this->setMass(mass);
 		this->_sprite = sprite;
-		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() - sprite->getHeight() / 2);
+		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() - sprite->getHeight());
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		this->setGravity(hasGravity);
-		_multiplier = 1;
 		_hitboxSprite = new Sprite(*_sprite);
 		_hitboxSprite->loadTexture("hitbox.dds");
 	}
@@ -24,7 +23,7 @@ namespace Moo
 		_hitbox.x1 = this->_sprite->getX();
 		_hitbox.y1 = this->_sprite->getY();
 		_hitbox.x2 = this->_sprite->getX() + this->_sprite->getWidth();
-		_hitbox.y2 = this->_sprite->getY() - this->_sprite->getHeight() + 20;
+		_hitbox.y2 = this->_sprite->getY() - this->_sprite->getHeight();
 
 		return _hitbox;
 	}
@@ -44,26 +43,20 @@ namespace Moo
 	void	Character::jump()
 	{
 		if (_velocity.y == 0)
-			this->setVelocity(Vector2f(1, JUMP_VELOCITY));
+			this->setVelocity(Vector2f(_velocity.x, JUMP_VELOCITY));
 	}
 
 	void	Character::resetPos()
 	{
 		_velocity.y = 0;
-		_acceleration.y = _mass;
-		_multiplier = 1;
+		_acceleration.y = _mass / FPS_LIMIT;
 	}
 
 	void	Character::update()
 	{
-		//std::cout << "Y: " << _sprite->getY() << " && Velocity.y: " << _velocity.y << " && Acceleration: " << _acceleration.y << " && Multiplier: " << _multiplier << std::endl;
 		if (_velocity.y > 0 && _velocity.y < GRAVITY)
-		{
 			_acceleration.y = _mass;
-			if (_multiplier < 10)
-				++_multiplier;
-		}
-		_acceleration.y += (_mass / FPS_LIMIT) * _multiplier;
+		_acceleration.y += (_mass / FPS_LIMIT);
 		_velocity.y -= (_velocity.y + _acceleration.y) / FPS_LIMIT;
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);
 	}

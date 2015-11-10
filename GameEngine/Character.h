@@ -38,7 +38,6 @@ namespace Moo
 
 	private:
 		Sprite *_sprite;
-		unsigned short	_multiplier;
 		Sprite *_hitboxSprite;
 	};
 }

@@ -2,16 +2,16 @@
 
 #include "Vector2f.h"
 #define	GRAVITY	200
-#define	JUMP_VELOCITY	1000
+#define	JUMP_VELOCITY	750
 
 namespace Moo
 {
 	typedef struct Hitbox
 	{
-		//Top right
+		//Top left
 		float x1;
 		float y1;
-		//Bottom left
+		//Bottom right
 		float x2;
 		float y2;
 	}			   Hitbox;
