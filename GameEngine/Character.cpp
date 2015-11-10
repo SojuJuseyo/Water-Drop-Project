@@ -7,7 +7,7 @@ namespace Moo
 		this->setVelocity(velocity);
 		this->setMass(mass);
 		this->_sprite = sprite;
-		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() - sprite->getHeight());
+		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() - (sprite->getHeight() / 3) * 2);
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		this->setGravity(hasGravity);
 		_hitboxSprite = new Sprite(*_sprite);
@@ -23,7 +23,7 @@ namespace Moo
 		_hitbox.x1 = this->_sprite->getX();
 		_hitbox.y1 = this->_sprite->getY();
 		_hitbox.x2 = this->_sprite->getX() + this->_sprite->getWidth();
-		_hitbox.y2 = this->_sprite->getY() - this->_sprite->getHeight();
+		_hitbox.y2 = this->_sprite->getY() - (this->_sprite->getHeight() / 3) * 2;
 
 		return _hitbox;
 	}
@@ -44,6 +44,7 @@ namespace Moo
 	{
 		if (_velocity.y == 0)
 			this->setVelocity(Vector2f(_velocity.x, JUMP_VELOCITY));
+		std::cout << _velocity.y << std::endl;
 	}
 
 	void	Character::resetPos()
