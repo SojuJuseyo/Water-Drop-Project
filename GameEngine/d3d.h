@@ -17,6 +17,7 @@ using namespace DirectX;
 struct VERTEX { XMFLOAT3 position; XMFLOAT4 color; XMFLOAT2 texture; };
 
 #include "Vector2f.h"
+#include "Camera.h"
 
 namespace Moo
 {
@@ -83,6 +84,8 @@ namespace Moo
 
 			// set the render target as the back buffer
 			devcon->OMSetRenderTargets(1, &backbuffer, NULL);
+
+			_camera = new Camera;
 		}
 
 		void	d3d::setViewPort()
@@ -100,9 +103,25 @@ namespace Moo
 			devcon->RSSetViewports(1, &viewport);
 		}
 
+		Camera		*d3d::getCamera()
+		{
+			return _camera;
+		}
+
 		XMMATRIX	d3d::getView()
 		{
-			return DirectX::XMMatrixIdentity();
+			return
+				DirectX::XMMatrixMultiply(
+					DirectX::XMMatrixIdentity(),
+					DirectX::XMMatrixTranslationFromVector(
+						XMVectorSet(
+							_camera->getPosition().x,
+							_camera->getPosition().y,
+							0,
+							0
+							)
+						)
+					);
 		}
 
 		XMMATRIX	d3d::getProjection()
@@ -210,5 +229,6 @@ namespace Moo
 		ID3D11VertexShader *pVS;
 		ID3D11PixelShader *pPS;
 		Vector2f _screenSize;
+		Camera *_camera;
 	};
 }

@@ -74,12 +74,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		else if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
 		{
-			std::cout << "Sprite : " << entities[0].second->getSprite()->getHeight()
-					<< " " << entities[0].second->getSprite()->getWidth()
-					<< " " << std::endl;
-			std::cout << "Hitbox : " << entities[0].second->getHitbox().x2 - entities[0].second->getHitbox().x1
-					<< " " << entities[0].second->getHitbox().y1 - entities[0].second->getHitbox().y2
-					<< " " << std::endl;
+			Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(10, 0));
 		}
 
 		for (unsigned int i = 0; i < entities.size(); ++i)
@@ -91,7 +86,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if ((tmp = entities[0].second->collisionAABB(entities[i].second)) != HitZone::NONE 
 				&& entities[i].second->isCollidable())
 			{
-				std::cout << "COLLIDING with " << entities[i].first << " : ";
+				//std::cout << "COLLIDING with " << entities[i].first << " : ";
 				if (tmp == HitZone::BOTTOM || tmp == HitZone::TOP)
 				{
 					entities[0].second->resetPos();
@@ -103,7 +98,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 						//std::cout << "Hitbox B : x1 " << B.x1 << " y1 " << B.y1 << " x2 " << B.x2 << " y2 " << B.y2 << std::endl;
 						//std::cout << "Character : X " << save_x << " Y " << save_y << std::endl;
 						entities[0].second->setGravity(false);
-						std::cout << "BOTTOM";
+						//std::cout << "BOTTOM";
 					}
 					else
 					{
