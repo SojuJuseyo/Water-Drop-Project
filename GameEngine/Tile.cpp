@@ -14,22 +14,22 @@ Tile::~Tile()
 // Setters and getters
 ////////////////////////////////
 
-void Tile::setPosX(int _posX)
+void Tile::setPosX(float _posX)
 {
 	this->posX = _posX;
 }
 
-int Tile::getPosX() const
+float Tile::getPosX() const
 {
 	return (this->posX);
 }
 
-void Tile::setPosY(int _posY)
+void Tile::setPosY(float _posY)
 {
 	this->posY = _posY;
 }
 
-int Tile::getPosY() const
+float Tile::getPosY() const
 {
 	return (this->posY);
 }

@@ -8,8 +8,8 @@ class Tile
 
 private:
 
-	int	posX;
-	int posY;
+	float	posX;
+	float	posY;
 
 public:
 
@@ -17,9 +17,9 @@ public:
 	~Tile();
 
 	// Setters and Getters
-	void setPosX(int);
-	int getPosX() const;
+	void	setPosX(float);
+	float	getPosX() const;
 
-	void setPosY(int);
-	int getPosY() const;
+	void	setPosY(float);
+	float	getPosY() const;
 };

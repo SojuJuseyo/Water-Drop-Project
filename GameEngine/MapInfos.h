@@ -12,8 +12,8 @@ private:
 
 	// Informations of the map
 	std::string mapName;
-	int mapWidth;
-	int mapHeight;
+	float mapWidth;
+	float mapHeight;
 	std::list<std::pair<std::string,std::list<Tile *>>> mapTileList;
 
 public:
@@ -29,11 +29,11 @@ public:
 	void setMapName(std::string);
 	std::string getMapName() const;
 
-	void setMapWidth(int);
-	int getMapWidth() const;
+	void setMapWidth(float);
+	float getMapWidth() const;
 
-	void setMapHeight(int);
-	int getMapHeight() const;
+	void setMapHeight(float);
+	float getMapHeight() const;
 
 	void setMapTileList(std::list<std::pair<std::string, std::list<Tile *>>>);
 	std::list<std::pair<std::string, std::list<Tile *>>> getMapTileList() const;

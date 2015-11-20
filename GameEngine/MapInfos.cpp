@@ -39,7 +39,7 @@ std::list<Tile *> MapInfos::getTilesFromColor(std::string _color)
 {
 	for (std::list<std::pair<std::string, std::list<Tile *>>>::iterator it = this->mapTileList.begin(); it != this->mapTileList.end(); it++)
 	{
-		if ((*it).first == _color)
+		if (_stricmp(_color.c_str(), (*it).first.c_str()) == 0)
 			return ((*it).second);
 	}
 	return ((std::list<Tile *>)NULL);
@@ -59,22 +59,22 @@ std::string MapInfos::getMapName() const
 	return (this->mapName);
 }
 
-void MapInfos::setMapWidth(int _mapWidth)
+void MapInfos::setMapWidth(float _mapWidth)
 {
 	this->mapWidth = _mapWidth;
 }
 
-int MapInfos::getMapWidth() const
+float MapInfos::getMapWidth() const
 {
 	return (this->mapWidth);
 }
 
-void MapInfos::setMapHeight(int _mapHeight)
+void MapInfos::setMapHeight(float _mapHeight)
 {
 	this->mapHeight = _mapHeight;
 }
 
-int MapInfos::getMapHeight() const
+float MapInfos::getMapHeight() const
 {
 	return (this->mapHeight);
 }

@@ -52,8 +52,8 @@ int JsonParser::parseFile()
 			Tile *newTile = new Tile();
 			Json::Value itrValue = (*itr);
 
-			newTile->setPosX(itrValue[MAPCOORDX].asInt());
-			newTile->setPosY(itrValue[MAPCOORDY].asInt());
+			newTile->setPosX(itrValue[MAPCOORDX].asFloat());
+			newTile->setPosY(itrValue[MAPCOORDY].asFloat());
 			
 			selectedColorTileList.push_back(newTile);
 		}
@@ -90,10 +90,10 @@ void JsonParser::parseMapSize(std::string mapSize)
 	int mapSizeX = 0, mapSizeY = 0;
 	
 	char *word = strtok_s(&mapSize[0], "/", &next_token[0]);
-	this->map.setMapWidth(atoi(word));
+	this->map.setMapWidth((float)atoi(word));
 
 	word = strtok_s(NULL, "/", &next_token[0]);
-	this->map.setMapHeight(atoi(word));
+	this->map.setMapHeight((float)atoi(word));
 }
 
 // Debug function asking for the path of the map
