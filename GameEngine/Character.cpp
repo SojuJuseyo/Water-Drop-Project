@@ -11,7 +11,9 @@ namespace Moo
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		this->setGravity(hasGravity);
 		_hitboxSprite = new Sprite(*_sprite);
-		_hitboxSprite->loadTexture("hitbox.dds");
+		Moo::Texture *hitbox = new Moo::Texture;
+		hitbox->loadFromFile("hitbox.dds");
+		_hitboxSprite->loadTexture(hitbox);
 	}
 
 	Character::~Character()

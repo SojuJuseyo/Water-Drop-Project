@@ -29,9 +29,7 @@ namespace Moo
 			_mm_free(p);
 		}
 
-		bool CompileD3DShader(char * filePath, char * entry, char * shaderModel, ID3DBlob ** buffer);
-
-		void loadTexture(const std::string & filename);
+		void loadTexture(Texture *);
 		void draw();
 		float getWidth();
 		float getHeight();
@@ -41,7 +39,6 @@ namespace Moo
 
 	private:
 		Texture *_texture;
-		VERTEX _vertices;
 		float _width;
 		float _height;
 		XMFLOAT4 _color;

@@ -17,6 +17,13 @@ static std::vector<std::pair<std::string, Moo::Character *>>	getEntitiesFromMap(
 	//List of entities of the game
 	std::vector<std::pair<std::string, Moo::Character *>> entities;
 
+	Moo::Texture *marioText = new Moo::Texture;
+	marioText->loadFromFile("mario.dds");
+	Moo::Texture *platformText = new Moo::Texture;
+	platformText->loadFromFile("platform.dds");
+	Moo::Texture *groundText = new Moo::Texture;
+	groundText->loadFromFile("ground.dds");
+
 	//All the data contained in the map
 	std::list<Tile *> playerTiles = map->getMap().getTilesFromColor("#ffabcdef"); //blue
 	std::list<Tile *> platformTiles = map->getMap().getTilesFromColor("#fff93738"); //red
@@ -43,7 +50,7 @@ static std::vector<std::pair<std::string, Moo::Character *>>	getEntitiesFromMap(
 	for (std::list<Tile *>::const_iterator it = enemyTiles.begin(); it != enemyTiles.end(); ++it)
 	{
 		Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * multWidth, (*it)->getPosY() * multHeight);
-		enemySprite->loadTexture("mario.dds");
+		enemySprite->loadTexture(marioText);
 		Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, false);
 		enemy->setCollision(true);
 		entities.push_back(std::make_pair("Enemy " + std::to_string(i), enemy));
@@ -57,7 +64,7 @@ static std::vector<std::pair<std::string, Moo::Character *>>	getEntitiesFromMap(
 	for (std::list<Tile *>::const_iterator it = platformTiles.begin(); it != platformTiles.end(); ++it)
 	{
 		Moo::Sprite *platform = new Moo::Sprite(multWidth, multHeight, (*it)->getPosX() * multWidth, (*it)->getPosY() * multHeight);
-		platform->loadTexture("platform.dds");
+		platform->loadTexture(platformText);
 		Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false);
 		entities.push_back(std::make_pair("Platform " + std::to_string(i), platformEntity));
 		++i;
@@ -67,7 +74,7 @@ static std::vector<std::pair<std::string, Moo::Character *>>	getEntitiesFromMap(
 	for (std::list<Tile *>::const_iterator it = bottomTiles.begin(); it != bottomTiles.end(); ++it)
 	{
 		Moo::Sprite *ground = new Moo::Sprite(multWidth, multHeight, (*it)->getPosX() * multWidth, (*it)->getPosY() * multHeight);
-		ground->loadTexture("ground.dds");
+		ground->loadTexture(groundText);
 		entities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false)));
 	}
 
@@ -76,10 +83,15 @@ static std::vector<std::pair<std::string, Moo::Character *>>	getEntitiesFromMap(
 	
 	//Player
 	Moo::Sprite *mario = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * multWidth, (*playerIt)->getPosY() * multHeight);
-	mario->loadTexture("mario.dds");
+	mario->loadTexture(marioText);
 	Moo::Character *player = new Moo::Character(Moo::Vector2f(3, 0), playerMass, mario, true);
 	//The player is always the first of the entities vector
 	entities.insert(entities.begin(), std::make_pair("Player", player));
+
+	// release Textures
+	marioText->release();
+	platformText->release();
+	groundText->~Texture();
 
 	return (entities);
 }
@@ -96,9 +108,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 	//Text class to display fps counter
 	Moo::Text *text = new Moo::Text("Text", 20, 20, 20, 0);
-	
+
+	Moo::Texture *backgroundText = new Moo::Texture;
+	backgroundText->loadFromFile("background.dds");
+
 	//We get the map
-	JsonParser *map = new JsonParser("C:/Users/Thibault/Desktop/test.json");
+	JsonParser *map = new JsonParser("50x50.json");
 	map->parseFile();
 	//map->getMap().displayMapInfos();
 
@@ -107,7 +122,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	
 	//background
 	Moo::Sprite *background = new Moo::Sprite(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
-	background->loadTexture("background.dds");
+	background->loadTexture(backgroundText);
 
 	HitZone tmp = HitZone::NONE;
 
@@ -132,7 +147,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			player->setGravity(true);
 		}
 		else if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
-			Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(10, 0));
+			Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
 
 		for (unsigned int i = 0; i < entities.size(); ++i)
 			if (entities[i].second->getGravity() == true)
@@ -196,9 +211,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		window.draw(text);
 		window.display();
 	}
-	//Release all loaded sprites
-	for (unsigned int i = 0; i < entities.size(); ++i)
-		entities[i].second->getSprite()->release();
+
+	backgroundText->release();
+
 	window.destroy();
 	return 0;
 }
