@@ -19,8 +19,10 @@ namespace Moo
 
 	void Bullet::move(Direction _direction)
 	{
-		Moo::Sprite *bulletSprite = this->_sprite;
-		bulletSprite->setX(bulletSprite->getX() + 5);
+		if (_direction == Direction::RIGHT)
+		{
+			_sprite->move(5, 0);
+		}
 	}
 
 	/*
