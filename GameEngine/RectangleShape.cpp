@@ -105,7 +105,7 @@ namespace Moo
 		ZeroMemory(&bd, sizeof(bd));
 
 		bd.Usage = D3D11_USAGE_DYNAMIC;
-		bd.ByteWidth = sizeof(VERTEX) * sizeof(_vertices);
+		bd.ByteWidth = sizeof(VERTEX) / sizeof(_vertices);
 		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 

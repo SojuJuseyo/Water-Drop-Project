@@ -18,7 +18,7 @@ namespace Moo {
 		elapsed.QuadPart = _endTime.QuadPart - _startTime.QuadPart;
 		elapsed.QuadPart *= 1000000;
 		elapsed.QuadPart /= _frequency.QuadPart;
-		return elapsed.QuadPart;
+		return (float)elapsed.QuadPart;
 	}
 
 	float	Timer::getElapsedMilliseconds()

@@ -94,7 +94,7 @@ namespace Moo
 
 	void	Window::destroy()
 	{
-		d3d::getInstance().release();
+		d3d::getInstance().~d3d();
 		ShowCursor(true);
 		DestroyWindow(_hwnd);
 		_hwnd = NULL;

@@ -90,14 +90,14 @@ static std::vector<std::pair<std::string, Moo::Entity *>>	getEntitiesFromMap(Jso
 	entities.insert(entities.begin(), std::make_pair("Player", player));
 
 	// release Textures
-	marioText->release();
-	platformText->release();
-	groundText->~Texture();
+	//marioText->release();
+	//platformText->release();
+	//groundText->~Texture();
 
 	return (entities);
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) 
 {
 	//To display std::cout output
 	FILE * pConsole;
@@ -114,7 +114,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	backgroundText->loadFromFile("background.dds");
 
 	//We get the map
-	JsonParser *map = new JsonParser("C:/Users/Thomas/Desktop/50x50.json");
+	JsonParser *map = new JsonParser("50x50.json");
 	map->parseFile();
 	//map->getMap().displayMapInfos();
 

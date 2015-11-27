@@ -35,32 +35,13 @@ namespace Moo
 		float getHeight();
 		ID3D11Buffer * const * getVertexBuffer() const;
 
-		void release();
-
 	private:
 		Texture *_texture;
 		float _width;
 		float _height;
-		XMFLOAT4 _color;
-		ID3D11ShaderResourceView *_shaderRessource;
-		ID3D11SamplerState* colorMapSampler;
-		ID3D11BlendState* alphaBlendState;
 		ID3D11Device *_dev;
 		ID3D11DeviceContext *_devcon;
-
-		ID3D11VertexShader* solidColorVS;
-		ID3D11PixelShader* solidColorPS;
-
-		ID3D11InputLayout* inputLayout;
 		ID3D11Buffer* vertexBuffer;
-
-		ID3D11ShaderResourceView* colorMap;
-
-
-		ID3D11Buffer* colorCB;
-
-		ID3D11Buffer* mvpCB;
 		XMMATRIX vpMatrix;
-
 	};
 }

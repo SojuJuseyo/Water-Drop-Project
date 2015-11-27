@@ -89,7 +89,7 @@ namespace Moo
 		float halfWidth = (float)_width / 2.0f;
 		float halfHeight = (float)_height / 2.0f;
 
-		float factor = (letter - '0') * 0.01;
+		float factor = (letter - '0') * 0.01f;
 		_color = XMFLOAT4(1.0f, 0.1f, 0.1f, 1.0f);
 		VERTEX testing[] =
 		{
