@@ -175,8 +175,13 @@ namespace Moo
 
 	void Texture::release()
 	{
-		if (vertexBuffer == nullptr) {
-			vertexBuffer->Release();
-		}
+		vertexBuffer->Release();
+		solidColorVS->Release();
+		solidColorPS->Release();
+		inputLayout->Release();
+		mvpCB->Release();
+		colorMapSampler->Release();
+		alphaBlendState->Release();
+		colorMap->Release();
 	}
 }

@@ -2,11 +2,7 @@
 
 namespace Moo
 {
-	Sprite::Sprite(float width, float height, float x, float y) :
-		solidColorVS(0), solidColorPS(0),
-		inputLayout(0),
-		colorMap(0), colorMapSampler(0),
-		mvpCB(0), alphaBlendState(0)
+	Sprite::Sprite(float width, float height, float x, float y)
 	{
 		_width = width;
 		_height = height;
@@ -23,7 +19,6 @@ namespace Moo
 
 	Sprite::~Sprite()
 	{
-		//delete(_texture);
 	}
 
 	void	Sprite::loadTexture(Texture *texture)
@@ -55,6 +50,14 @@ namespace Moo
 		_devcon->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		XMVECTOR axis = DirectX::XMVectorSet(0, 0, 0, 0);
 		
+		float offsetX, offsetY = 0.0f;
+		if (getScale().x != 1) {
+			offsetX = (_width * getScale().x) / 2;
+		}
+		if (getScale().y != 1) {
+			offsetY = (_height * getScale().y) / 2;
+		}
+
 		XMMATRIX translation = DirectX::XMMatrixTranslation(getPosition().x + (_width / 2), getPosition().y + (_height / 2), 0.5f);
 		XMMATRIX rotationZ = XMMatrixRotationZ(DirectX::XMConvertToRadians(getRotation()));
 
@@ -65,8 +68,8 @@ namespace Moo
 		XMMATRIX mvp = DirectX::XMMatrixMultiply((XMMATRIX)world, (XMMATRIX)vpMatrix);
 		mvp = DirectX::XMMatrixTranspose(mvp);
 
-		_devcon->UpdateSubresource(_texture->getContentBuffer(), 0, 0, &mvp, 0, 0);
 		auto contentBuffer = _texture->getContentBuffer();
+		_devcon->UpdateSubresource(contentBuffer, 0, 0, &mvp, 0, 0);
 		_devcon->VSSetConstantBuffers(0, 1, &contentBuffer);
 		_devcon->Draw(6, 0);
 	}
