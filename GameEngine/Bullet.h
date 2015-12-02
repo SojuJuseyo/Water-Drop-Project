@@ -7,16 +7,6 @@
 // For the enum Direction
 #include "Character.h"
 
-/*
-enum HitZone
-{
-	TOP,
-	BOTTOM,
-	LEFT_SIDE,
-	RIGHT_SIDE,
-	NONE
-};*/
-
 namespace Moo
 {
 	class Bullet : public Entity
@@ -25,8 +15,8 @@ namespace Moo
 		Bullet(Sprite *, bool);
 		virtual ~Bullet();
 		void	move(Direction);
-		/*Hitbox  resetHitbox();
-		HitZone	collisionAABB(Entity *entity);*/
+		Hitbox  resetHitbox();
+		HitZone	collisionAABB(Entity *entity);
 		Sprite	*getSprite() const;
 		Sprite  *getHitboxSprite() const;
 

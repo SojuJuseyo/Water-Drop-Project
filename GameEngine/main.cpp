@@ -114,7 +114,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	backgroundText->loadFromFile("background.dds");
 
 	//We get the map
-	JsonParser *map = new JsonParser("50x50.json");
+	JsonParser *map = new JsonParser("C:/Users/Thomas/Desktop/50x50.json");
 	map->parseFile();
 	//map->getMap().displayMapInfos();
 
@@ -172,8 +172,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			bulletPool.push_back(bullet);
 			// Debug message
 			std::cout << "La taille de la bulletPool est de : " << bulletPool.size() << std::endl;
-			
-			//entities.push_back(std::make_pair("Bullet", new Moo::Bullet(bulletSprite, false)));
 		}
 
 		for (unsigned int i = 0; i < entities.size(); ++i)
@@ -241,6 +239,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			Moo::Bullet *bullet = bulletPool[i];
 			bullet->move(Direction::RIGHT);
+			
+			for (unsigned int j = 1; j < entities.size(); ++j)
+				if ((tmp = bullet->collisionAABB(entities[j].second)) != HitZone::NONE && entities[j].second->isCollidable())
+					bulletPool.erase(bulletPool.begin() + i);
+
 			window.draw(bullet->getSprite());
 			window.draw(bullet->getHitboxSprite());
 		}

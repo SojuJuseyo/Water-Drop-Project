@@ -25,16 +25,31 @@ namespace Moo
 		}
 	}
 
-	/*
-	Hitbox Bullet::resetHitbox()
+	HitZone Bullet::collisionAABB(Entity *entity)
 	{
-		return Hitbox();
+		Hitbox A = this->resetHitbox();
+		Hitbox B = entity->getHitbox();
+
+		if (A.y2 < B.y1 && A.y2 > B.y2 && ((A.x2 < B.x2 && A.x2 > B.x1) || (A.x1 < B.x2 && A.x1 > B.x1)))
+			return HitZone::BOTTOM;
+		if (A.y1 > B.y2 && A.y1 < B.y1 && ((A.x2 < B.x2 && A.x2 > B.x1) || (A.x1 < B.x2 && A.x1 > B.x1)))
+			return HitZone::TOP;
+		if (A.x2 < B.x2 && A.x2 > B.x1 && ((A.y2 <= B.y1 && A.y2 >= B.y2) || (A.y1 <= B.y2 && A.y1 >= B.y1)))
+			return HitZone::RIGHT_SIDE;
+		if (A.x1 < B.x2 && A.x1 > B.x1 && ((A.y2 >= B.y1 && A.y2 <= B.y2) || (A.y1 >= B.y2 && A.y1 <= B.y1)))
+			return HitZone::LEFT_SIDE;
+		return (HitZone::NONE);
 	}
 
-	HitZone Bullet::collisionAABB(Entity * entity)
+	Hitbox Bullet::resetHitbox()
 	{
-		return HitZone();
-	}*/
+		_hitbox.x1 = this->_sprite->getX();
+		_hitbox.y1 = this->_sprite->getY();
+		_hitbox.x2 = this->_sprite->getX() + this->_sprite->getWidth();
+		_hitbox.y2 = this->_sprite->getY() - (this->_sprite->getHeight() / 3) * 2;
+
+		return _hitbox;
+	}
 
 	Sprite *Bullet::getSprite() const
 	{
