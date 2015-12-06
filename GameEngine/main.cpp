@@ -172,6 +172,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			bulletPool.push_back(bullet);
 			// Debug message
 			std::cout << "La taille de la bulletPool est de : " << bulletPool.size() << std::endl;
+
+			int currentHealth = player->getHealth();
+			player->setHealth(currentHealth - 1);
+
+			std::cout << "Player health : " << player->getHealth() << std::endl;
 		}
 
 		for (unsigned int i = 0; i < entities.size(); ++i)
@@ -242,7 +247,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			
 			for (unsigned int j = 1; j < entities.size(); ++j)
 				if ((tmp = bullet->collisionAABB(entities[j].second)) != HitZone::NONE && entities[j].second->isCollidable())
+				{
 					bulletPool.erase(bulletPool.begin() + i);
+					if (_strnicmp(entities[j].first.c_str(), "Enemy", 5) == 0)
+					{
+						Moo::Character *enemy = (Moo::Character *)entities[j].second;
+						((Moo::Character *)entities[j].second)->setHealth(enemy->getHealth() + 1);
+						std::cout << "Enemy health : " << ((Moo::Character *)entities[j].second)->getHealth() << std::endl;
+					}
+				}
 
 			window.draw(bullet->getSprite());
 			window.draw(bullet->getHitboxSprite());

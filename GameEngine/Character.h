@@ -35,9 +35,14 @@ namespace Moo
 		HitZone	collisionAABB(Entity *entity);
 		Sprite	*getSprite() const;
 		Sprite  *getHitboxSprite() const;
+		void	setHealth(int);
+		int		getHealth() const;
 
 	private:
 		Sprite *_sprite;
 		Sprite *_hitboxSprite;
+
+		// Health points
+		int		_health;
 	};
 }

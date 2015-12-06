@@ -14,6 +14,8 @@ namespace Moo
 		Moo::Texture *hitbox = new Moo::Texture;
 		hitbox->loadFromFile("hitbox.dds");
 		_hitboxSprite->loadTexture(hitbox);
+
+		this->_health = 10;
 	}
 
 	Character::~Character()
@@ -90,5 +92,15 @@ namespace Moo
 		_hitboxSprite->setPosition(_hitbox.x1, _hitbox.y1);
 
 		return _hitboxSprite;
+	}
+
+	void Character::setHealth(int _health)
+	{
+		this->_health = _health;
+	}
+
+	int	Character::getHealth() const
+	{
+		return (_health);
 	}
 }

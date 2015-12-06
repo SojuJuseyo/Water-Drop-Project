@@ -79,6 +79,16 @@ float MapInfos::getMapHeight() const
 	return (this->mapHeight);
 }
 
+void MapInfos::setMapAudioFile(std::string _filePath)
+{
+	this->mapAudioFile = _filePath;
+}
+
+std::string MapInfos::getMapAudioFile() const
+{
+	return (this->mapAudioFile);
+}
+
 void MapInfos::setMapTileList(std::list<std::pair<std::string, std::list<Tile *>>> _mapTileList)
 {
 	this->mapTileList = _mapTileList;
