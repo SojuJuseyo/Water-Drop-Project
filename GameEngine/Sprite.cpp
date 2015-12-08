@@ -54,8 +54,8 @@ namespace Moo
 		auto vertexBuffer = _texture->getVertexBuffer();
 		_devcon->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		XMVECTOR axis = DirectX::XMVectorSet(0, 0, 0, 0);
-		
-		XMMATRIX translation = DirectX::XMMatrixTranslation(getPosition().x + (_width / 2), getPosition().y + (_height / 2), 0.5f);
+
+		XMMATRIX translation = DirectX::XMMatrixTranslation(getPosition().x + (_width * getScale().x / 2), getPosition().y + (_height * getScale().y / 2), 0.5f);
 		XMMATRIX rotationZ = XMMatrixRotationZ(DirectX::XMConvertToRadians(getRotation()));
 
 		XMMATRIX scalling = DirectX::XMMatrixScaling(getScale().x * (_width / 50), getScale().y * (_height / 50), 1);

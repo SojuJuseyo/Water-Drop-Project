@@ -7,7 +7,7 @@ namespace Moo
 		this->setVelocity(velocity);
 		this->setMass(mass);
 		this->_sprite = sprite;
-		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() - (sprite->getHeight() / 3) * 2);
+		this->setHitbox(sprite->getX(), sprite->getY() + sprite->getHeight(), sprite->getX() + sprite->getWidth(), sprite->getY());//x1 y1 x2 y2
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		this->setGravity(hasGravity);
 		_hitboxSprite = new Sprite(*_sprite);
@@ -23,9 +23,10 @@ namespace Moo
 	Hitbox Character::resetHitbox()
 	{
 		_hitbox.x1 = this->_sprite->getX();
-		_hitbox.y1 = this->_sprite->getY();
+		_hitbox.y1 = this->_sprite->getY() + this->_sprite->getHeight();
+
 		_hitbox.x2 = this->_sprite->getX() + this->_sprite->getWidth();
-		_hitbox.y2 = this->_sprite->getY() - (this->_sprite->getHeight() / 3) * 2;
+		_hitbox.y2 = this->_sprite->getY();
 
 		return _hitbox;
 	}
@@ -44,9 +45,11 @@ namespace Moo
 
 	void	Character::jump()
 	{
-		if (_velocity.y == 0)
-			this->setVelocity(Vector2f(_velocity.x, JUMP_VELOCITY));
-		std::cout << _velocity.y << std::endl;
+		if (this->_velocity.y == 0)
+		{
+			this->setVelocity(Vector2f(this->_velocity.x, JUMP_VELOCITY));
+			this->setGravity(true);
+		}
 	}
 
 	void	Character::resetPos()
@@ -68,15 +71,17 @@ namespace Moo
 	{
 		Hitbox A = this->resetHitbox();
 		Hitbox B = entity->getHitbox();
-
-		if (A.y2 < B.y1 && A.y2 > B.y2 && ((A.x2 < B.x2 && A.x2 > B.x1) || (A.x1 < B.x2 && A.x1 > B.x1)))
+		float CollideHeightOfB = (B.y1 - B.y2) / 6;
+		
+		if (A.y2 < B.y1 && A.y2 > B.y2 && (B.y1 - A.y2 < CollideHeightOfB) && ((A.x1 <= B.x2 && A.x1 >= B.x1) || (A.x2 <= B.x2 && A.x2 >= B.x1)))
 			return HitZone::BOTTOM;
-		if (A.y1 > B.y2 && A.y1 < B.y1 && ((A.x2 < B.x2 && A.x2 > B.x1) || (A.x1 < B.x2 && A.x1 > B.x1)))
+		if (A.y1 > B.y2 && A.y1 < B.y1 && (A.y1 - B.y2 < CollideHeightOfB) && ((A.x1 <= B.x2 && A.x1 >= B.x1) || (A.x2 <= B.x2 && A.x2 >= B.x1)))
 			return HitZone::TOP;
-		if (A.x2 < B.x2 && A.x2 > B.x1 && ((A.y2 <= B.y1 && A.y2 >= B.y2) || (A.y1 <= B.y2 && A.y1 >= B.y1)))
+		if (A.x2 < B.x2 && A.x2 > B.x1 && ((A.y2 < B.y1 && A.y2 > B.y2) || (A.y1 < B.y2 && A.y1 > B.y1)))// || (A.y1 > B.y1 && A.y2 < B.y2))
 			return HitZone::RIGHT_SIDE;
-		if (A.x1 < B.x2 && A.x1 > B.x1 && ((A.y2 >= B.y1 && A.y2 <= B.y2) || (A.y1 >= B.y2 && A.y1 <= B.y1)))
+		if (A.x1 < B.x2 && A.x1 > B.x1 && ((A.y2 > B.y1 && A.y2 < B.y2) || (A.y1 > B.y2 && A.y1 < B.y1)))// || (A.y1 > B.y1 && A.y2 < B.y2))
 			return HitZone::LEFT_SIDE;
+
 		return (HitZone::NONE);
 	}
 
@@ -87,7 +92,7 @@ namespace Moo
 
 	Sprite	*Character::getHitboxSprite() const
 	{
-		_hitboxSprite->setPosition(_hitbox.x1, _hitbox.y1);
+		_hitboxSprite->setPosition(_hitbox.x1, _hitbox.y2);
 
 		return _hitboxSprite;
 	}

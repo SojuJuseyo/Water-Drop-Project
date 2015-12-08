@@ -1,0 +1,54 @@
+{
+  "name": "mdr",
+  "size": "5/5",
+  "tileList": {
+    "#FFF93738": [
+      {
+        "coordx": 2,
+        "coordy": 2
+      },
+      {
+        "coordx": 3,
+        "coordy": 2
+      },
+      {
+        "coordx": 4,
+        "coordy": 2
+      }
+    ],
+    "#FFABCDEF": [
+      {
+        "coordx": 0,
+        "coordy": 3
+      }
+    ],
+    "#FF117050": [
+      {
+        "coordx": 0,
+        "coordy": 0
+      },
+      {
+        "coordx": 1,
+        "coordy": 0
+      },
+      {
+        "coordx": 2,
+        "coordy": 0
+      },
+      {
+        "coordx": 3,
+        "coordy": 0
+      },
+      {
+        "coordx": 4,
+        "coordy": 0
+      }
+    ],
+    "#FF000000": [
+      {
+        "coordx": 4,
+        "coordy": 3
+      }
+    ]
+  }
+}

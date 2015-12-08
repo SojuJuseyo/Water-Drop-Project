@@ -27,7 +27,7 @@ namespace Moo
 		_isCollidable = collision;
 	}
 
-	void Entity::setHitbox(float x1, float x2, float y1, float y2)
+	void Entity::setHitbox(float x1, float y1, float x2, float y2)
 	{
 		_hitbox.x1 = x1;
 		_hitbox.y1 = y1;

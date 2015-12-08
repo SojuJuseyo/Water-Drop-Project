@@ -33,6 +33,10 @@ static std::vector<std::pair<std::string, Moo::Character *>>	getEntitiesFromMap(
 	//Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
 	float multHeight = WINDOW_HEIGHT / map->getMap().getMapHeight();
 	float multWidth = WINDOW_WIDTH / map->getMap().getMapWidth();
+
+	std::cout << "multHeight: " << multHeight << std::endl;
+	std::cout << "multWidth: " << multWidth << std::endl;
+
 	//counter
 	int i = 1;
 
@@ -78,15 +82,18 @@ static std::vector<std::pair<std::string, Moo::Character *>>	getEntitiesFromMap(
 		entities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false)));
 	}
 
-	//Get the first element because there is only one player
-	std::list<Tile *>::const_iterator playerIt = playerTiles.begin();
-	
-	//Player
-	Moo::Sprite *mario = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * multWidth, (*playerIt)->getPosY() * multHeight);
-	mario->loadTexture(marioText);
-	Moo::Character *player = new Moo::Character(Moo::Vector2f(3, 0), playerMass, mario, true);
-	//The player is always the first of the entities vector
-	entities.insert(entities.begin(), std::make_pair("Player", player));
+	if (playerTiles.size() > 0)
+	{
+		//Get the first element because there is only one player
+		std::list<Tile *>::const_iterator playerIt = playerTiles.begin();
+
+		//Player
+		Moo::Sprite *mario = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * multWidth, (*playerIt)->getPosY() * multHeight);
+		mario->loadTexture(marioText);
+		Moo::Character *player = new Moo::Character(Moo::Vector2f(5, 0), playerMass, mario, true);
+		//The player is always the first of the entities vector
+		entities.insert(entities.begin(), std::make_pair("Player", player));
+	}
 
 	// release Textures
 	marioText->release();
@@ -113,7 +120,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	backgroundText->loadFromFile("background.dds");
 
 	//We get the map
-	JsonParser *map = new JsonParser("50x50.json");
+	JsonParser *map = new JsonParser("2d-Maps/test.json");
 	map->parseFile();
 	//map->getMap().displayMapInfos();
 
@@ -131,21 +138,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	Moo::Character *player = entities[0].second;
 
-	float save_x, save_y;
 	while (window.isOpen())
 	{
-		save_x = player->getSprite()->getX();
-		save_y = player->getSprite()->getY();
-
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
 			player->move(Direction::LEFT);
 		else if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
 			player->move(Direction::RIGHT);
 		else if (Moo::Keyboard::isPressed(Moo::Keyboard::Space))
-		{
 			player->jump();
-			player->setGravity(true);
-		}
 		else if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
 			Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
 
@@ -153,50 +153,64 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			if (entities[i].second->getGravity() == true)
 				entities[i].second->update();
 
+		bool eraseCollider;
 		for (unsigned int i = 1; i < entities.size(); ++i)
 		{
-			if ((tmp = player->collisionAABB(entities[i].second)) != HitZone::NONE
+			eraseCollider = false;
+			//player->setGravity(true);
+			while ((tmp = player->collisionAABB(entities[i].second)) != HitZone::NONE
 				&& entities[i].second->isCollidable())
 			{
-				//std::cout << "COLLIDING with " << entities[i].first << " : ";
-				if (tmp == HitZone::BOTTOM || tmp == HitZone::TOP)
-				{
-					player->resetPos();
-					if (tmp == HitZone::BOTTOM)
-					{
-						//Moo::Hitbox A = entities[0].second->getHitbox();
-						//Moo::Hitbox B = entities[i].second->getHitbox();
-						//std::cout << "Hitbox A : x1 " << A.x1 << " y1 " << A.y1 << " x2 " << A.x2 << " y2 " << A.y2 << std::endl;
-						//std::cout << "Hitbox B : x1 " << B.x1 << " y1 " << B.y1 << " x2 " << B.x2 << " y2 " << B.y2 << std::endl;
-						//std::cout << "Character : X " << save_x << " Y " << save_y << std::endl;
-						player->setGravity(false);
-						//std::cout << "BOTTOM";
-					}
-					else
-					{
-						player->getSprite()->setX(save_x);
-						//std::cout << "TOP";
-					}
-					player->getSprite()->setY(save_y);
-				}
-				else
-				{
-					//if (tmp == HitZone::RIGHT_SIDE) std::cout << "RIGHT_SIDE";
-					//else std::cout << "LEFT_SIDE";
-					player->getSprite()->setX(save_x);
-				}
-				//std::cout << std::endl;
 				//If we collide with an enemy : Absorb him
 				if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
 				{
-					player->getSprite()->scale(Moo::Vector2f(0.5, 0.5));
+					player->getSprite()->scale(Moo::Vector2f(0.5f, 0.5f));
 					player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-					player->resetHitbox();
-					entities.erase(entities.begin() + i);
+					eraseCollider = true;
 				}
+				//If we collide with a wall/platform/bottom
+				else
+				{
+					std::cout << "COLLIDING with " << entities[i].first << " : ";
+					if (tmp == HitZone::BOTTOM || tmp == HitZone::TOP)
+					{
+						if (tmp == HitZone::BOTTOM)
+						{
+							player->getSprite()->setY(entities[i].second->getHitbox().y1);
+							player->resetPos();
+							std::cout << "BOTTOM";
+							player->setGravity(false);
+						}
+						else
+						{
+							player->getSprite()->setY(entities[i].second->getHitbox().y2 - player->getSprite()->getHeight());
+							player->setVelocity(Moo::Vector2f(player->getVelocity().x, -1));
+							std::cout << "TOP";
+						}
+					}
+					else
+					{
+						if (tmp == HitZone::RIGHT_SIDE)
+						{
+							std::cout << "RIGHT_SIDE";
+							player->getSprite()->setX(entities[i].second->getHitbox().x1 - player->getSprite()->getWidth());
+						}
+						else
+						{
+							std::cout << "LEFT_SIDE";
+							player->getSprite()->setX(entities[i].second->getHitbox().x2);
+						}
+					}
+					std::cout << std::endl;
+				}
+				Moo::Hitbox collider = entities[i].second->getHitbox();
+				std::cout << "Collider : [x1] " << collider.x1 << " && " << collider.y1 << " [y1] - [x2] " << collider.x2 << " && " << collider.y2 << " [y2]" << std::endl;
+				std::cout << "Character before : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
+				player->resetHitbox();
+				std::cout << "Character after : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
+				if (eraseCollider == true)
+					entities.erase(entities.begin() + i);
 			}
-			else
-				player->setGravity(true);
 		}
 		window.clear();
 		window.draw(background);
