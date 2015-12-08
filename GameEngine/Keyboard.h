@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
 #include <windowsx.h>
+#include "Fps.h"
 
 namespace Moo
 {
@@ -13,11 +14,18 @@ namespace Moo
 			Right = VK_RIGHT,
 			Space = VK_SPACE,
 			Up = VK_UP,
-			// Temp. Replace it with a key like F when working
-			Shot = VK_NUMPAD0,
+			Shot = 'F',
+			A = 'A',
 		};
+		static Keyboard& getInstance()
+		{
+			static Keyboard instance;
+			return instance;
+		}
+		void setLastPressed(UINT);
+		UINT getLastPressed();
 		static bool isPressed(Keyboard::Key key);
 	private:
-
+		UINT _lastPressed;
 	};
 }

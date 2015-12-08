@@ -69,7 +69,8 @@ namespace Moo
 			HRESULT hresult = D3D11CreateDeviceAndSwapChain(NULL,
 				D3D_DRIVER_TYPE_HARDWARE,
 				NULL,
-				D3D11_CREATE_DEVICE_DEBUG,
+				//D3D11_CREATE_DEVICE_DEBUG,
+				NULL,
 				NULL,
 				NULL,
 				D3D11_SDK_VERSION,
@@ -91,6 +92,7 @@ namespace Moo
 			devcon->OMSetRenderTargets(1, &backbuffer, NULL);
 
 			_camera = new Camera;
+			_fullscreenstate = true;
 		}
 
 		void	d3d::setViewPort()
@@ -168,16 +170,17 @@ namespace Moo
 			swapchain->Present(0, 0);
 		}
 
-		void d3d::setFullScreen(bool value)
+		void d3d::setFullScreen()
 		{
-			swapchain->SetFullscreenState(value, NULL);
+			_fullscreenstate = !_fullscreenstate;
+			swapchain->SetFullscreenState(_fullscreenstate, NULL);
 		}
 
 		void d3d::clearWindow(const float* color)
 		{
 			devcon->ClearRenderTargetView(backbuffer, color);
 		}
-
+		
 		ID3D11Device* d3d::getD3DDevice()
 		{
 			return dev;
@@ -198,6 +201,7 @@ namespace Moo
 		d3d(d3d const&) = delete;
 		void operator=(d3d const&) = delete;
 
+		bool _fullscreenstate;
 		ID3D11Device *dev;
 		ID3D11DeviceContext *devcon;
 		IDXGISwapChain *swapchain;

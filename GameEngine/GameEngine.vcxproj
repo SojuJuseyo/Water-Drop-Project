@@ -69,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\OpenAL 1.1 SDK\include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\OpenAL 1.1 SDK\libs\Win32;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
@@ -90,7 +90,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -138,14 +138,18 @@
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Fps.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="jsoncpp.cpp" />
     <ClCompile Include="JsonParser.cpp" />
     <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="LevelScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapInfos.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="RectangleShape.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -164,13 +168,17 @@
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Fps.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="LevelScene.h" />
     <ClInclude Include="MapInfos.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RectangleShape.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />

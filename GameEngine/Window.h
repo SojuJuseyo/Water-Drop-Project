@@ -8,6 +8,7 @@
 #include "WindowSettings.h"
 #include "d3d.h"
 #include "Fps.h"
+#include "Keyboard.h"
 #include "RectangleShape.h"
 #include "Sprite.h"
 
@@ -41,7 +42,6 @@ namespace Moo
 		HWND _hwnd;
 		std::vector<RectangleShape *> _rectangles;
 		float _fpsLimit;
-		Fps _fps;
 		ID3D11Device *_dev;
 		ID3D11DeviceContext *_devcon;
 		d3d _system;

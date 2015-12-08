@@ -71,8 +71,8 @@ namespace Moo
 
 	bool	Window::isOpen()
 	{
-		while (_fps.getFrameTime() <= 1.0f / _fpsLimit) {
-			_fps.update();
+		while (Fps::getInstance().getFrameTime() <= 1.0f / _fpsLimit) {
+			Fps::getInstance().update();
 		}
 
 		MSG msg;
@@ -82,8 +82,9 @@ namespace Moo
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+			Moo::Keyboard::getInstance().setLastPressed(msg.wParam);
 			if (msg.message == WM_FULLSCREEN) {
-				d3d::getInstance().setFullScreen(true);
+				d3d::getInstance().setFullScreen();
 			}
 			if (msg.message == WM_QUIT) {
 				return false;
@@ -126,7 +127,7 @@ namespace Moo
 	void	Window::display()
 	{
 		d3d::getInstance().display();
-		_fps.reset(_fpsLimit);
+		Fps::getInstance().reset(_fpsLimit);
 	}
 
 	void	Window::setFpsLimit(float limit)
@@ -136,6 +137,6 @@ namespace Moo
 
 	float	Window::getFps()
 	{
-		return 1.0f / _fps.getFrameTime();
+		return 1.0f / Fps::getInstance().getFrameTime();
 	}
 }

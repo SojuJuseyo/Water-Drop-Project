@@ -76,6 +76,8 @@ namespace Moo
 		float halfWidth = (float)_width / 2.0f;
 		float halfHeight = (float)_height / 2.0f;
 
+		//XMMATRIX text = DirectX::XMMatrixScaling(0.5 * 1.0f, 1.0f, 1.0f);
+
 		VERTEX testing[] =
 		{
 			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(1.0f, 0.0f) },
