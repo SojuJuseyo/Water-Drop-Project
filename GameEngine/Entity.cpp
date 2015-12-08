@@ -59,4 +59,22 @@ namespace Moo
 	{
 		return _hitbox;
 	}
+
+	HitZone Entity::collisionAABB(Entity *entity)
+	{
+		Hitbox A = this->getHitbox();
+		Hitbox B = entity->getHitbox();
+		float CollideHeightOfB = (B.y1 - B.y2) / 6;
+
+		if (A.y2 < B.y1 && A.y2 > B.y2 && (B.y1 - A.y2 < CollideHeightOfB) && ((A.x1 <= B.x2 && A.x1 >= B.x1) || (A.x2 <= B.x2 && A.x2 >= B.x1)))
+			return HitZone::BOTTOM;
+		if (A.y1 > B.y2 && A.y1 < B.y1 && (A.y1 - B.y2 < CollideHeightOfB) && ((A.x1 <= B.x2 && A.x1 >= B.x1) || (A.x2 <= B.x2 && A.x2 >= B.x1)))
+			return HitZone::TOP;
+		if (A.x2 < B.x2 && A.x2 > B.x1 && ((A.y1 > B.y2 && A.y1 < B.y1) || (A.y2 < B.y1 && A.y2 > B.y2) || (A.y1 > B.y1 && A.y2 < B.y2) || (A.y1 < B.y1 && A.y2 > B.y2)))
+			return HitZone::RIGHT_SIDE;
+		if (A.x1 < B.x2 && A.x1 > B.x1 && ((A.y1 > B.y2 && A.y1 < B.y1) || (A.y2 < B.y1 && A.y2 > B.y2) || (A.y1 > B.y1 && A.y2 < B.y2) || (A.y1 < B.y1 && A.y2 > B.y2)))
+			return HitZone::LEFT_SIDE;
+
+		return (HitZone::NONE);
+	}
 }

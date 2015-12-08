@@ -1,6 +1,7 @@
 {
   "name": "test",
   "size": "16/12",
+  "audio": null,
   "tileList": {
     "#FFF93738": [
       {
@@ -68,6 +69,16 @@
       {
         "coordx": 1,
         "coordy": 9
+      }
+    ],
+    "#FF000000": [
+      {
+        "coordx": 13,
+        "coordy": 3
+      },
+      {
+        "coordx": 7,
+        "coordy": 7
       }
     ],
     "#FF117050": [
@@ -198,16 +209,6 @@
       {
         "coordx": 15,
         "coordy": 1
-      }
-    ],
-    "#FF000000": [
-      {
-        "coordx": 13,
-        "coordy": 3
-      },
-      {
-        "coordx": 7,
-        "coordy": 7
       }
     ]
   }

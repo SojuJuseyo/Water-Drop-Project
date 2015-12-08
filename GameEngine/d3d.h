@@ -41,6 +41,11 @@ namespace Moo
 
 		}
 
+		d3d::~d3d()
+		{
+			release();
+		}
+
 		void d3d::init(HWND hWnd, Vector2f screenSize)
 		{
 			// create a struct to hold information about the swap chain
@@ -141,49 +146,21 @@ namespace Moo
 			return _screenSize;
 		}
 
-		void	d3d::initPipeline()
-		{
-			// load and compile the two shaders
-			ID3D10Blob *VS, *PS;
-
-			D3DX11CompileFromFile("shaders.shader", 0, 0, "VShader", "vs_4_0", 0, 0, 0, &VS, 0, 0);
-			D3DX11CompileFromFile("shaders.shader", 0, 0, "PShader", "ps_4_0", 0, 0, 0, &PS, 0, 0);
-
-			// encapsulate both shaders into shader objects
-			dev->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS);
-			dev->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS);
-
-			// set the shader objects
-			devcon->VSSetShader(pVS, 0, 0);
-			devcon->PSSetShader(pPS, 0, 0);
-
-			// create the input layout object
-			D3D11_INPUT_ELEMENT_DESC ied[] =
-			{
-				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-				{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-				{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			};
-
-			dev->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(), &pLayout);
-			devcon->IASetInputLayout(pLayout);
-		}
-
-		d3d::~d3d()
-		{
-
-		}
-
 		void d3d::release()
 		{
-			swapchain->SetFullscreenState(FALSE, NULL);
-			swapchain->Release();
-			//pPS->Release();
-			//pVS->Release();
-			//pLayout->Release();
-			backbuffer->Release();
-			devcon->Release();
-			dev->Release();
+			if (swapchain != nullptr) {
+				swapchain->SetFullscreenState(FALSE, NULL);
+				swapchain->Release();
+			}
+			if (backbuffer != nullptr) {
+				backbuffer->Release();
+			}
+			if (devcon != nullptr) {
+				devcon->Release();
+			}
+			if (dev != nullptr) {
+				dev->Release();
+			}
 		}
 
 		void d3d::display()
@@ -226,8 +203,6 @@ namespace Moo
 		IDXGISwapChain *swapchain;
 		ID3D11RenderTargetView *backbuffer;
 		ID3D11InputLayout *pLayout;
-		ID3D11VertexShader *pVS;
-		ID3D11PixelShader *pPS;
 		Vector2f _screenSize;
 		Camera *_camera;
 	};

@@ -14,6 +14,7 @@ private:
 	std::string mapName;
 	float mapWidth;
 	float mapHeight;
+	std::string mapAudioFile;
 	std::list<std::pair<std::string,std::list<Tile *>>> mapTileList;
 
 public:
@@ -34,6 +35,9 @@ public:
 
 	void setMapHeight(float);
 	float getMapHeight() const;
+
+	void setMapAudioFile(std::string);
+	std::string getMapAudioFile() const;
 
 	void setMapTileList(std::list<std::pair<std::string, std::list<Tile *>>>);
 	std::list<std::pair<std::string, std::list<Tile *>>> getMapTileList() const;

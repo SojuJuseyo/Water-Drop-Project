@@ -9,6 +9,7 @@
 #define MAPNAMEATTRIBUTE "name"
 #define MAPSIZEATTRIBUTE "size"
 #define MAPTILELISTATTRIBUTE "tileList"
+#define MAPAUDIOATTRIBUTE "audio"
 #define MAPCOORDX "coordx"
 #define MAPCOORDY "coordy"
 

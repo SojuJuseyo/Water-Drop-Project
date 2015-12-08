@@ -7,27 +7,19 @@
 
 namespace Moo
 {
-	class Character : public Entity
+	class Bullet : public Entity
 	{
 	public:
-		Character(Vector2f, float, Sprite *, bool);
-		virtual ~Character();
+		Bullet(Sprite *, bool);
+		virtual ~Bullet();
 		void	move(Direction);
-		void	jump();
-		void	update();
-		void	resetPos();
-		Hitbox	resetHitbox();
+		Hitbox  resetHitbox();
 		HitZone	collisionAABB(Entity *entity);
 		Sprite	*getSprite() const;
 		Sprite  *getHitboxSprite() const;
-		void	setHealth(int);
-		int		getHealth() const;
 
 	private:
 		Sprite *_sprite;
 		Sprite *_hitboxSprite;
-
-		// Health points
-		int		_health;
 	};
 }

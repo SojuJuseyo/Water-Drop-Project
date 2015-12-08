@@ -4,6 +4,21 @@
 #define	GRAVITY	200
 #define	JUMP_VELOCITY	750
 
+enum HitZone
+{
+	TOP,
+	BOTTOM,
+	LEFT_SIDE,
+	RIGHT_SIDE,
+	NONE
+};
+
+enum Direction
+{
+	LEFT,
+	RIGHT
+};
+
 namespace Moo
 {
 	typedef struct Hitbox
@@ -33,6 +48,7 @@ namespace Moo
 		Hitbox		getHitbox() const;
 		bool		getGravity() const;
 		bool		isCollidable() const;
+		HitZone		collisionAABB(Entity *entity);
 
 	protected:
 		Vector2f	_velocity;

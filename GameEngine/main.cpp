@@ -9,13 +9,14 @@
 #include "Sprite.h"
 #include "Text.h"
 #include "JsonParser.h"
+#include "Bullet.h"
 
 #include <vector>
 
-static std::vector<std::pair<std::string, Moo::Character *>>	getEntitiesFromMap(JsonParser *map)
+static std::vector<std::pair<std::string, Moo::Entity *>>	getEntitiesFromMap(JsonParser *map)
 {
 	//List of entities of the game
-	std::vector<std::pair<std::string, Moo::Character *>> entities;
+	std::vector<std::pair<std::string, Moo::Entity *>> entities;
 
 	Moo::Texture *marioText = new Moo::Texture;
 	marioText->loadFromFile("mario.dds");
@@ -96,14 +97,14 @@ static std::vector<std::pair<std::string, Moo::Character *>>	getEntitiesFromMap(
 	}
 
 	// release Textures
-	marioText->release();
-	platformText->release();
-	groundText->~Texture();
+	//marioText->release();
+	//platformText->release();
+	//groundText->~Texture();
 
 	return (entities);
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) 
 {
 	//To display std::cout output
 	FILE * pConsole;
@@ -119,13 +120,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Moo::Texture *backgroundText = new Moo::Texture;
 	backgroundText->loadFromFile("background.dds");
 
-	//We get the map
-	JsonParser *map = new JsonParser("2d-Maps/test.json");
-	map->parseFile();
-	//map->getMap().displayMapInfos();
+	std::vector<std::pair<std::string, Moo::Entity *>> entities;
+	try
+	{
+		//We get the map
+		JsonParser *map = new JsonParser("2d-Maps/test.json");
 
-	//Read the entities from the map
-	std::vector<std::pair<std::string, Moo::Character *>> entities = getEntitiesFromMap(map);
+		if (map->parseFile() == -1)
+			throw std::string("Can't load the map");
+		//map->getMap().displayMapInfos();
+	
+		//Read the entities from the map
+		entities = getEntitiesFromMap(map);
+	}
+	catch (std::string error)
+	{
+		std::cout << "Error: " << error << std::endl;
+	}
 	
 	//background
 	Moo::Sprite *background = new Moo::Sprite(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
@@ -136,7 +147,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//60 FPS master race
 	window.setFpsLimit(FPS_LIMIT);
 
-	Moo::Character *player = entities[0].second;
+	Moo::Character *player = (Moo::Character *)entities[0].second;
+
+	//Bullet pool
+	std::vector<Moo::Bullet *> bulletPool;
+	// Temp texture for the bullet
+	Moo::Texture *bulletText = new Moo::Texture;
+	bulletText->loadFromFile("platform.dds");
 
 	while (window.isOpen())
 	{
@@ -148,10 +165,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			player->jump();
 		else if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
 			Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
+		else if (Moo::Keyboard::isPressed(Moo::Keyboard::Shot))
+		{
+			// Define the base pos of the bullet and create the sprite
+			float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
+			float bulletPosY = player->getSprite()->getY() + (player->getSprite()->getHeight() / 2);
+			Moo::Sprite *bulletSprite = new Moo::Sprite(5, 5, bulletPosX, bulletPosY);
+
+			bulletSprite->loadTexture(bulletText);
+
+			// Creation of the bullet
+			Moo::Bullet *bullet = new Moo::Bullet(bulletSprite, false);
+			bullet->setCollision(true);
+
+			// Addition of the bullet to the bullet pool
+			bulletPool.push_back(bullet);
+			// Debug message
+			std::cout << "La taille de la bulletPool est de : " << bulletPool.size() << std::endl;
+
+			int currentHealth = player->getHealth();
+			player->setHealth(currentHealth - 1);
+
+			std::cout << "Player health : " << player->getHealth() << std::endl;
+		}
 
 		for (unsigned int i = 0; i < entities.size(); ++i)
 			if (entities[i].second->getGravity() == true)
-				entities[i].second->update();
+				((Moo::Character *)entities[i].second)->update();
 
 		bool eraseCollider;
 		for (unsigned int i = 1; i < entities.size(); ++i)
@@ -212,17 +252,41 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					entities.erase(entities.begin() + i);
 			}
 		}
+
 		window.clear();
 		window.draw(background);
+
 		for (unsigned int i = 0; i < entities.size(); ++i)
 		{
-			window.draw(entities[i].second->getSprite());
-			window.draw(entities[i].second->getHitboxSprite());
+			window.draw(((Moo::Character *)entities[i].second)->getSprite());
+			window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
 			if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
-				entities[i].second->getSprite()->rotate(1);
+				((Moo::Character *)entities[i].second)->getSprite()->rotate(1);
 		}
-		text->setText(std::to_string(window.getFps()));
-		window.draw(text);
+
+		for (unsigned int i = 0; i < bulletPool.size(); ++i)
+		{
+			Moo::Bullet *bullet = bulletPool[i];
+			bullet->move(Direction::RIGHT);
+			
+			for (unsigned int j = 1; j < entities.size(); ++j)
+				if ((tmp = bullet->collisionAABB(entities[j].second)) != HitZone::NONE && entities[j].second->isCollidable())
+				{
+					bulletPool.erase(bulletPool.begin() + i);
+					if (_strnicmp(entities[j].first.c_str(), "Enemy", 5) == 0)
+					{
+						Moo::Character *enemy = (Moo::Character *)entities[j].second;
+						((Moo::Character *)entities[j].second)->setHealth(enemy->getHealth() + 1);
+						std::cout << "Enemy health : " << ((Moo::Character *)entities[j].second)->getHealth() << std::endl;
+					}
+				}
+
+			window.draw(bullet->getSprite());
+			window.draw(bullet->getHitboxSprite());
+		}
+
+		//text->setText(std::to_string(window.getFps()));
+		//window.draw(text);
 		window.display();
 	}
 

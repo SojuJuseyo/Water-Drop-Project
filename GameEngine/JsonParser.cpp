@@ -34,6 +34,8 @@ int JsonParser::parseFile()
 	// Parse the size string (format : X/Y) and split it in two integers
 	this->parseMapSize(jsonObject[MAPSIZEATTRIBUTE].asString());
 
+	this->map.setMapAudioFile(jsonObject[MAPAUDIOATTRIBUTE].asString());
+
 	tileListObject = jsonObject[MAPTILELISTATTRIBUTE];
 	// Get a vector of color used
 	std::vector<std::string> colorsUsed = tileListObject.getMemberNames();
@@ -72,7 +74,7 @@ int JsonParser::parseFile()
 bool JsonParser::checkFieldNamesExistence(Json::Value jsonObject)
 {
 	std::vector<std::string> fieldNames = jsonObject.getMemberNames();
-	std::vector<std::string> defineFieldNames = { MAPNAMEATTRIBUTE, MAPSIZEATTRIBUTE, MAPTILELISTATTRIBUTE };
+	std::vector<std::string> defineFieldNames = { MAPNAMEATTRIBUTE, MAPSIZEATTRIBUTE, MAPTILELISTATTRIBUTE, MAPAUDIOATTRIBUTE };
 
 	std::sort(fieldNames.begin(), fieldNames.end());
 	std::sort(defineFieldNames.begin(), defineFieldNames.end());

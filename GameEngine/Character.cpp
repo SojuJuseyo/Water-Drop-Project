@@ -14,6 +14,8 @@ namespace Moo
 		Moo::Texture *hitbox = new Moo::Texture;
 		hitbox->loadFromFile("hitbox.dds");
 		_hitboxSprite->loadTexture(hitbox);
+
+		this->_health = 10;
 	}
 
 	Character::~Character()
@@ -29,6 +31,12 @@ namespace Moo
 		_hitbox.y2 = this->_sprite->getY();
 
 		return _hitbox;
+	}
+
+	HitZone		Character::collisionAABB(Entity *entity)
+	{
+		this->resetHitbox();
+		return (Entity::collisionAABB(entity));
 	}
 
 	void	Character::move(Direction direction)
@@ -67,24 +75,6 @@ namespace Moo
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);
 	}
 
-	HitZone Character::collisionAABB(Entity *entity)
-	{
-		Hitbox A = this->resetHitbox();
-		Hitbox B = entity->getHitbox();
-		float CollideHeightOfB = (B.y1 - B.y2) / 6;
-		
-		if (A.y2 < B.y1 && A.y2 > B.y2 && (B.y1 - A.y2 < CollideHeightOfB) && ((A.x1 <= B.x2 && A.x1 >= B.x1) || (A.x2 <= B.x2 && A.x2 >= B.x1)))
-			return HitZone::BOTTOM;
-		if (A.y1 > B.y2 && A.y1 < B.y1 && (A.y1 - B.y2 < CollideHeightOfB) && ((A.x1 <= B.x2 && A.x1 >= B.x1) || (A.x2 <= B.x2 && A.x2 >= B.x1)))
-			return HitZone::TOP;
-		if (A.x2 < B.x2 && A.x2 > B.x1 && ((A.y2 < B.y1 && A.y2 > B.y2) || (A.y1 < B.y2 && A.y1 > B.y1)))// || (A.y1 > B.y1 && A.y2 < B.y2))
-			return HitZone::RIGHT_SIDE;
-		if (A.x1 < B.x2 && A.x1 > B.x1 && ((A.y2 > B.y1 && A.y2 < B.y2) || (A.y1 > B.y2 && A.y1 < B.y1)))// || (A.y1 > B.y1 && A.y2 < B.y2))
-			return HitZone::LEFT_SIDE;
-
-		return (HitZone::NONE);
-	}
-
 	Sprite	*Character::getSprite() const
 	{
 		return _sprite;
@@ -95,5 +85,15 @@ namespace Moo
 		_hitboxSprite->setPosition(_hitbox.x1, _hitbox.y2);
 
 		return _hitboxSprite;
+	}
+
+	void Character::setHealth(int _health)
+	{
+		this->_health = _health;
+	}
+
+	int	Character::getHealth() const
+	{
+		return (_health);
 	}
 }
