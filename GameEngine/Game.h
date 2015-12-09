@@ -4,6 +4,7 @@
 #include "Keyboard.h"
 #include "Scene.h"
 #include "LevelScene.h"
+#include "Menu.h"
 
 namespace Moo
 {

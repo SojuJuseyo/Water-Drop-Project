@@ -14,8 +14,10 @@ namespace Moo
 			Right = VK_RIGHT,
 			Space = VK_SPACE,
 			Up = VK_UP,
+			Down = VK_DOWN,
 			Shot = 'F',
 			A = 'A',
+			Enter = VK_RETURN,
 		};
 		static Keyboard& getInstance()
 		{
