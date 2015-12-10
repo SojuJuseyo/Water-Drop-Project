@@ -130,9 +130,6 @@ namespace Moo
 			std::cout << "audio failed" << std::endl;
 		}
 		Moo::Sound music;
-		if (!music.loadSound("music.wav")) {
-			std::cout << "music failed" << std::endl;
-		}
 		Moo::Sound jump;
 		if (!jump.loadSound("jump.wav")) {
 			std::cout << "jump sound failed" << std::endl;
@@ -152,6 +149,10 @@ namespace Moo
 			if (map->parseFile() == -1)
 				throw std::string("Can't load the map");
 			//map->getMap().displayMapInfos();
+
+			if (!music.loadSound(map->getMap().getMapAudioFile())) {
+				std::cout << "music failed" << std::endl;
+			}
 
 			//Read the entities from the map
 			entities = getEntitiesFromMap(map);

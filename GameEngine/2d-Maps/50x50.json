@@ -1,7 +1,7 @@
 {
   "name": "50x50",
   "size": "30/30",
-  "audio": null,
+  "audio": "music.wav",
   "tileList": {
     "#FFF93738": [
       {
@@ -573,7 +573,24 @@
         "coordy": 3
       }
     ],
-    "#00000000": [],
+    "#FFFFD700": [
+      {
+        "coordx": 26,
+        "coordy": 1
+      },
+      {
+        "coordx": 27,
+        "coordy": 1
+      },
+      {
+        "coordx": 26,
+        "coordy": 2
+      },
+      {
+        "coordx": 27,
+        "coordy": 2
+      }
+    ],
     "#FF117050": [
       {
         "coordx": 0,
@@ -694,24 +711,6 @@
       {
         "coordx": 29,
         "coordy": 0
-      }
-    ],
-    "#FFFFD700": [
-      {
-        "coordx": 26,
-        "coordy": 1
-      },
-      {
-        "coordx": 27,
-        "coordy": 1
-      },
-      {
-        "coordx": 26,
-        "coordy": 2
-      },
-      {
-        "coordx": 27,
-        "coordy": 2
       }
     ]
   }
