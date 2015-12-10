@@ -4,7 +4,8 @@ namespace Moo
 {
 	Game::Game()
 	{
-		LevelScene *scene = new LevelScene;
+		Menu *scene = new Menu;
+		//LevelScene *scene = new LevelScene;
 		setScene(scene);
 	}
 
