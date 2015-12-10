@@ -205,7 +205,7 @@ namespace Moo
 			}
 
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Space)) {
-				audio.playSound(jump, false);
+				//audio.playSound(jump, false);
 				player->jump();
 			}
 			if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
@@ -254,8 +254,7 @@ namespace Moo
 			{
 				eraseCollider = false;
 				player->setGravity(true);
-				while ((tmp = player->collisionAABB(entities[i].second)) != HitZone::NONE
-					&& entities[i].second->isCollidable())
+				while (entities[i].second->isCollidable() && ((tmp = player->collisionAABB(entities[i].second)) != HitZone::NONE))
 				{
 					//If we collide with an enemy : Absorb him
 					if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
@@ -298,24 +297,28 @@ namespace Moo
 						}
 						else
 						{
-							if (tmp == HitZone::RIGHT_SIDE)
-							{
-								//std::cout << "RIGHT_SIDE";
-								player->getSprite()->setX(entities[i].second->getHitbox().x1 - player->getSprite()->getWidth());
-							}
-							else
+							if (tmp == HitZone::LEFT_SIDE)
 							{
 								//std::cout << "LEFT_SIDE";
 								player->getSprite()->setX(entities[i].second->getHitbox().x2);
+							}
+							else
+							{
+								//std::cout << "RIGHT_SIDE";
+								player->getSprite()->setX(entities[i].second->getHitbox().x1 - player->getSprite()->getWidth());
 							}
 						}
 						//std::cout << std::endl;
 					}
 					Moo::Hitbox collider = entities[i].second->getHitbox();
-					//std::cout << "Collider : [x1] " << collider.x1 << " && " << collider.y1 << " [y1] - [x2] " << collider.x2 << " && " << collider.y2 << " [y2]" << std::endl;
-					//std::cout << "Character before : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
+					if (tmp == HitZone::LEFT_SIDE || tmp == HitZone::RIGHT_SIDE)
+					{
+						std::cout << "Collider : [x1] " << collider.x1 << " && " << collider.y1 << " [y1] - [x2] " << collider.x2 << " && " << collider.y2 << " [y2]" << std::endl;
+						std::cout << "Character before : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
+					}
 					player->resetHitbox();
-					//std::cout << "Character after : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
+					if (tmp == HitZone::LEFT_SIDE || tmp == HitZone::RIGHT_SIDE)
+						std::cout << "Character after : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
 					if (eraseCollider == true)
 						entities.erase(entities.begin() + i);
 				}

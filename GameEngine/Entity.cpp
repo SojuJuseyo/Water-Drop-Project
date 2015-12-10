@@ -65,16 +65,35 @@ namespace Moo
 		Hitbox A = this->getHitbox();
 		Hitbox B = entity->getHitbox();
 		float CollideHeightOfB = (B.y1 - B.y2) / 6;
+		float CollideWidthOfB = (B.x2 - B.x1) / 8;
 
-		if (A.y2 < B.y1 && A.y2 > B.y2 && (B.y1 - A.y2 < CollideHeightOfB) && ((A.x1 <= B.x2 && A.x1 >= B.x1) || (A.x2 <= B.x2 && A.x2 >= B.x1)))
-			return HitZone::BOTTOM;
-		if (A.y1 > B.y2 && A.y1 < B.y1 && (A.y1 - B.y2 < CollideHeightOfB) && ((A.x1 <= B.x2 && A.x1 >= B.x1) || (A.x2 <= B.x2 && A.x2 >= B.x1)))
-			return HitZone::TOP;
-		if (A.x2 < B.x2 && A.x2 > B.x1 && ((A.y1 > B.y2 && A.y1 < B.y1) || (A.y2 < B.y1 && A.y2 > B.y2) || (A.y1 > B.y1 && A.y2 < B.y2) || (A.y1 < B.y1 && A.y2 > B.y2)))
-			return HitZone::RIGHT_SIDE;
-		if (A.x1 < B.x2 && A.x1 > B.x1 && ((A.y1 > B.y2 && A.y1 < B.y1) || (A.y2 < B.y1 && A.y2 > B.y2) || (A.y1 > B.y1 && A.y2 < B.y2) || (A.y1 < B.y1 && A.y2 > B.y2)))
-			return HitZone::LEFT_SIDE;
+		//Check collision on Y
+		if ((A.x1 <= B.x2 && A.x1 >= B.x1 && (B.x2 - A.x1 >= CollideWidthOfB)) ||	//We have to be colliding also with more than CollideWidthOfB on the left
+			(A.x2 <= B.x2 && A.x2 >= B.x1 && (A.x2 - B.x1 >= CollideWidthOfB)) ||  //Or on the right
+			(A.x1 < B.x1 && A.x2 > B.x2) ||										//Or to be bigger (width) than the collider 
+			(A.x1 > B.x1 && A.x2 < B.x2) ||										//Or to be smaller (width) than the collider
+			(A.x1 == B.x1 && A.x2 == B.x2))										//Or to be on the exact same X
+		{
+			if (A.y1 > B.y2 && A.y1 < B.y1 && (A.y1 - B.y2 <= CollideHeightOfB)) //Collison with top & the depth of the collision is less than CollideHeightOfB
+				return HitZone::TOP;
+			if (A.y2 < B.y1 && A.y2 > B.y2 && (B.y1 - A.y2 <= CollideHeightOfB)) //Collison with top & the depth of the collision is less than CollideHeightOfB
+				return HitZone::BOTTOM;
+		}
+		
+		//Check a collision on X
+		if ((A.y1 > B.y2 && A.y1 < B.y1 && (A.y1 - B.y2 > CollideHeightOfB)) ||		//We have to be colliding with the top
+			(A.y2 < B.y1 && A.y2 > B.y2 && (B.y1 - A.y2 > CollideHeightOfB)) ||		//Or with the bottom
+			(A.y1 > B.y1 && A.y2 < B.y2) ||		//Or to be bigger than the collider
+			(A.y1 < B.y1 && A.y2 > B.y2) ||		//Or to be smaller than the collider
+			(A.y1 == B.y1 && A.y2 == B.y2))		//Or to be on the exact same Y
+		{
+			if (A.x1 < B.x2 && A.x1 > B.x1)     //Collision with the left side
+				return HitZone::LEFT_SIDE;
+			if (A.x2 < B.x2 && A.x2 > B.x1)     //Collision with the right side
+				return HitZone::RIGHT_SIDE;
+		}
 
+		//We didn't find any collision
 		return (HitZone::NONE);
 	}
 }

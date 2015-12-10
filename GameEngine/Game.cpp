@@ -4,9 +4,9 @@ namespace Moo
 {
 	Game::Game()
 	{
-		Menu *scene = new Menu;
-		//LevelScene *scene = new LevelScene;
-		setScene(scene);
+		_menu = new Menu;
+		_level = new LevelScene;
+		_scene = _menu;
 	}
 
 	Game::~Game()
@@ -18,19 +18,27 @@ namespace Moo
 
 	void Game::setScene(Scene *scene)
 	{
-		if (_scene != nullptr) {
-			delete(_scene);
-		}
+		std::cout << "slt" << std::endl;
+		//if (_scene != nullptr) {
+		//	delete(_scene);
+		//}
+		_scene = nullptr;
 		_scene = scene;
+	}
+	
+	bool Game::runScene(Scene *scene, Window &window)
+	{
+		bool state = true;
+
+		while (state) {
+			state = scene->run(window);
+		}
+		scene->clean();
+		return state;
 	}
 
 	bool Game::run(Window &window)
 	{
-		bool state = true;
-		while (state) {
-			state = _scene->run(window);
-		}
-		window.destroy();
-		return true;
+		return runScene(new Menu, window);
 	}
 }
