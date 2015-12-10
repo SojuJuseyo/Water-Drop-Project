@@ -34,13 +34,14 @@ namespace Moo
 		std::list<Tile *> platformTiles = map->getMap().getTilesFromColor("#fff93738"); //red
 		std::list<Tile *> bottomTiles = map->getMap().getTilesFromColor("#ff117050"); //green
 		std::list<Tile *> enemyTiles = map->getMap().getTilesFromColor("#ff000000"); //black
+		std::list<Tile *> exitTiles = map->getMap().getTilesFromColor("#ffffd700"); //gold
 
-																					 //Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
-		float multHeight = WINDOW_HEIGHT / map->getMap().getMapHeight();
+		//Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
+		/*float multHeight = WINDOW_HEIGHT / map->getMap().getMapHeight();
 		float multWidth = WINDOW_WIDTH / map->getMap().getMapWidth();
 
 		std::cout << "multHeight: " << multHeight << std::endl;
-		std::cout << "multWidth: " << multWidth << std::endl;
+		std::cout << "multWidth: " << multWidth << std::endl;*/
 
 		//counter
 		int i = 1;
@@ -58,7 +59,7 @@ namespace Moo
 		//Enemies
 		for (std::list<Tile *>::const_iterator it = enemyTiles.begin(); it != enemyTiles.end(); ++it)
 		{
-			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * multWidth, (*it)->getPosY() * multHeight);
+			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * 60, (*it)->getPosY() * 60);
 			enemySprite->loadTexture(marioText);
 			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, false);
 			enemy->setCollision(true);
@@ -72,7 +73,7 @@ namespace Moo
 		//platforms
 		for (std::list<Tile *>::const_iterator it = platformTiles.begin(); it != platformTiles.end(); ++it)
 		{
-			Moo::Sprite *platform = new Moo::Sprite(multWidth, multHeight, (*it)->getPosX() * multWidth, (*it)->getPosY() * multHeight);
+			Moo::Sprite *platform = new Moo::Sprite(60, 60, (*it)->getPosX() * 60, (*it)->getPosY() * 60);
 			platform->loadTexture(platformText);
 			Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false);
 			entities.push_back(std::make_pair("Platform " + std::to_string(i), platformEntity));
@@ -82,9 +83,19 @@ namespace Moo
 		//bottom
 		for (std::list<Tile *>::const_iterator it = bottomTiles.begin(); it != bottomTiles.end(); ++it)
 		{
-			Moo::Sprite *ground = new Moo::Sprite(multWidth, multHeight, (*it)->getPosX() * multWidth, (*it)->getPosY() * multHeight);
+			Moo::Sprite *ground = new Moo::Sprite(60, 60, (*it)->getPosX() * 60, (*it)->getPosY() * 60);
 			ground->loadTexture(groundText);
 			entities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false)));
+		}
+
+		//exit
+		for (std::list<Tile *>::const_iterator it = exitTiles.begin(); it != exitTiles.end(); ++it)
+		{
+			Moo::Sprite *exit = new Moo::Sprite(60, 60, (*it)->getPosX() * 60, (*it)->getPosY() * 60);
+			exit->loadTexture(platformText);
+			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false);
+			entities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
+			++i;
 		}
 
 		if (playerTiles.size() > 0)
@@ -93,7 +104,7 @@ namespace Moo
 			std::list<Tile *>::const_iterator playerIt = playerTiles.begin();
 
 			//Player
-			Moo::Sprite *mario = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * multWidth, (*playerIt)->getPosY() * multHeight);
+			Moo::Sprite *mario = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 60, (*playerIt)->getPosY() * 60);
 			mario->loadTexture(marioText);
 			Moo::Character *player = new Moo::Character(Moo::Vector2f(5, 0), playerMass, mario, true);
 			//The player is always the first of the entities vector
@@ -120,7 +131,7 @@ namespace Moo
 		try
 		{
 			//We get the map
-			JsonParser *map = new JsonParser("2d-Maps/test.json");
+			JsonParser *map = new JsonParser("2d-Maps/50x50.json");
 
 			if (map->parseFile() == -1)
 				throw std::string("Can't load the map");
@@ -135,7 +146,7 @@ namespace Moo
 		}
 
 		//background
-		Moo::Sprite *background = new Moo::Sprite(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
+		Moo::Sprite *background = new Moo::Sprite(4000, 3000, 0, 0);
 		background->loadTexture(backgroundText);
 
 		HitZone tmp = HitZone::NONE;
@@ -205,6 +216,11 @@ namespace Moo
 						player->getSprite()->scale(Moo::Vector2f(0.5f, 0.5f));
 						player->getHitboxSprite()->setScale(player->getSprite()->getScale());
 						eraseCollider = true;
+					}
+					//If we collide with an Exit
+					else if (_strnicmp(entities[i].first.c_str(), "Exit", 4) == 0)
+					{
+						std::cout << "Exit here" << std::endl;
 					}
 					//If we collide with a wall/platform/bottom
 					else
