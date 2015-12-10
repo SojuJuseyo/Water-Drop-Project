@@ -1,6 +1,8 @@
 #include <al.h>
 #include <alc.h>
 #include <string>
+#include <iostream>
+#include <window.h>
 
 namespace Moo
 {
