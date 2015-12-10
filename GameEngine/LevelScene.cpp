@@ -274,6 +274,9 @@ namespace Moo
 					else if (_strnicmp(entities[i].first.c_str(), "Exit", 4) == 0)
 					{
 						std::cout << "Exit here" << std::endl;
+						auto newscene = new Menu;
+						Game::getInstance().runScene(newscene, window);
+						return true;
 					}
 					//If we collide with a wall/platform/bottom
 					else
@@ -311,14 +314,10 @@ namespace Moo
 						//std::cout << std::endl;
 					}
 					Moo::Hitbox collider = entities[i].second->getHitbox();
-					if (tmp == HitZone::LEFT_SIDE || tmp == HitZone::RIGHT_SIDE)
-					{
-						std::cout << "Collider : [x1] " << collider.x1 << " && " << collider.y1 << " [y1] - [x2] " << collider.x2 << " && " << collider.y2 << " [y2]" << std::endl;
-						std::cout << "Character before : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
-					}
+					//std::cout << "Collider : [x1] " << collider.x1 << " && " << collider.y1 << " [y1] - [x2] " << collider.x2 << " && " << collider.y2 << " [y2]" << std::endl;
+					//std::cout << "Character before : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
 					player->resetHitbox();
-					if (tmp == HitZone::LEFT_SIDE || tmp == HitZone::RIGHT_SIDE)
-						std::cout << "Character after : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
+					//std::cout << "Character after : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
 					if (eraseCollider == true)
 						entities.erase(entities.begin() + i);
 				}
