@@ -13,7 +13,8 @@ namespace Moo
 		float getFrameTime();
 		void reset(float limit);
 		int	getTick();
-		void toggleState();
+		void setState(bool);
+		bool getState();
 
 		static Fps& Fps::getInstance()
 		{

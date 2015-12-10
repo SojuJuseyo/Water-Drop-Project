@@ -1,6 +1,7 @@
 #include <al.h>
 #include <alc.h>
-#include <string>
+#include <windows.h>
+#include <iostream>
 
 namespace Moo
 {
@@ -9,9 +10,11 @@ namespace Moo
 	public:
 		Sound();
 		~Sound();
+		ALuint getSource();
 		bool loadSound(const std::string &);
 
 	private:
-
+		ALuint _source;
+		bool _currentState;
 	};
 }

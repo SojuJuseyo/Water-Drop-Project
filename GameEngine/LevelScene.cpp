@@ -110,6 +110,18 @@ namespace Moo
 
 	bool	LevelScene::run(Moo::Window &window)
 	{
+		Moo::Audio audio;
+		if (!audio.init()) {
+			std::cout << "audio failed" << std::endl;
+		}
+		Moo::Sound music;
+		if (!music.loadSound("music.wav")) {
+			std::cout << "music failed" << std::endl;
+		}
+		Moo::Sound jump;
+		if (!jump.loadSound("jump.wav")) {
+			std::cout << "jump sound failed" << std::endl;
+		}
 		//Text class to display fps counter
 		Moo::Text *text = new Moo::Text("Text", 20, 20, 20, 0);
 
@@ -140,7 +152,7 @@ namespace Moo
 
 		HitZone tmp = HitZone::NONE;
 
-		Moo::Character *player = (Moo::Character *)entities[0].second;
+		Moo::Character *player = dynamic_cast<Moo::Character *>(entities[0].second);
 
 		//Bullet pool
 		std::vector<Moo::Bullet *> bulletPool;
@@ -155,15 +167,24 @@ namespace Moo
 				Moo::Game::getInstance().setScene(newscene);
 				return true;
 			}
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::Space))
+			if (Moo::Keyboard::isPressed(Moo::Keyboard::B)) {
+				audio.playSound(music, true);
+			}
+			if (Moo::Keyboard::isPressed(Moo::Keyboard::C)) {
+				audio.pauseSound(music);
+			}
+
+			if (Moo::Keyboard::isDown(Moo::Keyboard::Space)) {
+				audio.playSound(jump, false);
 				player->jump();
+			}
 			if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
 				player->move(Direction::LEFT);
-			else if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
+			if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
 				player->move(Direction::RIGHT);
-			else if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
+			if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
 				Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
-			else if (Moo::Keyboard::isPressed(Moo::Keyboard::Shot))
+			if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
 			{
 				// Define the base pos of the bullet and create the sprite
 				float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
@@ -239,7 +260,7 @@ namespace Moo
 								player->getSprite()->setX(entities[i].second->getHitbox().x2);
 							}
 						}
-						std::cout << std::endl;
+						//std::cout << std::endl;
 					}
 					Moo::Hitbox collider = entities[i].second->getHitbox();
 					//std::cout << "Collider : [x1] " << collider.x1 << " && " << collider.y1 << " [y1] - [x2] " << collider.x2 << " && " << collider.y2 << " [y2]" << std::endl;

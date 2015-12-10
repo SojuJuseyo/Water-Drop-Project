@@ -5,6 +5,7 @@
 #include "Bullet.h"
 #include "Game.h"
 #include "Character.h"
+#include "Audio.h"
 
 namespace Moo
 {

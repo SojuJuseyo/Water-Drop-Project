@@ -16,16 +16,21 @@ namespace Moo
 			Up = VK_UP,
 			Shot = 'F',
 			A = 'A',
+			B = 'B',
+			C = 'C',
 		};
-		static Keyboard& getInstance()
+
+		static Keyboard& Keyboard::getInstance()
 		{
 			static Keyboard instance;
 			return instance;
 		}
-		void setLastPressed(UINT);
-		UINT getLastPressed();
+		void setLastKey(UINT);
+		UINT getLastKey();
 		static bool isPressed(Keyboard::Key key);
+		void release();
+		static bool isDown(Keyboard::Key key);
 	private:
-		UINT _lastPressed;
+		UINT _lastKey;
 	};
 }

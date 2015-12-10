@@ -8,7 +8,7 @@ namespace Moo
 		_frameTime = 0;
 		_elapsedTime = _timer.getElapsedSeconds();
 		_tick = 0;
-		_state = true;
+		_state = false;
 	}
 
 	Fps::~Fps()
@@ -23,16 +23,19 @@ namespace Moo
 
 	void	Fps::update()
 	{
-		if (_state) {
-			_elapsedTime = _timer.getElapsedSeconds();
-			_frameTime += (_elapsedTime - _lastTime);
-			_lastTime = _elapsedTime;
-		}
+		_elapsedTime = _timer.getElapsedSeconds();
+		_frameTime += (_elapsedTime - _lastTime);
+		_lastTime = _elapsedTime;
 	}
 
-	void	Fps::toggleState()
+	void	Fps::setState(bool state)
 	{
-		_state = !_state;
+		_state = state;
+	}
+
+	bool	Fps::getState()
+	{
+		return _state;
 	}
 
 	float	Fps::getFrameTime()

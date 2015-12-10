@@ -74,7 +74,6 @@ namespace Moo
 		while (Fps::getInstance().getFrameTime() <= 1.0f / _fpsLimit) {
 			Fps::getInstance().update();
 		}
-
 		MSG msg;
 		ZeroMemory(&msg, sizeof(MSG));
 
@@ -82,7 +81,6 @@ namespace Moo
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-			Moo::Keyboard::getInstance().setLastPressed(msg.wParam);
 			if (msg.message == WM_FULLSCREEN) {
 				d3d::getInstance().setFullScreen();
 			}

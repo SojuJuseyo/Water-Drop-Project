@@ -3,14 +3,34 @@
 
 namespace Moo
 {
-	void Keyboard::setLastPressed(UINT lastPressed)
+	bool Keyboard::isDown(Keyboard::Key key)
 	{
-		_lastPressed = lastPressed;
+		if ((Fps::getInstance().getTick() % 10) == 0) {
+			Keyboard::getInstance().release();
+		}
+		if (Keyboard::getInstance().getLastKey() == key) {
+			return false;
+		}
+		if ((GetAsyncKeyState(key)) < 0) {
+			Keyboard::getInstance().setLastKey(key);
+			return true;
+		}
+		return false;
 	}
 
-	UINT Keyboard::getLastPressed()
+	void Keyboard::release()
 	{
-		return _lastPressed;
+		Keyboard::getInstance().setLastKey(0);
+	}
+
+	void Keyboard::setLastKey(UINT lastKey)
+	{
+		_lastKey = lastKey;
+	}
+
+	UINT Keyboard::getLastKey()
+	{
+		return _lastKey;
 	}
 
 	bool Keyboard::isPressed(Keyboard::Key key)
