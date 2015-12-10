@@ -18,6 +18,9 @@ namespace Moo
 			A = 'A',
 			B = 'B',
 			C = 'C',
+			GodMode = 'G',
+			SizeUp = VK_ADD,
+			SizeDown = VK_SUBTRACT,
 		};
 
 		static Keyboard& Keyboard::getInstance()

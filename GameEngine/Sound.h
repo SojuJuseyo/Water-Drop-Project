@@ -2,7 +2,7 @@
 #include <alc.h>
 #include <string>
 #include <iostream>
-#include <window.h>
+#include <Windows.h>
 
 namespace Moo
 {

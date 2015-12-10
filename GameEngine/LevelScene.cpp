@@ -63,6 +63,10 @@ namespace Moo
 			enemySprite->loadTexture(marioText);
 			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, false);
 			enemy->setCollision(true);
+			// To make sure that enemies have less health than us at the beginning
+			enemy->setHealth(4);
+			enemySprite->scale(Moo::Vector2f(-0.1f, -0.1f));
+			enemy->getHitboxSprite()->setScale(enemy->getSprite()->getScale());
 			entities.push_back(std::make_pair("Enemy " + std::to_string(i), enemy));
 			++i;
 		}
@@ -185,6 +189,21 @@ namespace Moo
 				audio.pauseSound(music);
 			}
 
+			//Cheats
+			if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode)) {
+				player->toggleGodMode();
+			}
+			if (Moo::Keyboard::isDown(Moo::Keyboard::SizeUp)) {
+				player->setHealth(player->getHealth() + 1);
+				player->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
+				player->getHitboxSprite()->setScale(player->getSprite()->getScale());
+			}
+			if (Moo::Keyboard::isDown(Moo::Keyboard::SizeDown)) {
+				player->setHealth(player->getHealth() - 1);
+				player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
+				player->getHitboxSprite()->setScale(player->getSprite()->getScale());
+			}
+
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Space)) {
 				audio.playSound(jump, false);
 				player->jump();
@@ -213,9 +232,16 @@ namespace Moo
 				// Debug message
 				//std::cout << "La taille de la bulletPool est de : " << bulletPool.size() << std::endl;
 
-				int currentHealth = player->getHealth();
-				player->setHealth(currentHealth - 1);
-
+				// Check if cheat code is activated.
+				if (player->isGodMode() == false)
+				{
+					int currentHealth = player->getHealth();
+					player->setHealth(currentHealth - 1);
+					if (player->getHealth() <= 0)
+						std::cout << "Dead." << std::endl;
+					player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
+					player->getHitboxSprite()->setScale(player->getSprite()->getScale());
+				}
 				//std::cout << "Player health : " << player->getHealth() << std::endl;
 			}
 
@@ -234,9 +260,16 @@ namespace Moo
 					//If we collide with an enemy : Absorb him
 					if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
 					{
-						player->getSprite()->scale(Moo::Vector2f(0.5f, 0.5f));
-						player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-						eraseCollider = true;
+						Moo::Character *enemyCollided = (Moo::Character *)entities[i].second;
+						if (player->getHealth() > enemyCollided->getHealth() || player->isGodMode() == true)
+						{
+							player->setHealth(player->getHealth() + (enemyCollided->getHealth() * 33 / 100));
+							player->getSprite()->scale(Moo::Vector2f(0.1f * (enemyCollided->getHealth() * 33 / 100), 0.1f * (enemyCollided->getHealth() * 33 / 100)));
+							player->getHitboxSprite()->setScale(player->getSprite()->getScale());
+							eraseCollider = true;
+						}
+						else
+							std::cout << "You dead" << std::endl;
 					}
 					//If we collide with an Exit
 					else if (_strnicmp(entities[i].first.c_str(), "Exit", 4) == 0)
@@ -291,10 +324,14 @@ namespace Moo
 			window.clear();
 			window.draw(background);
 
+			// Display hitbox if godmode is on
+			if (player->isGodMode() == true)
+				window.draw(player->getHitboxSprite());
+
 			for (unsigned int i = 0; i < entities.size(); ++i)
 			{
 				window.draw(((Moo::Character *)entities[i].second)->getSprite());
-				window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
+				//window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
 				if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
 					((Moo::Character *)entities[i].second)->getSprite()->rotate(1);
 			}
@@ -311,7 +348,10 @@ namespace Moo
 						if (_strnicmp(entities[j].first.c_str(), "Enemy", 5) == 0)
 						{
 							Moo::Character *enemy = (Moo::Character *)entities[j].second;
-							((Moo::Character *)entities[j].second)->setHealth(enemy->getHealth() + 1);
+							if (enemy->getHealth() < 10)
+								enemy->setHealth(enemy->getHealth() + 1);
+							enemy->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
+							enemy->getHitboxSprite()->setScale(enemy->getSprite()->getScale());
 							//std::cout << "Enemy health : " << ((Moo::Character *)entities[j].second)->getHealth() << std::endl;
 						}
 					}
