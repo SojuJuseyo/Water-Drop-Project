@@ -34,7 +34,7 @@ namespace Moo
 		Scene *newscene;
 		while (window.isOpen())
 		{
-			if (Moo::Keyboard::isPressed(Keyboard::Enter))
+			if (Moo::Keyboard::isDown(Keyboard::Enter))
 				switch (_offset)
 				{
 					case e_menu::PLAY:
@@ -50,7 +50,7 @@ namespace Moo
 						break;
 				}
 
-			if (Keyboard::isPressed(Keyboard::Up))
+			if (Keyboard::isDown(Keyboard::Up))
 				switch (_offset)
 				{
 					case e_menu::PLAY:
@@ -63,7 +63,7 @@ namespace Moo
 						_offset = e_menu::CONTROLS;
 						break;
 				}
-			else if (Keyboard::isPressed(Keyboard::Down))
+			else if (Keyboard::isDown(Keyboard::Down))
 				switch (_offset)
 				{
 					case e_menu::PLAY:

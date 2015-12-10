@@ -5,7 +5,7 @@ namespace Moo
 {
 	bool Keyboard::isDown(Keyboard::Key key)
 	{
-		if ((Fps::getInstance().getTick() % 10) == 0) {
+		if ((Fps::getInstance().getTick() % 20) == 0) {
 			Keyboard::getInstance().release();
 		}
 		if (Keyboard::getInstance().getLastKey() == key) {
