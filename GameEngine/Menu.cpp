@@ -39,8 +39,8 @@ namespace Moo
 				{
 					case e_menu::PLAY:
 						newscene = new LevelScene;
-						Game::getInstance().setScene(newscene);
-						return (true);
+						Game::getInstance().runScene(newscene, window);
+						return true;
 						break;
 					case e_menu::CONTROLS:
 						return (false);

@@ -22,7 +22,11 @@ namespace Moo
 		bool run(Moo::Window &);
 		void setScene(Scene *);
 
+		bool runScene(Scene * scene, Window & window);
+
 	private:
 		Scene *_scene;
+		Scene *_level;
+		Scene *_menu;
 	};
 }
