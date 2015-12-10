@@ -205,7 +205,6 @@ namespace Moo
 			}
 
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Space)) {
-				//audio.playSound(jump, false);
 				player->jump();
 			}
 			if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
@@ -216,33 +215,36 @@ namespace Moo
 				Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
 			{
-				// Define the base pos of the bullet and create the sprite
-				float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
-				float bulletPosY = player->getSprite()->getY() + (player->getSprite()->getHeight() / 2);
-				Moo::Sprite *bulletSprite = new Moo::Sprite(5, 5, bulletPosX, bulletPosY);
-
-				bulletSprite->loadTexture(bulletText);
-
-				// Creation of the bullet
-				Moo::Bullet *bullet = new Moo::Bullet(bulletSprite, false);
-				bullet->setCollision(true);
-
-				// Addition of the bullet to the bullet pool
-				bulletPool.push_back(bullet);
-				// Debug message
-				//std::cout << "La taille de la bulletPool est de : " << bulletPool.size() << std::endl;
-
-				// Check if cheat code is activated.
-				if (player->isGodMode() == false)
+				if (player->getHealth() > 1)
 				{
-					int currentHealth = player->getHealth();
-					player->setHealth(currentHealth - 1);
-					if (player->getHealth() <= 0)
-						std::cout << "Dead." << std::endl;
-					player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
-					player->getHitboxSprite()->setScale(player->getSprite()->getScale());
+					audio.playSound(jump, false);
+
+					// Define the base pos of the bullet and create the sprite
+					float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
+					float bulletPosY = player->getSprite()->getY() + (player->getSprite()->getHeight() / 2);
+					Moo::Sprite *bulletSprite = new Moo::Sprite(5, 5, bulletPosX, bulletPosY);
+
+					bulletSprite->loadTexture(bulletText);
+
+					// Creation of the bullet
+					Moo::Bullet *bullet = new Moo::Bullet(bulletSprite, false);
+					bullet->setCollision(true);
+
+					// Addition of the bullet to the bullet pool
+					bulletPool.push_back(bullet);
+					// Debug message
+					//std::cout << "La taille de la bulletPool est de : " << bulletPool.size() << std::endl;
+
+					// Check if cheat code is activated.
+					if (player->isGodMode() == false)
+					{
+						int currentHealth = player->getHealth();
+						player->setHealth(currentHealth - 1);
+						player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
+						player->getHitboxSprite()->setScale(player->getSprite()->getScale());
+					}
+					//std::cout << "Player health : " << player->getHealth() << std::endl;
 				}
-				//std::cout << "Player health : " << player->getHealth() << std::endl;
 			}
 
 			for (unsigned int i = 0; i < entities.size(); ++i)
