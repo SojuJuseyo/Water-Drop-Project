@@ -23,11 +23,19 @@ namespace Moo
 		void	setHealth(int);
 		int		getHealth() const;
 
+		// CHEAT
+		bool	isGodMode() const;
+		void	setGodMode(bool);
+		void	toggleGodMode();
+
 	private:
 		Sprite *_sprite;
 		Sprite *_hitboxSprite;
 
 		// Health points
 		int		_health;
+
+		// CHEAT
+		bool	_godMode;
 	};
 }

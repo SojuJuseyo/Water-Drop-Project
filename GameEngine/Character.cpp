@@ -15,7 +15,9 @@ namespace Moo
 		hitbox->loadFromFile("hitbox.dds");
 		_hitboxSprite->loadTexture(hitbox);
 
-		this->_health = 10;
+		this->_health = 5;
+
+		this->_godMode = false;
 	}
 
 	Character::~Character()
@@ -95,5 +97,20 @@ namespace Moo
 	int	Character::getHealth() const
 	{
 		return (_health);
+	}
+
+	void Character::setGodMode(bool _godMode)
+	{
+		this->_godMode = _godMode;
+	}
+
+	void Character::toggleGodMode()
+	{
+		this->_godMode = !this->_godMode;
+	}
+
+	bool Character::isGodMode() const
+	{
+		return (this->_godMode);
 	}
 }
