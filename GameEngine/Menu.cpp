@@ -19,14 +19,35 @@ namespace Moo
 		Sprite *background = new Sprite(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
 		background->loadTexture(backgroundText);
 
-		//buttons
+		//Buttons attributes
+		unsigned int spaceBetweenButtons = 10;
+		unsigned int positionOfButtonsX = WINDOW_WIDTH / 5 * 2.5;
+		unsigned int widthOfButtons = 200;
+		unsigned int heightOfButtons = 75;
+
+		//Buttons
 		Texture *buttonText = new Texture;
 		buttonText->loadFromFile("hitbox.dds");
-		Sprite *button_play = new Sprite(100, 100, WINDOW_WIDTH / 5 * 3, WINDOW_HEIGHT / 4 * 3);
+
+		//Button Play
+		Sprite *button_play = new Sprite(widthOfButtons,
+										 heightOfButtons,
+										 positionOfButtonsX,
+										 WINDOW_HEIGHT / 10 * 6);
 		button_play->loadTexture(buttonText);
-		Sprite *button_controls = new Sprite(100, 100, WINDOW_WIDTH / 5 * 3, WINDOW_HEIGHT / 4 * 2);
+
+		//Button Controls
+		Sprite *button_controls = new Sprite(widthOfButtons,
+											 heightOfButtons,
+											 positionOfButtonsX,
+											 button_play->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Play button
 		button_controls->loadTexture(buttonText);
-		Sprite *button_quit = new Sprite(100, 100, WINDOW_WIDTH / 5 * 3, WINDOW_HEIGHT / 4);
+
+		//Button Quit
+		Sprite *button_quit = new Sprite(widthOfButtons,
+										 heightOfButtons,
+										 positionOfButtonsX,
+										 button_controls->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
 		button_quit->loadTexture(buttonText);
 
 		_offset = e_menu::PLAY;
