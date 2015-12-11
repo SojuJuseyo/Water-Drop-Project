@@ -7,8 +7,8 @@ namespace Moo
 	enum e_menu_pause
 	{
 		RESUME,
-		CONTROLS,
-		QUIT
+		HOW_TO_PLAY,
+		EXIT
 	};
 
 	class MenuPause : public Scene

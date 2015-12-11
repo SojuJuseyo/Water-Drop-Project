@@ -13,9 +13,10 @@ namespace Moo
 
 	bool Menu::run(Moo::Window &window)
 	{
+		std::cout << "Menu" << std::endl;
 		//background
 		Texture *backgroundText = new Texture;
-		backgroundText->loadFromFile("menu_WTP.dds");
+		backgroundText->loadFromFile("Menu_WTP_DDS.dds");
 		Sprite *background = new Sprite(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
 		background->loadTexture(backgroundText);
 

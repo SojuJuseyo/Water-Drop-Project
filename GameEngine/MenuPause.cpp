@@ -20,10 +20,10 @@ namespace Moo
 		background->loadTexture(backgroundText);
 
 		//Buttons attributes
-		unsigned int spaceBetweenButtons = 10;
-		unsigned int positionOfButtonsX = WINDOW_WIDTH / 5 * 2.5;
-		unsigned int widthOfButtons = 200;
-		unsigned int heightOfButtons = 75;
+		float spaceBetweenButtons = 10;
+		float positionOfButtonsX = WINDOW_WIDTH / 5 * 2.5;
+		float widthOfButtons = 200;
+		float heightOfButtons = 75;
 
 		//Buttons
 		Texture *buttonText = new Texture;
@@ -63,10 +63,10 @@ namespace Moo
 					Game::getInstance().runScene(newscene, window);
 					return true;
 					break;
-				case e_menu_pause::CONTROLS:
+				case e_menu_pause::HOW_TO_PLAY:
 					return (false);
 					break;
-				case e_menu_pause::QUIT:
+				case e_menu_pause::EXIT:
 					return (false);
 					break;
 				}
@@ -75,25 +75,25 @@ namespace Moo
 				switch (_offset)
 				{
 				case e_menu_pause::RESUME:
-					_offset = e_menu_pause::QUIT;
+					_offset = e_menu_pause::EXIT;
 					break;
-				case e_menu_pause::CONTROLS:
+				case e_menu_pause::HOW_TO_PLAY:
 					_offset = e_menu_pause::RESUME;
 					break;
-				case e_menu_pause::QUIT:
-					_offset = e_menu_pause::CONTROLS;
+				case e_menu_pause::EXIT:
+					_offset = e_menu_pause::HOW_TO_PLAY;
 					break;
 				}
 			else if (Keyboard::isDown(Keyboard::Down))
 				switch (_offset)
 				{
 				case e_menu_pause::RESUME:
-					_offset = e_menu_pause::CONTROLS;
+					_offset = e_menu_pause::HOW_TO_PLAY;
 					break;
-				case e_menu_pause::CONTROLS:
-					_offset = e_menu_pause::QUIT;
+				case e_menu_pause::HOW_TO_PLAY:
+					_offset = e_menu_pause::EXIT;
 					break;
-				case e_menu_pause::QUIT:
+				case e_menu_pause::EXIT:
 					_offset = e_menu_pause::RESUME;
 					break;
 				}
@@ -106,10 +106,10 @@ namespace Moo
 			case e_menu_pause::RESUME:
 				window.draw(button_resume);
 				break;
-			case e_menu_pause::CONTROLS:
+			case e_menu_pause::HOW_TO_PLAY:
 				window.draw(button_controls);
 				break;
-			case e_menu_pause::QUIT:
+			case e_menu_pause::EXIT:
 				window.draw(button_quit);
 				break;
 			}

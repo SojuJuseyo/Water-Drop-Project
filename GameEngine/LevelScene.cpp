@@ -125,6 +125,7 @@ namespace Moo
 
 	bool	LevelScene::run(Moo::Window &window)
 	{
+		std::cout << "Level" << std::endl;
 		Moo::Audio audio;
 		if (!audio.init()) {
 			std::cout << "audio failed" << std::endl;
@@ -137,8 +138,13 @@ namespace Moo
 		//Text class to display fps counter
 		Moo::Text *text = new Moo::Text("Text", 20, 20, 20, 0);
 
+		//Loading textures
 		Moo::Texture *backgroundText = new Moo::Texture;
 		backgroundText->loadFromFile("background.dds");
+		Moo::Texture *winText = new Moo::Texture;
+		winText->loadFromFile("You_Won_DDS.dds");
+		Moo::Texture *loseText = new Moo::Texture;
+		loseText->loadFromFile("You_Lost_DDS.dds");
 
 		std::vector<std::pair<std::string, Moo::Entity *>> entities;
 		try
@@ -166,6 +172,10 @@ namespace Moo
 		Moo::Sprite *background = new Moo::Sprite(4000, 3000, 0, 0);
 		background->loadTexture(backgroundText);
 
+		//Lose message
+		//Moo::Sprite *background = new Moo::Sprite(4000, 3000, 0, 0);
+		//background->loadTexture(backgroundText);
+
 		HitZone tmp = HitZone::NONE;
 
 		Moo::Character *player = dynamic_cast<Moo::Character *>(entities[0].second);
@@ -175,7 +185,13 @@ namespace Moo
 		// Temp texture for the bullet
 		Moo::Texture *bulletText = new Moo::Texture;
 		bulletText->loadFromFile("platform.dds");
-
+		/*
+		Moo::Sprite *win = new Moo::Sprite(400,
+			133,
+			Moo::d3d::getInstance().getCamera()->getPosition().x + WINDOW_WIDTH / 2 - 200,
+			Moo::d3d::getInstance().getCamera()->getPosition().y + WINDOW_HEIGHT / 2);
+		win->loadTexture(winText);
+		*/
 		while (window.isOpen())
 		{
 			if (Moo::Keyboard::isPressed(Moo::Keyboard::A)) {
@@ -271,12 +287,39 @@ namespace Moo
 							eraseCollider = true;
 						}
 						else
+						{
 							std::cout << "You dead" << std::endl;
+							//Lose message
+							Moo::Sprite *lose = new Moo::Sprite(500,
+															   133,
+															   Moo::d3d::getInstance().getCamera()->getPosition().x + WINDOW_WIDTH / 2 - 250,
+															   Moo::d3d::getInstance().getCamera()->getPosition().y + WINDOW_HEIGHT / 2);
+							lose->loadTexture(loseText);
+							window.draw(lose);
+							window.display();
+
+							Sleep(5000);
+
+							auto newscene = new Menu;
+							Game::getInstance().runScene(newscene, window);
+							return true;
+						}
 					}
 					//If we collide with an Exit
 					else if (_strnicmp(entities[i].first.c_str(), "Exit", 4) == 0)
 					{
 						std::cout << "Exit here" << std::endl;
+						//Win message
+						Moo::Sprite *win = new Moo::Sprite(400,
+														   133,
+														   Moo::d3d::getInstance().getCamera()->getPosition().x + WINDOW_WIDTH / 2 - 200,
+														   Moo::d3d::getInstance().getCamera()->getPosition().y + WINDOW_HEIGHT / 2);
+						win->loadTexture(winText);
+						window.draw(win);
+						window.display();
+
+						Sleep(5000);
+
 						auto newscene = new Menu;
 						Game::getInstance().runScene(newscene, window);
 						return true;
@@ -364,7 +407,7 @@ namespace Moo
 				window.draw(bullet->getSprite());
 				window.draw(bullet->getHitboxSprite());
 			}
-
+			//window.draw(win);
 			//text->setText(std::to_string(window.getFps()));
 			//window.draw(text);
 			window.display();
