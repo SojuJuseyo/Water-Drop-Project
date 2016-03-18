@@ -21,10 +21,10 @@ namespace Moo
 		background->loadTexture(backgroundText);
 
 		//Buttons attributes
-		unsigned int spaceBetweenButtons = 10;
-		unsigned int positionOfButtonsX = WINDOW_WIDTH / 5 * 2.5;
-		unsigned int widthOfButtons = 200;
-		unsigned int heightOfButtons = 75;
+		float spaceBetweenButtons = 10;
+		float positionOfButtonsX = WINDOW_WIDTH / 5 * 2.5;
+		float widthOfButtons = 200;
+		float heightOfButtons = 75;
 
 		//Buttons
 		Texture *buttonText = new Texture;
