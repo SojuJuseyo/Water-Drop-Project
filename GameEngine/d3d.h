@@ -48,24 +48,21 @@ namespace Moo
 
 		void d3d::init(HWND hWnd, Vector2f screenSize)
 		{
-			// create a struct to hold information about the swap chain
 			DXGI_SWAP_CHAIN_DESC scd;
 
-			// clear out the struct for use
 			ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 			_screenSize = screenSize;
-			// fill the swap chain description struct
-			scd.BufferCount = 1;                                    // one back buffer
-			scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit color
-			scd.BufferDesc.Width = (int)_screenSize.x;                    // set the back buffer width
-			scd.BufferDesc.Height = (int)_screenSize.y;                  // set the back buffer height
-			scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
-			scd.OutputWindow = hWnd;                                // the window to be used
-			scd.SampleDesc.Count = 4;                               // how many multisamples
-			scd.Windowed = TRUE;                                    // windowed/full-screen mode
-			//scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;     // allow full-screen switching
 
-											// create a device, device context and swap chain using the information in the scd struct
+			scd.BufferCount = 1;
+			scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			scd.BufferDesc.Width = (int)_screenSize.x;
+			scd.BufferDesc.Height = (int)_screenSize.y;
+			scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+			scd.OutputWindow = hWnd;
+			scd.SampleDesc.Count = 4;
+			scd.Windowed = TRUE;
+			//scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+
 			HRESULT hresult = D3D11CreateDeviceAndSwapChain(NULL,
 				D3D_DRIVER_TYPE_HARDWARE,
 				NULL,
@@ -174,6 +171,11 @@ namespace Moo
 		{
 			_fullscreenstate = !_fullscreenstate;
 			swapchain->SetFullscreenState(_fullscreenstate, NULL);
+		}
+
+		void d3d::setFullScreenState(bool state)
+		{
+			swapchain->SetFullscreenState(state, NULL);
 		}
 
 		void d3d::clearWindow(const float* color)

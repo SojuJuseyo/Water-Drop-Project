@@ -105,6 +105,9 @@
     <ClCompile Include="MenuPause.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ControleScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -197,9 +200,11 @@
     <ClInclude Include="MenuPause.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ControleScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders.shader" />
     <None Include="TextureMap.fx" />
   </ItemGroup>
   <ItemGroup>
@@ -218,5 +223,6 @@
     <Image Include="platform.dds">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Menu_Pause_WTP_DDS.dds" />
   </ItemGroup>
 </Project>

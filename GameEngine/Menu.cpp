@@ -11,113 +11,123 @@ namespace Moo
 	{
 	}
 
-	bool Menu::run(Moo::Window &window)
+	bool Menu::init()
 	{
-		std::cout << "Menu" << std::endl;
+		sound.loadSound("Menu.wav");
+
 		//background
-		Texture *backgroundText = new Texture;
+		backgroundText = new Texture;
 		backgroundText->loadFromFile("Menu_WTP_DDS.dds");
-		Sprite *background = new Sprite(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0);
+		background = new Sprite(d3d::getInstance().getScreenSize().x, d3d::getInstance().getScreenSize().y, 0, 0);
 		background->loadTexture(backgroundText);
 
 		//Buttons attributes
 		float spaceBetweenButtons = 10;
-		float positionOfButtonsX = WINDOW_WIDTH / 5 * 2.5;
+		float positionOfButtonsX = d3d::getInstance().getScreenSize().x / 5.f * 2.5f;
 		float widthOfButtons = 200;
 		float heightOfButtons = 75;
 
 		//Buttons
-		Texture *buttonText = new Texture;
+		buttonText = new Texture;
 		buttonText->loadFromFile("hitbox.dds");
 
 		//Button Play
-		Sprite *button_play = new Sprite(widthOfButtons,
-										 heightOfButtons,
-										 positionOfButtonsX,
-										 WINDOW_HEIGHT / 10 * 6);
+		button_play = new Sprite(widthOfButtons,
+			heightOfButtons,
+			positionOfButtonsX,
+			d3d::getInstance().getScreenSize().y / 10 * 6);
 		button_play->loadTexture(buttonText);
 
 		//Button Controls
-		Sprite *button_controls = new Sprite(widthOfButtons,
-											 heightOfButtons,
-											 positionOfButtonsX,
-											 button_play->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Play button
+		button_controls = new Sprite(widthOfButtons,
+			heightOfButtons,
+			positionOfButtonsX,
+			button_play->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Play button
 		button_controls->loadTexture(buttonText);
 
 		//Button Quit
-		Sprite *button_quit = new Sprite(widthOfButtons,
-										 heightOfButtons,
-										 positionOfButtonsX,
-										 button_controls->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
+		button_quit = new Sprite(widthOfButtons,
+			heightOfButtons,
+			positionOfButtonsX,
+			button_controls->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
 		button_quit->loadTexture(buttonText);
 
 		_offset = e_menu::PLAY;
+		return true;
+	}
 
-		Scene *newscene;
+
+	bool Menu::run(Moo::Window &window)
+	{
 		while (window.isOpen())
 		{
 			if (Moo::Keyboard::isDown(Keyboard::Enter))
 				switch (_offset)
 				{
-					case e_menu::PLAY:
-						newscene = new LevelScene;
-						Game::getInstance().runScene(newscene, window);
-						return true;
-						break;
-					case e_menu::CONTROLS:
-						return (false);
-						break;
-					case e_menu::QUIT:
-						return (false);
-						break;
+				case e_menu::PLAY:
+					Game::getInstance().runScene(TypeScene::LEVEL, TypeScene::MENU, window);
+					return true;
+					break;
+				case e_menu::CONTROLS:
+					Game::getInstance().runScene(TypeScene::CONTROLE, TypeScene::MENU, window);
+					return true;
+					break;
+				case e_menu::QUIT:
+					Game::getInstance().setExit(true);
+					return (false);
+					break;
 				}
 
-			if (Keyboard::isDown(Keyboard::Up))
+			if (Keyboard::isDown(Keyboard::Up)) {
+				Moo::Audio::getInstance().playSound(sound, false);
 				switch (_offset)
 				{
-					case e_menu::PLAY:
-						_offset = e_menu::QUIT;
-						break;
-					case e_menu::CONTROLS:
-						_offset = e_menu::PLAY;
-						break;
-					case e_menu::QUIT:
-						_offset = e_menu::CONTROLS;
-						break;
+				case e_menu::PLAY:
+					_offset = e_menu::QUIT;
+					break;
+				case e_menu::CONTROLS:
+					_offset = e_menu::PLAY;
+					break;
+				case e_menu::QUIT:
+					_offset = e_menu::CONTROLS;
+					break;
 				}
-			else if (Keyboard::isDown(Keyboard::Down))
+			}
+			else if (Keyboard::isDown(Keyboard::Down)) {
+				Moo::Audio::getInstance().playSound(sound, false);
 				switch (_offset)
 				{
-					case e_menu::PLAY:
-						_offset = e_menu::CONTROLS;
-						break;
-					case e_menu::CONTROLS:
-						_offset = e_menu::QUIT;
-						break;
-					case e_menu::QUIT:
-						_offset = e_menu::PLAY;
-						break;
+				case e_menu::PLAY:
+					_offset = e_menu::CONTROLS;
+					break;
+				case e_menu::CONTROLS:
+					_offset = e_menu::QUIT;
+					break;
+				case e_menu::QUIT:
+					_offset = e_menu::PLAY;
+					break;
 				}
+			}
 
 			window.clear();
 			window.draw(background);
 
 			switch (_offset)
 			{
-				case e_menu::PLAY:
-					window.draw(button_play);
-					break;
-				case e_menu::CONTROLS:
-					window.draw(button_controls);
-					break;
-				case e_menu::QUIT:
-					window.draw(button_quit);
-					break;
+			case e_menu::PLAY:
+				window.draw(button_play);
+				break;
+			case e_menu::CONTROLS:
+				window.draw(button_controls);
+				break;
+			case e_menu::QUIT:
+				window.draw(button_quit);
+				break;
 			}
 			window.display();
 		}
 
-		backgroundText->release();
+		//backgroundText->release();
 		return false;
 	}
 

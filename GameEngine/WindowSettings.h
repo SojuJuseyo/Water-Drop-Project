@@ -1,9 +1,8 @@
 #pragma once
 
 #include <string>
+#include "Vector2f.h"
 
-#define	WINDOW_HEIGHT	600
-#define WINDOW_WIDTH	800
 #define FPS_LIMIT		60
 
 namespace Moo
@@ -12,11 +11,13 @@ namespace Moo
 	{
 	public:
 		WindowSettings() { }
-		WindowSettings(const std::string &title);
+		WindowSettings(const std::string &title, const Vector2f &screenSize);
 		~WindowSettings();
-		const std::string &getTitle() { return _title; }
+		const std::string &getTitle() const { return _title; }
+		const Vector2f &getScreenSize() const { return _screenSize; }
 
 	private:
 		std::string	_title;
+		Vector2f	_screenSize;
 	};
 }

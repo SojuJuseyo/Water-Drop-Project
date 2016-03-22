@@ -4,41 +4,81 @@ namespace Moo
 {
 	Game::Game()
 	{
-		_menu = new Menu;
-		_level = new LevelScene;
-		_scene = _menu;
+		menu = new Menu;
+		level = new LevelScene;
+		pause = new MenuPause;
+		controle = new ControleScene;
 	}
 
 	Game::~Game()
 	{
-		if (_scene != nullptr) {
-			delete(_scene);
-		}
+
 	}
 
-	void Game::setScene(Scene *scene)
+	void	Game::initScenes()
 	{
-		std::cout << "slt" << std::endl;
-		//if (_scene != nullptr) {
-		//	delete(_scene);
-		//}
-		_scene = nullptr;
-		_scene = scene;
+		if (!Moo::Audio::getInstance().init()) {
+			std::cout << "audio failed" << std::endl;
+		}
+		menu->init();
+		level->init();
+		pause->init();
+		controle->init();
 	}
-	
-	bool Game::runScene(Scene *scene, Window &window)
+
+	void	Game::setExit(bool value)
+	{
+		_exit = value;
+	}
+
+	bool	Game::runScene(TypeScene type, TypeScene lastType, Window &window)
 	{
 		bool state = true;
-
 		while (state) {
-			state = scene->run(window);
+			Moo::d3d::getInstance().getCamera()->reset();
+			if (_exit) {
+				return false;
+			}
+			switch (type) {
+			case TypeScene::MENU:
+				state = menu->run(window);
+				break;
+			case TypeScene::LEVEL:
+				state = level->run(window);
+				break;
+			case TypeScene::PAUSE:
+				state = pause->run(window);
+				break;
+			case TypeScene::CONTROLE:
+				state = controle->run(window);
+				break;
+			default:
+				state = false;
+				break;
+			}
 		}
-		scene->clean();
+		switch (lastType) {
+		case TypeScene::MENU:
+			state = menu->run(window);
+			break;
+		case TypeScene::LEVEL:
+			state = level->run(window);
+			break;
+		case TypeScene::PAUSE:
+			state = menu->run(window);
+			break;
+		case TypeScene::CONTROLE:
+			state = controle->run(window);
+			break;
+		default:
+			state = false;
+			break;
+		}
 		return state;
 	}
 
 	bool Game::run(Window &window)
 	{
-		return runScene(new Menu, window);
+		return runScene(TypeScene::MENU, TypeScene::EXIT, window);
 	}
 }

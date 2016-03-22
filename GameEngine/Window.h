@@ -16,8 +16,6 @@
 #define WM_LEFT WM_USER + 1
 #define WM_RIGHT WM_USER + 2
 #define WM_CLICK WM_USER + 3
-#define SCREEN_WIDTH  800
-#define SCREEN_HEIGHT 600
 
 namespace Moo
 {

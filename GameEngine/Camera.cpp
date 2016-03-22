@@ -4,11 +4,16 @@ namespace Moo
 {
 	Camera::Camera()
 	{
-		_position = Vector2f(0, 0);
+		reset();
 	}
 
 	Camera::~Camera()
 	{
+	}
+
+	void	Camera::reset()
+	{
+		_position = Vector2f(0, 0);
 	}
 
 	Vector2f Camera::getPosition() const

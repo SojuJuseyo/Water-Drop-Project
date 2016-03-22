@@ -1,6 +1,8 @@
 #pragma once
+
 #include "Scene.h"
 #include "LevelScene.h"
+#include "Audio.h"
 
 namespace Moo
 {
@@ -17,10 +19,18 @@ namespace Moo
 		MenuPause();
 		~MenuPause();
 		bool	run(Moo::Window &);
+		bool	init();
 		void	clean();
 
 	private:
 		e_menu_pause	_offset;
+		Texture *backgroundText;
+		Sprite *background;
+		Texture *buttonText;
+		Sprite *button_resume;
+		Sprite *button_controls;
+		Sprite *button_quit;
+		Sound sound;
 	};
 }
 

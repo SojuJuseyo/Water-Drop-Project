@@ -11,6 +11,7 @@ namespace Moo
 		~Camera();
 		Vector2f getPosition() const;
 		void setPosition(const Vector2f &);
+		void reset();
 		void move(const Vector2f &);
 	private:
 		Vector2f _position;

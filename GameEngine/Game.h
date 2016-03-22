@@ -4,7 +4,13 @@
 #include "Keyboard.h"
 #include "Scene.h"
 #include "LevelScene.h"
+#include "MenuPause.h"
 #include "Menu.h"
+#include "ControleScene.h"
+#include "Audio.h"
+
+#define WINDOW_WIDTH 800.f
+#define WINDOW_HEIGHT 600.f
 
 namespace Moo
 {
@@ -13,20 +19,21 @@ namespace Moo
 	public:
 		Game();
 		~Game();
+		void initScenes();
 		static Game& getInstance()
 		{
 			static Game instance;
 			return instance;
 		}
-
+		void setExit(bool);
 		bool run(Moo::Window &);
-		void setScene(Scene *);
-
-		bool runScene(Scene * scene, Window & window);
+		bool runScene(Moo::TypeScene, Moo::TypeScene, Window &);
 
 	private:
-		Scene *_scene;
-		Scene *_level;
-		Scene *_menu;
+		Scene *menu;
+		Scene *level;
+		Scene *controle;
+		Scene *pause;
+		bool _exit;
 	};
 }
