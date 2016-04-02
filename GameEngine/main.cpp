@@ -7,6 +7,10 @@
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) 
 {
+	FILE * pConsole;
+	AllocConsole();
+	freopen_s(&pConsole, "CONOUT$", "wb", stdout);
+
 	//Getting the game window
 	Moo::Window window(hInstance, Moo::WindowSettings("Water Drop", Moo::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)));
 
