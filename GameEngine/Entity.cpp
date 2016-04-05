@@ -64,8 +64,8 @@ namespace Moo
 	{
 		Hitbox A = this->getHitbox();
 		Hitbox B = entity->getHitbox();
-		float CollideHeightOfB = (B.y1 - B.y2) / 6;
-		float CollideWidthOfB = (B.x2 - B.x1) / 8;
+		float CollideHeightOfB = (B.y1 - B.y2) / 4;
+		float CollideWidthOfB = (B.x2 - B.x1) / 5;
 
 		//Check collision on Y
 		if ((A.x1 <= B.x2 && A.x1 >= B.x1 && (B.x2 - A.x1 >= CollideWidthOfB)) ||	//We have to be colliding also with more than CollideWidthOfB on the left

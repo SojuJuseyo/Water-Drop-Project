@@ -5,6 +5,8 @@
 #include "Entity.h"
 #include "Sprite.h"
 
+#define MINIMUM_VELOCITY	-400
+
 namespace Moo
 {
 	class Character : public Entity

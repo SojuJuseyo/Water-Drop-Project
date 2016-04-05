@@ -57,7 +57,7 @@ namespace Moo
 	{
 		if (this->_velocity.y == 0)
 		{
-			this->setVelocity(Vector2f(this->_velocity.x, JUMP_VELOCITY));
+			this->setVelocity(Vector2f(this->_velocity.x, JUMP_VELOCITY * 1.5f));
 			this->setGravity(true);
 		}
 	}
@@ -71,9 +71,11 @@ namespace Moo
 	void	Character::update()
 	{
 		if (_velocity.y > 0 && _velocity.y < GRAVITY)
-			_acceleration.y = _mass;
-		_acceleration.y += (_mass / FPS_LIMIT);
-		_velocity.y -= (_velocity.y + _acceleration.y) / FPS_LIMIT;
+			_acceleration.y = _mass * 10;
+		_acceleration.y += (_mass * 10 / FPS_LIMIT);
+		if (_velocity.y > MINIMUM_VELOCITY)
+			_velocity.y -= (_velocity.y + _acceleration.y) / FPS_LIMIT;
+		std::cout << "Velocity y : " << _velocity.y << std::endl;
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);
 	}
 

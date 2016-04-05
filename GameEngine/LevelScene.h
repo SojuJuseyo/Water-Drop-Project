@@ -7,6 +7,16 @@
 #include "Character.h"
 #include "Audio.h"
 
+
+struct s_collider
+{
+	bool		isCollideUp;
+	bool		isCollideDown;
+	bool		isCollideRight;
+	bool		isCollideLeft;
+};
+
+
 namespace Moo
 {
 	class LevelScene : public Scene
@@ -22,7 +32,6 @@ namespace Moo
 		std::vector<std::pair<std::string, Moo::Entity *>> entities;
 		JsonParser *map;
 		Moo::Sprite *background;
-		HitZone tmp;
 		Moo::Character *player;
 		std::vector<Moo::Bullet *> bulletPool;
 		Moo::Texture *bulletText;

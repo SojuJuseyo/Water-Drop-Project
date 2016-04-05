@@ -163,8 +163,6 @@ namespace Moo
 		background = new Moo::Sprite(4000, 3000, 0, 0);
 		background->loadTexture(backgroundText);
 
-		tmp = HitZone::NONE;
-
 		player = dynamic_cast<Moo::Character *>(entities[0].second);
 
 		// Temp texture for the bullet
@@ -262,11 +260,16 @@ namespace Moo
 					((Moo::Character *)entities[i].second)->update();
 
 			bool eraseCollider;
-			for (unsigned int i = 1; i < entities.size(); ++i)
+			eraseCollider = false;
+			player->setGravity(true);
+			HitZone hitZone;
+			Vector2f decal(0, 0);
+		
+			for (unsigned int i = 0; i < entities.size(); ++i)
 			{
-				eraseCollider = false;
-				player->setGravity(true);
-				while (entities[i].second->isCollidable() && ((tmp = player->collisionAABB(entities[i].second)) != HitZone::NONE))
+				if (entities[i].second != player
+					&& entities[i].second->isCollidable()
+					&& ((hitZone = player->collisionAABB(entities[i].second)) != HitZone::NONE))
 				{
 					//If we collide with an enemy : Absorb him
 					if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
@@ -277,9 +280,10 @@ namespace Moo
 							player->setHealth(player->getHealth() + (enemyCollided->getHealth() * 33 / 100));
 							player->getSprite()->scale(Moo::Vector2f(0.1f * (enemyCollided->getHealth() * 33 / 100), 0.1f * (enemyCollided->getHealth() * 33 / 100)));
 							player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-							eraseCollider = true;
+							entities.erase(entities.begin() + i);
 						}
-						else {
+						else
+						{
 							entities = getEntitiesFromMap(map);
 							player = dynamic_cast<Moo::Character *>(entities[0].second);
 							Moo::Sprite *lose = new Moo::Sprite(
@@ -289,10 +293,9 @@ namespace Moo
 								Moo::d3d::getInstance().getScreenSize().x / 2 - 250,
 								(Moo::d3d::getInstance().getCamera()->getPosition().y *-1) +
 								Moo::d3d::getInstance().getScreenSize().y / 2
-							);
+								);
 							audio.pauseSound(music);
 							audio.playSound(soundLose, false);
-
 							lose->loadTexture(loseText);
 							window.draw(lose);
 							window.display();
@@ -318,60 +321,38 @@ namespace Moo
 							);
 						audio.pauseSound(music);
 						audio.playSound(soundWin, false);
-
 						win->loadTexture(winText);
 						window.draw(win);
 						window.display();
 						Sleep(5000);
 						audio.pauseSound(soundWin);
-
 						Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
 						return false;
 					}
 					//If we collide with a wall/platform/bottom
 					else
 					{
-						//std::cout << "COLLIDING with " << entities[i].first << " : ";
-						if (tmp == HitZone::BOTTOM || tmp == HitZone::TOP)
-						{
-							if (tmp == HitZone::BOTTOM)
-							{
-								player->getSprite()->setY(entities[i].second->getHitbox().y1);
-								player->resetPos();
-								//std::cout << "BOTTOM";
-								player->setGravity(false);
-							}
-							else
-							{
-								player->getSprite()->setY(entities[i].second->getHitbox().y2 - player->getSprite()->getHeight());
-								player->setVelocity(Moo::Vector2f(player->getVelocity().x, -1));
-								//std::cout << "TOP";
-							}
-						}
+						if (hitZone == HitZone::RIGHT_SIDE)
+							decal.x = entities[i].second->getHitbox().x1 - player->getHitbox().x2;
+						else if (hitZone == HitZone::LEFT_SIDE)
+							decal.x = entities[i].second->getHitbox().x2 - player->getHitbox().x1;
+						else if (hitZone == HitZone::TOP)
+							decal.y = entities[i].second->getHitbox().y2 - player->getHitbox().y1;
 						else
 						{
-							if (tmp == HitZone::LEFT_SIDE)
-							{
-								//std::cout << "LEFT_SIDE";
-								player->getSprite()->setX(entities[i].second->getHitbox().x2);
-							}
-							else
-							{
-								//std::cout << "RIGHT_SIDE";
-								player->getSprite()->setX(entities[i].second->getHitbox().x1 - player->getSprite()->getWidth());
-							}
+							decal.y = entities[i].second->getHitbox().y1 - player->getHitbox().y2;
+							player->resetPos();
+							player->setGravity(false);
 						}
-						//std::cout << std::endl;
 					}
-					Moo::Hitbox collider = entities[i].second->getHitbox();
-					//std::cout << "Collider : [x1] " << collider.x1 << " && " << collider.y1 << " [y1] - [x2] " << collider.x2 << " && " << collider.y2 << " [y2]" << std::endl;
-					//std::cout << "Character before : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
-					player->resetHitbox();
-					//std::cout << "Character after : [x1] " << player->getHitbox().x1 << " && " << player->getHitbox().y1 << " [y1] - [x2] " << player->getHitbox().x2 << " && " << player->getHitbox().y2 << " [y2]" << std::endl;
-					if (eraseCollider == true)
-						entities.erase(entities.begin() + i);
 				}
 			}
+
+			if (decal.y != 0)
+				player->getSprite()->setY(player->getSprite()->getY() + decal.y);
+			if (decal.x != 0)
+				player->getSprite()->setX(player->getSprite()->getX() + decal.x);
+			player->resetHitbox();
 
 			window.clear();
 			window.draw(background);
@@ -383,7 +364,7 @@ namespace Moo
 			for (unsigned int i = 0; i < entities.size(); ++i)
 			{
 				window.draw(((Moo::Character *)entities[i].second)->getSprite());
-				//window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
+				window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
 				if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
 					((Moo::Character *)entities[i].second)->getSprite()->rotate(1);
 			}
@@ -392,9 +373,10 @@ namespace Moo
 			{
 				Moo::Bullet *bullet = bulletPool[i];
 				bullet->move(Direction::RIGHT);
+				HitZone hitZone;
 
 				for (unsigned int j = 1; j < entities.size(); ++j)
-					if ((tmp = bullet->collisionAABB(entities[j].second)) != HitZone::NONE && entities[j].second->isCollidable())
+					if ((hitZone = bullet->collisionAABB(entities[j].second)) != HitZone::NONE && entities[j].second->isCollidable())
 					{
 						bulletPool.erase(bulletPool.begin() + i);
 						if (_strnicmp(entities[j].first.c_str(), "Enemy", 5) == 0)
