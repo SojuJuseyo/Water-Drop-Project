@@ -36,14 +36,8 @@ namespace Moo
 
 		RegisterClassEx(&wc);
 
-		auto screenWidth = GetSystemMetrics(SM_CXSCREEN);
-		auto screenHeight = GetSystemMetrics(SM_CYSCREEN);
-
-		screenWidth = _config.getScreenSize().x;
-		screenHeight = _config.getScreenSize().y;
-
-		posX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
-		posY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
+		posX = (GetSystemMetrics(SM_CXSCREEN) - (UINT)_config.getScreenSize().x) / 2;
+		posY = (GetSystemMetrics(SM_CYSCREEN) - (UINT)_config.getScreenSize().y) / 2;
 
 		_hwnd = CreateWindowEx(	//Create our Extended Window
 			WS_EX_APPWINDOW,	//Extended style
@@ -51,7 +45,7 @@ namespace Moo
 			applicationName,	//Name in the title bar of our window
 			WS_OVERLAPPEDWINDOW,	//style of our window
 			posX, posY,	//Top left corner of window
-			_config.getScreenSize().x, _config.getScreenSize().y,    // set window to new resolution
+			(UINT)_config.getScreenSize().x, (UINT)_config.getScreenSize().y,    // set window to new resolution
 			NULL,	//Handle to parent window
 			NULL,	//Handle to a Menu
 			hInstance,	//Specifies instance of current program
@@ -65,7 +59,6 @@ namespace Moo
 		d3d::getInstance().init(_hwnd, Vector2f(_config.getScreenSize().x, _config.getScreenSize().y));
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
-		d3d::getInstance().setViewPort();
 		return;
 	}
 
@@ -82,10 +75,10 @@ namespace Moo
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 			if (msg.wParam == VK_F1) {
-				d3d::getInstance().setFullScreenState(false);
+				d3d::getInstance().setFullScreenState(true);
 			}
 			if (msg.wParam == VK_F2) {
-				d3d::getInstance().setFullScreenState(true);
+				d3d::getInstance().setFullScreenState(false);
 			}
 			if (msg.message == WM_QUIT) {
 				return false;
@@ -96,7 +89,6 @@ namespace Moo
 
 	void	Window::destroy()
 	{
-		d3d::getInstance().~d3d();
 		ShowCursor(true);
 		DestroyWindow(_hwnd);
 		_hwnd = NULL;

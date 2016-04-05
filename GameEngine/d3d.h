@@ -13,6 +13,7 @@
 #pragma comment (lib, "d3dx10.lib")
 
 using namespace DirectX;
+using namespace Microsoft::WRL;
 
 struct VERTEX { XMFLOAT3 position; XMFLOAT4 color; XMFLOAT2 texture; };
 
@@ -43,68 +44,87 @@ namespace Moo
 
 		d3d::~d3d()
 		{
-			release();
+			releaseBackBuffer();
+		}
+
+		void d3d::releaseBackBuffer()
+		{
+			_renderTarget.Reset();
+ 			_backBuffer.Reset();
 		}
 
 		void d3d::init(HWND hWnd, Vector2f screenSize)
 		{
-			DXGI_SWAP_CHAIN_DESC scd;
+			D3D_FEATURE_LEVEL levels[] = {
+				D3D_FEATURE_LEVEL_10_0,
+				D3D_FEATURE_LEVEL_10_1,
+				D3D_FEATURE_LEVEL_11_0,
+				D3D_FEATURE_LEVEL_11_1
+			};
 
-			ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
+			UINT deviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+			//deviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+
+			DXGI_SWAP_CHAIN_DESC desc;
+
+			ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
 			_screenSize = screenSize;
 
-			scd.BufferCount = 1;
-			scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-			scd.BufferDesc.Width = (int)_screenSize.x;
-			scd.BufferDesc.Height = (int)_screenSize.y;
-			scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-			scd.OutputWindow = hWnd;
-			scd.SampleDesc.Count = 4;
-			scd.Windowed = TRUE;
-			//scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+			desc.BufferCount = 1;
+			desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+			desc.OutputWindow = hWnd;
+			desc.SampleDesc.Count = 4;
+			desc.Windowed = TRUE;
+			desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-			HRESULT hresult = D3D11CreateDeviceAndSwapChain(NULL,
-				D3D_DRIVER_TYPE_HARDWARE,
-				NULL,
-				//D3D11_CREATE_DEVICE_DEBUG,
-				NULL,
-				NULL,
-				NULL,
+			HRESULT hresult = D3D11CreateDeviceAndSwapChain(
+				nullptr,
+				D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
+				nullptr,
+				deviceFlags,
+				levels,
+				ARRAYSIZE(levels),
 				D3D11_SDK_VERSION,
-				&scd,
-				&swapchain,
-				&dev,
-				NULL,
-				&devcon);
-
-			// get the address of the back buffer
-			ID3D11Texture2D *pBackBuffer;
-			swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-
-			// use the back buffer address to create the render target
-			dev->CreateRenderTargetView(pBackBuffer, NULL, &backbuffer);
-			pBackBuffer->Release();
-
-			// set the render target as the back buffer
-			devcon->OMSetRenderTargets(1, &backbuffer, NULL);
+				&desc,
+				_swapchain.GetAddressOf(),
+				_dev.GetAddressOf(),
+				&_featureLevel,
+				_devcon.GetAddressOf()
+				);
 
 			_camera = new Camera;
-			_fullscreenstate = true;
+			setFullScreenState(false);
+		}
+
+		void d3d::configureBackBuffer()
+		{
+			// get the address of the back buffer
+			_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)_backBuffer.GetAddressOf());
+
+			// use the back buffer address to create the render target
+			_dev->CreateRenderTargetView(_backBuffer.Get(), nullptr, _renderTarget.GetAddressOf());
+
+			// set the render target as the back buffer
+			_devcon->OMSetRenderTargets(1, _renderTarget.GetAddressOf(), NULL);
+
+			setViewPort();
 		}
 
 		void	d3d::setViewPort()
 		{
-			D3D11_VIEWPORT viewport;
-			ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
+			_backBuffer->GetDesc(&_bbDesc);
 
-			viewport.TopLeftX = 0;
-			viewport.TopLeftY = 0;
-			viewport.Width = _screenSize.x;
-			viewport.Height = _screenSize.y;
-			viewport.MinDepth = 0.0f;
-			viewport.MaxDepth = 1.0f;
+			ZeroMemory(&_viewport, sizeof(D3D11_VIEWPORT));
+			_viewport.Height = (float)_bbDesc.Height;
+			_viewport.Width = (float)_bbDesc.Width;
+			_viewport.MinDepth = 0;
+			_viewport.MaxDepth = 1;
 
-			devcon->RSSetViewports(1, &viewport);
+			_devcon->RSSetViewports(
+				1,
+				&_viewport
+			);
 		}
 
 		Camera		*d3d::getCamera()
@@ -145,52 +165,38 @@ namespace Moo
 			return _screenSize;
 		}
 
-		void d3d::release()
-		{
-			if (swapchain != nullptr) {
-				swapchain->SetFullscreenState(FALSE, NULL);
-				swapchain->Release();
-			}
-			if (backbuffer != nullptr) {
-				backbuffer->Release();
-			}
-			if (devcon != nullptr) {
-				devcon->Release();
-			}
-			if (dev != nullptr) {
-				dev->Release();
-			}
-		}
-
 		void d3d::display()
 		{
-			swapchain->Present(0, 0);
-		}
-
-		void d3d::setFullScreen()
-		{
-			_fullscreenstate = !_fullscreenstate;
-			swapchain->SetFullscreenState(_fullscreenstate, NULL);
+			_swapchain->Present(0, 0);
 		}
 
 		void d3d::setFullScreenState(bool state)
 		{
-			swapchain->SetFullscreenState(state, NULL);
+			releaseBackBuffer();
+
+			UINT windowWidth = _fullscreenstate ? 1920 : 0;
+			UINT windowHeight = _fullscreenstate ? 1080 : 0;
+
+			_swapchain->ResizeBuffers(0, windowWidth, windowHeight, DXGI_FORMAT_UNKNOWN, 0);
+			
+			_swapchain->SetFullscreenState(state, NULL);
+
+			configureBackBuffer();
 		}
 
 		void d3d::clearWindow(const float* color)
 		{
-			devcon->ClearRenderTargetView(backbuffer, color);
+			_devcon->ClearRenderTargetView(_renderTarget.Get(), color);
 		}
 		
 		ID3D11Device* d3d::getD3DDevice()
 		{
-			return dev;
+			return _dev.Get();
 		}
 
 		ID3D11DeviceContext* d3d::getContext()
 		{
-			return devcon;
+			return _devcon.Get();
 		}
 
 		static d3d& d3d::getInstance()
@@ -204,12 +210,30 @@ namespace Moo
 		void operator=(d3d const&) = delete;
 
 		bool _fullscreenstate;
-		ID3D11Device *dev;
-		ID3D11DeviceContext *devcon;
-		IDXGISwapChain *swapchain;
-		ID3D11RenderTargetView *backbuffer;
-		ID3D11InputLayout *pLayout;
+
 		Vector2f _screenSize;
 		Camera *_camera;
+
+
+		//-----------------------------------------------------------------------------
+		// Direct3D device
+		//-----------------------------------------------------------------------------
+		ComPtr<ID3D11Device>        _dev;
+		ComPtr<ID3D11DeviceContext> _devcon;
+		ComPtr<IDXGISwapChain>      _swapchain;
+
+
+		//-----------------------------------------------------------------------------
+		// DXGI swap chain device resources
+		//-----------------------------------------------------------------------------
+		ComPtr <ID3D11Texture2D>        _backBuffer;
+		ComPtr <ID3D11RenderTargetView> _renderTarget;
+
+		//-----------------------------------------------------------------------------
+		// Direct3D device metadata and device resource metadata
+		//-----------------------------------------------------------------------------
+		D3D_FEATURE_LEVEL       _featureLevel;
+		D3D11_TEXTURE2D_DESC    _bbDesc;
+		D3D11_VIEWPORT          _viewport;
 	};
 }
