@@ -47,19 +47,19 @@ namespace Moo
 		int i = 1;
 
 		//Player specs
-		float playerHeight = 60;
-		float playerWidth = 60;
+		float playerHeight = 40;
+		float playerWidth = 40;
 		float playerMass = 300;
 
 		//Enemies specs
-		float enemiesHeight = 60;
-		float enemiesWidth = 60;
+		float enemiesHeight = 40;
+		float enemiesWidth = 40;
 		float enemiesMass = 100;
 
 		//Enemies
 		for (std::list<Tile *>::const_iterator it = enemyTiles.begin(); it != enemyTiles.end(); ++it)
 		{
-			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * 60, (*it)->getPosY() * 60);
+			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			enemySprite->loadTexture(marioText);
 			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, false);
 			enemy->setCollision(true);
@@ -77,7 +77,7 @@ namespace Moo
 		//platforms
 		for (std::list<Tile *>::const_iterator it = platformTiles.begin(); it != platformTiles.end(); ++it)
 		{
-			Moo::Sprite *platform = new Moo::Sprite(60, 60, (*it)->getPosX() * 60, (*it)->getPosY() * 60);
+			Moo::Sprite *platform = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			platform->loadTexture(platformText);
 			Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false);
 			entities.push_back(std::make_pair("Platform " + std::to_string(i), platformEntity));
@@ -87,7 +87,7 @@ namespace Moo
 		//bottom
 		for (std::list<Tile *>::const_iterator it = bottomTiles.begin(); it != bottomTiles.end(); ++it)
 		{
-			Moo::Sprite *ground = new Moo::Sprite(60, 60, (*it)->getPosX() * 60, (*it)->getPosY() * 60);
+			Moo::Sprite *ground = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			ground->loadTexture(groundText);
 			entities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false)));
 		}
@@ -95,7 +95,7 @@ namespace Moo
 		//exit
 		for (std::list<Tile *>::const_iterator it = exitTiles.begin(); it != exitTiles.end(); ++it)
 		{
-			Moo::Sprite *exit = new Moo::Sprite(60, 60, (*it)->getPosX() * 60, (*it)->getPosY() * 60);
+			Moo::Sprite *exit = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			exit->loadTexture(platformText);
 			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false);
 			entities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
@@ -108,7 +108,7 @@ namespace Moo
 			std::list<Tile *>::const_iterator playerIt = playerTiles.begin();
 
 			//Player
-			Moo::Sprite *mario = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 60, (*playerIt)->getPosY() * 60);
+			Moo::Sprite *mario = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 40, (*playerIt)->getPosY() * 40);
 			mario->loadTexture(marioText);
 			Moo::Character *player = new Moo::Character(Moo::Vector2f(5, 0), playerMass, mario, true);
 			//The player is always the first of the entities vector

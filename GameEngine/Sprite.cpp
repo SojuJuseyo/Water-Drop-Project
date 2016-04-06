@@ -79,6 +79,6 @@ namespace Moo
 
 	ID3D11Buffer* const* Sprite::getVertexBuffer() const
 	{
-		return &vertexBuffer;
+		return vertexBuffer.GetAddressOf();
 	}
 }

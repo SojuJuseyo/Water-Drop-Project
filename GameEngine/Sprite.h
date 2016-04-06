@@ -4,6 +4,8 @@
 #include "Drawable.h"
 #include "Transformable.h"
 
+using namespace Microsoft::WRL;
+
 struct VertexPos
 {
 	XMFLOAT3 pos;
@@ -39,9 +41,9 @@ namespace Moo
 		Texture *_texture;
 		float _width;
 		float _height;
-		ID3D11Device *_dev;
-		ID3D11DeviceContext *_devcon;
-		ID3D11Buffer* vertexBuffer;
+		ComPtr<ID3D11Device> _dev;
+		ComPtr<ID3D11DeviceContext> _devcon;
+		ComPtr<ID3D11Buffer> vertexBuffer;
 		XMMATRIX vpMatrix;
 	};
 }
