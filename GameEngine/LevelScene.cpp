@@ -251,22 +251,20 @@ namespace Moo
 						player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
 						player->getHitboxSprite()->setScale(player->getSprite()->getScale());
 					}
-					//std::cout << "Player health : " << player->getHealth() << std::endl;
+					std::cout << "Player health : " << player->getHealth() << std::endl;
 				}
+				else
+					std::cout << "Player is too small to shoot" << std::endl;
 			}
-
-			for (unsigned int i = 0; i < entities.size(); ++i)
-				if (entities[i].second->getGravity() == true)
-					((Moo::Character *)entities[i].second)->update();
-
-			bool eraseCollider;
-			eraseCollider = false;
+			
 			player->setGravity(true);
 			HitZone hitZone;
 			Vector2f decal(0, 0);
 		
 			for (unsigned int i = 0; i < entities.size(); ++i)
 			{
+				if (entities[i].second->getGravity() == true)
+					((Moo::Character *)entities[i].second)->update();
 				if (entities[i].second != player
 					&& entities[i].second->isCollidable()
 					&& ((hitZone = player->collisionAABB(entities[i].second)) != HitZone::NONE))
@@ -281,11 +279,10 @@ namespace Moo
 							player->getSprite()->scale(Moo::Vector2f(0.1f * (enemyCollided->getHealth() * 33 / 100), 0.1f * (enemyCollided->getHealth() * 33 / 100)));
 							player->getHitboxSprite()->setScale(player->getSprite()->getScale());
 							entities.erase(entities.begin() + i);
+							std::cout << "Player health : " << player->getHealth() << std::endl;
 						}
 						else
 						{
-							entities = getEntitiesFromMap(map);
-							player = dynamic_cast<Moo::Character *>(entities[0].second);
 							Moo::Sprite *lose = new Moo::Sprite(
 								400,
 								133,
@@ -299,7 +296,7 @@ namespace Moo
 							lose->loadTexture(loseText);
 							window.draw(lose);
 							window.display();
-							Sleep(5000);
+							Sleep(1000);
 							audio.pauseSound(soundLose);
 
 							Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
@@ -309,8 +306,6 @@ namespace Moo
 					//If we collide with an Exit
 					else if (_strnicmp(entities[i].first.c_str(), "Exit", 4) == 0)
 					{
-						entities = getEntitiesFromMap(map);
-						player = dynamic_cast<Moo::Character *>(entities[0].second);
 						Moo::Sprite *win = new Moo::Sprite(
 							400,
 							133,
@@ -324,7 +319,7 @@ namespace Moo
 						win->loadTexture(winText);
 						window.draw(win);
 						window.display();
-						Sleep(5000);
+						Sleep(1000);
 						audio.pauseSound(soundWin);
 						Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
 						return false;
@@ -337,7 +332,10 @@ namespace Moo
 						else if (hitZone == HitZone::LEFT_SIDE)
 							decal.x = entities[i].second->getHitbox().x2 - player->getHitbox().x1;
 						else if (hitZone == HitZone::TOP)
+						{
 							decal.y = entities[i].second->getHitbox().y2 - player->getHitbox().y1;
+							player->setVelocity(Vector2f(player->getVelocity().x, -1));
+						}
 						else
 						{
 							decal.y = entities[i].second->getHitbox().y1 - player->getHitbox().y2;
@@ -374,9 +372,14 @@ namespace Moo
 				Moo::Bullet *bullet = bulletPool[i];
 				bullet->move(Direction::RIGHT);
 				HitZone hitZone;
-
-				for (unsigned int j = 1; j < entities.size(); ++j)
-					if ((hitZone = bullet->collisionAABB(entities[j].second)) != HitZone::NONE && entities[j].second->isCollidable())
+				/*
+				if (bulletPool[i]->getGravity() == true)
+					((Moo::Character *)bulletPool[i])->update();
+				*/
+				for (unsigned int j = 0; j < entities.size(); ++j)
+					if (entities[i].second != player
+					&& (hitZone = bullet->collisionAABB(entities[j].second)) != HitZone::NONE
+					&& entities[j].second->isCollidable())
 					{
 						bulletPool.erase(bulletPool.begin() + i);
 						if (_strnicmp(entities[j].first.c_str(), "Enemy", 5) == 0)

@@ -75,7 +75,7 @@ namespace Moo
 		_acceleration.y += (_mass * 10 / FPS_LIMIT);
 		if (_velocity.y > MINIMUM_VELOCITY)
 			_velocity.y -= (_velocity.y + _acceleration.y) / FPS_LIMIT;
-		std::cout << "Velocity y : " << _velocity.y << std::endl;
+		//std::cout << "Velocity y : " << _velocity.y << std::endl;
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);
 	}
 
