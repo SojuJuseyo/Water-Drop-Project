@@ -32,6 +32,8 @@ namespace Moo
 		groundText->loadFromFile("ground.dds");
 		Moo::Texture *blocText = new Moo::Texture;
 		blocText->loadFromFile("bloc.dds");
+		Moo::Texture *exitText = new Moo::Texture;
+		exitText->loadFromFile("door_closed.dds");
 
 		//All the data contained in the map
 		std::list<Tile *> playerTiles = map->getMap().getTilesFromColor("#ffabcdef"); //blue
@@ -109,7 +111,7 @@ namespace Moo
 		for (std::list<Tile *>::const_iterator it = exitTiles.begin(); it != exitTiles.end(); ++it)
 		{
 			Moo::Sprite *exit = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
-			exit->loadTexture(platformText);
+			exit->loadTexture(exitText);
 			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false);
 			entities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
 			++i;
@@ -393,7 +395,7 @@ namespace Moo
 			for (unsigned int i = 0; i < entities.size(); ++i)
 			{
 				window.draw(((Moo::Character *)entities[i].second)->getSprite());
-				window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
+				//window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
 				if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
 					((Moo::Character *)entities[i].second)->getSprite()->rotate(1);
 			}
@@ -419,13 +421,13 @@ namespace Moo
 							if (enemy->getHealth() < 10)
 								enemy->setHealth(enemy->getHealth() + 1);
 							enemy->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
-							enemy->getHitboxSprite()->setScale(enemy->getSprite()->getScale());
+							//enemy->getHitboxSprite()->setScale(enemy->getSprite()->getScale());
 							//std::cout << "Enemy health : " << ((Moo::Character *)entities[j].second)->getHealth() << std::endl;
 						}
 					}
 
 				window.draw(bullet->getSprite());
-				window.draw(bullet->getHitboxSprite());
+				//window.draw(bullet->getHitboxSprite());
 			}
 			window.display();
 		}
