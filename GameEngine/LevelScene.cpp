@@ -251,10 +251,10 @@ namespace Moo
 				player->move(Direction::LEFT);
 			if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
 				player->move(Direction::RIGHT);
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
-				Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::Down))
-				Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(10, 0));
+			//if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
+			//	Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
+			//if (Moo::Keyboard::isPressed(Moo::Keyboard::Down))
+			//	Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(10, 0));
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
 			{
 				if (player->getHealth() > 1)
@@ -398,24 +398,24 @@ namespace Moo
 					((Moo::Character *)entities[i].second)->getSprite()->rotate(1);
 			}
 
-			for (unsigned int i = 0; i < bulletPool.size(); ++i)
+			for (unsigned int bulletInc = 0; bulletInc < bulletPool.size(); ++bulletInc)
 			{
-				Moo::Bullet *bullet = bulletPool[i];
+				Moo::Bullet *bullet = bulletPool[bulletInc];
 				bullet->move(Direction::RIGHT);
 				HitZone hitZone;
 				/*
 				if (bulletPool[i]->getGravity() == true)
 					((Moo::Character *)bulletPool[i])->update();
 				*/
-				for (unsigned int j = 0; j < entities.size(); ++j)
-					if (entities[i].second != player
-					&& (hitZone = bullet->collisionAABB(entities[j].second)) != HitZone::NONE
-					&& entities[j].second->isCollidable())
+				for (unsigned int entitiesInc = 0; entitiesInc < entities.size(); ++entitiesInc)
+					if (entities[entitiesInc].second != player
+					&& entities[entitiesInc].second->isCollidable()
+					&& (hitZone = bullet->collisionAABB(entities[entitiesInc].second)) != HitZone::NONE)
 					{
-						bulletPool.erase(bulletPool.begin() + i);
-						if (_strnicmp(entities[j].first.c_str(), "Enemy", 5) == 0)
+						bulletPool.erase(bulletPool.begin() + bulletInc);
+						if (_strnicmp(entities[entitiesInc].first.c_str(), "Enemy", 5) == 0)
 						{
-							Moo::Character *enemy = (Moo::Character *)entities[j].second;
+							Moo::Character *enemy = (Moo::Character *)entities[entitiesInc].second;
 							if (enemy->getHealth() < 10)
 								enemy->setHealth(enemy->getHealth() + 1);
 							enemy->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
