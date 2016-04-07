@@ -353,14 +353,14 @@ namespace Moo
 				}
 			}
 
-			// UPDATE CAMERA
-			Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
-
 			if (decal.y != 0)
 				player->getSprite()->setY(player->getSprite()->getY() + decal.y);
 			if (decal.x != 0)
 				player->getSprite()->setX(player->getSprite()->getX() + decal.x);
 			player->resetHitbox();
+
+			// UPDATE CAMERA
+			Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
 
 			window.clear();
 			window.draw(background);
