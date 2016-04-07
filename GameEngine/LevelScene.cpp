@@ -182,6 +182,13 @@ namespace Moo
 		audio.playSound(music, true);
 		while (window.isOpen())
 		{
+			//Sam DEbug
+
+			//std::cout << "camera x = " << Moo::d3d::getInstance().getCamera()->getPosition().x << std::endl;
+			//std::cout << "camera y = " << Moo::d3d::getInstance().getCamera()->getPosition().y << std::endl;
+			//std::cout << "player x = " << player->getHitbox().x1 << std::endl;
+			//std::cout << "player y = " << player->getHitbox().y1 << std::endl;
+
 			if (Moo::Keyboard::isPressed(Moo::Keyboard::A)) {
 				audio.pauseSound(music);
 				camera.setPosition(d3d::getInstance().getCamera()->getPosition());
@@ -345,6 +352,9 @@ namespace Moo
 					}
 				}
 			}
+
+			// UPDATE CAMERA
+			Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
 
 			if (decal.y != 0)
 				player->getSprite()->setY(player->getSprite()->getY() + decal.y);
