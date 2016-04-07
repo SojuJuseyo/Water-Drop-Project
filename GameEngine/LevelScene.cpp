@@ -141,7 +141,9 @@ namespace Moo
 		try
 		{
 			//We get the map
-			map = new JsonParser("2d-Maps/50x50.json");
+			//map = new JsonParser("2d-Maps/50x50.json");
+			map = new JsonParser("2d-Maps/juuuuuuuuuuuuuuuuuuuuuuuuuuujMap.json");
+			
 
 			if (map->parseFile() == -1)
 				throw std::string("Can't load the map");
@@ -355,14 +357,14 @@ namespace Moo
 				}
 			}
 
-			// UPDATE CAMERA
-			Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
-
 			if (decal.y != 0)
 				player->getSprite()->setY(player->getSprite()->getY() + decal.y);
 			if (decal.x != 0)
 				player->getSprite()->setX(player->getSprite()->getX() + decal.x);
 			player->resetHitbox();
+
+			// UPDATE CAMERA
+			Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
 
 			window.clear();
 			window.draw(background);
