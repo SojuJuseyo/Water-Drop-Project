@@ -137,6 +137,7 @@ namespace Moo
 		backgroundText = new Moo::Texture;
 		backgroundText->loadFromFile("background.dds");
 
+
 		try
 		{
 			//We get the map
@@ -172,6 +173,7 @@ namespace Moo
 		loseText->loadFromFile("You_Lost_DDS.dds");
 		winText = new Moo::Texture;
 		winText->loadFromFile("You_Won_DDS.dds");
+		Moo::d3d::getInstance().getCamera()->setInfoMap(map->getMap());
 
 		return true;
 	}

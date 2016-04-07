@@ -26,6 +26,11 @@ namespace Moo
 		_position = position;
 	}
 
+	void	Camera::setInfoMap(MapInfos mapInfos)
+	{
+		_mapInfos = mapInfos;
+	}
+
 	void	Camera::update(Hitbox hitbox)
 	{
 		Vector2f posCamera(_position.x * -1, _position.y * -1);
@@ -54,7 +59,7 @@ namespace Moo
 				if (hitboxTmp.x1 < posCamera.x + 150 && _position.x < 0)
 					_position.x += (_lastHitbox.x1 - hitbox.x1);
 			}
-		if (hitbox.y1 - _lastHitbox.y1 > 0) // si direction negative axe y
+		if (hitbox.y1 - _lastHitbox.y1 > 0 && _position.x > (_mapInfos.getMapWidth() * 40 - 180) * -1) // si direction negative axe y
 		{
 			if (hitboxTmp.y1 > posCamera.y + 400)
 				_position.y += (_lastHitbox.y1 - hitbox.y1);
