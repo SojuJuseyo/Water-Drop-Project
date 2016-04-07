@@ -40,7 +40,7 @@ namespace Moo
 		std::list<Tile *> platformTiles = map->getMap().getTilesFromColor("#fff93738"); //red
 		std::list<Tile *> bottomTiles = map->getMap().getTilesFromColor("#ff117050"); //green
 		std::list<Tile *> enemyTiles = map->getMap().getTilesFromColor("#ff000000"); //black
-		std::list<Tile *> blocTiles = map->getMap().getTilesFromColor("#551A8B"); //purple
+		std::list<Tile *> blocTiles = map->getMap().getTilesFromColor("#ff551A8B"); //purple
 		std::list<Tile *> exitTiles = map->getMap().getTilesFromColor("#ffffd700"); //gold
 
 		//Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
@@ -421,7 +421,7 @@ namespace Moo
 							if (enemy->getHealth() < 10)
 								enemy->setHealth(enemy->getHealth() + 1);
 							enemy->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
-							//enemy->getHitboxSprite()->setScale(enemy->getSprite()->getScale());
+							enemy->getHitboxSprite()->setScale(enemy->getSprite()->getScale());
 							//std::cout << "Enemy health : " << ((Moo::Character *)entities[j].second)->getHealth() << std::endl;
 						}
 					}
