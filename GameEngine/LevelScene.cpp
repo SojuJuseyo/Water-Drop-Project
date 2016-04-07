@@ -143,7 +143,6 @@ namespace Moo
 			//We get the map
 			//map = new JsonParser("2d-Maps/50x50.json");
 			map = new JsonParser("2d-Maps/juuuuuuuuuuuuuuuuuuuuuuuuuuujMap.json");
-			
 
 			if (map->parseFile() == -1)
 				throw std::string("Can't load the map");
