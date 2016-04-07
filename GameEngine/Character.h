@@ -5,7 +5,7 @@
 #include "Entity.h"
 #include "Sprite.h"
 
-#define MINIMUM_VELOCITY	-400
+#define MINIMUM_VELOCITY	-270//-400
 
 namespace Moo
 {

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Vector2f.h"
-#define	GRAVITY	200
-#define	JUMP_VELOCITY	750
+#define	GRAVITY	135//200
+#define	JUMP_VELOCITY	500//750
 
 enum HitZone
 {
