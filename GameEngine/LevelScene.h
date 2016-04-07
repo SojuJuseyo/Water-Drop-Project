@@ -31,7 +31,7 @@ namespace Moo
 	private:
 		std::vector<std::pair<std::string, Moo::Entity *>> entities;
 		JsonParser *map;
-		Moo::Sprite *background;
+		Moo::Sprite *background, *lose, *win;
 		Moo::Character *player;
 		std::vector<Moo::Bullet *> bulletPool;
 		Moo::Texture *bulletText;
