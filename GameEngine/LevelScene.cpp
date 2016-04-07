@@ -22,18 +22,25 @@ namespace Moo
 		//List of entities of the game
 		std::vector<std::pair<std::string, Moo::Entity *>> entities;
 
-		Moo::Texture *marioText = new Moo::Texture;
-		marioText->loadFromFile("mario.dds");
+		Moo::Texture *characterText = new Moo::Texture;
+		characterText->loadFromFile("character.dds");
+		Moo::Texture *enemyText = new Moo::Texture;
+		enemyText->loadFromFile("enemy.dds");
 		Moo::Texture *platformText = new Moo::Texture;
 		platformText->loadFromFile("platform.dds");
 		Moo::Texture *groundText = new Moo::Texture;
 		groundText->loadFromFile("ground.dds");
+		Moo::Texture *blocText = new Moo::Texture;
+		blocText->loadFromFile("bloc.dds");
+		Moo::Texture *exitText = new Moo::Texture;
+		exitText->loadFromFile("door_closed.dds");
 
 		//All the data contained in the map
 		std::list<Tile *> playerTiles = map->getMap().getTilesFromColor("#ffabcdef"); //blue
 		std::list<Tile *> platformTiles = map->getMap().getTilesFromColor("#fff93738"); //red
 		std::list<Tile *> bottomTiles = map->getMap().getTilesFromColor("#ff117050"); //green
 		std::list<Tile *> enemyTiles = map->getMap().getTilesFromColor("#ff000000"); //black
+		std::list<Tile *> blocTiles = map->getMap().getTilesFromColor("#ff551A8B"); //purple
 		std::list<Tile *> exitTiles = map->getMap().getTilesFromColor("#ffffd700"); //gold
 
 		//Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
@@ -60,7 +67,7 @@ namespace Moo
 		for (std::list<Tile *>::const_iterator it = enemyTiles.begin(); it != enemyTiles.end(); ++it)
 		{
 			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
-			enemySprite->loadTexture(marioText);
+			enemySprite->loadTexture(enemyText);
 			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, false);
 			enemy->setCollision(true);
 			// To make sure that enemies have less health than us at the beginning
@@ -84,6 +91,14 @@ namespace Moo
 			++i;
 		}
 
+		//bloc
+		for (std::list<Tile *>::const_iterator it = blocTiles.begin(); it != blocTiles.end(); ++it)
+		{
+			Moo::Sprite *bloc = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
+			bloc->loadTexture(blocText);
+			entities.push_back(std::make_pair("Bloc", new Moo::Character(Moo::Vector2f(1, 0), 0, bloc, false)));
+		}
+
 		//bottom
 		for (std::list<Tile *>::const_iterator it = bottomTiles.begin(); it != bottomTiles.end(); ++it)
 		{
@@ -96,7 +111,7 @@ namespace Moo
 		for (std::list<Tile *>::const_iterator it = exitTiles.begin(); it != exitTiles.end(); ++it)
 		{
 			Moo::Sprite *exit = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
-			exit->loadTexture(platformText);
+			exit->loadTexture(exitText);
 			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false);
 			entities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
 			++i;
@@ -108,9 +123,9 @@ namespace Moo
 			std::list<Tile *>::const_iterator playerIt = playerTiles.begin();
 
 			//Player
-			Moo::Sprite *mario = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 40, (*playerIt)->getPosY() * 40);
-			mario->loadTexture(marioText);
-			Moo::Character *player = new Moo::Character(Moo::Vector2f(5, 0), playerMass, mario, true);
+			Moo::Sprite *character = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 40, (*playerIt)->getPosY() * 40);
+			character->loadTexture(characterText);
+			Moo::Character *player = new Moo::Character(Moo::Vector2f(5, 0), playerMass, character, true);
 			//The player is always the first of the entities vector
 			entities.insert(entities.begin(), std::make_pair("Player", player));
 		}
@@ -176,6 +191,18 @@ namespace Moo
 		winText->loadFromFile("You_Won_DDS.dds");
 		Moo::d3d::getInstance().getCamera()->setInfoMap(map->getMap());
 
+		lose = new Moo::Sprite(
+			400,
+			133,
+			0, 0
+			);
+		lose->loadTexture(loseText);
+		win = new Moo::Sprite(
+			400,
+			133,
+			0, 0
+			);
+		win->loadTexture(winText);
 		return true;
 	}
 
@@ -227,10 +254,10 @@ namespace Moo
 				player->move(Direction::LEFT);
 			if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
 				player->move(Direction::RIGHT);
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
-				Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::Down))
-				Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(10, 0));
+			//if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
+			//	Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
+			//if (Moo::Keyboard::isPressed(Moo::Keyboard::Down))
+			//	Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(10, 0));
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
 			{
 				if (player->getHealth() > 1)
@@ -293,17 +320,14 @@ namespace Moo
 						}
 						else
 						{
-							Moo::Sprite *lose = new Moo::Sprite(
-								400,
-								133,
-								(Moo::d3d::getInstance().getCamera()->getPosition().x *-1) +
-								Moo::d3d::getInstance().getScreenSize().x / 2 - 250,
-								(Moo::d3d::getInstance().getCamera()->getPosition().y *-1) +
-								Moo::d3d::getInstance().getScreenSize().y / 2
+							lose->setPosition(
+								((Moo::d3d::getInstance().getCamera()->getPosition().x *-1) +
+									(Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
+								((Moo::d3d::getInstance().getCamera()->getPosition().y *-1) +
+									(Moo::d3d::getInstance().getScreenSize().y / 2))
 								);
 							audio.pauseSound(music);
 							audio.playSound(soundLose, false);
-							lose->loadTexture(loseText);
 							window.draw(lose);
 							window.display();
 							Sleep(1000);
@@ -316,17 +340,14 @@ namespace Moo
 					//If we collide with an Exit
 					else if (_strnicmp(entities[i].first.c_str(), "Exit", 4) == 0)
 					{
-						Moo::Sprite *win = new Moo::Sprite(
-							400,
-							133,
-							(Moo::d3d::getInstance().getCamera()->getPosition().x *-1) +
-							Moo::d3d::getInstance().getScreenSize().x / 2 - 200,
-							(Moo::d3d::getInstance().getCamera()->getPosition().y *-1) +
-							Moo::d3d::getInstance().getScreenSize().y / 2
+						win->setPosition(
+							((Moo::d3d::getInstance().getCamera()->getPosition().x *-1) +
+								(Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
+							((Moo::d3d::getInstance().getCamera()->getPosition().y *-1) +
+								(Moo::d3d::getInstance().getScreenSize().y / 2))
 							);
 						audio.pauseSound(music);
 						audio.playSound(soundWin, false);
-						win->loadTexture(winText);
 						window.draw(win);
 						window.display();
 						Sleep(1000);
@@ -375,29 +396,29 @@ namespace Moo
 			for (unsigned int i = 0; i < entities.size(); ++i)
 			{
 				window.draw(((Moo::Character *)entities[i].second)->getSprite());
-				window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
+				//window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
 				if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
 					((Moo::Character *)entities[i].second)->getSprite()->rotate(1);
 			}
 
-			for (unsigned int i = 0; i < bulletPool.size(); ++i)
+			for (unsigned int bulletInc = 0; bulletInc < bulletPool.size(); ++bulletInc)
 			{
-				Moo::Bullet *bullet = bulletPool[i];
+				Moo::Bullet *bullet = bulletPool[bulletInc];
 				bullet->move(Direction::RIGHT);
 				HitZone hitZone;
 				/*
 				if (bulletPool[i]->getGravity() == true)
 					((Moo::Character *)bulletPool[i])->update();
 				*/
-				for (unsigned int j = 0; j < entities.size(); ++j)
-					if (entities[i].second != player
-					&& (hitZone = bullet->collisionAABB(entities[j].second)) != HitZone::NONE
-					&& entities[j].second->isCollidable())
+				for (unsigned int entitiesInc = 0; entitiesInc < entities.size(); ++entitiesInc)
+					if (entities[entitiesInc].second != player
+					&& entities[entitiesInc].second->isCollidable()
+					&& (hitZone = bullet->collisionAABB(entities[entitiesInc].second)) != HitZone::NONE)
 					{
-						bulletPool.erase(bulletPool.begin() + i);
-						if (_strnicmp(entities[j].first.c_str(), "Enemy", 5) == 0)
+						bulletPool.erase(bulletPool.begin() + bulletInc);
+						if (_strnicmp(entities[entitiesInc].first.c_str(), "Enemy", 5) == 0)
 						{
-							Moo::Character *enemy = (Moo::Character *)entities[j].second;
+							Moo::Character *enemy = (Moo::Character *)entities[entitiesInc].second;
 							if (enemy->getHealth() < 10)
 								enemy->setHealth(enemy->getHealth() + 1);
 							enemy->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
@@ -407,7 +428,7 @@ namespace Moo
 					}
 
 				window.draw(bullet->getSprite());
-				window.draw(bullet->getHitboxSprite());
+				//window.draw(bullet->getHitboxSprite());
 			}
 			window.display();
 		}

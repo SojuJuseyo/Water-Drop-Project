@@ -3,13 +3,6 @@
   "size": "100/30",
   "audio": null,
   "tileList": {
-    "#00000000": [],
-    "#FFABCDEF": [
-      {
-        "coordx": 3,
-        "coordy": 2
-      }
-    ],
     "#FF117050": [
       {
         "coordx": 0,
@@ -406,17 +399,83 @@
       {
         "coordx": 98,
         "coordy": 0
-      },
-      {
-        "coordx": 99,
-        "coordy": 0
-      },
+      }
+    ],
+    "#FFF93738": [
       {
         "coordx": 0,
         "coordy": 1
       },
       {
-        "coordx": 99,
+        "coordx": 14,
+        "coordy": 1
+      },
+      {
+        "coordx": 15,
+        "coordy": 1
+      },
+      {
+        "coordx": 16,
+        "coordy": 1
+      },
+      {
+        "coordx": 17,
+        "coordy": 1
+      },
+      {
+        "coordx": 21,
+        "coordy": 1
+      },
+      {
+        "coordx": 26,
+        "coordy": 1
+      },
+      {
+        "coordx": 44,
+        "coordy": 1
+      },
+      {
+        "coordx": 60,
+        "coordy": 1
+      },
+      {
+        "coordx": 67,
+        "coordy": 1
+      },
+      {
+        "coordx": 68,
+        "coordy": 1
+      },
+      {
+        "coordx": 69,
+        "coordy": 1
+      },
+      {
+        "coordx": 70,
+        "coordy": 1
+      },
+      {
+        "coordx": 77,
+        "coordy": 1
+      },
+      {
+        "coordx": 78,
+        "coordy": 1
+      },
+      {
+        "coordx": 79,
+        "coordy": 1
+      },
+      {
+        "coordx": 80,
+        "coordy": 1
+      },
+      {
+        "coordx": 88,
+        "coordy": 1
+      },
+      {
+        "coordx": 98,
         "coordy": 1
       },
       {
@@ -424,7 +483,63 @@
         "coordy": 2
       },
       {
-        "coordx": 99,
+        "coordx": 15,
+        "coordy": 2
+      },
+      {
+        "coordx": 16,
+        "coordy": 2
+      },
+      {
+        "coordx": 17,
+        "coordy": 2
+      },
+      {
+        "coordx": 21,
+        "coordy": 2
+      },
+      {
+        "coordx": 26,
+        "coordy": 2
+      },
+      {
+        "coordx": 60,
+        "coordy": 2
+      },
+      {
+        "coordx": 68,
+        "coordy": 2
+      },
+      {
+        "coordx": 69,
+        "coordy": 2
+      },
+      {
+        "coordx": 70,
+        "coordy": 2
+      },
+      {
+        "coordx": 77,
+        "coordy": 2
+      },
+      {
+        "coordx": 78,
+        "coordy": 2
+      },
+      {
+        "coordx": 79,
+        "coordy": 2
+      },
+      {
+        "coordx": 80,
+        "coordy": 2
+      },
+      {
+        "coordx": 88,
+        "coordy": 2
+      },
+      {
+        "coordx": 98,
         "coordy": 2
       },
       {
@@ -432,7 +547,59 @@
         "coordy": 3
       },
       {
-        "coordx": 99,
+        "coordx": 16,
+        "coordy": 3
+      },
+      {
+        "coordx": 17,
+        "coordy": 3
+      },
+      {
+        "coordx": 21,
+        "coordy": 3
+      },
+      {
+        "coordx": 26,
+        "coordy": 3
+      },
+      {
+        "coordx": 60,
+        "coordy": 3
+      },
+      {
+        "coordx": 63,
+        "coordy": 3
+      },
+      {
+        "coordx": 69,
+        "coordy": 3
+      },
+      {
+        "coordx": 70,
+        "coordy": 3
+      },
+      {
+        "coordx": 77,
+        "coordy": 3
+      },
+      {
+        "coordx": 78,
+        "coordy": 3
+      },
+      {
+        "coordx": 79,
+        "coordy": 3
+      },
+      {
+        "coordx": 80,
+        "coordy": 3
+      },
+      {
+        "coordx": 88,
+        "coordy": 3
+      },
+      {
+        "coordx": 98,
         "coordy": 3
       },
       {
@@ -440,7 +607,51 @@
         "coordy": 4
       },
       {
-        "coordx": 99,
+        "coordx": 17,
+        "coordy": 4
+      },
+      {
+        "coordx": 21,
+        "coordy": 4
+      },
+      {
+        "coordx": 26,
+        "coordy": 4
+      },
+      {
+        "coordx": 60,
+        "coordy": 4
+      },
+      {
+        "coordx": 63,
+        "coordy": 4
+      },
+      {
+        "coordx": 70,
+        "coordy": 4
+      },
+      {
+        "coordx": 77,
+        "coordy": 4
+      },
+      {
+        "coordx": 78,
+        "coordy": 4
+      },
+      {
+        "coordx": 79,
+        "coordy": 4
+      },
+      {
+        "coordx": 80,
+        "coordy": 4
+      },
+      {
+        "coordx": 88,
+        "coordy": 4
+      },
+      {
+        "coordx": 98,
         "coordy": 4
       },
       {
@@ -448,7 +659,35 @@
         "coordy": 5
       },
       {
-        "coordx": 99,
+        "coordx": 21,
+        "coordy": 5
+      },
+      {
+        "coordx": 26,
+        "coordy": 5
+      },
+      {
+        "coordx": 60,
+        "coordy": 5
+      },
+      {
+        "coordx": 63,
+        "coordy": 5
+      },
+      {
+        "coordx": 77,
+        "coordy": 5
+      },
+      {
+        "coordx": 78,
+        "coordy": 5
+      },
+      {
+        "coordx": 88,
+        "coordy": 5
+      },
+      {
+        "coordx": 98,
         "coordy": 5
       },
       {
@@ -456,7 +695,27 @@
         "coordy": 6
       },
       {
-        "coordx": 99,
+        "coordx": 60,
+        "coordy": 6
+      },
+      {
+        "coordx": 63,
+        "coordy": 6
+      },
+      {
+        "coordx": 77,
+        "coordy": 6
+      },
+      {
+        "coordx": 78,
+        "coordy": 6
+      },
+      {
+        "coordx": 88,
+        "coordy": 6
+      },
+      {
+        "coordx": 98,
         "coordy": 6
       },
       {
@@ -464,7 +723,31 @@
         "coordy": 7
       },
       {
-        "coordx": 99,
+        "coordx": 63,
+        "coordy": 7
+      },
+      {
+        "coordx": 64,
+        "coordy": 7
+      },
+      {
+        "coordx": 65,
+        "coordy": 7
+      },
+      {
+        "coordx": 77,
+        "coordy": 7
+      },
+      {
+        "coordx": 78,
+        "coordy": 7
+      },
+      {
+        "coordx": 88,
+        "coordy": 7
+      },
+      {
+        "coordx": 98,
         "coordy": 7
       },
       {
@@ -472,7 +755,23 @@
         "coordy": 8
       },
       {
-        "coordx": 99,
+        "coordx": 65,
+        "coordy": 8
+      },
+      {
+        "coordx": 77,
+        "coordy": 8
+      },
+      {
+        "coordx": 78,
+        "coordy": 8
+      },
+      {
+        "coordx": 88,
+        "coordy": 8
+      },
+      {
+        "coordx": 98,
         "coordy": 8
       },
       {
@@ -480,7 +779,15 @@
         "coordy": 9
       },
       {
-        "coordx": 99,
+        "coordx": 65,
+        "coordy": 9
+      },
+      {
+        "coordx": 88,
+        "coordy": 9
+      },
+      {
+        "coordx": 98,
         "coordy": 9
       },
       {
@@ -488,7 +795,15 @@
         "coordy": 10
       },
       {
-        "coordx": 99,
+        "coordx": 65,
+        "coordy": 10
+      },
+      {
+        "coordx": 88,
+        "coordy": 10
+      },
+      {
+        "coordx": 98,
         "coordy": 10
       },
       {
@@ -496,11 +811,23 @@
         "coordy": 11
       },
       {
-        "coordx": 99,
+        "coordx": 65,
+        "coordy": 11
+      },
+      {
+        "coordx": 88,
+        "coordy": 11
+      },
+      {
+        "coordx": 98,
         "coordy": 11
       },
       {
         "coordx": 0,
+        "coordy": 12
+      },
+      {
+        "coordx": 66,
         "coordy": 12
       },
       {
@@ -512,6 +839,10 @@
         "coordy": 13
       },
       {
+        "coordx": 66,
+        "coordy": 13
+      },
+      {
         "coordx": 99,
         "coordy": 13
       },
@@ -520,6 +851,10 @@
         "coordy": 14
       },
       {
+        "coordx": 66,
+        "coordy": 14
+      },
+      {
         "coordx": 99,
         "coordy": 14
       },
@@ -528,6 +863,10 @@
         "coordy": 15
       },
       {
+        "coordx": 66,
+        "coordy": 15
+      },
+      {
         "coordx": 99,
         "coordy": 15
       },
@@ -536,6 +875,10 @@
         "coordy": 16
       },
       {
+        "coordx": 67,
+        "coordy": 16
+      },
+      {
         "coordx": 99,
         "coordy": 16
       },
@@ -544,6 +887,10 @@
         "coordy": 17
       },
       {
+        "coordx": 67,
+        "coordy": 17
+      },
+      {
         "coordx": 99,
         "coordy": 17
       },
@@ -552,6 +899,10 @@
         "coordy": 18
       },
       {
+        "coordx": 67,
+        "coordy": 18
+      },
+      {
         "coordx": 99,
         "coordy": 18
       },
@@ -560,6 +911,10 @@
         "coordy": 19
       },
       {
+        "coordx": 67,
+        "coordy": 19
+      },
+      {
         "coordx": 99,
         "coordy": 19
       },
@@ -568,6 +923,10 @@
         "coordy": 20
       },
       {
+        "coordx": 68,
+        "coordy": 20
+      },
+      {
         "coordx": 99,
         "coordy": 20
       },
@@ -576,6 +935,10 @@
         "coordy": 21
       },
       {
+        "coordx": 68,
+        "coordy": 21
+      },
+      {
         "coordx": 99,
         "coordy": 21
       },
@@ -584,6 +947,10 @@
         "coordy": 22
       },
       {
+        "coordx": 68,
+        "coordy": 22
+      },
+      {
         "coordx": 99,
         "coordy": 22
       },
@@ -592,6 +959,10 @@
         "coordy": 23
       },
       {
+        "coordx": 68,
+        "coordy": 23
+      },
+      {
         "coordx": 99,
         "coordy": 23
       },
@@ -600,6 +971,10 @@
         "coordy": 24
       },
       {
+        "coordx": 69,
+        "coordy": 24
+      },
+      {
         "coordx": 99,
         "coordy": 24
       },
@@ -608,6 +983,10 @@
         "coordy": 25
       },
       {
+        "coordx": 69,
+        "coordy": 25
+      },
+      {
         "coordx": 99,
         "coordy": 25
       },
@@ -616,6 +995,10 @@
         "coordy": 26
       },
       {
+        "coordx": 69,
+        "coordy": 26
+      },
+      {
         "coordx": 99,
         "coordy": 26
       },
@@ -624,6 +1007,22 @@
         "coordy": 27
       },
       {
+        "coordx": 69,
+        "coordy": 27
+      },
+      {
+        "coordx": 72,
+        "coordy": 27
+      },
+      {
+        "coordx": 74,
+        "coordy": 27
+      },
+      {
+        "coordx": 76,
+        "coordy": 27
+      },
+      {
         "coordx": 99,
         "coordy": 27
       },
@@ -632,11 +1031,47 @@
         "coordy": 28
       },
       {
+        "coordx": 69,
+        "coordy": 28
+      },
+      {
+        "coordx": 72,
+        "coordy": 28
+      },
+      {
+        "coordx": 73,
+        "coordy": 28
+      },
+      {
+        "coordx": 74,
+        "coordy": 28
+      },
+      {
+        "coordx": 76,
+        "coordy": 28
+      },
+      {
         "coordx": 99,
         "coordy": 28
       },
       {
         "coordx": 0,
+        "coordy": 29
+      },
+      {
+        "coordx": 69,
+        "coordy": 29
+      },
+      {
+        "coordx": 72,
+        "coordy": 29
+      },
+      {
+        "coordx": 74,
+        "coordy": 29
+      },
+      {
+        "coordx": 76,
         "coordy": 29
       },
       {
@@ -814,6 +1249,42 @@
         "coordy": 2
       },
       {
+        "coordx": 81,
+        "coordy": 3
+      },
+      {
+        "coordx": 82,
+        "coordy": 3
+      },
+      {
+        "coordx": 83,
+        "coordy": 3
+      },
+      {
+        "coordx": 84,
+        "coordy": 3
+      },
+      {
+        "coordx": 85,
+        "coordy": 3
+      },
+      {
+        "coordx": 86,
+        "coordy": 3
+      },
+      {
+        "coordx": 87,
+        "coordy": 3
+      },
+      {
+        "coordx": 79,
+        "coordy": 5
+      },
+      {
+        "coordx": 80,
+        "coordy": 5
+      },
+      {
         "coordx": 90,
         "coordy": 5
       },
@@ -822,212 +1293,40 @@
         "coordy": 5
       }
     ],
-    "#FFF93738": [
+    "#FFABCDEF": [
       {
-        "coordx": 14,
-        "coordy": 1
-      },
+        "coordx": 3,
+        "coordy": 2
+      }
+    ],
+    "#FFFFD700": [
       {
-        "coordx": 15,
+        "coordx": 97,
         "coordy": 1
-      },
-      {
-        "coordx": 16,
-        "coordy": 1
-      },
-      {
-        "coordx": 17,
-        "coordy": 1
-      },
-      {
-        "coordx": 21,
-        "coordy": 1
-      },
-      {
-        "coordx": 26,
-        "coordy": 1
-      },
+      }
+    ],
+    "#FF551A8B": [
       {
         "coordx": 36,
         "coordy": 1
-      },
-      {
-        "coordx": 44,
-        "coordy": 1
-      },
-      {
-        "coordx": 60,
-        "coordy": 1
-      },
-      {
-        "coordx": 67,
-        "coordy": 1
-      },
-      {
-        "coordx": 68,
-        "coordy": 1
-      },
-      {
-        "coordx": 69,
-        "coordy": 1
-      },
-      {
-        "coordx": 70,
-        "coordy": 1
-      },
-      {
-        "coordx": 77,
-        "coordy": 1
-      },
-      {
-        "coordx": 78,
-        "coordy": 1
-      },
-      {
-        "coordx": 79,
-        "coordy": 1
-      },
-      {
-        "coordx": 80,
-        "coordy": 1
-      },
-      {
-        "coordx": 88,
-        "coordy": 1
-      },
-      {
-        "coordx": 98,
-        "coordy": 1
-      },
-      {
-        "coordx": 15,
-        "coordy": 2
-      },
-      {
-        "coordx": 16,
-        "coordy": 2
-      },
-      {
-        "coordx": 17,
-        "coordy": 2
-      },
-      {
-        "coordx": 21,
-        "coordy": 2
-      },
-      {
-        "coordx": 26,
-        "coordy": 2
       },
       {
         "coordx": 35,
         "coordy": 2
       },
       {
-        "coordx": 60,
-        "coordy": 2
-      },
-      {
-        "coordx": 68,
-        "coordy": 2
-      },
-      {
-        "coordx": 69,
-        "coordy": 2
-      },
-      {
-        "coordx": 70,
-        "coordy": 2
-      },
-      {
-        "coordx": 77,
-        "coordy": 2
-      },
-      {
-        "coordx": 78,
-        "coordy": 2
-      },
-      {
-        "coordx": 79,
-        "coordy": 2
-      },
-      {
-        "coordx": 80,
-        "coordy": 2
-      },
-      {
-        "coordx": 88,
-        "coordy": 2
-      },
-      {
         "coordx": 92,
         "coordy": 2
       },
       {
         "coordx": 94,
         "coordy": 2
-      },
-      {
-        "coordx": 98,
-        "coordy": 2
-      },
-      {
-        "coordx": 16,
-        "coordy": 3
-      },
-      {
-        "coordx": 17,
-        "coordy": 3
-      },
-      {
-        "coordx": 21,
-        "coordy": 3
-      },
-      {
-        "coordx": 26,
-        "coordy": 3
       },
       {
         "coordx": 34,
         "coordy": 3
       },
       {
-        "coordx": 60,
-        "coordy": 3
-      },
-      {
-        "coordx": 63,
-        "coordy": 3
-      },
-      {
-        "coordx": 69,
-        "coordy": 3
-      },
-      {
-        "coordx": 70,
-        "coordy": 3
-      },
-      {
-        "coordx": 77,
-        "coordy": 3
-      },
-      {
-        "coordx": 78,
-        "coordy": 3
-      },
-      {
-        "coordx": 79,
-        "coordy": 3
-      },
-      {
-        "coordx": 80,
-        "coordy": 3
-      },
-      {
-        "coordx": 88,
-        "coordy": 3
-      },
-      {
         "coordx": 92,
         "coordy": 3
       },
@@ -1036,55 +1335,7 @@
         "coordy": 3
       },
       {
-        "coordx": 98,
-        "coordy": 3
-      },
-      {
-        "coordx": 17,
-        "coordy": 4
-      },
-      {
-        "coordx": 21,
-        "coordy": 4
-      },
-      {
-        "coordx": 26,
-        "coordy": 4
-      },
-      {
         "coordx": 33,
-        "coordy": 4
-      },
-      {
-        "coordx": 60,
-        "coordy": 4
-      },
-      {
-        "coordx": 63,
-        "coordy": 4
-      },
-      {
-        "coordx": 70,
-        "coordy": 4
-      },
-      {
-        "coordx": 77,
-        "coordy": 4
-      },
-      {
-        "coordx": 78,
-        "coordy": 4
-      },
-      {
-        "coordx": 79,
-        "coordy": 4
-      },
-      {
-        "coordx": 80,
-        "coordy": 4
-      },
-      {
-        "coordx": 88,
         "coordy": 4
       },
       {
@@ -1120,43 +1371,7 @@
         "coordy": 4
       },
       {
-        "coordx": 98,
-        "coordy": 4
-      },
-      {
-        "coordx": 21,
-        "coordy": 5
-      },
-      {
-        "coordx": 26,
-        "coordy": 5
-      },
-      {
         "coordx": 32,
-        "coordy": 5
-      },
-      {
-        "coordx": 60,
-        "coordy": 5
-      },
-      {
-        "coordx": 63,
-        "coordy": 5
-      },
-      {
-        "coordx": 77,
-        "coordy": 5
-      },
-      {
-        "coordx": 78,
-        "coordy": 5
-      },
-      {
-        "coordx": 88,
-        "coordy": 5
-      },
-      {
-        "coordx": 98,
         "coordy": 5
       },
       {
@@ -1204,35 +1419,11 @@
         "coordy": 6
       },
       {
-        "coordx": 60,
-        "coordy": 6
-      },
-      {
-        "coordx": 63,
-        "coordy": 6
-      },
-      {
-        "coordx": 77,
-        "coordy": 6
-      },
-      {
-        "coordx": 78,
-        "coordy": 6
-      },
-      {
-        "coordx": 88,
-        "coordy": 6
-      },
-      {
         "coordx": 91,
         "coordy": 6
       },
       {
         "coordx": 95,
-        "coordy": 6
-      },
-      {
-        "coordx": 98,
         "coordy": 6
       },
       {
@@ -1320,30 +1511,6 @@
         "coordy": 7
       },
       {
-        "coordx": 63,
-        "coordy": 7
-      },
-      {
-        "coordx": 64,
-        "coordy": 7
-      },
-      {
-        "coordx": 65,
-        "coordy": 7
-      },
-      {
-        "coordx": 77,
-        "coordy": 7
-      },
-      {
-        "coordx": 78,
-        "coordy": 7
-      },
-      {
-        "coordx": 88,
-        "coordy": 7
-      },
-      {
         "coordx": 91,
         "coordy": 7
       },
@@ -1352,44 +1519,12 @@
         "coordy": 7
       },
       {
-        "coordx": 98,
-        "coordy": 7
-      },
-      {
-        "coordx": 65,
-        "coordy": 8
-      },
-      {
-        "coordx": 77,
-        "coordy": 8
-      },
-      {
-        "coordx": 78,
-        "coordy": 8
-      },
-      {
-        "coordx": 88,
-        "coordy": 8
-      },
-      {
         "coordx": 91,
         "coordy": 8
       },
       {
         "coordx": 95,
         "coordy": 8
-      },
-      {
-        "coordx": 98,
-        "coordy": 8
-      },
-      {
-        "coordx": 65,
-        "coordy": 9
-      },
-      {
-        "coordx": 88,
-        "coordy": 9
       },
       {
         "coordx": 90,
@@ -1400,118 +1535,12 @@
         "coordy": 9
       },
       {
-        "coordx": 98,
-        "coordy": 9
-      },
-      {
-        "coordx": 65,
-        "coordy": 10
-      },
-      {
-        "coordx": 88,
-        "coordy": 10
-      },
-      {
         "coordx": 89,
         "coordy": 10
       },
       {
         "coordx": 97,
         "coordy": 10
-      },
-      {
-        "coordx": 98,
-        "coordy": 10
-      },
-      {
-        "coordx": 65,
-        "coordy": 11
-      },
-      {
-        "coordx": 88,
-        "coordy": 11
-      },
-      {
-        "coordx": 98,
-        "coordy": 11
-      },
-      {
-        "coordx": 66,
-        "coordy": 12
-      },
-      {
-        "coordx": 66,
-        "coordy": 13
-      },
-      {
-        "coordx": 66,
-        "coordy": 14
-      },
-      {
-        "coordx": 66,
-        "coordy": 15
-      },
-      {
-        "coordx": 67,
-        "coordy": 16
-      },
-      {
-        "coordx": 67,
-        "coordy": 17
-      },
-      {
-        "coordx": 67,
-        "coordy": 18
-      },
-      {
-        "coordx": 67,
-        "coordy": 19
-      },
-      {
-        "coordx": 68,
-        "coordy": 20
-      },
-      {
-        "coordx": 68,
-        "coordy": 21
-      },
-      {
-        "coordx": 68,
-        "coordy": 22
-      },
-      {
-        "coordx": 68,
-        "coordy": 23
-      },
-      {
-        "coordx": 69,
-        "coordy": 24
-      },
-      {
-        "coordx": 69,
-        "coordy": 25
-      },
-      {
-        "coordx": 69,
-        "coordy": 26
-      },
-      {
-        "coordx": 69,
-        "coordy": 27
-      },
-      {
-        "coordx": 69,
-        "coordy": 28
-      },
-      {
-        "coordx": 69,
-        "coordy": 29
-      }
-    ],
-    "#FFFFD700": [
-      {
-        "coordx": 97,
-        "coordy": 1
       }
     ]
   }
