@@ -17,11 +17,8 @@ namespace Moo
 		// clean 
 	}
 
-	std::vector<std::pair<std::string, Moo::Entity *>>	LevelScene::getEntitiesFromMap(JsonParser *map)
+	void	LevelScene::getEntitiesFromMap(JsonParser *map)
 	{
-		//List of entities of the game
-		std::vector<std::pair<std::string, Moo::Entity *>> entities;
-
 		Moo::Texture *characterText = new Moo::Texture;
 		characterText->loadFromFile("character.dds");
 		Moo::Texture *enemyText = new Moo::Texture;
@@ -68,13 +65,13 @@ namespace Moo
 		{
 			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			enemySprite->loadTexture(enemyText);
-			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, false);
+			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, true);
 			enemy->setCollision(true);
 			// To make sure that enemies have less health than us at the beginning
 			enemy->setHealth(4);
 			enemySprite->scale(Moo::Vector2f(-0.1f, -0.1f));
 			enemy->getHitboxSprite()->setScale(enemy->getSprite()->getScale());
-			entities.push_back(std::make_pair("Enemy " + std::to_string(i), enemy));
+			dynamicEntities.push_back(std::make_pair("Enemy " + std::to_string(i), enemy));
 			++i;
 		}
 
@@ -87,7 +84,7 @@ namespace Moo
 			Moo::Sprite *platform = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			platform->loadTexture(platformText);
 			Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false);
-			entities.push_back(std::make_pair("Platform " + std::to_string(i), platformEntity));
+			staticEntities.push_back(std::make_pair("Platform " + std::to_string(i), platformEntity));
 			++i;
 		}
 
@@ -96,7 +93,7 @@ namespace Moo
 		{
 			Moo::Sprite *bloc = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			bloc->loadTexture(blocText);
-			entities.push_back(std::make_pair("Bloc", new Moo::Character(Moo::Vector2f(1, 0), 0, bloc, false)));
+			staticEntities.push_back(std::make_pair("Bloc", new Moo::Character(Moo::Vector2f(1, 0), 0, bloc, false)));
 		}
 
 		//bottom
@@ -104,7 +101,7 @@ namespace Moo
 		{
 			Moo::Sprite *ground = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			ground->loadTexture(groundText);
-			entities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false)));
+			staticEntities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false)));
 		}
 
 		//exit
@@ -113,7 +110,7 @@ namespace Moo
 			Moo::Sprite *exit = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			exit->loadTexture(exitText);
 			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false);
-			entities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
+			staticEntities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
 			++i;
 		}
 
@@ -127,15 +124,13 @@ namespace Moo
 			character->loadTexture(characterText);
 			Moo::Character *player = new Moo::Character(Moo::Vector2f(5, 0), playerMass, character, true);
 			//The player is always the first of the entities vector
-			entities.insert(entities.begin(), std::make_pair("Player", player));
+			dynamicEntities.insert(dynamicEntities.begin(), std::make_pair("Player", player));
 		}
 
 		// release Textures
 		//marioText->release();
 		//platformText->release();
 		//groundText->~Texture();
-
-		return (entities);
 	}
 
 	bool	LevelScene::init()
@@ -155,8 +150,8 @@ namespace Moo
 		try
 		{
 			//We get the map
-			//map = new JsonParser("2d-Maps/50x50.json");
-			map = new JsonParser("2d-Maps/juuuuuuuuuuuuuuuuuuuuuuuuuuujMap.json");
+			map = new JsonParser("2d-Maps/50x50.json");
+			//map = new JsonParser("2d-Maps/MapPreAlpha.json");
 			
 
 			if (map->parseFile() == -1)
@@ -169,7 +164,7 @@ namespace Moo
 			}
 
 			//Read the entities from the map
-			entities = getEntitiesFromMap(map);
+			getEntitiesFromMap(map);
 		}
 		catch (std::string error)
 		{
@@ -180,7 +175,7 @@ namespace Moo
 		background = new Moo::Sprite(4000, 3000, 0, 0);
 		background->loadTexture(backgroundText);
 
-		player = dynamic_cast<Moo::Character *>(entities[0].second);
+		player = dynamic_cast<Moo::Character *>(dynamicEntities[0].second);
 
 		// Temp texture for the bullet
 		bulletText = new Moo::Texture;
@@ -190,27 +185,315 @@ namespace Moo
 		winText = new Moo::Texture;
 		winText->loadFromFile("You_Won_DDS.dds");
 
-		lose = new Moo::Sprite(
-			400,
-			133,
-			0, 0
-			);
+		lose = new Moo::Sprite(400, 133, 0, 0);
 		lose->loadTexture(loseText);
-		win = new Moo::Sprite(
-			400,
-			133,
-			0, 0
-			);
+		win = new Moo::Sprite(400, 133,	0, 0);
 		win->loadTexture(winText);
-		return true;
+
+		return (true);
+	}
+
+	bool	LevelScene::inputHandling(Moo::Window &window)
+	{
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::A))
+		{
+			audio.pauseSound(music);
+			camera.setPosition(d3d::getInstance().getCamera()->getPosition());
+			Moo::Game::getInstance().runScene(TypeScene::PAUSE, TypeScene::LEVEL, window);
+			return (true);
+		}
+
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::B))
+			audio.playSound(music, true);
+
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::C))
+			audio.pauseSound(music);
+
+		//Cheats
+		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))
+			player->toggleGodMode();
+
+		if (Moo::Keyboard::isDown(Moo::Keyboard::SizeUp))
+		{
+			player->setHealth(player->getHealth() + 1);
+			player->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
+			player->getHitboxSprite()->setScale(player->getSprite()->getScale());
+		}
+
+		if (Moo::Keyboard::isDown(Moo::Keyboard::SizeDown))
+		{
+			player->setHealth(player->getHealth() - 1);
+			player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
+			player->getHitboxSprite()->setScale(player->getSprite()->getScale());
+		}
+
+		if (Moo::Keyboard::isDown(Moo::Keyboard::Space))
+			player->jump();
+
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
+			player->move(Direction::LEFT);
+
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
+			player->move(Direction::RIGHT);
+
+		if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
+		{
+			if (player->getHealth() > 1)
+			{
+				audio.playSound(jump, false);
+
+				// Define the base pos of the bullet and create the sprite
+				float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
+				float bulletPosY = player->getSprite()->getY() + (player->getSprite()->getHeight() / 2);
+				Moo::Sprite *bulletSprite = new Moo::Sprite(5, 5, bulletPosX, bulletPosY);
+
+				bulletSprite->loadTexture(bulletText);
+
+				// Creation of the bullet
+				Moo::Bullet *bullet = new Moo::Bullet(bulletSprite, false);
+				bullet->setCollision(true);
+
+				// Addition of the bullet to the bullet pool
+				dynamicEntities.push_back(std::pair<std::string, Moo::Entity *>("bullet", bullet));
+
+				// Check if cheat code is activated.
+				if (player->isGodMode() == false)
+				{
+					int currentHealth = player->getHealth();
+					player->setHealth(currentHealth - 1);
+					player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
+					player->getHitboxSprite()->setScale(player->getSprite()->getScale());
+				}
+				std::cout << "Player health : " << player->getHealth() << std::endl;
+			}
+			else
+				std::cout << "Player is too small to shoot" << std::endl;
+		}
+		return (false);
+	}
+
+	void	LevelScene::displayHitboxesAndSprites(Moo::Window &window)
+	{
+		window.clear();
+		window.draw(background);
+
+		// Display hitbox if godmode is on
+		if (player->isGodMode() == true)
+			window.draw(player->getHitboxSprite());
+
+		//Draw static entities and their hitboxes
+		for (unsigned int i = 0; i < staticEntities.size(); ++i)
+		{
+			window.draw(((Moo::Character *)staticEntities[i].second)->getSprite());
+			window.draw(((Moo::Character *)staticEntities[i].second)->getHitboxSprite());
+		}
+
+		//Draw dynamic entities and their hitboxes
+		for (unsigned int i = 0; i < dynamicEntities.size(); ++i)
+		{
+			window.draw(((Moo::Character *)dynamicEntities[i].second)->getSprite());
+			window.draw(((Moo::Character *)dynamicEntities[i].second)->getHitboxSprite());
+			if (_strnicmp(dynamicEntities[i].first.c_str(), "Enemy", 5) == 0)
+				((Moo::Character *)dynamicEntities[i].second)->getSprite()->rotate(1);
+		}
+	}
+
+	void	LevelScene::exitReached(Moo::Window &window)
+	{
+		win->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
+						  (Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
+						 ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
+						  (Moo::d3d::getInstance().getScreenSize().y / 2))
+			);
+		audio.pauseSound(music);
+		audio.playSound(soundWin, false);
+		window.draw(win);
+		window.display();
+		Sleep(1000);
+		audio.pauseSound(soundWin);
+		Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
+	}
+
+	void	LevelScene::playerDead(Moo::Window &window)
+	{
+		lose->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
+						   (Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
+						  ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
+						   (Moo::d3d::getInstance().getScreenSize().y / 2))
+			);
+		audio.pauseSound(music);
+		audio.playSound(soundLose, false);
+		window.draw(lose);
+		window.display();
+		Sleep(1000);
+		audio.pauseSound(soundLose);
+		Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
+	}
+
+	bool	LevelScene::applyGravityAndCollisions(Moo::Window &window)
+	{
+		//Init collison & gravity loop values
+		HitZone hitZone;
+		bool deletedBullet;
+		bool deletedCharacter;
+		Vector2f decal(0, 0);
+
+		for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator dynEntIt = dynamicEntities.begin(); dynEntIt != dynamicEntities.end();)
+		{
+			decal = Vector2f(0,0);
+			//if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6))
+			//if ((*dynEntIt).second == player)
+			(*dynEntIt).second->setGravity(true);
+			if ((*dynEntIt).second->getGravity() == true)
+			{
+				((Moo::Character *)(*dynEntIt).second)->update();
+				((Moo::Character *)(*dynEntIt).second)->resetHitbox();
+			}
+			deletedBullet = false;
+			deletedCharacter = false;
+
+			if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
+				decal.x = 5;
+
+			for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator statEntIt = staticEntities.begin();
+				 statEntIt != staticEntities.end();
+				 ++statEntIt)
+			{
+				if ((hitZone = (*dynEntIt).second->collisionAABB((*statEntIt).second)) != HitZone::NONE)
+				{
+					//If player collides with an Exit
+					if ((*dynEntIt).second == player
+						&& _strnicmp((*statEntIt).first.c_str(), "Exit", 4) == 0)
+					{
+						exitReached(window);
+						return false;
+					}
+					//If we collide with a wall/platform/bottom
+					else if ((*dynEntIt).second == player
+						|| (_strnicmp((*dynEntIt).first.c_str(), "Enemy", 5) == 0))
+					{
+						if (hitZone == HitZone::RIGHT_SIDE)
+							decal.x = (*statEntIt).second->getHitbox().x1 - (*dynEntIt).second->getHitbox().x2;
+						else if (hitZone == HitZone::LEFT_SIDE)
+							decal.x = (*statEntIt).second->getHitbox().x2 - (*dynEntIt).second->getHitbox().x1;
+						else if (hitZone == HitZone::TOP)
+						{
+							decal.y = (*statEntIt).second->getHitbox().y2 - (*dynEntIt).second->getHitbox().y1;
+							(*dynEntIt).second->setVelocity(Vector2f((*dynEntIt).second->getVelocity().x, -1));
+						}
+						else if (hitZone == HitZone::BOTTOM)
+						{
+							decal.y = (*statEntIt).second->getHitbox().y1 - (*dynEntIt).second->getHitbox().y2;
+							((Moo::Character *)(*dynEntIt).second)->resetPos();
+							(*dynEntIt).second->setGravity(false);
+						}
+					}
+					else if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
+					{
+						std::cout << "Deleting " << (*dynEntIt).first << std::endl;
+						delete (*dynEntIt).second;
+						dynEntIt = dynamicEntities.erase(dynEntIt);
+						deletedBullet = true;
+						break;
+					}
+				}
+			}
+
+			if (deletedBullet == false)
+			{
+				Moo::Character *character = ((Moo::Character *)(*dynEntIt).second);
+				if (decal.y != 0)
+					character->getSprite()->setY(character->getSprite()->getY() + decal.y);
+				if (decal.x != 0)
+					character->getSprite()->setX(character->getSprite()->getX() + decal.x);
+				character->resetHitbox();
+
+				//if (character == player || _strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
+				for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator SecondDynEntIt = dynamicEntities.begin();
+					 SecondDynEntIt != dynamicEntities.end();
+					 ++SecondDynEntIt)
+				{
+					if ((*SecondDynEntIt).second != character
+					 && ((hitZone = character->collisionAABB((*SecondDynEntIt).second)) != HitZone::NONE))
+					{
+						//std::cout << (*dynEntIt).first << " x1: " << (*dynEntIt).second->getHitbox().x1 << " y1: " << (*dynEntIt).second->getHitbox().y1
+						//		  << " x2: " << (*dynEntIt).second->getHitbox().x2 << " y2: " << (*dynEntIt).second->getHitbox().y2 << std::endl
+						//		  << (*SecondDynEntIt).first << " x1: " << (*SecondDynEntIt).second->getHitbox().x1 << " y1: " << (*SecondDynEntIt).second->getHitbox().y1
+						//		  << " x2: " << (*SecondDynEntIt).second->getHitbox().x2 << " y2: " << (*SecondDynEntIt).second->getHitbox().y2 << std::endl;
+						//If we collide with an enemy : Absorb him
+						if (_strnicmp((*SecondDynEntIt).first.c_str(), "Enemy", 5) == 0)
+						{
+							Moo::Character *enemyCollided = ((Moo::Character *)(*SecondDynEntIt).second);
+							if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
+							{
+								delete character;
+								dynEntIt = dynamicEntities.erase(dynEntIt);
+								deletedBullet = true;
+								enemyCollided->setHealth(enemyCollided->getHealth() + 1);
+								enemyCollided->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
+								enemyCollided->getHitboxSprite()->setScale(enemyCollided->getSprite()->getScale());
+								enemyCollided->resetHitbox();
+								std::cout << (*SecondDynEntIt).first << " health: " << enemyCollided->getHealth() << std::endl;
+								break;
+							}
+							else 
+							{
+								if (character->getHealth() >= enemyCollided->getHealth() || character->isGodMode() == true)
+								{
+									std::cout << "Deleting " << (*SecondDynEntIt).first << std::endl;
+									character->setHealth(character->getHealth() + (enemyCollided->getHealth() * 33 / 100));
+									character->getSprite()->scale(Moo::Vector2f(0.1f * (enemyCollided->getHealth() * 33 / 100),
+																				0.1f * (enemyCollided->getHealth() * 33 / 100)));
+									character->getHitboxSprite()->setScale(character->getSprite()->getScale());
+									character->resetHitbox();
+									std::cout << (*dynEntIt).first << " health: " << character->getHealth() << std::endl;
+									SecondDynEntIt = dynamicEntities.erase(SecondDynEntIt);
+									deletedCharacter = true;
+									break;
+								}
+								else if (character == player)
+								{
+									playerDead(window);
+									return (false);
+								}
+								else
+								{
+									std::cout << "Deleting " << (*dynEntIt).first << std::endl;
+									enemyCollided->setHealth(character->getHealth() + (character->getHealth() * 33 / 100));
+									enemyCollided->getSprite()->scale(Moo::Vector2f(0.1f * (character->getHealth() * 33 / 100),
+																					0.1f * (character->getHealth() * 33 / 100)));
+									enemyCollided->getHitboxSprite()->setScale(enemyCollided->getSprite()->getScale());
+									enemyCollided->resetHitbox();
+									std::cout << (*SecondDynEntIt).first << " health: " << enemyCollided->getHealth() << std::endl;
+									dynEntIt = dynamicEntities.erase(dynEntIt);
+									deletedCharacter = true;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+			if (deletedBullet == false && deletedCharacter == false)
+				++dynEntIt;
+			else if (deletedCharacter == true)
+			{
+				std::cout << "A dynamic entity is deleted so we break" << std::endl;
+				break;
+			}
+		}
+		return (true);
 	}
 
 	bool	LevelScene::run(Moo::Window &window)
 	{
 		d3d::getInstance().getCamera()->setPosition(camera.getPosition());
 		audio.playSound(music, true);
+
 		while (window.isOpen())
 		{
+			if (inputHandling(window) == true)
+				return (true);
 			//Sam DEbug
 
 			//std::cout << "camera x = " << Moo::d3d::getInstance().getCamera()->getPosition().x << std::endl;
@@ -218,217 +501,14 @@ namespace Moo
 			//std::cout << "player x = " << player->getHitbox().x1 << std::endl;
 			//std::cout << "player y = " << player->getHitbox().y1 << std::endl;
 
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::A)) {
-				audio.pauseSound(music);
-				camera.setPosition(d3d::getInstance().getCamera()->getPosition());
-				Moo::Game::getInstance().runScene(TypeScene::PAUSE, TypeScene::LEVEL, window);
-				return true;
-			}
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::B)) {
-				audio.playSound(music, true);
-			}
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::C)) {
-				audio.pauseSound(music);
-			}
-
-			//Cheats
-			if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode)) {
-				player->toggleGodMode();
-			}
-			if (Moo::Keyboard::isDown(Moo::Keyboard::SizeUp)) {
-				player->setHealth(player->getHealth() + 1);
-				player->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
-				player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-			}
-			if (Moo::Keyboard::isDown(Moo::Keyboard::SizeDown)) {
-				player->setHealth(player->getHealth() - 1);
-				player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
-				player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-			}
-
-			if (Moo::Keyboard::isDown(Moo::Keyboard::Space)) {
-				player->jump();
-			}
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
-				player->move(Direction::LEFT);
-			if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
-				player->move(Direction::RIGHT);
-			//if (Moo::Keyboard::isPressed(Moo::Keyboard::Up))
-			//	Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(-10, 0));
-			//if (Moo::Keyboard::isPressed(Moo::Keyboard::Down))
-			//	Moo::d3d::getInstance().getCamera()->move(Moo::Vector2f(10, 0));
-			if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
-			{
-				if (player->getHealth() > 1)
-				{
-					audio.playSound(jump, false);
-
-					// Define the base pos of the bullet and create the sprite
-					float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
-					float bulletPosY = player->getSprite()->getY() + (player->getSprite()->getHeight() / 2);
-					Moo::Sprite *bulletSprite = new Moo::Sprite(5, 5, bulletPosX, bulletPosY);
-
-					bulletSprite->loadTexture(bulletText);
-
-					// Creation of the bullet
-					Moo::Bullet *bullet = new Moo::Bullet(bulletSprite, false);
-					bullet->setCollision(true);
-
-					// Addition of the bullet to the bullet pool
-					bulletPool.push_back(bullet);
-					// Debug message
-					//std::cout << "La taille de la bulletPool est de : " << bulletPool.size() << std::endl;
-
-					// Check if cheat code is activated.
-					if (player->isGodMode() == false)
-					{
-						int currentHealth = player->getHealth();
-						player->setHealth(currentHealth - 1);
-						player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
-						player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-					}
-					std::cout << "Player health : " << player->getHealth() << std::endl;
-				}
-				else
-					std::cout << "Player is too small to shoot" << std::endl;
-			}
-			
-			player->setGravity(true);
-			HitZone hitZone;
-			Vector2f decal(0, 0);
-		
-			for (unsigned int i = 0; i < entities.size(); ++i)
-			{
-				if (entities[i].second->getGravity() == true)
-					((Moo::Character *)entities[i].second)->update();
-				if (entities[i].second != player
-					&& entities[i].second->isCollidable()
-					&& ((hitZone = player->collisionAABB(entities[i].second)) != HitZone::NONE))
-				{
-					//If we collide with an enemy : Absorb him
-					if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
-					{
-						Moo::Character *enemyCollided = (Moo::Character *)entities[i].second;
-						if (player->getHealth() > enemyCollided->getHealth() || player->isGodMode() == true)
-						{
-							player->setHealth(player->getHealth() + (enemyCollided->getHealth() * 33 / 100));
-							player->getSprite()->scale(Moo::Vector2f(0.1f * (enemyCollided->getHealth() * 33 / 100), 0.1f * (enemyCollided->getHealth() * 33 / 100)));
-							player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-							entities.erase(entities.begin() + i);
-							std::cout << "Player health : " << player->getHealth() << std::endl;
-						}
-						else
-						{
-							lose->setPosition(
-								((Moo::d3d::getInstance().getCamera()->getPosition().x *-1) +
-									(Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
-								((Moo::d3d::getInstance().getCamera()->getPosition().y *-1) +
-									(Moo::d3d::getInstance().getScreenSize().y / 2))
-								);
-							audio.pauseSound(music);
-							audio.playSound(soundLose, false);
-							window.draw(lose);
-							window.display();
-							Sleep(1000);
-							audio.pauseSound(soundLose);
-
-							Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
-							return false;
-						}
-					}
-					//If we collide with an Exit
-					else if (_strnicmp(entities[i].first.c_str(), "Exit", 4) == 0)
-					{
-						win->setPosition(
-							((Moo::d3d::getInstance().getCamera()->getPosition().x *-1) +
-								(Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
-							((Moo::d3d::getInstance().getCamera()->getPosition().y *-1) +
-								(Moo::d3d::getInstance().getScreenSize().y / 2))
-							);
-						audio.pauseSound(music);
-						audio.playSound(soundWin, false);
-						window.draw(win);
-						window.display();
-						Sleep(1000);
-						audio.pauseSound(soundWin);
-						Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
-						return false;
-					}
-					//If we collide with a wall/platform/bottom
-					else
-					{
-						if (hitZone == HitZone::RIGHT_SIDE)
-							decal.x = entities[i].second->getHitbox().x1 - player->getHitbox().x2;
-						else if (hitZone == HitZone::LEFT_SIDE)
-							decal.x = entities[i].second->getHitbox().x2 - player->getHitbox().x1;
-						else if (hitZone == HitZone::TOP)
-						{
-							decal.y = entities[i].second->getHitbox().y2 - player->getHitbox().y1;
-							player->setVelocity(Vector2f(player->getVelocity().x, -1));
-						}
-						else
-						{
-							decal.y = entities[i].second->getHitbox().y1 - player->getHitbox().y2;
-							player->resetPos();
-							player->setGravity(false);
-						}
-					}
-				}
-			}
-
-			if (decal.y != 0)
-				player->getSprite()->setY(player->getSprite()->getY() + decal.y);
-			if (decal.x != 0)
-				player->getSprite()->setX(player->getSprite()->getX() + decal.x);
-			player->resetHitbox();
+			if (applyGravityAndCollisions(window) == false)
+				return (false);
 
 			// UPDATE CAMERA
 			Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
 
-			window.clear();
-			window.draw(background);
+			displayHitboxesAndSprites(window);
 
-			// Display hitbox if godmode is on
-			if (player->isGodMode() == true)
-				window.draw(player->getHitboxSprite());
-
-			for (unsigned int i = 0; i < entities.size(); ++i)
-			{
-				window.draw(((Moo::Character *)entities[i].second)->getSprite());
-				//window.draw(((Moo::Character *)entities[i].second)->getHitboxSprite());
-				if (_strnicmp(entities[i].first.c_str(), "Enemy", 5) == 0)
-					((Moo::Character *)entities[i].second)->getSprite()->rotate(1);
-			}
-
-			for (unsigned int bulletInc = 0; bulletInc < bulletPool.size(); ++bulletInc)
-			{
-				Moo::Bullet *bullet = bulletPool[bulletInc];
-				bullet->move(Direction::RIGHT);
-				HitZone hitZone;
-				/*
-				if (bulletPool[i]->getGravity() == true)
-					((Moo::Character *)bulletPool[i])->update();
-				*/
-				for (unsigned int entitiesInc = 0; entitiesInc < entities.size(); ++entitiesInc)
-					if (entities[entitiesInc].second != player
-					&& entities[entitiesInc].second->isCollidable()
-					&& (hitZone = bullet->collisionAABB(entities[entitiesInc].second)) != HitZone::NONE)
-					{
-						bulletPool.erase(bulletPool.begin() + bulletInc);
-						if (_strnicmp(entities[entitiesInc].first.c_str(), "Enemy", 5) == 0)
-						{
-							Moo::Character *enemy = (Moo::Character *)entities[entitiesInc].second;
-							if (enemy->getHealth() < 10)
-								enemy->setHealth(enemy->getHealth() + 1);
-							enemy->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
-							enemy->getHitboxSprite()->setScale(enemy->getSprite()->getScale());
-							//std::cout << "Enemy health : " << ((Moo::Character *)entities[j].second)->getHealth() << std::endl;
-						}
-					}
-
-				window.draw(bullet->getSprite());
-				//window.draw(bullet->getHitboxSprite());
-			}
 			window.display();
 		}
 		audio.pauseSound(music);

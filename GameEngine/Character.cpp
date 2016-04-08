@@ -11,9 +11,9 @@ namespace Moo
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		this->setGravity(hasGravity);
 		_hitboxSprite = new Sprite(*_sprite);
-		Moo::Texture *hitbox = new Moo::Texture;
-		hitbox->loadFromFile("hitbox.dds");
-		_hitboxSprite->loadTexture(hitbox);
+		_texture = new Moo::Texture;
+		_texture->loadFromFile("hitbox.dds");
+		_hitboxSprite->loadTexture(_texture);
 
 		this->_health = 5;
 
@@ -22,6 +22,12 @@ namespace Moo
 
 	Character::~Character()
 	{
+		if (_sprite != nullptr)
+			delete _sprite;
+		if (_hitboxSprite != nullptr)
+			delete _hitboxSprite;
+		if (_texture != nullptr)
+			_texture->release();
 	}
 
 	Hitbox Character::resetHitbox()

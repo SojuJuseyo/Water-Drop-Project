@@ -8,13 +8,19 @@ namespace Moo
 		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() - (sprite->getHeight() / 3) * 2);
 		this->setGravity(hasGravity);
 		_hitboxSprite = new Sprite(*_sprite);
-		Moo::Texture *hitbox = new Moo::Texture;
-		hitbox->loadFromFile("hitbox.dds");
-		_hitboxSprite->loadTexture(hitbox);
+		_texture = new Moo::Texture;
+		_texture->loadFromFile("hitbox.dds");
+		_hitboxSprite->loadTexture(_texture);
 	}
 
 	Bullet::~Bullet()
 	{
+		if (_sprite != nullptr)
+			delete _sprite;
+		if (_hitboxSprite != nullptr)
+			delete _hitboxSprite;
+		if (_texture != nullptr)
+			_texture->release();
 	}
 
 	void Bullet::move(Direction _direction)

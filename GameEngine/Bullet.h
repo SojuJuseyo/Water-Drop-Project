@@ -19,7 +19,8 @@ namespace Moo
 		Sprite  *getHitboxSprite() const;
 
 	private:
-		Sprite *_sprite;
-		Sprite *_hitboxSprite;
+		Sprite			*_sprite;
+		Sprite			*_hitboxSprite;
+		Moo::Texture	*_texture;
 	};
 }

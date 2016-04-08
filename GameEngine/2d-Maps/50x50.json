@@ -2109,30 +2109,59 @@
         "coordy": 49
       }
     ],
+    "#FF551A8B": [],
     "#FF000000": [
       {
         "coordx": 16,
         "coordy": 1
       },
       {
+        "coordx": 16,
+        "coordy": 4
+      },
+      {
         "coordx": 31,
         "coordy": 4
       },
       {
+        "coordx": 16,
+        "coordy": 7
+      },
+      {
         "coordx": 46,
         "coordy": 7
-      }
-    ],
-    "#FFFFD700": [
+      },
       {
-        "coordx": 47,
-        "coordy": 6
+        "coordx": 16,
+        "coordy": 9
+      },
+      {
+        "coordx": 16,
+        "coordy": 14
+      },
+      {
+        "coordx": 16,
+        "coordy": 17
+      },
+      {
+        "coordx": 16,
+        "coordy": 21
+      },
+      {
+        "coordx": 16,
+        "coordy": 23
       }
     ],
     "#FFABCDEF": [
       {
         "coordx": 3,
         "coordy": 3
+      }
+    ],
+    "#FFFFD700": [
+      {
+        "coordx": 47,
+        "coordy": 6
       }
     ],
     "#FF117050": [

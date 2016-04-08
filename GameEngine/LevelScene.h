@@ -27,9 +27,16 @@ namespace Moo
 		bool	run(Moo::Window &window);
 		void	clean();
 		bool	init();
-		std::vector<std::pair<std::string, Moo::Entity *>> getEntitiesFromMap(JsonParser *map);
+		void	getEntitiesFromMap(JsonParser *map);
+		bool	inputHandling(Moo::Window &window);
+		void	displayHitboxesAndSprites(Moo::Window &window);
+		bool	applyGravityAndCollisions(Moo::Window &window);
+		void	exitReached(Moo::Window &window);
+		void	playerDead(Moo::Window &window);
+
 	private:
-		std::vector<std::pair<std::string, Moo::Entity *>> entities;
+		std::vector<std::pair<std::string, Moo::Entity *>> staticEntities;
+		std::vector<std::pair<std::string, Moo::Entity *>> dynamicEntities;
 		JsonParser *map;
 		Moo::Sprite *background, *lose, *win;
 		Moo::Character *player;

@@ -31,8 +31,9 @@ namespace Moo
 		void	toggleGodMode();
 
 	private:
-		Sprite *_sprite;
-		Sprite *_hitboxSprite;
+		Sprite			*_sprite;
+		Sprite			*_hitboxSprite;
+		Moo::Texture	*_texture;
 
 		// Health points
 		int		_health;
