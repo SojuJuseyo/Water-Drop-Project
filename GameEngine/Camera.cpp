@@ -26,6 +26,11 @@ namespace Moo
 		_position = position;
 	}
 
+	void	Camera::setInfoMap(MapInfos mapInfos)
+	{
+		_mapInfos = mapInfos;
+	}
+
 	void	Camera::update(Hitbox hitbox)
 	{
 		Vector2f posCamera(_position.x * -1, _position.y * -1);
@@ -38,6 +43,7 @@ namespace Moo
 		<< ", lasty : " << std::setprecision(3) << _lastHitbox.y1
 		<< ", camy : " << std::setprecision(3) << posCamera.y
 		<< ", - : " << std::setprecision(1) << hitbox.y1 - _lastHitbox.y1 << std::endl;*/
+		
 		if (!_isHitboxSet)
 		{
 			_isHitboxSet = true;
@@ -45,7 +51,7 @@ namespace Moo
 		}
 		if (hitbox.x1 - _lastHitbox.x1 > 0) // si direction negative axe x
 		{
-			if (hitboxTmp.x1 > posCamera.x + 150)
+			if (hitboxTmp.x1 > posCamera.x + 150 && _position.x > (float)((_mapInfos.getMapWidth() * 40 - 800) * -1))
 				_position.x += (_lastHitbox.x1 - hitbox.x1);
 		}
 		else
@@ -56,8 +62,8 @@ namespace Moo
 			}
 		if (hitbox.y1 - _lastHitbox.y1 > 0) // si direction negative axe y
 		{
-			if (hitboxTmp.y1 > posCamera.y + 400)
-				_position.y += (_lastHitbox.y1 - hitbox.y1);
+			if (hitboxTmp.y1 > posCamera.y + 400 && _position.y >(float)((_mapInfos.getMapHeight() * 40 - 600) * -1))
+				_position.y += ((int)(_lastHitbox.y1) - (int)(hitbox.y1));
 		}
 		else
 			if (hitbox.y1 - _lastHitbox.y1 < 0) // si direction positive axe y

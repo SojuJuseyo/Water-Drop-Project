@@ -147,28 +147,22 @@ namespace Moo
 		backgroundText = new Moo::Texture;
 		backgroundText->loadFromFile("background.dds");
 
-		try
+		//We get the map
+		map = new JsonParser("2d-Maps/50x50.json");
+		//map = new JsonParser("2d-Maps/MapPreAlpha.json");
+
+		if (map->parseFile() == -1)
+			throw std::exception("Can't load the map");
+
+		//map->getMap().displayMapInfos();
+
+		//Read the entities from the map
+		getEntitiesFromMap(map);
+
+		if (!music.loadSound(map->getMap().getMapAudioFile()))
 		{
-			//We get the map
-			map = new JsonParser("2d-Maps/50x50.json");
-			//map = new JsonParser("2d-Maps/MapPreAlpha.json");
-			
-
-			if (map->parseFile() == -1)
-				throw std::string("Can't load the map");
-			//map->getMap().displayMapInfos();
-
-			if (!music.loadSound(map->getMap().getMapAudioFile())) {
-				std::cout << map->getMap().getMapAudioFile() << std::endl;
-				std::cout << "music failed" << std::endl;
-			}
-
-			//Read the entities from the map
-			getEntitiesFromMap(map);
-		}
-		catch (std::string error)
-		{
-			std::cout << "Error: " << error << std::endl;
+			std::cout << map->getMap().getMapAudioFile() << std::endl;
+			std::cout << "music failed" << std::endl;
 		}
 
 		//background
@@ -184,6 +178,7 @@ namespace Moo
 		loseText->loadFromFile("You_Lost_DDS.dds");
 		winText = new Moo::Texture;
 		winText->loadFromFile("You_Won_DDS.dds");
+		Moo::d3d::getInstance().getCamera()->setInfoMap(map->getMap());
 
 		lose = new Moo::Sprite(400, 133, 0, 0);
 		lose->loadTexture(loseText);
@@ -440,7 +435,7 @@ namespace Moo
 							{
 								if (character->getHealth() >= enemyCollided->getHealth() || character->isGodMode() == true)
 								{
-									std::cout << "Deleting " << (*SecondDynEntIt).first << std::endl;
+									std::cout << "Bigger - Deleting " << (*SecondDynEntIt).first << std::endl;
 									character->setHealth(character->getHealth() + (enemyCollided->getHealth() * 33 / 100));
 									character->getSprite()->scale(Moo::Vector2f(0.1f * (enemyCollided->getHealth() * 33 / 100),
 																				0.1f * (enemyCollided->getHealth() * 33 / 100)));
@@ -458,8 +453,8 @@ namespace Moo
 								}
 								else
 								{
-									std::cout << "Deleting " << (*dynEntIt).first << std::endl;
-									enemyCollided->setHealth(character->getHealth() + (character->getHealth() * 33 / 100));
+									std::cout << "Smaller - Deleting " << (*dynEntIt).first << std::endl;
+									enemyCollided->setHealth(enemyCollided->getHealth() + (character->getHealth() * 33 / 100));
 									enemyCollided->getSprite()->scale(Moo::Vector2f(0.1f * (character->getHealth() * 33 / 100),
 																					0.1f * (character->getHealth() * 33 / 100)));
 									enemyCollided->getHitboxSprite()->setScale(enemyCollided->getSprite()->getScale());
