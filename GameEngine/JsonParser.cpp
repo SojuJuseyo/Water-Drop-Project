@@ -25,10 +25,16 @@ int JsonParser::parseFile()
 
 	// Parse the stream and fill the jsonObject with the values
 	if (!jsonReader.parse(fileStream, jsonObject))
+	{
+		std::cout << "Can't find the map. Please check the path." << std::endl;
 		return (-1);
+	}
 	// Check that the name of the map, its size and its tilelist are correctly set
 	if (this->checkFieldNamesExistence(jsonObject) == false)
+	{
+		std::cout << "Map corrupted. All the required fields are not present. Please correct the map or recreate it." << std::endl;
 		return (-1);
+	}
 
 	this->map.setMapName(jsonObject[MAPNAMEATTRIBUTE].asString());
 	// Parse the size string (format : X/Y) and split it in two integers
@@ -67,6 +73,7 @@ int JsonParser::parseFile()
 
 	this->map.setMapTileList(mapTileList);
 
+	std::cout << "Map successfully loaded." << std::endl;
 	return (0);
 }
 

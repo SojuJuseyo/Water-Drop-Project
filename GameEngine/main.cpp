@@ -22,6 +22,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//60 FPS master race
 	window.setFpsLimit(FPS_LIMIT);
 
-	game.run(window);
+	try {
+		game.run(window);
+	} catch (std::exception &e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 	return 0;
 }

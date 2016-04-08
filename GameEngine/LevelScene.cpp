@@ -152,29 +152,22 @@ namespace Moo
 		backgroundText = new Moo::Texture;
 		backgroundText->loadFromFile("background.dds");
 
+		//We get the map
+		//map = new JsonParser("2d-Maps/50x50.json");
+		map = new JsonParser("2d-Maps/juuuuuuuuuuuuuuuuuuuuuuuuuuujMap.json");
 
-		try
-		{
-			//We get the map
-			//map = new JsonParser("2d-Maps/50x50.json");
-			map = new JsonParser("2d-Maps/juuuuuuuuuuuuuuuuuuuuuuuuuuujMap.json");
+		if (map->parseFile() == -1)
+			throw std::exception("Can't load the map");
 
-			if (map->parseFile() == -1)
-				throw std::string("Can't load the map");
-			//map->getMap().displayMapInfos();
+		//map->getMap().displayMapInfos();
 
-			if (!music.loadSound(map->getMap().getMapAudioFile())) {
-				std::cout << map->getMap().getMapAudioFile() << std::endl;
-				std::cout << "music failed" << std::endl;
-			}
-
-			//Read the entities from the map
-			entities = getEntitiesFromMap(map);
+		if (!music.loadSound(map->getMap().getMapAudioFile())) {
+			std::cout << map->getMap().getMapAudioFile() << std::endl;
+			std::cout << "music failed" << std::endl;
 		}
-		catch (std::string error)
-		{
-			std::cout << "Error: " << error << std::endl;
-		}
+
+		//Read the entities from the map
+		entities = getEntitiesFromMap(map);
 
 		//background
 		background = new Moo::Sprite(4000, 3000, 0, 0);
