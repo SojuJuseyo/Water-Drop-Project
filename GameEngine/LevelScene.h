@@ -47,5 +47,6 @@ namespace Moo
 		Moo::Camera camera;
 		FMOD::Channel *themeChan;
 		bool						_triedJump;
+		SoundSystem					*soundSystem;
 	};
 }
