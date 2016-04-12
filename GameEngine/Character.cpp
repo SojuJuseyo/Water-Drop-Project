@@ -59,13 +59,18 @@ namespace Moo
 		}
 	}
 
-	void	Character::jump()
+	bool	Character::jump(bool forced)
 	{
-		if (this->_velocity.y == 0)
+		if (this->_velocity.y == 0 || forced == true)
 		{
-			this->setVelocity(Vector2f(this->_velocity.x, JUMP_VELOCITY * 1.5f));
+			if (forced == false)
+				this->setVelocity(Vector2f(this->_velocity.x, JUMP_VELOCITY * 1.5f));
+			else
+				this->setVelocity(Vector2f(this->_velocity.x, this->_velocity.y + JUMP_VELOCITY * 1.5f));
 			this->setGravity(true);
+			return (false);
 		}
+		return (true);
 	}
 
 	void	Character::resetPos()
@@ -79,7 +84,7 @@ namespace Moo
 		if (_velocity.y > 0 && _velocity.y < GRAVITY)
 			_acceleration.y = _mass * 10;
 		_acceleration.y += (_mass * 10 / FPS_LIMIT);
-		if (_velocity.y > MINIMUM_VELOCITY)
+		if (_velocity.y > MINIMUM_VELOCITY_Y)
 			_velocity.y -= (_velocity.y + _acceleration.y) / FPS_LIMIT;
 		//std::cout << "Velocity y : " << _velocity.y << std::endl;
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);

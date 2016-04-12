@@ -5,7 +5,8 @@
 #include "Entity.h"
 #include "Sprite.h"
 
-#define MINIMUM_VELOCITY	-270//-400
+#define MINIMUM_VELOCITY_Y	-270//-400
+#define STANDARD_VELOCITY_X	5
 
 namespace Moo
 {
@@ -15,7 +16,7 @@ namespace Moo
 		Character(Vector2f, float, Sprite *, bool);
 		virtual ~Character();
 		void	move(Direction);
-		void	jump();
+		bool	jump(bool);
 		void	update();
 		void	resetPos();
 		Hitbox	resetHitbox();

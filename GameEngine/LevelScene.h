@@ -37,19 +37,14 @@ namespace Moo
 	private:
 		std::vector<std::pair<std::string, Moo::Entity *>> staticEntities;
 		std::vector<std::pair<std::string, Moo::Entity *>> dynamicEntities;
-		JsonParser *map;
-		Moo::Sprite *background, *lose, *win;
-		Moo::Character *player;
-		std::vector<Moo::Bullet *> bulletPool;
-		Moo::Texture *bulletText;
-		Moo::Sound music;
-		Moo::Sound jump;
-		Moo::Sound soundWin;
-		Moo::Sound soundLose;
+		JsonParser					*map;
+		Moo::Character				*player;
+		std::vector<Moo::Bullet *>	bulletPool;
+		Moo::Sprite					*background, *lose, *win;
+		Moo::Texture				*bulletText, *loseText, *winText, *backgroundText;
+		Moo::Sound					music, jump, soundWin, soundLose;
 		Moo::Audio audio;
-		Moo::Texture *backgroundText;
 		Moo::Camera camera;
-		Moo::Texture *loseText;
-		Moo::Texture *winText;
+		bool						_triedJump;
 	};
 }

@@ -122,7 +122,7 @@ namespace Moo
 			//Player
 			Moo::Sprite *character = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 40, (*playerIt)->getPosY() * 40);
 			character->loadTexture(characterText);
-			Moo::Character *player = new Moo::Character(Moo::Vector2f(5, 0), playerMass, character, true);
+			Moo::Character *player = new Moo::Character(Moo::Vector2f(STANDARD_VELOCITY_X, 0), playerMass, character, true);
 			//The player is always the first of the entities vector
 			dynamicEntities.insert(dynamicEntities.begin(), std::make_pair("Player", player));
 		}
@@ -148,8 +148,8 @@ namespace Moo
 		backgroundText->loadFromFile("background.dds");
 
 		//We get the map
-		map = new JsonParser("2d-Maps/50x50.json");
-		//map = new JsonParser("2d-Maps/MapPreAlpha.json");
+		//map = new JsonParser("2d-Maps/50x50.json");
+		map = new JsonParser("2d-Maps/MapPreAlpha.json");
 
 		if (map->parseFile() == -1)
 			throw std::exception("Can't load the map");
@@ -223,7 +223,7 @@ namespace Moo
 		}
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::Space))
-			player->jump();
+			 _triedJump = player->jump(false);
 
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
 			player->move(Direction::LEFT);
@@ -331,13 +331,16 @@ namespace Moo
 		HitZone hitZone;
 		bool deletedBullet;
 		bool deletedCharacter;
+		bool isPlayer;
 		Vector2f decal(0, 0);
 
 		for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator dynEntIt = dynamicEntities.begin(); dynEntIt != dynamicEntities.end();)
 		{
-			decal = Vector2f(0,0);
-			//if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6))
-			//if ((*dynEntIt).second == player)
+			decal = Vector2f(0, 0);
+			if ((*dynEntIt).second == player)
+				isPlayer = true;
+			else
+				isPlayer = false;
 			(*dynEntIt).second->setGravity(true);
 			if ((*dynEntIt).second->getGravity() == true)
 			{
@@ -348,7 +351,7 @@ namespace Moo
 			deletedCharacter = false;
 
 			if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
-				decal.x = 5;
+				decal.x = STANDARD_VELOCITY_X;
 
 			for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator statEntIt = staticEntities.begin();
 				 statEntIt != staticEntities.end();
@@ -357,15 +360,13 @@ namespace Moo
 				if ((hitZone = (*dynEntIt).second->collisionAABB((*statEntIt).second)) != HitZone::NONE)
 				{
 					//If player collides with an Exit
-					if ((*dynEntIt).second == player
-						&& _strnicmp((*statEntIt).first.c_str(), "Exit", 4) == 0)
+					if (isPlayer == true && _strnicmp((*statEntIt).first.c_str(), "Exit", 4) == 0)
 					{
 						exitReached(window);
 						return false;
 					}
 					//If we collide with a wall/platform/bottom
-					else if ((*dynEntIt).second == player
-						|| (_strnicmp((*dynEntIt).first.c_str(), "Enemy", 5) == 0))
+					else if (isPlayer == true || (_strnicmp((*dynEntIt).first.c_str(), "Enemy", 5) == 0))
 					{
 						if (hitZone == HitZone::RIGHT_SIDE)
 							decal.x = (*statEntIt).second->getHitbox().x1 - (*dynEntIt).second->getHitbox().x2;
@@ -400,10 +401,20 @@ namespace Moo
 				if (decal.y != 0)
 					character->getSprite()->setY(character->getSprite()->getY() + decal.y);
 				if (decal.x != 0)
+				{/*
+					if (isPlayer == true && _triedJump == true && player->getVelocity().y > 0)
+					{
+						std::cout << "The player tried to jump" << std::endl;
+						player->jump(true);
+						if (decal.x > 0)
+							decal.x += 25;
+						else
+							decal.x -= 25;
+					}*/
 					character->getSprite()->setX(character->getSprite()->getX() + decal.x);
+				}
 				character->resetHitbox();
 
-				//if (character == player || _strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
 				for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator SecondDynEntIt = dynamicEntities.begin();
 					 SecondDynEntIt != dynamicEntities.end();
 					 ++SecondDynEntIt)
@@ -435,7 +446,7 @@ namespace Moo
 							{
 								if (character->getHealth() >= enemyCollided->getHealth() || character->isGodMode() == true)
 								{
-									std::cout << "Bigger - Deleting " << (*SecondDynEntIt).first << std::endl;
+									//std::cout << "Bigger - Deleting " << (*SecondDynEntIt).first << std::endl;
 									character->setHealth(character->getHealth() + (enemyCollided->getHealth() * 33 / 100));
 									character->getSprite()->scale(Moo::Vector2f(0.1f * (enemyCollided->getHealth() * 33 / 100),
 																				0.1f * (enemyCollided->getHealth() * 33 / 100)));
@@ -446,14 +457,14 @@ namespace Moo
 									deletedCharacter = true;
 									break;
 								}
-								else if (character == player)
+								else if (isPlayer == true)
 								{
 									playerDead(window);
 									return (false);
 								}
 								else
 								{
-									std::cout << "Smaller - Deleting " << (*dynEntIt).first << std::endl;
+									//std::cout << "Smaller - Deleting " << (*dynEntIt).first << std::endl;
 									enemyCollided->setHealth(enemyCollided->getHealth() + (character->getHealth() * 33 / 100));
 									enemyCollided->getSprite()->scale(Moo::Vector2f(0.1f * (character->getHealth() * 33 / 100),
 																					0.1f * (character->getHealth() * 33 / 100)));
@@ -473,7 +484,7 @@ namespace Moo
 				++dynEntIt;
 			else if (deletedCharacter == true)
 			{
-				std::cout << "A dynamic entity is deleted so we break" << std::endl;
+				//std::cout << "A dynamic entity is deleted so we break" << std::endl;
 				break;
 			}
 		}
@@ -487,28 +498,29 @@ namespace Moo
 
 		while (window.isOpen())
 		{
+			//Reseting _triedJump to check if the player tries to wall jump this frame
+			_triedJump = false;
+
+			//Getting the inputs of the player
 			if (inputHandling(window) == true)
 				return (true);
-			//Sam DEbug
 
-			//std::cout << "camera x = " << Moo::d3d::getInstance().getCamera()->getPosition().x << std::endl;
-			//std::cout << "camera y = " << Moo::d3d::getInstance().getCamera()->getPosition().y << std::endl;
-			//std::cout << "player x = " << player->getHitbox().x1 << std::endl;
-			//std::cout << "player y = " << player->getHitbox().y1 << std::endl;
-
+			//Applying gravity to dynamic entities and checking all collisions
 			if (applyGravityAndCollisions(window) == false)
 				return (false);
 
-			// UPDATE CAMERA
+			//Reseting the positon of the camera
 			Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
 
+			//Display the game elements
 			displayHitboxesAndSprites(window);
 
+			//Drawing all that is inside the window
 			window.display();
 		}
 		audio.pauseSound(music);
 		//backgroundText->release();
 
-		return false;
+		return (false);
 	}
 }
