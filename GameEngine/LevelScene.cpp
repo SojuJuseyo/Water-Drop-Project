@@ -133,17 +133,17 @@ namespace Moo
 		//groundText->~Texture();
 	}
 
-	bool	LevelScene::init()
+	bool	LevelScene::init(SoundSystem *soundSystem)
 	{
-		if (!jump.loadSound("jump.wav")) {
-			std::cout << "jump sound failed" << std::endl;
-		}
-		if (!soundWin.loadSound("Victory.wav")) {
-			std::cout << "win sound failed" << std::endl;
-		}		
-		if (!soundLose.loadSound("Defeat.wav")) {
-			std::cout << "lose sound failed" << std::endl;
-		}
+		//if (!jump.loadSound("jump.wav")) {
+		//	std::cout << "jump sound failed" << std::endl;
+		//}
+		//if (!soundWin.loadSound("Victory.wav")) {
+		//	std::cout << "win sound failed" << std::endl;
+		//}		
+		//if (!soundLose.loadSound("Defeat.wav")) {
+		//	std::cout << "lose sound failed" << std::endl;
+		//}
 		backgroundText = new Moo::Texture;
 		backgroundText->loadFromFile("background.dds");
 
@@ -158,12 +158,6 @@ namespace Moo
 
 		//Read the entities from the map
 		getEntitiesFromMap(map);
-
-		if (!music.loadSound(map->getMap().getMapAudioFile()))
-		{
-			std::cout << map->getMap().getMapAudioFile() << std::endl;
-			std::cout << "music failed" << std::endl;
-		}
 
 		//background
 		background = new Moo::Sprite(4000, 3000, 0, 0);
@@ -185,6 +179,19 @@ namespace Moo
 		win = new Moo::Sprite(400, 133,	0, 0);
 		win->loadTexture(winText);
 
+		//init sound system
+		this->soundSystem = soundSystem;
+
+		if (soundSystem->addSound(map->getMap().getMapAudioFile().c_str(), "custom"))
+		{
+			std::cout << map->getMap().getMapAudioFile() << std::endl;
+			std::cout << "music failed" << std::endl;
+			themeChan = nullptr;
+		}
+		themeChan = soundSystem->playSound("custom", true);
+		if (themeChan != nullptr)
+			themeChan->setPaused(true);
+
 		return (true);
 	}
 
@@ -192,17 +199,20 @@ namespace Moo
 	{
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::A))
 		{
-			audio.pauseSound(music);
+			if (themeChan != nullptr)
+				themeChan->setPaused(true);
 			camera.setPosition(d3d::getInstance().getCamera()->getPosition());
 			Moo::Game::getInstance().runScene(TypeScene::PAUSE, TypeScene::LEVEL, window);
 			return (true);
 		}
 
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::B))
-			audio.playSound(music, true);
+			if (themeChan != nullptr)
+				themeChan->setPaused(false);
 
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::C))
-			audio.pauseSound(music);
+			if (themeChan != nullptr)
+				themeChan->setPaused(true);
 
 		//Cheats
 		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))
@@ -235,8 +245,7 @@ namespace Moo
 		{
 			if (player->getHealth() > 1)
 			{
-				audio.playSound(jump, false);
-
+				soundSystem->playSound("jump", false);
 				// Define the base pos of the bullet and create the sprite
 				float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
 				float bulletPosY = player->getSprite()->getY() + (player->getSprite()->getHeight() / 2);
@@ -300,12 +309,13 @@ namespace Moo
 						 ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
 						  (Moo::d3d::getInstance().getScreenSize().y / 2))
 			);
-		audio.pauseSound(music);
-		audio.playSound(soundWin, false);
+		if (themeChan != nullptr)
+			themeChan->setPaused(true);
+		FMOD::Channel *chan = soundSystem->playSound("victory", false);
 		window.draw(win);
 		window.display();
 		Sleep(1000);
-		audio.pauseSound(soundWin);
+		chan->stop();
 		Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
 	}
 
@@ -316,12 +326,13 @@ namespace Moo
 						  ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
 						   (Moo::d3d::getInstance().getScreenSize().y / 2))
 			);
-		audio.pauseSound(music);
-		audio.playSound(soundLose, false);
+		if (themeChan != nullptr)
+			themeChan->setPaused(true);
+		FMOD::Channel *chan = soundSystem->playSound("defeat", false);
 		window.draw(lose);
 		window.display();
 		Sleep(1000);
-		audio.pauseSound(soundLose);
+		chan->stop();
 		Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
 	}
 
@@ -494,8 +505,8 @@ namespace Moo
 	bool	LevelScene::run(Moo::Window &window)
 	{
 		d3d::getInstance().getCamera()->setPosition(camera.getPosition());
-		audio.playSound(music, true);
-
+		if (themeChan != nullptr)
+			themeChan->setPaused(false);
 		while (window.isOpen())
 		{
 			//Reseting _triedJump to check if the player tries to wall jump this frame
@@ -518,7 +529,8 @@ namespace Moo
 			//Drawing all that is inside the window
 			window.display();
 		}
-		audio.pauseSound(music);
+		if (themeChan != nullptr)
+			themeChan->setPaused(true);
 		//backgroundText->release();
 
 		return (false);

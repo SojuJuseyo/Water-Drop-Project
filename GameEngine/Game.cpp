@@ -20,10 +20,11 @@ namespace Moo
 		if (!Moo::Audio::getInstance().init()) {
 			std::cout << "audio failed" << std::endl;
 		}
-		menu->init();
-		level->init();
-		pause->init();
-		controle->init();
+		soundSystem.initAllSounds();
+		menu->init(&soundSystem);
+		level->init(&soundSystem);
+		pause->init(&soundSystem);
+		controle->init(&soundSystem);
 	}
 
 	void	Game::setExit(bool value)

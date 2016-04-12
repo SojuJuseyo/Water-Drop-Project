@@ -6,7 +6,7 @@
 #include "Game.h"
 #include "Character.h"
 #include "Audio.h"
-
+#include "SoundSystem.h"
 
 struct s_collider
 {
@@ -26,7 +26,7 @@ namespace Moo
 		~LevelScene();
 		bool	run(Moo::Window &window);
 		void	clean();
-		bool	init();
+		bool	init(SoundSystem *soundsystem);
 		void	getEntitiesFromMap(JsonParser *map);
 		bool	inputHandling(Moo::Window &window);
 		void	displayHitboxesAndSprites(Moo::Window &window);
@@ -42,9 +42,10 @@ namespace Moo
 		std::vector<Moo::Bullet *>	bulletPool;
 		Moo::Sprite					*background, *lose, *win;
 		Moo::Texture				*bulletText, *loseText, *winText, *backgroundText;
-		Moo::Sound					music, jump, soundWin, soundLose;
-		Moo::Audio audio;
+		//Moo::Sound					music, jump, soundWin, soundLose;
+		//Moo::Audio audio;
 		Moo::Camera camera;
+		FMOD::Channel *themeChan;
 		bool						_triedJump;
 	};
 }

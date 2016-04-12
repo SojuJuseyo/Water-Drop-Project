@@ -8,6 +8,7 @@
 #include "Menu.h"
 #include "ControleScene.h"
 #include "Audio.h"
+#include "SoundSystem.h"
 
 #define WINDOW_WIDTH 800.f
 #define WINDOW_HEIGHT 600.f
@@ -34,6 +35,7 @@ namespace Moo
 		Scene *level;
 		Scene *controle;
 		Scene *pause;
+		SoundSystem soundSystem;
 		bool _exit;
 	};
 }
