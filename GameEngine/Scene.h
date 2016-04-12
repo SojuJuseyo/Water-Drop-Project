@@ -3,6 +3,7 @@
 #include "Text.h"
 #include "Keyboard.h"
 #include "Window.h"
+#include "SoundSystem.h"
 
 namespace Moo
 {
@@ -19,7 +20,7 @@ namespace Moo
 	public:
 		Scene();
 		virtual ~Scene();
-		virtual bool init() = 0;
+		virtual bool init(SoundSystem *) = 0;
 		virtual bool run(Moo::Window &window) = 0;
 		virtual void clean() = 0;
 	};

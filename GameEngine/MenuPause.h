@@ -19,10 +19,11 @@ namespace Moo
 		MenuPause();
 		~MenuPause();
 		bool	run(Moo::Window &);
-		bool	init();
+		bool	init(SoundSystem *soundSystem);
 		void	clean();
 
 	private:
+		SoundSystem *soundSystem;
 		e_menu_pause	_offset;
 		Texture *backgroundText;
 		Sprite *background;
@@ -30,7 +31,6 @@ namespace Moo
 		Sprite *button_resume;
 		Sprite *button_controls;
 		Sprite *button_quit;
-		Sound sound;
 	};
 }
 

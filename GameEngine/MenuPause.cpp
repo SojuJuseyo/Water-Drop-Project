@@ -11,9 +11,9 @@ namespace Moo
 	{
 	}
 
-	bool MenuPause::init()
+	bool MenuPause::init(SoundSystem *soundSystem)
 	{
-		sound.loadSound("Menu.wav");
+
 		//background
 		backgroundText = new Texture;
 		backgroundText->loadFromFile("Menu_Pause_WTP_DDS.dds");
@@ -51,6 +51,9 @@ namespace Moo
 			button_controls->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
 		button_quit->loadTexture(buttonText);
 
+		//init sound system
+		this->soundSystem = soundSystem;
+
 		_offset = e_menu_pause::RESUME;
 		return true;
 	}
@@ -77,7 +80,7 @@ namespace Moo
 				}
 
 			if (Keyboard::isDown(Keyboard::Up)) {
-				Moo::Audio::getInstance().playSound(sound, false);
+				soundSystem->playSound("menu", false);
 				switch (_offset)
 				{
 				case e_menu_pause::RESUME:
@@ -92,7 +95,7 @@ namespace Moo
 				}
 			}
 			else if (Keyboard::isDown(Keyboard::Down)) {
-				Moo::Audio::getInstance().playSound(sound, false);
+				soundSystem->playSound("menu", false);
 				switch (_offset)
 				{
 				case e_menu_pause::RESUME:

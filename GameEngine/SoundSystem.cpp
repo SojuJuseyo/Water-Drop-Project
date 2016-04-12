@@ -17,34 +17,54 @@ SoundSystem::SoundSystem()
 		return;
 	}
 
-	m_pSystem->init(10, FMOD_INIT_NORMAL, nullptr);
+	m_pSystem->init(30, FMOD_INIT_NORMAL, nullptr);
 }
 SoundSystem::~SoundSystem()
 {
 }
 
-void SoundSystem::createSound(SoundClass *pSound, const char* pFile)
+bool SoundSystem::createSound(SoundClass *sound, const char* file)
 {
-	FMOD_RESULT res = m_pSystem->createSound(pFile, FMOD_DEFAULT, 0, pSound);
+	FMOD_RESULT res = m_pSystem->createSound(file, FMOD_DEFAULT, 0, sound);
 	if (res)
-		printf("Create sound failed, error %i\n", res);
+	{
+		printf("Create %s sound failed, error %i\n", file, res);
+		return false;
+	}
+	return true;
+}
+
+
+bool SoundSystem::addSound(const char* file, std::string name)
+{
+	bool res = createSound(&soundMap[name], file);
+	if (res)
+	{
+		printf("Create %s sound failed, error %i\n", name.c_str(), res);
+		return false;
+	}
+	return true;
 }
 
 void SoundSystem::initAllSounds()
 {
 //	createSound(&soundMap["Home"], "C:\\Users\\Varkiil\\Desktop\\HOME - Resonance.mp3");
 //	createSound(&soundMap["Alibi"], "C:\\Users\\Varkiil\\Desktop\\Love Alibi - K Klass Remix.mp3");
+	createSound(&soundMap["jump"], "jump.wav");
+	createSound(&soundMap["victory"], "Victory.wav");
+	createSound(&soundMap["defeat"], "Defeat.wav");
+	createSound(&soundMap["menu"], "Menu.wav");
 }
 
 // Returns a channel FMOD, use it's method stop() to stop the sound
-FMOD::Channel *SoundSystem::playSound(std::string soundName, bool bLoop = false)
+FMOD::Channel *SoundSystem::playSound(std::string soundName, bool loop = false)
 {
 	SoundClass pSound = soundMap[soundName];
 
 	if ((pSound) == nullptr)
-		printf("Attempted to play an unknown sound.\n");
+		printf("Attempted to play an unknown sound.(%s)\n", soundName.c_str());
 
-	if (!bLoop)
+	if (!loop)
 		pSound->setMode(FMOD_LOOP_OFF);
 	else
 	{
@@ -56,7 +76,7 @@ FMOD::Channel *SoundSystem::playSound(std::string soundName, bool bLoop = false)
 
 	FMOD_RESULT res = m_pSystem->playSound(pSound, 0, false, &channel);
 	if (res != FMOD_OK)
-		printf("Play sound failed, error %i\n", res);
+		printf("Play %s sound failed, error %i\n", soundName.c_str(), res);
 	return channel;
 }
 
@@ -66,6 +86,6 @@ void SoundSystem::releaseSound(std::string soundName)
 	SoundClass pSound = soundMap[soundName];
 	FMOD_RESULT res = pSound->release();
 	if (res != FMOD_OK)
-		printf("Release sound failed, error %i\n", res);
+		printf("Release %s sound failed, error %i\n", soundName.c_str(), res);
 
 }

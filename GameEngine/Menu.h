@@ -17,11 +17,12 @@ namespace Moo
 	public:
 		Menu();
 		~Menu();
-		bool	init();
+		bool	init(SoundSystem *soundSystem);
 		bool	run(Moo::Window &);
 		void	clean();
 
 	private:
+		SoundSystem *soundSystem;
 		e_menu	_offset;
 		Texture *backgroundText;
 		Sprite *background;
@@ -29,6 +30,5 @@ namespace Moo
 		Sprite *button_play;
 		Sprite *button_controls;
 		Sprite *button_quit;
-		Sound sound;
 	};
 }

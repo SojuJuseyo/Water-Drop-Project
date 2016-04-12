@@ -9,8 +9,9 @@ namespace Moo
 		~ControleScene();
 		bool	run(Moo::Window &window);
 		void	clean();
-		bool	init();
+		bool	init(SoundSystem *soundSystem);
 	private:
+		SoundSystem *soundSystem;
 		Moo::Texture *controleText;
 		Moo::Sprite *controle;
 	};

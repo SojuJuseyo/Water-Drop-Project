@@ -11,13 +11,17 @@ namespace Moo
 	{
 
 	}
-	bool ControleScene::init()
+	bool ControleScene::init(SoundSystem *soundSystem)
 	{
 		controleText = new Moo::Texture;
 		controleText->loadFromFile("controle.dds");
 		controle = new Moo::Sprite(1280, 1080, 0, 0);
 		controle->setScale(Vector2f(0.65f, 0.56f));
 		controle->loadTexture(controleText);
+		
+		//init sound system
+		this->soundSystem = soundSystem;
+
 		return false;
 	}
 
