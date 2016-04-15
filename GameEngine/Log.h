@@ -11,7 +11,9 @@
 
 #define LOG_FILENAME "log.dat"
 
-// Example	Moo::Log().put(Moo::Log::DEBUG) << "example" << std::endl;
+// Example	LOG(Moo::Log::DEBUG) << "example" << std::endl;
+
+#define LOG(X) Moo::Log::getInstance().put(X)
 
 namespace Moo
 {
@@ -25,17 +27,21 @@ namespace Moo
 			INFO,
 			DEBUG
 		};
-		Log()
+
+		static Log&			getInstance()
 		{
-			_logLevel[logLevel::CRITICAL_ERROR] = "CRITICAL_ERROR";
-			_logLevel[logLevel::WARNING] = "WARNING";
-			_logLevel[logLevel::INFO] = "INFO";
-			_logLevel[logLevel::DEBUG] = "DEBUG";
-			_file.open(LOG_FILENAME, std::fstream::in | std::fstream::out | std::fstream::app);
+			static Log instance;
+			return instance;
 		}
-		~Log()
+
+		Log(Log const&) = delete;
+		void operator=(Log const&) = delete;
+		void print(const std::string &message)
 		{
-			_file.close();
+			_file << "-------------------- ";
+			_file << message;
+			_file << " --------------------";
+			_file << std::endl;
 		}
 
 		std::fstream& put(logLevel level = logLevel::INFO)
@@ -46,8 +52,22 @@ namespace Moo
 			_file << " " << _logLevel[level] << ": ";
 			return _file;
 		}
-
 	private:
+		Log()
+		{
+			_logLevel[logLevel::CRITICAL_ERROR] = "CRITICAL_ERROR";
+			_logLevel[logLevel::WARNING] = "WARNING";
+			_logLevel[logLevel::INFO] = "INFO";
+			_logLevel[logLevel::DEBUG] = "DEBUG";
+			_file.open(LOG_FILENAME, std::fstream::in | std::fstream::out | std::fstream::app);
+			print("Start new session");
+		}
+		~Log()
+		{
+			print("Session closed");
+			_file.close();
+		}
+
 		std::map<logLevel, std::string> _logLevel;
 		std::fstream  _file;
 	};

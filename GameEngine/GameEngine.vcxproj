@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -160,7 +159,6 @@
     <ClCompile Include="RectangleShape.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -173,7 +171,6 @@
     <ClCompile Include="WindowSettings.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Audio.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
@@ -197,7 +194,6 @@
     <ClInclude Include="RectangleShape.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shape.h" />
-    <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Text.h" />

@@ -18,7 +18,7 @@ namespace Moo
 		int _size;
 		bool _enabled;
 		int _lifeTime; //nb frame
-		Moo::Sprite _sprite;
+		//Moo::Sprite _sprite;
 	};
 
 	class ParticleEmitter

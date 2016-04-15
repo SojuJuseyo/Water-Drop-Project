@@ -1,7 +1,6 @@
 #pragma once
 #include "Scene.h"
 #include "LevelScene.h"
-#include "Audio.h"
 
 namespace Moo
 {
@@ -17,12 +16,11 @@ namespace Moo
 	public:
 		Menu();
 		~Menu();
-		bool	init();
-		bool	run(Moo::Window &);
+		bool	init(std::shared_ptr<Moo::Window> window);
+		bool	runUpdate();
 		void	clean();
 
 	private:
-		std::shared_ptr<SoundSystem> soundSystem;
 		e_menu	_offset;
 		Texture *backgroundText;
 		Sprite *background;
@@ -30,5 +28,6 @@ namespace Moo
 		Sprite *button_play;
 		Sprite *button_controls;
 		Sprite *button_quit;
+		std::shared_ptr<Moo::Window> _window;
 	};
 }

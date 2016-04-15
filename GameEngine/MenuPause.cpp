@@ -11,8 +11,9 @@ namespace Moo
 	{
 	}
 
-	bool MenuPause::init()
+	bool MenuPause::init(std::shared_ptr<Moo::Window> window)
 	{
+		_window = window;
 
 		//background
 		backgroundText = new Texture;
@@ -51,84 +52,77 @@ namespace Moo
 			button_controls->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
 		button_quit->loadTexture(buttonText);
 
-		//init sound system
-		this->soundSystem = Game::getInstance().getSoundSystem();
-
 		_offset = e_menu_pause::RESUME;
 		return true;
 	}
 
-	bool MenuPause::run(Moo::Window &window)
+	bool MenuPause::runUpdate()
 	{
-		while (window.isOpen())
-		{
-			if (Moo::Keyboard::isDown(Keyboard::Enter))
-				switch (_offset)
-				{
-				case e_menu_pause::RESUME:
-					Game::getInstance().runScene(TypeScene::LEVEL, TypeScene::PAUSE, window);
-					return true;
-					break;
-				case e_menu_pause::HOW_TO_PLAY:
-					Game::getInstance().runScene(TypeScene::CONTROLE, TypeScene::PAUSE, window);
-					return true;
-					break;
-				case e_menu_pause::EXIT:
-					Game::getInstance().setExit(true);
-					return (false);
-					break;
-				}
-
-			if (Keyboard::isDown(Keyboard::Up)) {
-				soundSystem->playSound("menu", false);
-				switch (_offset)
-				{
-				case e_menu_pause::RESUME:
-					_offset = e_menu_pause::EXIT;
-					break;
-				case e_menu_pause::HOW_TO_PLAY:
-					_offset = e_menu_pause::RESUME;
-					break;
-				case e_menu_pause::EXIT:
-					_offset = e_menu_pause::HOW_TO_PLAY;
-					break;
-				}
-			}
-			else if (Keyboard::isDown(Keyboard::Down)) {
-				soundSystem->playSound("menu", false);
-				switch (_offset)
-				{
-				case e_menu_pause::RESUME:
-					_offset = e_menu_pause::HOW_TO_PLAY;
-					break;
-				case e_menu_pause::HOW_TO_PLAY:
-					_offset = e_menu_pause::EXIT;
-					break;
-				case e_menu_pause::EXIT:
-					_offset = e_menu_pause::RESUME;
-					break;
-				}
-			}
-
-			window.clear();
-			window.draw(background);
-
+		if (Moo::Keyboard::isDown(Keyboard::Enter))
 			switch (_offset)
 			{
 			case e_menu_pause::RESUME:
-				window.draw(button_resume);
+				Game::getInstance().backToPrevScene();
+				return true;
 				break;
 			case e_menu_pause::HOW_TO_PLAY:
-				window.draw(button_controls);
+				Game::getInstance().runScene(Game::CONTROLS_MENU);
+				return true;
 				break;
 			case e_menu_pause::EXIT:
-				window.draw(button_quit);
+				Game::getInstance().exit();
+				return (false);
 				break;
 			}
-			window.display();
+
+		if (Keyboard::isDown(Keyboard::Up)) {
+			Game::getInstance().getSoundSystem()->playSound("Menu", false);
+			switch (_offset)
+			{
+			case e_menu_pause::RESUME:
+				_offset = e_menu_pause::EXIT;
+				break;
+			case e_menu_pause::HOW_TO_PLAY:
+				_offset = e_menu_pause::RESUME;
+				break;
+			case e_menu_pause::EXIT:
+				_offset = e_menu_pause::HOW_TO_PLAY;
+				break;
+			}
+		}
+		else if (Keyboard::isDown(Keyboard::Down)) {
+			Game::getInstance().getSoundSystem()->playSound("Menu", false);
+			switch (_offset)
+			{
+			case e_menu_pause::RESUME:
+				_offset = e_menu_pause::HOW_TO_PLAY;
+				break;
+			case e_menu_pause::HOW_TO_PLAY:
+				_offset = e_menu_pause::EXIT;
+				break;
+			case e_menu_pause::EXIT:
+				_offset = e_menu_pause::RESUME;
+				break;
+			}
 		}
 
-		//backgroundText->release();
+		_window->clear();
+		_window->draw(background);
+
+		switch (_offset)
+		{
+		case e_menu_pause::RESUME:
+			_window->draw(button_resume);
+			break;
+		case e_menu_pause::HOW_TO_PLAY:
+			_window->draw(button_controls);
+			break;
+		case e_menu_pause::EXIT:
+			_window->draw(button_quit);
+			break;
+		}
+		_window->display();
+
 		return false;
 	}
 

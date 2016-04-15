@@ -67,7 +67,7 @@ FMOD::Channel *SoundSystem::playSound(std::string soundName, bool loop = false)
 	SoundClass pSound = soundMap[soundName];
 
 	if ((pSound) == nullptr) {
-		throw Moo::Exception("Attempted to play an unknown sound.");
+		//throw Moo::Exception("Attempted to play an unknown sound.");
 		return nullptr;
 	}
 	if (!loop) {

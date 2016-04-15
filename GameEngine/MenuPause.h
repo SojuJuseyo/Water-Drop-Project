@@ -2,7 +2,6 @@
 
 #include "Scene.h"
 #include "LevelScene.h"
-#include "Audio.h"
 
 namespace Moo
 {
@@ -18,12 +17,11 @@ namespace Moo
 	public:
 		MenuPause();
 		~MenuPause();
-		bool	run(Moo::Window &);
-		bool	init();
+		bool	init(std::shared_ptr<Moo::Window> window);
+		bool	runUpdate();
 		void	clean();
 
 	private:
-		std::shared_ptr<SoundSystem> soundSystem;
 		e_menu_pause	_offset;
 		Texture *backgroundText;
 		Sprite *background;
@@ -31,6 +29,7 @@ namespace Moo
 		Sprite *button_resume;
 		Sprite *button_controls;
 		Sprite *button_quit;
+		std::shared_ptr<Moo::Window> _window;
 	};
 }
 

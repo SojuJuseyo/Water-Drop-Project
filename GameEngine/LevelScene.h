@@ -5,8 +5,8 @@
 #include "Bullet.h"
 #include "Game.h"
 #include "Character.h"
-#include "Audio.h"
 #include "SoundSystem.h"
+#include "Camera.h"
 
 struct s_collider
 {
@@ -16,7 +16,6 @@ struct s_collider
 	bool		isCollideLeft;
 };
 
-
 namespace Moo
 {
 	class LevelScene : public Scene
@@ -24,15 +23,16 @@ namespace Moo
 	public:
 		LevelScene();
 		~LevelScene();
-		bool	run(Moo::Window &window);
+		bool	runUpdate();
 		void	clean();
-		bool	init();
+		bool	init(std::shared_ptr<Moo::Window> window);
 		void	getEntitiesFromMap(JsonParser *map);
-		bool	inputHandling(Moo::Window &window);
-		void	displayHitboxesAndSprites(Moo::Window &window);
-		bool	applyGravityAndCollisions(Moo::Window &window);
-		void	exitReached(Moo::Window &window);
-		void	playerDead(Moo::Window &window);
+		Camera	getCamera();
+		bool	inputHandling();
+		void	displayHitboxesAndSprites();
+		bool	applyGravityAndCollisions();
+		void	exitReached();
+		void	playerDead();
 
 	private:
 		std::vector<std::pair<std::string, Moo::Entity *>> staticEntities;
@@ -42,11 +42,10 @@ namespace Moo
 		std::vector<Moo::Bullet *>	bulletPool;
 		Moo::Sprite					*background, *lose, *win;
 		Moo::Texture				*bulletText, *loseText, *winText, *backgroundText;
-		//Moo::Sound					music, jump, soundWin, soundLose;
-		//Moo::Audio audio;
-		Moo::Camera camera;
+		std::shared_ptr<Window> _window;
+		std::shared_ptr<SoundSystem> _soundSystem;
+		Moo::Camera _camera;
 		FMOD::Channel *themeChan;
 		bool						_triedJump;
-		std::shared_ptr<SoundSystem>	soundSystem;
 	};
 }
