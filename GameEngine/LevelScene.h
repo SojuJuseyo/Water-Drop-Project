@@ -42,11 +42,10 @@ namespace Moo
 		std::vector<Moo::Bullet *>	bulletPool;
 		Moo::Sprite					*background, *lose, *win;
 		Moo::Texture				*bulletText, *loseText, *winText, *backgroundText;
-		//Moo::Sound					music, jump, soundWin, soundLose;
-		//Moo::Audio audio;
 		Moo::Camera camera;
 		FMOD::Channel *themeChan;
 		bool						_triedJump;
 		SoundSystem					*soundSystem;
+		std::chrono::time_point<std::chrono::system_clock> _startTime, _canTemporarilyJump;
 	};
 }

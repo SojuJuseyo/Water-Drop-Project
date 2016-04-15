@@ -49,14 +49,15 @@ namespace Moo
 
 	void	Character::move(Direction direction)
 	{
-		if (direction == Direction::LEFT)
+		if ((this->getVelocity().x <= STANDARD_VELOCITY_X && this->getVelocity().x >= -STANDARD_VELOCITY_X) || this->getVelocity().y < 0)
 		{
-			_sprite->move(-_velocity.x, 0);
+			if (direction == Direction::LEFT)
+				this->setVelocity(Vector2f(-STANDARD_VELOCITY_X, this->getVelocity().y));
+			else
+				this->setVelocity(Vector2f(STANDARD_VELOCITY_X, this->getVelocity().y));
 		}
 		else
-		{
-			_sprite->move(_velocity.x, 0);
-		}
+			std::cout << "Wait your velocity X is: " << this->getVelocity().x << std::endl;
 	}
 
 	bool	Character::jump(bool forced)
@@ -68,9 +69,9 @@ namespace Moo
 			else
 				this->setVelocity(Vector2f(this->_velocity.x, this->_velocity.y + JUMP_VELOCITY * 1.5f));
 			this->setGravity(true);
-			return (false);
+			return (true);
 		}
-		return (true);
+		return (false);
 	}
 
 	void	Character::resetPos()
@@ -81,13 +82,18 @@ namespace Moo
 
 	void	Character::update()
 	{
+		//Updating Y velocity
 		if (_velocity.y > 0 && _velocity.y < GRAVITY)
 			_acceleration.y = _mass * 10;
 		_acceleration.y += (_mass * 10 / FPS_LIMIT);
 		if (_velocity.y > MINIMUM_VELOCITY_Y)
 			_velocity.y -= (_velocity.y + _acceleration.y) / FPS_LIMIT;
-		//std::cout << "Velocity y : " << _velocity.y << std::endl;
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);
+
+		//Updating X velocity
+		if (_velocity.x >= STANDARD_VELOCITY_X || _velocity.x <= -STANDARD_VELOCITY_X)
+			_sprite->setX(_sprite->getX() + _velocity.x / FPS_LIMIT);
+		_velocity.x -= _velocity.x / FPS_LIMIT;
 	}
 
 	Sprite	*Character::getSprite() const
@@ -102,12 +108,12 @@ namespace Moo
 		return _hitboxSprite;
 	}
 
-	void Character::setHealth(int _health)
+	void Character::setHealth(float _health)
 	{
 		this->_health = _health;
 	}
 
-	int	Character::getHealth() const
+	float	Character::getHealth() const
 	{
 		return (_health);
 	}
@@ -125,5 +131,30 @@ namespace Moo
 	bool Character::isGodMode() const
 	{
 		return (this->_godMode);
+	}
+
+	void Character::changeHealth(float value)
+	{
+		this->setHealth(this->_health + value);
+		this->_sprite->scale(Moo::Vector2f(value / 10, value / 10));
+		this->_hitboxSprite->setScale(this->_sprite->getScale());
+		this->resetHitbox();
+	}
+
+	void Character::checkEvaporation()
+	{
+		std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - _lastEvaporation;
+		if (elapsed_seconds.count() > 4)
+		{
+			this->changeHealth(-EVAPORATION_RATE);
+			std::cout << "Evaporating, player's health is now " << _health << std::endl;
+			_lastEvaporation = std::chrono::system_clock::now();
+		}
+	}
+
+	void Character::setTimers()
+	{
+		_startingTime = std::chrono::system_clock::now();
+		_lastEvaporation = _startingTime;
 	}
 }

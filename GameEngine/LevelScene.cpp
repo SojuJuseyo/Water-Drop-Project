@@ -122,7 +122,7 @@ namespace Moo
 			//Player
 			Moo::Sprite *character = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 40, (*playerIt)->getPosY() * 40);
 			character->loadTexture(characterText);
-			Moo::Character *player = new Moo::Character(Moo::Vector2f(STANDARD_VELOCITY_X, 0), playerMass, character, true);
+			Moo::Character *player = new Moo::Character(Moo::Vector2f(0, 0), playerMass, character, true);
 			//The player is always the first of the entities vector
 			dynamicEntities.insert(dynamicEntities.begin(), std::make_pair("Player", player));
 		}
@@ -219,21 +219,32 @@ namespace Moo
 			player->toggleGodMode();
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::SizeUp))
-		{
-			player->setHealth(player->getHealth() + 1);
-			player->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
-			player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-		}
+			player->changeHealth(1);
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::SizeDown))
-		{
-			player->setHealth(player->getHealth() - 1);
-			player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
-			player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-		}
+			player->changeHealth(-1);
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::Space))
-			 _triedJump = player->jump(false);
+		{
+			bool wallJump = false;
+			if (player->getVelocity().y > 0)
+			{
+				std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - _canTemporarilyJump;
+				if (elapsed_seconds.count() < 0.1)
+				{
+					std::cout << "The player tried to jump" << std::endl;
+					wallJump = true;
+					if (player->getVelocity().x < 0)
+						player->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, player->getVelocity().y));
+					else
+						player->setVelocity(Vector2f(-STANDARD_VELOCITY_X * 2, player->getVelocity().y));
+				}
+				else
+					std::cout << "Too late to wall jump, elapsed seconds count: " << elapsed_seconds.count() << std::endl;
+			}
+			if (player->jump(wallJump) == true)
+				_canTemporarilyJump = _startTime;
+		}
 
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
 			player->move(Direction::LEFT);
@@ -262,12 +273,7 @@ namespace Moo
 
 				// Check if cheat code is activated.
 				if (player->isGodMode() == false)
-				{
-					int currentHealth = player->getHealth();
-					player->setHealth(currentHealth - 1);
-					player->getSprite()->scale(Moo::Vector2f(-0.1f, -0.1f));
-					player->getHitboxSprite()->setScale(player->getSprite()->getScale());
-				}
+					player->changeHealth(-1);
 				std::cout << "Player health : " << player->getHealth() << std::endl;
 			}
 			else
@@ -349,7 +355,11 @@ namespace Moo
 		{
 			decal = Vector2f(0, 0);
 			if ((*dynEntIt).second == player)
+			{
 				isPlayer = true;
+				if (player->getHealth() > 1)
+					player->checkEvaporation();
+			}
 			else
 				isPlayer = false;
 			(*dynEntIt).second->setGravity(true);
@@ -412,16 +422,8 @@ namespace Moo
 				if (decal.y != 0)
 					character->getSprite()->setY(character->getSprite()->getY() + decal.y);
 				if (decal.x != 0)
-				{/*
-					if (isPlayer == true && _triedJump == true && player->getVelocity().y > 0)
-					{
-						std::cout << "The player tried to jump" << std::endl;
-						player->jump(true);
-						if (decal.x > 0)
-							decal.x += 25;
-						else
-							decal.x -= 25;
-					}*/
+				{
+					_canTemporarilyJump = std::chrono::system_clock::now();
 					character->getSprite()->setX(character->getSprite()->getX() + decal.x);
 				}
 				character->resetHitbox();
@@ -433,11 +435,8 @@ namespace Moo
 					if ((*SecondDynEntIt).second != character
 					 && ((hitZone = character->collisionAABB((*SecondDynEntIt).second)) != HitZone::NONE))
 					{
-						//std::cout << (*dynEntIt).first << " x1: " << (*dynEntIt).second->getHitbox().x1 << " y1: " << (*dynEntIt).second->getHitbox().y1
-						//		  << " x2: " << (*dynEntIt).second->getHitbox().x2 << " y2: " << (*dynEntIt).second->getHitbox().y2 << std::endl
-						//		  << (*SecondDynEntIt).first << " x1: " << (*SecondDynEntIt).second->getHitbox().x1 << " y1: " << (*SecondDynEntIt).second->getHitbox().y1
-						//		  << " x2: " << (*SecondDynEntIt).second->getHitbox().x2 << " y2: " << (*SecondDynEntIt).second->getHitbox().y2 << std::endl;
 						//If we collide with an enemy : Absorb him
+						std::cout << "Collision between " << (*dynEntIt).first << " and " << (*SecondDynEntIt).first << std::endl;
 						if (_strnicmp((*SecondDynEntIt).first.c_str(), "Enemy", 5) == 0)
 						{
 							Moo::Character *enemyCollided = ((Moo::Character *)(*SecondDynEntIt).second);
@@ -446,10 +445,7 @@ namespace Moo
 								delete character;
 								dynEntIt = dynamicEntities.erase(dynEntIt);
 								deletedBullet = true;
-								enemyCollided->setHealth(enemyCollided->getHealth() + 1);
-								enemyCollided->getSprite()->scale(Moo::Vector2f(0.1f, 0.1f));
-								enemyCollided->getHitboxSprite()->setScale(enemyCollided->getSprite()->getScale());
-								enemyCollided->resetHitbox();
+								enemyCollided->changeHealth(1);
 								std::cout << (*SecondDynEntIt).first << " health: " << enemyCollided->getHealth() << std::endl;
 								break;
 							}
@@ -457,12 +453,7 @@ namespace Moo
 							{
 								if (character->getHealth() >= enemyCollided->getHealth() || character->isGodMode() == true)
 								{
-									//std::cout << "Bigger - Deleting " << (*SecondDynEntIt).first << std::endl;
-									character->setHealth(character->getHealth() + (enemyCollided->getHealth() * 33 / 100));
-									character->getSprite()->scale(Moo::Vector2f(0.1f * (enemyCollided->getHealth() * 33 / 100),
-																				0.1f * (enemyCollided->getHealth() * 33 / 100)));
-									character->getHitboxSprite()->setScale(character->getSprite()->getScale());
-									character->resetHitbox();
+									character->changeHealth(enemyCollided->getHealth() * 33 / 100);
 									std::cout << (*dynEntIt).first << " health: " << character->getHealth() << std::endl;
 									SecondDynEntIt = dynamicEntities.erase(SecondDynEntIt);
 									deletedCharacter = true;
@@ -475,12 +466,7 @@ namespace Moo
 								}
 								else
 								{
-									//std::cout << "Smaller - Deleting " << (*dynEntIt).first << std::endl;
-									enemyCollided->setHealth(enemyCollided->getHealth() + (character->getHealth() * 33 / 100));
-									enemyCollided->getSprite()->scale(Moo::Vector2f(0.1f * (character->getHealth() * 33 / 100),
-																					0.1f * (character->getHealth() * 33 / 100)));
-									enemyCollided->getHitboxSprite()->setScale(enemyCollided->getSprite()->getScale());
-									enemyCollided->resetHitbox();
+									enemyCollided->changeHealth(character->getHealth() * 33 / 100);
 									std::cout << (*SecondDynEntIt).first << " health: " << enemyCollided->getHealth() << std::endl;
 									dynEntIt = dynamicEntities.erase(dynEntIt);
 									deletedCharacter = true;
@@ -494,10 +480,7 @@ namespace Moo
 			if (deletedBullet == false && deletedCharacter == false)
 				++dynEntIt;
 			else if (deletedCharacter == true)
-			{
-				//std::cout << "A dynamic entity is deleted so we break" << std::endl;
 				break;
-			}
 		}
 		return (true);
 	}
@@ -507,6 +490,9 @@ namespace Moo
 		d3d::getInstance().getCamera()->setPosition(camera.getPosition());
 		if (themeChan != nullptr)
 			themeChan->setPaused(false);
+		player->setTimers();
+		_startTime = std::chrono::system_clock::now();
+		_canTemporarilyJump = _startTime;
 		while (window.isOpen())
 		{
 			//Reseting _triedJump to check if the player tries to wall jump this frame

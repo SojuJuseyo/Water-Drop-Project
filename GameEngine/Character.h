@@ -1,12 +1,15 @@
 #pragma once
 
+#include <chrono>
+#include <ctime>
 #include "WindowSettings.h"
 #include "Vector2f.h"
 #include "Entity.h"
 #include "Sprite.h"
 
 #define MINIMUM_VELOCITY_Y	-270//-400
-#define STANDARD_VELOCITY_X	5
+#define STANDARD_VELOCITY_X	250
+#define EVAPORATION_RATE	0.5 //per second
 
 namespace Moo
 {
@@ -23,8 +26,11 @@ namespace Moo
 		HitZone	collisionAABB(Entity *entity);
 		Sprite	*getSprite() const;
 		Sprite  *getHitboxSprite() const;
-		void	setHealth(int);
-		int		getHealth() const;
+		void	setHealth(float);
+		float	getHealth() const;
+		void	changeHealth(float);
+		void	checkEvaporation();
+		void	setTimers();
 
 		// CHEAT
 		bool	isGodMode() const;
@@ -36,8 +42,10 @@ namespace Moo
 		Sprite			*_hitboxSprite;
 		Moo::Texture	*_texture;
 
+		std::chrono::time_point<std::chrono::system_clock> _startingTime, _lastEvaporation;
+
 		// Health points
-		int		_health;
+		float		_health;
 
 		// CHEAT
 		bool	_godMode;
