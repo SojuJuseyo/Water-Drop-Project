@@ -28,9 +28,9 @@ namespace Moo
 		bool	init(std::shared_ptr<Moo::Window> window);
 		void	getEntitiesFromMap(JsonParser *map);
 		Camera	getCamera();
-		bool	inputHandling();
+		void	inputHandling();
 		void	displayHitboxesAndSprites();
-		bool	applyGravityAndCollisions();
+		void	applyGravityAndCollisions();
 		void	exitReached();
 		void	playerDead();
 

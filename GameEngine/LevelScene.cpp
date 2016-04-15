@@ -51,8 +51,8 @@ namespace Moo
 		int i = 1;
 
 		//Player specs
-		float playerHeight = 40;
-		float playerWidth = 40;
+		float playerHeight = 48.4;
+		float playerWidth = 48.4;
 		float playerMass = 300;
 
 		//Enemies specs
@@ -65,7 +65,7 @@ namespace Moo
 		{
 			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			enemySprite->loadTexture(enemyText);
-			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, true);
+			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, true, 4);
 			enemy->setCollision(true);
 			// To make sure that enemies have less health than us at the beginning
 			enemy->setHealth(4);
@@ -83,7 +83,7 @@ namespace Moo
 		{
 			Moo::Sprite *platform = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			platform->loadTexture(platformText);
-			Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false);
+			Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false, 0);
 			staticEntities.push_back(std::make_pair("Platform " + std::to_string(i), platformEntity));
 			++i;
 		}
@@ -93,7 +93,7 @@ namespace Moo
 		{
 			Moo::Sprite *bloc = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			bloc->loadTexture(blocText);
-			staticEntities.push_back(std::make_pair("Bloc", new Moo::Character(Moo::Vector2f(1, 0), 0, bloc, false)));
+			staticEntities.push_back(std::make_pair("Bloc", new Moo::Character(Moo::Vector2f(1, 0), 0, bloc, false, 0)));
 		}
 
 		//bottom
@@ -101,7 +101,7 @@ namespace Moo
 		{
 			Moo::Sprite *ground = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			ground->loadTexture(groundText);
-			staticEntities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false)));
+			staticEntities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false, 0)));
 		}
 
 		//exit
@@ -109,7 +109,7 @@ namespace Moo
 		{
 			Moo::Sprite *exit = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			exit->loadTexture(exitText);
-			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false);
+			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false, 0);
 			staticEntities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
 			++i;
 		}
@@ -122,7 +122,7 @@ namespace Moo
 			//Player
 			Moo::Sprite *character = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 40, (*playerIt)->getPosY() * 40);
 			character->loadTexture(characterText);
-			Moo::Character *player = new Moo::Character(Moo::Vector2f(0, 0), playerMass, character, true);
+			Moo::Character *player = new Moo::Character(Moo::Vector2f(0, 0), playerMass, character, true, 6);
 			//The player is always the first of the entities vector
 			dynamicEntities.insert(dynamicEntities.begin(), std::make_pair("Player", player));
 		}
@@ -165,7 +165,7 @@ namespace Moo
 
 		// Temp texture for the bullet
 		bulletText = new Moo::Texture;
-		bulletText->loadFromFile("platform.dds");
+		bulletText->loadFromFile("character.dds");
 		loseText = new Moo::Texture;
 		loseText->loadFromFile("You_Lost_DDS.dds");
 		winText = new Moo::Texture;
@@ -198,15 +198,17 @@ namespace Moo
 		return (true);
 	}
 
-	bool	LevelScene::inputHandling()
+	void	LevelScene::inputHandling()
 	{
+		//Reseting _triedJump to check if the player tries to wall jump this frame
+		_triedJump = false;
+
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::A))
 		{
 			if (themeChan != nullptr)
 				themeChan->setPaused(true);
 			_camera.setPosition(d3d::getInstance().getCamera()->getPosition());
 			Moo::Game::getInstance().runScene(Game::PAUSE_MENU);
-			return (true);
 		}
 
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::B))
@@ -276,13 +278,12 @@ namespace Moo
 
 				// Check if cheat code is activated.
 				if (player->isGodMode() == false)
-					player->changeHealth(-1);
+					player->changeHealth(-0.3);
 				std::cout << "Player health : " << player->getHealth() << std::endl;
 			}
 			else
 				std::cout << "Player is too small to shoot" << std::endl;
 		}
-		return (false);
 	}
 
 	void	LevelScene::displayHitboxesAndSprites()
@@ -345,7 +346,7 @@ namespace Moo
 		Game::getInstance().runScene(Game::MAIN_MENU);
 	}
 
-	bool	LevelScene::applyGravityAndCollisions()
+	void	LevelScene::applyGravityAndCollisions()
 	{
 		//Init collison & gravity loop values
 		HitZone hitZone;
@@ -375,7 +376,7 @@ namespace Moo
 			deletedCharacter = false;
 
 			if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
-				decal.x = STANDARD_VELOCITY_X;
+				(*dynEntIt).second->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt).second->getVelocity().y));
 
 			for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator statEntIt = staticEntities.begin();
 				 statEntIt != staticEntities.end();
@@ -385,10 +386,7 @@ namespace Moo
 				{
 					//If player collides with an Exit
 					if (isPlayer == true && _strnicmp((*statEntIt).first.c_str(), "Exit", 4) == 0)
-					{
 						exitReached();
-						return false;
-					}
 					//If we collide with a wall/platform/bottom
 					else if (isPlayer == true || (_strnicmp((*dynEntIt).first.c_str(), "Enemy", 5) == 0))
 					{
@@ -448,7 +446,7 @@ namespace Moo
 								delete character;
 								dynEntIt = dynamicEntities.erase(dynEntIt);
 								deletedBullet = true;
-								enemyCollided->changeHealth(1);
+								enemyCollided->changeHealth(0.3);
 								std::cout << (*SecondDynEntIt).first << " health: " << enemyCollided->getHealth() << std::endl;
 								break;
 							}
@@ -463,10 +461,7 @@ namespace Moo
 									break;
 								}
 								else if (isPlayer == true)
-								{
 									playerDead();
-									return (false);
-								}
 								else
 								{
 									enemyCollided->changeHealth(character->getHealth() * 33 / 100);
@@ -485,7 +480,6 @@ namespace Moo
 			else if (deletedCharacter == true)
 				break;
 		}
-		return (true);
 	}
 
 	bool	LevelScene::runUpdate()
@@ -494,9 +488,6 @@ namespace Moo
 		if (themeChan != nullptr)
 			themeChan->setPaused(false);
 		*/
-
-		//Reseting _triedJump to check if the player tries to wall jump this frame
-		_triedJump = false;
 
 		//Getting the inputs of the player
 		inputHandling();

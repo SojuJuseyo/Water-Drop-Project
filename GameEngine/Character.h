@@ -16,7 +16,7 @@ namespace Moo
 	class Character : public Entity
 	{
 	public:
-		Character(Vector2f, float, Sprite *, bool);
+		Character(Vector2f, float, Sprite *, bool, float);
 		virtual ~Character();
 		void	move(Direction);
 		bool	jump(bool);

@@ -2,7 +2,7 @@
 
 namespace Moo
 {
-	Character::Character(Vector2f velocity, float mass, Sprite *sprite, bool hasGravity)
+	Character::Character(Vector2f velocity, float mass, Sprite *sprite, bool hasGravity, float health)
 	{
 		this->setVelocity(velocity);
 		this->setMass(mass);
@@ -15,7 +15,7 @@ namespace Moo
 		_texture->loadFromFile("hitbox.dds");
 		_hitboxSprite->loadTexture(_texture);
 
-		this->_health = 5;
+		this->_health = health;
 
 		this->_godMode = false;
 	}
