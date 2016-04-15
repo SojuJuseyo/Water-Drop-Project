@@ -9,7 +9,7 @@
 
 #define MINIMUM_VELOCITY_Y	-270//-400
 #define STANDARD_VELOCITY_X	250
-#define EVAPORATION_RATE	0.5 //per second
+#define EVAPORATION_RATE	0.25 //per second
 
 namespace Moo
 {

@@ -7,12 +7,12 @@ namespace Moo
 	public:
 		ControleScene();
 		~ControleScene();
-		bool	run(Moo::Window &window);
 		void	clean();
-		bool	init(SoundSystem *soundSystem);
+		bool	init(std::shared_ptr<Moo::Window> window);
+		bool	runUpdate();
 	private:
-		SoundSystem *soundSystem;
 		Moo::Texture *controleText;
 		Moo::Sprite *controle;
+		std::shared_ptr<Moo::Window> _window;
 	};
 }

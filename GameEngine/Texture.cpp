@@ -78,15 +78,17 @@ namespace Moo
 
 		//XMMATRIX text = DirectX::XMMatrixScaling(0.5 * 1.0f, 1.0f, 1.0f);
 
+		float size = 1.0f;
+
 		VERTEX testing[] =
 		{
-			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(1.0f, 0.0f) },
-			{ XMFLOAT3(halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(1.0f, 1.0f) },
-			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.0f, 1.0f) },
+			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(size, 0.0f) },
+			{ XMFLOAT3(halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(size, size) },
+			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.0f, size) },
 
-			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.0f, 1.0f) },
+			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.0f, size) },
 			{ XMFLOAT3(-halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(0.0f, 0.0f) },
-			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(1.0f, 0.0f) },
+			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(size, 0.0f) },
 		};
 
 		D3D11_BUFFER_DESC vertexDesc;

@@ -133,17 +133,15 @@ namespace Moo
 		//groundText->~Texture();
 	}
 
-	bool	LevelScene::init(SoundSystem *soundSystem)
+	Camera LevelScene::getCamera()
 	{
-		//if (!jump.loadSound("jump.wav")) {
-		//	std::cout << "jump sound failed" << std::endl;
-		//}
-		//if (!soundWin.loadSound("Victory.wav")) {
-		//	std::cout << "win sound failed" << std::endl;
-		//}		
-		//if (!soundLose.loadSound("Defeat.wav")) {
-		//	std::cout << "lose sound failed" << std::endl;
-		//}
+		return _camera;
+	}
+
+	bool	LevelScene::init(std::shared_ptr<Window> window)
+	{
+		_window = window;
+
 		backgroundText = new Moo::Texture;
 		backgroundText->loadFromFile("background.dds");
 
@@ -180,29 +178,34 @@ namespace Moo
 		win->loadTexture(winText);
 
 		//init sound system
-		this->soundSystem = soundSystem;
+		_soundSystem = Game::getInstance().getSoundSystem();
 
-		if (soundSystem->addSound(map->getMap().getMapAudioFile().c_str(), "custom"))
+		if (_soundSystem->addSound(map->getMap().getMapAudioFile().c_str(), "custom"))
 		{
 			std::cout << map->getMap().getMapAudioFile() << std::endl;
 			std::cout << "music failed" << std::endl;
 			themeChan = nullptr;
 		}
-		themeChan = soundSystem->playSound("custom", true);
+
+		themeChan = _soundSystem->playSound("custom", true);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
+
+		player->setTimers();
+		_startTime = std::chrono::system_clock::now();
+		_canTemporarilyJump = _startTime;
 
 		return (true);
 	}
 
-	bool	LevelScene::inputHandling(Moo::Window &window)
+	bool	LevelScene::inputHandling()
 	{
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::A))
 		{
 			if (themeChan != nullptr)
 				themeChan->setPaused(true);
-			camera.setPosition(d3d::getInstance().getCamera()->getPosition());
-			Moo::Game::getInstance().runScene(TypeScene::PAUSE, TypeScene::LEVEL, window);
+			_camera.setPosition(d3d::getInstance().getCamera()->getPosition());
+			Moo::Game::getInstance().runScene(Game::PAUSE_MENU);
 			return (true);
 		}
 
@@ -256,7 +259,7 @@ namespace Moo
 		{
 			if (player->getHealth() > 1)
 			{
-				soundSystem->playSound("jump", false);
+				_soundSystem->playSound("jump", false);
 				// Define the base pos of the bullet and create the sprite
 				float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
 				float bulletPosY = player->getSprite()->getY() + (player->getSprite()->getHeight() / 2);
@@ -282,33 +285,33 @@ namespace Moo
 		return (false);
 	}
 
-	void	LevelScene::displayHitboxesAndSprites(Moo::Window &window)
+	void	LevelScene::displayHitboxesAndSprites()
 	{
-		window.clear();
-		window.draw(background);
+		_window->clear();
+		_window->draw(background);
 
 		// Display hitbox if godmode is on
 		if (player->isGodMode() == true)
-			window.draw(player->getHitboxSprite());
+			_window->draw(player->getHitboxSprite());
 
 		//Draw static entities and their hitboxes
 		for (unsigned int i = 0; i < staticEntities.size(); ++i)
 		{
-			window.draw(((Moo::Character *)staticEntities[i].second)->getSprite());
-			window.draw(((Moo::Character *)staticEntities[i].second)->getHitboxSprite());
+			_window->draw(((Moo::Character *)staticEntities[i].second)->getSprite());
+			_window->draw(((Moo::Character *)staticEntities[i].second)->getHitboxSprite());
 		}
 
 		//Draw dynamic entities and their hitboxes
 		for (unsigned int i = 0; i < dynamicEntities.size(); ++i)
 		{
-			window.draw(((Moo::Character *)dynamicEntities[i].second)->getSprite());
-			window.draw(((Moo::Character *)dynamicEntities[i].second)->getHitboxSprite());
+			_window->draw(((Moo::Character *)dynamicEntities[i].second)->getSprite());
+			_window->draw(((Moo::Character *)dynamicEntities[i].second)->getHitboxSprite());
 			if (_strnicmp(dynamicEntities[i].first.c_str(), "Enemy", 5) == 0)
 				((Moo::Character *)dynamicEntities[i].second)->getSprite()->rotate(1);
 		}
 	}
 
-	void	LevelScene::exitReached(Moo::Window &window)
+	void	LevelScene::exitReached()
 	{
 		win->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
 						  (Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
@@ -317,15 +320,15 @@ namespace Moo
 			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
-		FMOD::Channel *chan = soundSystem->playSound("victory", false);
-		window.draw(win);
-		window.display();
+		FMOD::Channel *chan = _soundSystem->playSound("victory", false);
+		_window->draw(win);
+		_window->display();
 		Sleep(1000);
 		chan->stop();
-		Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
+		Game::getInstance().runScene(Game::MAIN_MENU);
 	}
 
-	void	LevelScene::playerDead(Moo::Window &window)
+	void	LevelScene::playerDead()
 	{
 		lose->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
 						   (Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
@@ -334,15 +337,15 @@ namespace Moo
 			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
-		FMOD::Channel *chan = soundSystem->playSound("defeat", false);
-		window.draw(lose);
-		window.display();
+		FMOD::Channel *chan = _soundSystem->playSound("defeat", false);
+		_window->draw(lose);
+		_window->display();
 		Sleep(1000);
 		chan->stop();
-		Game::getInstance().runScene(TypeScene::MENU, TypeScene::LEVEL, window);
+		Game::getInstance().runScene(Game::MAIN_MENU);
 	}
 
-	bool	LevelScene::applyGravityAndCollisions(Moo::Window &window)
+	bool	LevelScene::applyGravityAndCollisions()
 	{
 		//Init collison & gravity loop values
 		HitZone hitZone;
@@ -383,7 +386,7 @@ namespace Moo
 					//If player collides with an Exit
 					if (isPlayer == true && _strnicmp((*statEntIt).first.c_str(), "Exit", 4) == 0)
 					{
-						exitReached(window);
+						exitReached();
 						return false;
 					}
 					//If we collide with a wall/platform/bottom
@@ -461,7 +464,7 @@ namespace Moo
 								}
 								else if (isPlayer == true)
 								{
-									playerDead(window);
+									playerDead();
 									return (false);
 								}
 								else
@@ -485,40 +488,36 @@ namespace Moo
 		return (true);
 	}
 
-	bool	LevelScene::run(Moo::Window &window)
+	bool	LevelScene::runUpdate()
 	{
-		d3d::getInstance().getCamera()->setPosition(camera.getPosition());
+		/*
 		if (themeChan != nullptr)
 			themeChan->setPaused(false);
-		player->setTimers();
-		_startTime = std::chrono::system_clock::now();
-		_canTemporarilyJump = _startTime;
-		while (window.isOpen())
-		{
-			//Reseting _triedJump to check if the player tries to wall jump this frame
-			_triedJump = false;
+		*/
 
-			//Getting the inputs of the player
-			if (inputHandling(window) == true)
-				return (true);
+		//Reseting _triedJump to check if the player tries to wall jump this frame
+		_triedJump = false;
 
-			//Applying gravity to dynamic entities and checking all collisions
-			if (applyGravityAndCollisions(window) == false)
-				return (false);
+		//Getting the inputs of the player
+		inputHandling();
 
-			//Reseting the positon of the camera
-			Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
+		//Applying gravity to dynamic entities and checking all collisions
+		applyGravityAndCollisions();
 
-			//Display the game elements
-			displayHitboxesAndSprites(window);
+		//Reseting the positon of the camera
+		Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
 
-			//Drawing all that is inside the window
-			window.display();
-		}
+		//Display the game elements
+		displayHitboxesAndSprites();
+
+		//Drawing all that is inside the window
+		_window->display();
+
+
+		/*
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
-		//backgroundText->release();
-
+		*/
 		return (false);
 	}
 }
