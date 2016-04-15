@@ -26,7 +26,7 @@ namespace Moo
 		~LevelScene();
 		bool	run(Moo::Window &window);
 		void	clean();
-		bool	init(SoundSystem *soundsystem);
+		bool	init();
 		void	getEntitiesFromMap(JsonParser *map);
 		bool	inputHandling(Moo::Window &window);
 		void	displayHitboxesAndSprites(Moo::Window &window);
@@ -47,6 +47,6 @@ namespace Moo
 		Moo::Camera camera;
 		FMOD::Channel *themeChan;
 		bool						_triedJump;
-		SoundSystem					*soundSystem;
+		std::shared_ptr<SoundSystem>	soundSystem;
 	};
 }

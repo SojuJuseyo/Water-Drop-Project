@@ -8,23 +8,26 @@ namespace Moo
 		level = new LevelScene;
 		pause = new MenuPause;
 		controle = new ControleScene;
+		soundSystem = std::make_shared<SoundSystem>();
 	}
 
 	Game::~Game()
 	{
-
+		soundSystem->releaseAllSounds();
 	}
 
 	void	Game::initScenes()
 	{
-		if (!Moo::Audio::getInstance().init()) {
-			std::cout << "audio failed" << std::endl;
-		}
-		soundSystem.initAllSounds();
-		menu->init(&soundSystem);
-		level->init(&soundSystem);
-		pause->init(&soundSystem);
-		controle->init(&soundSystem);
+		soundSystem->initAllSounds();
+		menu->init();
+		level->init();
+		pause->init();
+		controle->init();
+	}
+
+	std::shared_ptr<SoundSystem> Game::getSoundSystem()
+	{
+		return soundSystem;
 	}
 
 	void	Game::setExit(bool value)

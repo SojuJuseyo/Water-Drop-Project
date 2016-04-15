@@ -133,7 +133,7 @@ namespace Moo
 		//groundText->~Texture();
 	}
 
-	bool	LevelScene::init(SoundSystem *soundSystem)
+	bool	LevelScene::init()
 	{
 		//if (!jump.loadSound("jump.wav")) {
 		//	std::cout << "jump sound failed" << std::endl;
@@ -180,7 +180,7 @@ namespace Moo
 		win->loadTexture(winText);
 
 		//init sound system
-		this->soundSystem = soundSystem;
+		this->soundSystem = Game::getInstance().getSoundSystem();
 
 		if (soundSystem->addSound(map->getMap().getMapAudioFile().c_str(), "custom"))
 		{

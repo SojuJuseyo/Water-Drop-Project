@@ -11,7 +11,7 @@ namespace Moo
 	{
 
 	}
-	bool ControleScene::init(SoundSystem *soundSystem)
+	bool ControleScene::init()
 	{
 		controleText = new Moo::Texture;
 		controleText->loadFromFile("controle.dds");
@@ -20,7 +20,7 @@ namespace Moo
 		controle->loadTexture(controleText);
 		
 		//init sound system
-		this->soundSystem = soundSystem;
+		this->soundSystem = Game::getInstance().getSoundSystem();
 
 		return false;
 	}

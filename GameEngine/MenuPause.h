@@ -19,11 +19,11 @@ namespace Moo
 		MenuPause();
 		~MenuPause();
 		bool	run(Moo::Window &);
-		bool	init(SoundSystem *soundSystem);
+		bool	init();
 		void	clean();
 
 	private:
-		SoundSystem *soundSystem;
+		std::shared_ptr<SoundSystem> soundSystem;
 		e_menu_pause	_offset;
 		Texture *backgroundText;
 		Sprite *background;

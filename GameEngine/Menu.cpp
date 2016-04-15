@@ -11,7 +11,7 @@ namespace Moo
 	{
 	}
 
-	bool Menu::init(SoundSystem *soundSystem)
+	bool Menu::init()
 	{
 		//background
 		backgroundText = new Texture;
@@ -51,7 +51,7 @@ namespace Moo
 		button_quit->loadTexture(buttonText);
 
 		//init sound system
-		this->soundSystem = soundSystem;
+		this->soundSystem = Game::getInstance().getSoundSystem();
 
 		_offset = e_menu::PLAY;
 		return true;

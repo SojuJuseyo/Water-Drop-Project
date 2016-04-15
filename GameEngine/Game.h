@@ -29,13 +29,14 @@ namespace Moo
 		void setExit(bool);
 		bool run(Moo::Window &);
 		bool runScene(Moo::TypeScene, Moo::TypeScene, Window &);
+		std::shared_ptr<SoundSystem> getSoundSystem();
 
 	private:
 		Scene *menu;
 		Scene *level;
 		Scene *controle;
 		Scene *pause;
-		SoundSystem soundSystem;
+		std::shared_ptr<SoundSystem> soundSystem;
 		bool _exit;
 	};
 }

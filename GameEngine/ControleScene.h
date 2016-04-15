@@ -1,4 +1,8 @@
+#pragma once
+
 #include "Scene.h"
+#include "Game.h"
+#include "SoundSystem.h"
 
 namespace Moo
 {
@@ -9,9 +13,9 @@ namespace Moo
 		~ControleScene();
 		bool	run(Moo::Window &window);
 		void	clean();
-		bool	init(SoundSystem *soundSystem);
+		bool	init();
 	private:
-		SoundSystem *soundSystem;
+		std::shared_ptr<SoundSystem> soundSystem;
 		Moo::Texture *controleText;
 		Moo::Sprite *controle;
 	};

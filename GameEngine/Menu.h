@@ -17,12 +17,12 @@ namespace Moo
 	public:
 		Menu();
 		~Menu();
-		bool	init(SoundSystem *soundSystem);
+		bool	init();
 		bool	run(Moo::Window &);
 		void	clean();
 
 	private:
-		SoundSystem *soundSystem;
+		std::shared_ptr<SoundSystem> soundSystem;
 		e_menu	_offset;
 		Texture *backgroundText;
 		Sprite *background;

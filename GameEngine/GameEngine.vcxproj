@@ -69,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Program Files %28x86%29\OpenAL 1.1 SDK\include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\OpenAL 1.1 SDK\libs\Win32;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;C:\Program Files %28x86%29\OpenAL 1.1 SDK\include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Program Files %28x86%29\OpenAL 1.1 SDK\libs\Win32;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>C:\Program Files %28x86%29\OpenAL 1.1 SDK\include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
@@ -87,10 +87,11 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenAL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenAL32.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -99,6 +100,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -112,6 +114,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -127,6 +130,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -177,20 +181,24 @@
     <ClInclude Include="d3d.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Fps.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="json.h" />
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="LevelScene.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="MapInfos.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MenuPause.h" />
+    <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RectangleShape.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
@@ -207,12 +215,26 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Media Include="Defeat.wav" />
+    <Media Include="jump.wav" />
+    <Media Include="Menu.wav" />
+    <Media Include="music.wav" />
+    <Media Include="Victory.wav" />
+  </ItemGroup>
+  <ItemGroup>
     <Image Include="background.dds" />
-    <Image Include="Font.dds" />
+    <Image Include="bloc.dds" />
+    <Image Include="character.dds" />
+    <Image Include="controle.dds" />
+    <Image Include="door_closed.dds" />
+    <Image Include="enemy.dds" />
     <Image Include="ground.dds" />
-    <Image Include="mario.dds" />
+    <Image Include="hitbox.dds" />
     <Image Include="Menu_Pause_WTP_DDS.dds" />
+    <Image Include="Menu_WTP_DDS.dds" />
     <Image Include="platform.dds" />
+    <Image Include="You_Lost_DDS.dds" />
+    <Image Include="You_Won_DDS.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\sounds">
+      <UniqueIdentifier>{ade1f49a-01e2-44a9-9e48-7a4f44f59713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\graphics">
+      <UniqueIdentifier>{3d1cf0fd-1348-4d45-97f5-e20a13357044}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -106,6 +112,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ControleScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -203,28 +212,78 @@
     <ClInclude Include="ControleScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SoundSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEmitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="TextureMap.fx" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="ground.dds">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="mario.dds">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <Media Include="Defeat.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="jump.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Menu.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="music.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Victory.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
     <Image Include="background.dds">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\graphics</Filter>
     </Image>
-    <Image Include="Font.dds">
-      <Filter>Resource Files</Filter>
+    <Image Include="bloc.dds">
+      <Filter>Resource Files\graphics</Filter>
     </Image>
-    <Image Include="platform.dds">
-      <Filter>Resource Files</Filter>
+    <Image Include="character.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="controle.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="door_closed.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="enemy.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="ground.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="hitbox.dds">
+      <Filter>Resource Files\graphics</Filter>
     </Image>
     <Image Include="Menu_Pause_WTP_DDS.dds">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Menu_WTP_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="platform.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="You_Lost_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="You_Won_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
     </Image>
   </ItemGroup>
 </Project>
