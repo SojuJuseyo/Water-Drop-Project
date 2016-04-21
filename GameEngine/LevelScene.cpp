@@ -51,8 +51,8 @@ namespace Moo
 		int i = 1;
 
 		//Player specs
-		float playerHeight = 48.4;
-		float playerWidth = 48.4;
+		float playerHeight = 48.4f;
+		float playerWidth = 48.4f;
 		float playerMass = 300;
 
 		//Enemies specs
@@ -65,7 +65,7 @@ namespace Moo
 		{
 			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			enemySprite->loadTexture(enemyText);
-			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, true, 4);
+			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, true, 4, false);
 			enemy->setCollision(true);
 			// To make sure that enemies have less health than us at the beginning
 			enemy->setHealth(4);
@@ -83,7 +83,7 @@ namespace Moo
 		{
 			Moo::Sprite *platform = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			platform->loadTexture(platformText);
-			Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false, 0);
+			Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false, 0, false);
 			staticEntities.push_back(std::make_pair("Platform " + std::to_string(i), platformEntity));
 			++i;
 		}
@@ -93,7 +93,7 @@ namespace Moo
 		{
 			Moo::Sprite *bloc = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			bloc->loadTexture(blocText);
-			staticEntities.push_back(std::make_pair("Bloc", new Moo::Character(Moo::Vector2f(1, 0), 0, bloc, false, 0)));
+			staticEntities.push_back(std::make_pair("Bloc", new Moo::Character(Moo::Vector2f(1, 0), 0, bloc, false, 0, false)));
 		}
 
 		//bottom
@@ -101,7 +101,7 @@ namespace Moo
 		{
 			Moo::Sprite *ground = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			ground->loadTexture(groundText);
-			staticEntities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false, 0)));
+			staticEntities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false, 0, false)));
 		}
 
 		//exit
@@ -109,7 +109,7 @@ namespace Moo
 		{
 			Moo::Sprite *exit = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
 			exit->loadTexture(exitText);
-			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false, 0);
+			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false, 0, false);
 			staticEntities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
 			++i;
 		}
@@ -122,7 +122,7 @@ namespace Moo
 			//Player
 			Moo::Sprite *character = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 40, (*playerIt)->getPosY() * 40);
 			character->loadTexture(characterText);
-			Moo::Character *player = new Moo::Character(Moo::Vector2f(0, 0), playerMass, character, true, 6);
+			Moo::Character *player = new Moo::Character(Moo::Vector2f(0, 0), playerMass, character, true, 6, true);
 			//The player is always the first of the entities vector
 			dynamicEntities.insert(dynamicEntities.begin(), std::make_pair("Player", player));
 		}
@@ -194,6 +194,7 @@ namespace Moo
 		player->setTimers();
 		_startTime = std::chrono::system_clock::now();
 		_canTemporarilyJump = _startTime;
+		_lastJump = _startTime;
 
 		return (true);
 	}
@@ -234,21 +235,25 @@ namespace Moo
 			bool wallJump = false;
 			if (player->getVelocity().y > 0)
 			{
-				std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - _canTemporarilyJump;
-				if (elapsed_seconds.count() < 0.1)
+				std::chrono::duration<double> elapsed_seconds_wallJump = std::chrono::system_clock::now() - _canTemporarilyJump;
+				std::chrono::duration<double> elapsed_seconds_lastJump = std::chrono::system_clock::now() - _lastJump;
+				if (elapsed_seconds_lastJump.count() > 0.2 && elapsed_seconds_wallJump.count() < 0.1)
 				{
 					std::cout << "The player tried to jump" << std::endl;
 					wallJump = true;
 					if (player->getVelocity().x < 0)
-						player->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, player->getVelocity().y));
+						player->setWallJumpVelocity(true);
 					else
-						player->setVelocity(Vector2f(-STANDARD_VELOCITY_X * 2, player->getVelocity().y));
+						player->setWallJumpVelocity(false);
 				}
 				else
-					std::cout << "Too late to wall jump, elapsed seconds count: " << elapsed_seconds.count() << std::endl;
+					std::cout << "Too late to wall jump, elapsed seconds count: " << elapsed_seconds_wallJump.count() << std::endl;
 			}
 			if (player->jump(wallJump) == true)
+			{
 				_canTemporarilyJump = _startTime;
+				_lastJump = std::chrono::system_clock::now();
+			}
 		}
 
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
@@ -278,7 +283,7 @@ namespace Moo
 
 				// Check if cheat code is activated.
 				if (player->isGodMode() == false)
-					player->changeHealth(-0.3);
+					player->changeHealth(-0.3f);
 				std::cout << "Player health : " << player->getHealth() << std::endl;
 			}
 			else
@@ -326,7 +331,7 @@ namespace Moo
 		_window->display();
 		Sleep(1000);
 		chan->stop();
-		Game::getInstance().runScene(Game::MAIN_MENU);
+		Game::getInstance().goToNextScene();
 	}
 
 	void	LevelScene::playerDead()
@@ -343,7 +348,7 @@ namespace Moo
 		_window->display();
 		Sleep(1000);
 		chan->stop();
-		Game::getInstance().runScene(Game::MAIN_MENU);
+		Game::getInstance().backToPrevScene();
 	}
 
 	void	LevelScene::applyGravityAndCollisions()
@@ -446,7 +451,7 @@ namespace Moo
 								delete character;
 								dynEntIt = dynamicEntities.erase(dynEntIt);
 								deletedBullet = true;
-								enemyCollided->changeHealth(0.3);
+								enemyCollided->changeHealth(0.3f);
 								std::cout << (*SecondDynEntIt).first << " health: " << enemyCollided->getHealth() << std::endl;
 								break;
 							}

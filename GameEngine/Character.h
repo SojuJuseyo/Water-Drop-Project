@@ -16,7 +16,7 @@ namespace Moo
 	class Character : public Entity
 	{
 	public:
-		Character(Vector2f, float, Sprite *, bool, float);
+		Character(Vector2f, float, Sprite *, bool, float, bool);
 		virtual ~Character();
 		void	move(Direction);
 		bool	jump(bool);
@@ -31,6 +31,7 @@ namespace Moo
 		void	changeHealth(float);
 		void	checkEvaporation();
 		void	setTimers();
+		void	setWallJumpVelocity(bool);
 
 		// CHEAT
 		bool	isGodMode() const;
@@ -41,6 +42,8 @@ namespace Moo
 		Sprite			*_sprite;
 		Sprite			*_hitboxSprite;
 		Moo::Texture	*_texture;
+		Vector2f		_playerVelocity;
+		bool			_isPlayer;
 
 		std::chrono::time_point<std::chrono::system_clock> _startingTime, _lastEvaporation;
 

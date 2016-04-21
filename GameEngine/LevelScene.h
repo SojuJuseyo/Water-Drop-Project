@@ -47,6 +47,6 @@ namespace Moo
 		Moo::Camera						_camera;
 		FMOD::Channel					*themeChan;
 		bool							_triedJump;
-		std::chrono::time_point<std::chrono::system_clock> _startTime, _canTemporarilyJump;
+		std::chrono::time_point<std::chrono::system_clock> _startTime, _lastJump, _canTemporarilyJump;
 	};
 }
