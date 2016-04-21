@@ -212,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="Defeat.wav" />
+    <Media Include="Heart_of_Courage_8_Bit_s075.mp3" />
     <Media Include="jump.wav" />
     <Media Include="Menu.wav" />
     <Media Include="music.wav" />
