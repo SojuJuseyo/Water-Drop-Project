@@ -14,7 +14,26 @@ namespace Moo
 
 	void LevelScene::clean()
 	{
-		// clean 
+		std::cout << "Clearing entities lists" << std::endl;
+		for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator statEntIt = staticEntities.begin(); statEntIt != staticEntities.end(); ++statEntIt)
+			delete (*statEntIt).second;
+		staticEntities.clear();
+		std::cout << "Static entities list is cleared, size: " << staticEntities.size() << std::endl;
+		for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator dynEntIt = dynamicEntities.begin(); dynEntIt != dynamicEntities.end(); ++dynEntIt)
+			delete (*dynEntIt).second;
+		dynamicEntities.clear();
+		std::cout << "Dynamic entities list is cleared, size: " << dynamicEntities.size() << std::endl;
+		if (map != nullptr)
+			delete map;
+		if (player != nullptr)
+			player = nullptr;
+		if (themeChan != nullptr)
+			delete themeChan;
+		if (background != nullptr && lose != nullptr && win != nullptr)
+			delete background, lose, win;
+		if (bulletText != nullptr && loseText != nullptr && winText != nullptr && backgroundText != nullptr)
+			delete bulletText, loseText, winText, backgroundText;
+		std::cout << "Level scene is cleared" << std::endl;
 	}
 
 	void	LevelScene::getEntitiesFromMap(JsonParser *map)
@@ -140,6 +159,8 @@ namespace Moo
 
 	bool	LevelScene::init(std::shared_ptr<Window> window)
 	{
+		std::cout << "Starting init" << std::endl;
+		this->clean();
 		_window = window;
 
 		backgroundText = new Moo::Texture;
@@ -156,6 +177,10 @@ namespace Moo
 
 		//Read the entities from the map
 		getEntitiesFromMap(map);
+
+		std::cout << "Succeeded in getting entities from the map" << std::endl;
+		std::cout << "Static entities list is filled, size: " << staticEntities.size() << std::endl;
+		std::cout << "Dynamic entities list is filled, size: " << dynamicEntities.size() << std::endl;
 
 		//background
 		background = new Moo::Sprite(4000, 3000, 0, 0);
@@ -195,6 +220,8 @@ namespace Moo
 		_startTime = std::chrono::system_clock::now();
 		_canTemporarilyJump = _startTime;
 		_lastJump = _startTime;
+
+		std::cout << "Init successful" << std::endl;
 
 		return (true);
 	}
