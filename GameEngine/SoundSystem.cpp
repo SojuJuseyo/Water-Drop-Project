@@ -23,7 +23,10 @@ SoundSystem::SoundSystem()
 		throw Moo::InitException("Init soundSystem failed, " + std::string(FMOD_ErrorString(res)));
 		return;
 	}
+
+	initAllSounds();
 }
+
 SoundSystem::~SoundSystem()
 {
 }
@@ -31,12 +34,12 @@ SoundSystem::~SoundSystem()
 bool SoundSystem::createSound(SoundClass *sound, const char* file)
 {
 	if (file == nullptr) {
-
+		std::cerr << "Create sound failed, file name is null" << std::endl;
 		return false;
 	}
 	FMOD_RESULT res = m_pSystem->createSound(file, FMOD_DEFAULT, 0, sound);
 	if (res != FMOD_OK) {
-		std::cerr << "Create " << file << " sound failed, " << FMOD_ErrorString(res) << std::endl;;
+		std::cerr << "Create " << file << " sound failed, " << FMOD_ErrorString(res) << std::endl;
 		return false;
 	}
 	return true;
@@ -46,8 +49,8 @@ bool SoundSystem::createSound(SoundClass *sound, const char* file)
 bool SoundSystem::addSound(const char* file, std::string name)
 {
 	bool res = createSound(&soundMap[name], file);
-	if (res != FMOD_OK) {
-		std::cerr << "Create " << name.c_str() << "sound failed" << std::endl;
+	if (res != true) {
+		std::cerr << "Create " << name.c_str() << " sound from file " << file << " has failed" << std::endl;
 		return false;
 	}
 	return true;
