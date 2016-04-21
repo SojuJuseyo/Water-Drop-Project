@@ -70,8 +70,7 @@ namespace Moo
 				return true;
 				break;
 			case e_menu::QUIT:
-				Game::getInstance().exit();
-				return (false);
+				return false;
 				break;
 			}
 
@@ -122,7 +121,7 @@ namespace Moo
 			break;
 		}
 		_window->display();
-		return false;
+		return true;
 	}
 
 	void	Menu::clean()

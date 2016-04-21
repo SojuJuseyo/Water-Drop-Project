@@ -80,7 +80,7 @@ namespace Moo
 			if (msg.wParam == VK_F2) {
 				d3d::getInstance().setFullScreenState(false);
 			}
-			if (msg.message == WM_QUIT) {
+			if (msg.wParam == VK_ESCAPE) {
 				return false;
 			}
 		}

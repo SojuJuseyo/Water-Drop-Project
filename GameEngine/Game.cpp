@@ -38,9 +38,20 @@ namespace Moo
 		return instance;
 	}
 
+	void			Game::resetScene(e_scene sceneType)
+	{
+		for (auto &scene : _listOfScenes) {
+			if (scene.sceneType == sceneType) {
+				scene.scene->init(_window);
+				return;
+			}
+		}
+	}
+
 	// a appeller qu'une fois au debut pour initialiser les Scenes
 	void			Game::initScenes(std::shared_ptr<Moo::Window> theUsedWindow)
 	{
+		_window = theUsedWindow;
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
@@ -53,66 +64,59 @@ namespace Moo
 				scene.scene->init(theUsedWindow);
 			}
 		}
-		_isGameRunning = true;
 		runScene(MAIN_MENU);
-		while (theUsedWindow->isOpen() || _isGameRunning)
+		_isGameRunning = true;
+		while (_isGameRunning) {
 			update();
+			if (!theUsedWindow->isOpen()) {
+				backToPrevScene();
+			}
+		}
 	}
 	
+	void			Game::exit()
+	{
+		_isGameRunning = false;
+	}
+
 	// a appeller quand on veut passer d'une scene a l'autre.
 	void			Game::runScene(e_scene type)
 	{
 		s_scene *tmpSceneForPrev = _currentScene;
 		s_scene *tmpScene = getSceneByType(type);
-		if (tmpScene != nullptr)
+		if (tmpScene != nullptr) {
 			_currentScene = tmpScene;
-		else
+		}
+		else {
 			return;
+		}
 		Moo::d3d::getInstance().getCamera()->reset();
-		if (type == MAIN_MENU)
-		{
-			_isInGame = false;
+		if ((int)type >= (int)LEVEL1) {
+			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
+		}
+		_currentScene->prevScene = tmpSceneForPrev;
+		if (type == MAIN_MENU) {
 			_currentScene->prevScene = nullptr;
 		}
-		if ((int)type >= (int)LEVEL1)
-		{
-			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
-			_isInGame = true;
-			_currentScene->prevScene = getSceneByType(PAUSE_MENU);
-		}
-		if (type == CONTROLS_MENU)
-		{
-			if (_isInGame)
-				_currentScene->prevScene = getSceneByType(PAUSE_MENU);
-			else
-				_currentScene->prevScene = getSceneByType(MAIN_MENU);
-		}
-		if (type == PAUSE_MENU)
-			_currentScene->prevScene = tmpSceneForPrev;
 	}
 
 	void			Game::backToPrevScene()
 	{
-		if (_currentScene != nullptr && _currentScene->prevScene != nullptr)
-		{
+		if (_currentScene != nullptr && _currentScene->prevScene != nullptr) {
 			runScene(_currentScene->prevScene->sceneType);
 		}
 	}
 
 	void			Game::goToNextScene()
 	{
-		if (_currentScene != nullptr && (int)_currentScene->sceneType >= (int)LEVEL1)
-		{
-			if ((int)_currentScene->sceneType < (int)NUMBER_OF_SCENE - 1)
+		if (_currentScene != nullptr && (int)_currentScene->sceneType >= (int)LEVEL1) {
+			if ((int)_currentScene->sceneType < (int)NUMBER_OF_SCENE - 1) {
 				runScene((e_scene)((int)_currentScene->sceneType + 1));
-			else
+			}
+			else {
 				runScene(MAIN_MENU);
+			}
 		}
-	}
-
-	void			Game::exit()
-	{
-		_isGameRunning = false;
 	}
 
 	std::shared_ptr<SoundSystem> Game::getSoundSystem()
@@ -120,11 +124,14 @@ namespace Moo
 		return _soundSystem;
 	}
 
-	void			Game::update()
+	bool			Game::update()
 	{
 		if (_currentScene != nullptr && _currentScene->scene != nullptr) {
-			_currentScene->scene->runUpdate();
+			if (!_currentScene->scene->runUpdate()) {
+				exit();
+			}
 		}
+		return false;
 	}
 
 	void			Game::createScene(e_scene sceneType, Scene* sceneRef)
@@ -138,13 +145,11 @@ namespace Moo
 
 	Game::s_scene*		Game::getSceneByType(e_scene sceneType)
 	{
-		for (auto &scene : _listOfScenes)
-		{
+		for (auto &scene : _listOfScenes) {
 			if (scene.sceneType == sceneType) {
 				return &scene;
 			}
 		}
-
 		return nullptr;
 	}
 }

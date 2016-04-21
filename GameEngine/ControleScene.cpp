@@ -19,7 +19,7 @@ namespace Moo
 		controle = new Moo::Sprite(1280, 1080, 0, 0);
 		controle->setScale(Vector2f(0.65f, 0.56f));
 		controle->loadTexture(controleText);
-		return false;
+		return true;
 	}
 
 	bool ControleScene::runUpdate()
@@ -27,7 +27,7 @@ namespace Moo
 		_window->clear();
 		_window->draw(controle);
 		_window->display();
-		return false;
+		return true;
 	}
 
 	void ControleScene::clean()

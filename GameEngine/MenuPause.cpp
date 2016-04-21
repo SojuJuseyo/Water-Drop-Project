@@ -62,7 +62,7 @@ namespace Moo
 			switch (_offset)
 			{
 			case e_menu_pause::RESUME:
-				Game::getInstance().backToPrevScene();
+				Game::getInstance().runScene(Game::LEVEL1);
 				return true;
 				break;
 			case e_menu_pause::HOW_TO_PLAY:
@@ -70,8 +70,9 @@ namespace Moo
 				return true;
 				break;
 			case e_menu_pause::EXIT:
-				Game::getInstance().exit();
-				return (false);
+				Game::getInstance().resetScene(Game::LEVEL1);
+				Game::getInstance().runScene(Game::MAIN_MENU);
+				return true;
 				break;
 			}
 
@@ -123,7 +124,7 @@ namespace Moo
 		}
 		_window->display();
 
-		return false;
+		return true;
 	}
 
 	void	MenuPause::clean()
