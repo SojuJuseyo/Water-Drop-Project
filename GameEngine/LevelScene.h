@@ -1,5 +1,8 @@
 #pragma once
 
+#include <ctime>
+#include <chrono>
+
 #include "Scene.h"
 #include "JsonParser.h"
 #include "Bullet.h"

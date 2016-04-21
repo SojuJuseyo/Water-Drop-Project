@@ -331,7 +331,8 @@ namespace Moo
 		_window->display();
 		Sleep(1000);
 		chan->stop();
-		Game::getInstance().goToNextScene();
+		Game::getInstance().resetScene(Game::LEVEL1);
+		Game::getInstance().runScene(Game::MAIN_MENU);
 	}
 
 	void	LevelScene::playerDead()
@@ -348,7 +349,8 @@ namespace Moo
 		_window->display();
 		Sleep(1000);
 		chan->stop();
-		Game::getInstance().backToPrevScene();
+		Game::getInstance().resetScene(Game::LEVEL1);
+		Game::getInstance().runScene(Game::MAIN_MENU);
 	}
 
 	void	LevelScene::applyGravityAndCollisions()
@@ -497,11 +499,13 @@ namespace Moo
 		//Getting the inputs of the player
 		inputHandling();
 
+
 		//Applying gravity to dynamic entities and checking all collisions
 		applyGravityAndCollisions();
 
 		//Reseting the positon of the camera
 		Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
+		_camera = *Moo::d3d::getInstance().getCamera();
 
 		//Display the game elements
 		displayHitboxesAndSprites();
@@ -514,6 +518,6 @@ namespace Moo
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
 		*/
-		return (false);
+		return true;
 	}
 }

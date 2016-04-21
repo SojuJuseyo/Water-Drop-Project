@@ -28,9 +28,9 @@ namespace Moo
 		};
 		struct s_scene
 		{
-			e_scene					sceneType;
-			Scene*					scene = nullptr;
-			struct s_scene			*prevScene;
+			e_scene				sceneType;
+			Scene*				scene = nullptr;
+			struct s_scene		*prevScene;
 		};
 
 		static Game&			getInstance();
@@ -38,13 +38,14 @@ namespace Moo
 		void					runScene(e_scene);				// lance tel ou tel scene directement
 		void					backToPrevScene();				// remet bien la scene precedente (si c'etait un niveau de jeu, ca met le jeu en pause; si c'etait la page des controls ca renvoit au menu principal si le jeu etait pas lance et sinon au menu pause)
 		void					goToNextScene();				// a utiliser a la fin des menu in game qui permet directment de passer au niveau suivant
-		void					exit();							// stop la boucle de process : plus aucune scene n'est run, on peut fermer le programme proprement
+		void					exit();
+		void					resetScene(e_scene type);
 		std::shared_ptr<SoundSystem> getSoundSystem();
 	private:
 		Game();
 		~Game();
 
-		void					update();
+		bool					update();
 		void					createScene(e_scene, Scene*);
 		s_scene*				getSceneByType(e_scene sceneType);
 
