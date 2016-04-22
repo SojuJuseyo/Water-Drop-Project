@@ -214,7 +214,6 @@ namespace Moo
 				std::cout << "music failed" << std::endl;
 				themeChan = nullptr;
 			}
-
 			themeChan = _soundSystem->playSound("custom", true);
 		}
 		if (themeChan != nullptr)
@@ -355,7 +354,7 @@ namespace Moo
 		FMOD::Channel *chan = _soundSystem->playSound("victory", false);
 		_window->draw(win);
 		_window->display();
-		Sleep(1000);
+		Sleep(3000);
 		chan->stop();
 		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
@@ -375,7 +374,7 @@ namespace Moo
 		FMOD::Channel *chan = _soundSystem->playSound("defeat", false);
 		_window->draw(lose);
 		_window->display();
-		Sleep(1000);
+		Sleep(3000);
 		chan->stop();
 		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
