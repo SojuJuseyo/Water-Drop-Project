@@ -292,7 +292,7 @@ namespace Moo
 				// Define the base pos of the bullet and create the sprite
 				float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
 				float bulletPosY = player->getSprite()->getY() + (player->getSprite()->getHeight() / 2);
-				Moo::Sprite *bulletSprite = new Moo::Sprite(5, 5, bulletPosX, bulletPosY);
+				Moo::Sprite *bulletSprite = new Moo::Sprite(15, 15, bulletPosX, bulletPosY);
 
 				bulletSprite->loadTexture(bulletText);
 
@@ -305,7 +305,7 @@ namespace Moo
 
 				// Check if cheat code is activated.
 				if (player->isGodMode() == false)
-					player->changeHealth(-0.3f);
+					player->changeHealth(-1);
 				std::cout << "Player health : " << player->getHealth() << std::endl;
 			}
 			else
@@ -480,7 +480,7 @@ namespace Moo
 								delete character;
 								dynEntIt = dynamicEntities.erase(dynEntIt);
 								deletedBullet = true;
-								enemyCollided->changeHealth(0.3f);
+								enemyCollided->changeHealth(1);
 								std::cout << (*SecondDynEntIt).first << " health: " << enemyCollided->getHealth() << std::endl;
 								break;
 							}
