@@ -168,7 +168,8 @@ namespace Moo
 
 		//We get the map
 		//map = new JsonParser("2d-Maps/50x50.json");
-		map = new JsonParser("2d-Maps/MapPreAlpha.json");
+		//map = new JsonParser("2d-Maps/MapPreAlpha.json");
+		map = new JsonParser("2d-Maps/MapPlaytestSession.json");
 
 		if (map->parseFile() == -1)
 			throw std::exception("Can't load the map");
@@ -351,6 +352,7 @@ namespace Moo
 		FMOD::Channel *chan = _soundSystem->playSound("victory", false);
 		_window->draw(win);
 		_window->display();
+		Sleep(1000);
 		chan->stop();
 		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
@@ -370,6 +372,7 @@ namespace Moo
 		FMOD::Channel *chan = _soundSystem->playSound("defeat", false);
 		_window->draw(lose);
 		_window->display();
+		Sleep(1000);
 		chan->stop();
 		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
