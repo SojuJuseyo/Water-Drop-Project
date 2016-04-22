@@ -36,6 +36,7 @@ namespace Moo
 		void	applyGravityAndCollisions();
 		void	exitReached();
 		void	playerDead();
+		FMOD::Channel					*themeChan;
 
 	private:
 		std::vector<std::pair<std::string, Moo::Entity *>> staticEntities;
@@ -48,7 +49,6 @@ namespace Moo
 		std::shared_ptr<Window>			_window;
 		std::shared_ptr<SoundSystem>	 _soundSystem;
 		Moo::Camera						_camera;
-		FMOD::Channel					*themeChan;
 		bool							_triedJump, _exitReached, _playerDead;
 		std::chrono::time_point<std::chrono::system_clock> _startTime, _lastJump, _canTemporarilyJump;
 	};

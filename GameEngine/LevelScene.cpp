@@ -206,16 +206,19 @@ namespace Moo
 		//init sound system
 		_soundSystem = Game::getInstance().getSoundSystem();
 
-		if (_soundSystem->addSound(map->getMap().getMapAudioFile().c_str(), "custom") == false)
+		if (themeChan == nullptr)
 		{
-			std::cout << map->getMap().getMapAudioFile() << std::endl;
-			std::cout << "music failed" << std::endl;
-			themeChan = nullptr;
-		}
+			if (_soundSystem->addSound(map->getMap().getMapAudioFile().c_str(), "custom") == false)
+			{
+				std::cout << map->getMap().getMapAudioFile() << std::endl;
+				std::cout << "music failed" << std::endl;
+				themeChan = nullptr;
+			}
 
-		themeChan = _soundSystem->playSound("custom", true);
-		//if (themeChan != nullptr)
-		//	themeChan->setPaused(true);
+			themeChan = _soundSystem->playSound("custom", true);
+		}
+		if (themeChan != nullptr)
+			themeChan->setPaused(true);
 
 		player->setTimers();
 		_startTime = std::chrono::system_clock::now();

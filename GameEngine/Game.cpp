@@ -105,6 +105,8 @@ namespace Moo
 		if ((int)type >= (int)LEVEL1) {
 			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
 			_currentScene->prevScene = getSceneByType(Game::PAUSE_MENU);
+			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
+				((LevelScene*)_currentScene->scene)->themeChan->setPaused(false);
 		}
 		if (type == MAIN_MENU) {
 			_currentScene->prevScene = nullptr;
