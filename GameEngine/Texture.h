@@ -23,6 +23,9 @@ namespace Moo
 		ID3D11ShaderResourceView * getColorMap();
 		ID3D11Buffer * getVertexBuffer();
 		ID3D11Buffer * getContentBuffer();
+		float getWidth();
+		float getHeight();
+		void setResourceData(VERTEX *);
 		void release();
 
 	private:
@@ -38,6 +41,8 @@ namespace Moo
 		ID3D11SamplerState* colorMapSampler;
 		ID3D11BlendState* alphaBlendState;
 		ID3D11ShaderResourceView* colorMap;
+
+		D3D11_SUBRESOURCE_DATA resourceData;
 
 		float _width;
 		float _height;

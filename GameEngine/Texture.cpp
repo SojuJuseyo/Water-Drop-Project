@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "SpriteRect.h"
 
 namespace Moo
 {
@@ -8,8 +9,6 @@ namespace Moo
 		colorMap(0), colorMapSampler(0),
 		mvpCB(0), alphaBlendState(0)
 	{
-		_width = 50;
-		_height = 50;
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
 	}
@@ -20,8 +19,7 @@ namespace Moo
 
 	bool Texture::CompileD3DShader(char* filePath, char* entry, char* shaderModel, ID3DBlob** buffer)
 	{
-		D3DX11CompileFromFile(filePath, 0, 0, entry, shaderModel,
-			NULL, 0, 0, buffer, NULL, 0);
+		D3DX11CompileFromFile(filePath, 0, 0, entry, shaderModel, NULL, 0, 0, buffer, NULL, 0);
 		return true;
 	}
 
@@ -38,7 +36,6 @@ namespace Moo
 		D3D11_INPUT_ELEMENT_DESC solidColorLayout[] =
 		{
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
 
@@ -56,6 +53,17 @@ namespace Moo
 
 		D3DX11CreateShaderResourceViewFromFile(_dev,
 			filename.c_str(), 0, 0, &colorMap, 0);
+
+		// Récuperer taille de la texture
+		ID3D11Resource *resource;
+		ID3D11Texture2D *texture2D;
+		D3D11_TEXTURE2D_DESC textureDesc;
+
+		colorMap->GetResource(&resource);
+		resource->QueryInterface<ID3D11Texture2D>(&texture2D);
+		texture2D->GetDesc(&textureDesc);
+		_width = static_cast<float>(textureDesc.Width);
+		_height = static_cast<float>(textureDesc.Height);
 
 		D3D11_BUFFER_DESC constDesc;
 		ZeroMemory(&constDesc, sizeof(constDesc));
@@ -76,33 +84,6 @@ namespace Moo
 		float halfWidth = (float)_width / 2.0f;
 		float halfHeight = (float)_height / 2.0f;
 
-		//XMMATRIX text = DirectX::XMMatrixScaling(0.5 * 1.0f, 1.0f, 1.0f);
-
-		float size = 1.0f;
-
-		VERTEX testing[] =
-		{
-			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(size, 0.0f) },
-			{ XMFLOAT3(halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(size, size) },
-			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.0f, size) },
-
-			{ XMFLOAT3(-halfWidth, -halfHeight, 1.0f), _color, XMFLOAT2(0.0f, size) },
-			{ XMFLOAT3(-halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(0.0f, 0.0f) },
-			{ XMFLOAT3(halfWidth,  halfHeight, 1.0f), _color, XMFLOAT2(size, 0.0f) },
-		};
-
-		D3D11_BUFFER_DESC vertexDesc;
-		ZeroMemory(&vertexDesc, sizeof(vertexDesc));
-		vertexDesc.Usage = D3D11_USAGE_DEFAULT;
-		vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		vertexDesc.ByteWidth = sizeof(VERTEX) * 6;
-
-		D3D11_SUBRESOURCE_DATA resourceData;
-		ZeroMemory(&resourceData, sizeof(resourceData));
-		resourceData.pSysMem = testing;
-
-		_dev->CreateBuffer(&vertexDesc, &resourceData, &vertexBuffer);
-
 		ID3D11RasterizerState *rasterize;
 
 		D3D11_RASTERIZER_DESC rasterizerDesc;
@@ -122,6 +103,7 @@ namespace Moo
 		_dev->CreateRasterizerState(&rasterizerDesc, &rasterize);
 		_devcon->RSSetState(rasterize);
 
+		// transparence
 		D3D11_BLEND_DESC blendDesc;
 		ZeroMemory(&blendDesc, sizeof(blendDesc));
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
@@ -177,6 +159,30 @@ namespace Moo
 		return mvpCB;
 	}
 
+	float Texture::getWidth()
+	{
+		return _width;
+	}
+
+	float Texture::getHeight()
+	{
+		return _height;
+	}
+
+	void Texture::setResourceData(VERTEX *tab)
+	{
+		D3D11_BUFFER_DESC vertexDesc;
+		ZeroMemory(&vertexDesc, sizeof(vertexDesc));
+		vertexDesc.Usage = D3D11_USAGE_DEFAULT;
+		vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		vertexDesc.ByteWidth = sizeof(VERTEX) * 6;
+
+
+		ZeroMemory(&resourceData, sizeof(resourceData));
+		resourceData.pSysMem = tab;
+		_dev->CreateBuffer(&vertexDesc, &resourceData, &vertexBuffer);
+	}
+
 	void Texture::release()
 	{
 		vertexBuffer->Release();
@@ -189,3 +195,4 @@ namespace Moo
 		colorMap->Release();
 	}
 }
+

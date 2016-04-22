@@ -24,6 +24,14 @@ namespace Moo
 	void	Sprite::loadTexture(Texture *texture)
 	{
 		_texture = texture;
+		_spriteRect = new SpriteRect((float)25, (float)25, _texture->getWidth(), _texture->getHeight(), _texture->getWidth(), _texture->getHeight());
+		_texture->setResourceData(_spriteRect->makeVertexTab(0, 0));
+	}
+	 
+	void	Sprite::loadTexture(Texture *texture, SpriteRect *spriteRect)
+	{
+		_texture = texture;
+		_texture->setResourceData(spriteRect->getVertexTab());
 	}
 
 	void	Sprite::draw()
