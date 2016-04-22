@@ -48,6 +48,16 @@ namespace Moo
 		}
 	}
 
+	void			Game::resetAllScenes()
+	{
+		for (auto &scene : _listOfScenes)
+		{
+			if (scene.scene != nullptr) {
+				scene.scene->init(_window);
+			}
+		}
+	}
+
 	// a appeller qu'une fois au debut pour initialiser les Scenes
 	void			Game::initScenes(std::shared_ptr<Moo::Window> theUsedWindow)
 	{
@@ -56,12 +66,10 @@ namespace Moo
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
 		createScene(LEVEL1, new LevelScene());
-		createScene(LEVEL2, new LevelScene());
-		createScene(LEVEL3, new LevelScene());
 		for (auto &scene : _listOfScenes)
 		{
 			if (scene.scene != nullptr) {
-				scene.scene->init(theUsedWindow);
+				scene.scene->init(_window);
 			}
 		}
 		runScene(MAIN_MENU);
@@ -82,6 +90,7 @@ namespace Moo
 	// a appeller quand on veut passer d'une scene a l'autre.
 	void			Game::runScene(e_scene type)
 	{
+		std::cout << "RUN SCENE " << type << " NOMBER OF SCENES : " << _listOfScenes.size() << std::endl;
 		s_scene *tmpSceneForPrev = _currentScene;
 		s_scene *tmpScene = getSceneByType(type);
 		if (tmpScene != nullptr) {
