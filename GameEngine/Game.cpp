@@ -54,6 +54,7 @@ namespace Moo
 		{
 			if (scene.scene != nullptr) {
 				scene.scene->init(_window);
+				Moo::d3d::getInstance().getCamera()->reset();
 			}
 		}
 	}
@@ -100,10 +101,11 @@ namespace Moo
 			return;
 		}
 		Moo::d3d::getInstance().getCamera()->reset();
+		_currentScene->prevScene = tmpSceneForPrev; 
 		if ((int)type >= (int)LEVEL1) {
 			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
+			_currentScene->prevScene = getSceneByType(Game::PAUSE_MENU);
 		}
-		_currentScene->prevScene = tmpSceneForPrev;
 		if (type == MAIN_MENU) {
 			_currentScene->prevScene = nullptr;
 		}

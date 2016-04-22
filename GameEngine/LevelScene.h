@@ -49,7 +49,7 @@ namespace Moo
 		std::shared_ptr<SoundSystem>	 _soundSystem;
 		Moo::Camera						_camera;
 		FMOD::Channel					*themeChan;
-		bool							_triedJump;
+		bool							_triedJump, _exitReached, _playerDead;
 		std::chrono::time_point<std::chrono::system_clock> _startTime, _lastJump, _canTemporarilyJump;
 	};
 }

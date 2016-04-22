@@ -27,8 +27,8 @@ namespace Moo
 			delete map;
 		if (player != nullptr)
 			player = nullptr;
-		if (themeChan != nullptr)
-			delete themeChan;
+		//if (themeChan != nullptr)
+		//	themeChan = nullptr;
 		if (background != nullptr && lose != nullptr && win != nullptr)
 			delete background, lose, win;
 		if (bulletText != nullptr && loseText != nullptr && winText != nullptr && backgroundText != nullptr)
@@ -230,14 +230,8 @@ namespace Moo
 	{
 		//Reseting _triedJump to check if the player tries to wall jump this frame
 		_triedJump = false;
-
-		if (Moo::Keyboard::isPressed(Moo::Keyboard::A))
-		{
-			if (themeChan != nullptr)
-				themeChan->setPaused(true);
-			_camera.setPosition(d3d::getInstance().getCamera()->getPosition());
-			Moo::Game::getInstance().runScene(Game::PAUSE_MENU);
-		}
+		_exitReached = false;
+		_playerDead = false;
 
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::B))
 			if (themeChan != nullptr)
@@ -278,6 +272,7 @@ namespace Moo
 			}
 			if (player->jump(wallJump) == true)
 			{
+				_soundSystem->playSound("jump", false);
 				_canTemporarilyJump = _startTime;
 				_lastJump = std::chrono::system_clock::now();
 			}
@@ -356,8 +351,9 @@ namespace Moo
 		FMOD::Channel *chan = _soundSystem->playSound("victory", false);
 		_window->draw(win);
 		_window->display();
-		Sleep(1000);
 		chan->stop();
+		_camera.reset();
+		Moo::d3d::getInstance().getCamera()->reset();
 		Game::getInstance().resetScene(Game::LEVEL1);
 		Game::getInstance().runScene(Game::MAIN_MENU);
 	}
@@ -374,10 +370,11 @@ namespace Moo
 		FMOD::Channel *chan = _soundSystem->playSound("defeat", false);
 		_window->draw(lose);
 		_window->display();
-		Sleep(1000);
 		chan->stop();
+		_camera.reset();
+		Moo::d3d::getInstance().getCamera()->reset();
 		Game::getInstance().resetScene(Game::LEVEL1);
-		Game::getInstance().runScene(Game::MAIN_MENU);
+		Game::getInstance().runScene(Game::LEVEL1);
 	}
 
 	void	LevelScene::applyGravityAndCollisions()
@@ -420,7 +417,10 @@ namespace Moo
 				{
 					//If player collides with an Exit
 					if (isPlayer == true && _strnicmp((*statEntIt).first.c_str(), "Exit", 4) == 0)
-						exitReached();
+					{
+						_exitReached = true;
+						break;
+					}
 					//If we collide with a wall/platform/bottom
 					else if (isPlayer == true || (_strnicmp((*dynEntIt).first.c_str(), "Enemy", 5) == 0))
 					{
@@ -451,7 +451,7 @@ namespace Moo
 				}
 			}
 
-			if (deletedBullet == false)
+			if (deletedBullet == false && _exitReached == false)
 			{
 				Moo::Character *character = ((Moo::Character *)(*dynEntIt).second);
 				if (decal.y != 0)
@@ -495,7 +495,10 @@ namespace Moo
 									break;
 								}
 								else if (isPlayer == true)
-									playerDead();
+								{
+									_playerDead = true;
+									break;
+								}
 								else
 								{
 									enemyCollided->changeHealth(character->getHealth() * 33 / 100);
@@ -511,9 +514,13 @@ namespace Moo
 			}
 			if (deletedBullet == false && deletedCharacter == false)
 				++dynEntIt;
-			else if (deletedCharacter == true)
+			else if (deletedCharacter == true || _playerDead == true || _exitReached == true)
 				break;
 		}
+		if (_playerDead == true)
+			this->playerDead();
+		if (_exitReached == true)
+			this->exitReached();
 	}
 
 	bool	LevelScene::runUpdate()
@@ -525,7 +532,6 @@ namespace Moo
 
 		//Getting the inputs of the player
 		inputHandling();
-
 
 		//Applying gravity to dynamic entities and checking all collisions
 		applyGravityAndCollisions();
@@ -539,7 +545,6 @@ namespace Moo
 
 		//Drawing all that is inside the window
 		_window->display();
-
 
 		/*
 		if (themeChan != nullptr)
