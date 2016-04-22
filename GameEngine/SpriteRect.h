@@ -14,7 +14,6 @@ namespace Moo
 		float _heightTexture; // la taille en hauteur d'une texture
 		float _widthWholeTexture; // la taille en largeur de la texture complete
 		float _heightWholeTexture; // la taille en hauteur de la texture complete
-		XMFLOAT4 _color;
 
 		float _offsetX;
 		float _offsetY;
@@ -23,7 +22,7 @@ namespace Moo
 
 	public:
 		SpriteRect();
-		SpriteRect(float, float, float, float, float, float, XMFLOAT4);
+		SpriteRect(float, float, float, float, float, float);
 		~SpriteRect();
 
 		VERTEX *makeVertexTab(int, int); // x et y

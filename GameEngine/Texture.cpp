@@ -36,7 +36,6 @@ namespace Moo
 		D3D11_INPUT_ELEMENT_DESC solidColorLayout[] =
 		{
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
 
@@ -84,37 +83,6 @@ namespace Moo
 
 		float halfWidth = (float)_width / 2.0f;
 		float halfHeight = (float)_height / 2.0f;
-
-		//XMMATRIX text = DirectX::XMMatrixScaling(0.5 * 1.0f, 1.0f, 1.0f);
-
-		//SpriteRect spriteRect((float)25, (float)25, (float)16, (float)16, (float)128, (float)16, _color);
-
-		/*
-				VERTEX testing[] =
-		{
-			{ XMFLOAT3(25, 25, 1.0f), _color, XMFLOAT2(1.0f, 0.0f) },
-			{ XMFLOAT3(25, -25, 1.0f), _color, XMFLOAT2(1.0f, 1.0f) },
-			{ XMFLOAT3(-25, -25, 1.0f), _color, XMFLOAT2(0.0f, 1.0f) },
-
-			{ XMFLOAT3(-25, -25, 1.0f), _color, XMFLOAT2(0.0f, 1.0f) },
-			{ XMFLOAT3(-25, 25, 1.0f), _color, XMFLOAT2(0.0f, 0.0f) },
-			{ XMFLOAT3(25, 25, 1.0f), _color, XMFLOAT2(1.0f, 0.0f) },
-		};
-*/
-
-		/*D3D11_BUFFER_DESC vertexDesc;
-		ZeroMemory(&vertexDesc, sizeof(vertexDesc));
-		vertexDesc.Usage = D3D11_USAGE_DEFAULT;
-		vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		vertexDesc.ByteWidth = sizeof(VERTEX) * 6;
-		
-
-		ZeroMemory(&resourceData, sizeof(resourceData));
-		resourceData.pSysMem = testing;*/
-
-		//resourceData.pSysMem = spriteRect.getVertexTab(6, 0);
-
-		//_dev->CreateBuffer(&vertexDesc, &resourceData, &vertexBuffer);
 
 		ID3D11RasterizerState *rasterize;
 

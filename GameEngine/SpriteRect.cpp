@@ -11,7 +11,7 @@ namespace Moo
 		float widthTexture,
 		float heightTexture,
 		float widthWholeTexture,
-		float heightWholeTexture, XMFLOAT4 color)
+		float heightWholeTexture)
 	{
 		_widthSprite = widthSprite;
 		_heightSprite = heightSprite;
@@ -19,7 +19,6 @@ namespace Moo
 		_heightTexture = heightTexture;
 		_widthWholeTexture = widthWholeTexture;
 		_heightWholeTexture = heightWholeTexture;
-		_color = color;
 		_offsetX = widthTexture / widthWholeTexture;
 		_offsetY = heightTexture / heightWholeTexture;
 		_vertexTab = nullptr;
@@ -38,27 +37,21 @@ namespace Moo
 		_vertexTab = new VERTEX[6];
 
 		_vertexTab[0].position = XMFLOAT3(_widthSprite, _heightSprite, 1.0f);
-		_vertexTab[0].color = _color;
 		_vertexTab[0].texture = XMFLOAT2(_offsetX * (x + 1), _offsetY * y);
 
 		_vertexTab[1].position = XMFLOAT3(_widthSprite, -_heightSprite, 1.0f);
-		_vertexTab[1].color = _color;
 		_vertexTab[1].texture = XMFLOAT2(_offsetX * (x + 1), _offsetY * (y + 1));
 
 		_vertexTab[2].position = XMFLOAT3(-_widthSprite, -_heightSprite, 1.0f);
-		_vertexTab[2].color = _color;
 		_vertexTab[2].texture = XMFLOAT2(_offsetX * x, _offsetY * (y + 1));
 
 		_vertexTab[3].position = XMFLOAT3(-_widthSprite, -_heightSprite, 1.0f);
-		_vertexTab[3].color = _color;
 		_vertexTab[3].texture = XMFLOAT2(_offsetX * x, _offsetY * (y + 1));
 
 		_vertexTab[4].position = XMFLOAT3(-_widthSprite, _heightSprite, 1.0f);
-		_vertexTab[4].color = _color;
 		_vertexTab[4].texture = XMFLOAT2(_offsetX * x, _offsetY * y);
 
 		_vertexTab[5].position = XMFLOAT3(_widthSprite, _heightSprite, 1.0f);
-		_vertexTab[5].color = _color;
 		_vertexTab[5].texture = XMFLOAT2(_offsetX * (x + 1), _offsetY * y);
 
 		return _vertexTab;
