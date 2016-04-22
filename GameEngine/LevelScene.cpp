@@ -196,7 +196,7 @@ namespace Moo
 		winText = new Moo::Texture;
 		winText->loadFromFile("You_Won_DDS.dds");
 		Moo::d3d::getInstance().getCamera()->setInfoMap(map->getMap());
-
+		_camera.reset();
 		lose = new Moo::Sprite(400, 133, 0, 0);
 		lose->loadTexture(loseText);
 		win = new Moo::Sprite(400, 133,	0, 0);
