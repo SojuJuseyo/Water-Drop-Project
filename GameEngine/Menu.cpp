@@ -11,10 +11,9 @@ namespace Moo
 	{
 	}
 
+	Sprite *sprite;
 	bool Menu::init()
 	{
-		sound.loadSound("Menu.wav");
-
 		//background
 		backgroundText = new Texture;
 		backgroundText->loadFromFile("Menu_WTP_DDS.dds");
@@ -109,7 +108,9 @@ namespace Moo
 				}
 			}
 
+			//std::cout << "window.clear();" << std::endl;
 			window.clear();
+			//std::cout << "window.draw(background);" << std::endl;
 			window.draw(background);
 
 			switch (_offset)
@@ -124,6 +125,7 @@ namespace Moo
 				window.draw(button_quit);
 				break;
 			}
+			//std::cout << "window.display();" << std::endl;
 			window.display();
 		}
 
