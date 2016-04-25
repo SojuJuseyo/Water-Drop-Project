@@ -13,14 +13,14 @@ namespace Moo
 		float widthWholeTexture,
 		float heightWholeTexture)
 	{
-		_widthSprite = widthSprite;
-		_heightSprite = heightSprite;
-		_widthTexture = widthTexture;
-		_heightTexture = heightTexture;
-		_widthWholeTexture = widthWholeTexture;
-		_heightWholeTexture = heightWholeTexture;
-		_offsetX = widthTexture / widthWholeTexture;
-		_offsetY = heightTexture / heightWholeTexture;
+		_widthSprite = widthSprite; // la taille en largeur du sprite dans le jeu
+		_heightSprite = heightSprite; // la taille en hauteur du sprite dans le jeu
+		_widthTexture = widthTexture; // la taille en largeur d'une texture
+		_heightTexture = heightTexture; // la taille en hauteur d'une texture
+		_widthWholeTexture = widthWholeTexture; // la taille en largeur de la texture complete
+		_heightWholeTexture = heightWholeTexture; // la taille en hauteur de la texture complete
+		_offsetX = widthTexture / widthWholeTexture; // Le pourcentage en x d'une texture dans la texture complete
+		_offsetY = heightTexture / heightWholeTexture; // Le pourcentage en y d'une texture dans la texture complete
 		_vertexTab = nullptr;
 	}
 
@@ -30,7 +30,7 @@ namespace Moo
 			delete _vertexTab;
 	}
 
-	VERTEX *SpriteRect::makeVertexTab(int x, int y) // Créer un tableau de vertex pour la texture correspondant à l'emplacement du sprite désiré sur la texture avec x et y
+	VERTEX *SpriteRect::makeVertexTab(int x, int y) // Créer un tableau de vertex pour la texture correspondant à l'emplacement du sprite désiré sur la texture en x et y
 	{
 		if (_vertexTab != nullptr)
 			delete _vertexTab;

@@ -10,6 +10,7 @@ namespace Moo
 
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
+		_spriteRect = nullptr;
 	}
 
 	Sprite::Sprite(Sprite & sprite)
@@ -32,6 +33,15 @@ namespace Moo
 	{
 		_texture = texture;
 		_texture->setResourceData(spriteRect->getVertexTab());
+		_spriteRect = spriteRect;
+	}
+
+	SpriteRect *Sprite::getspriteRect()
+	{
+		if (_spriteRect == nullptr)
+			std::cout << "_spriteRect == null. Call loadTexture before trying to get the SpriteRect object;" << std::endl;
+		else
+			return _spriteRect;
 	}
 
 	void	Sprite::draw()
