@@ -3,18 +3,17 @@
 
 namespace Moo
 {
+	Keyboard::Keyboard()
+	{
+
+	}
+
 	bool Keyboard::isDown(Keyboard::Key key)
 	{
-		if ((Fps::getInstance().getTick() % 25) == 0) {
-			Keyboard::getInstance().release();
-		}
-		if (Keyboard::getInstance().getLastKey() == key) {
-			return false;
-		}
-		if ((GetAsyncKeyState(key)) < 0) {
-			Keyboard::getInstance().setLastKey(key);
-			return true;
-		}
+		for (int i = 0; i < NUM_KEYS; i++)
+			if (Keyboard::getInstance()._keyCodes[i] == key &&
+				Keyboard::getInstance()._keyStates[i] == (PRESSED | TAPPED))
+					return true;
 		return false;
 	}
 
@@ -35,10 +34,29 @@ namespace Moo
 
 	bool Keyboard::isPressed(Keyboard::Key key)
 	{
-		SHORT tabKeyState = GetAsyncKeyState(key);
-		if ((1 << 16) & tabKeyState) {
-			return true;
-		}
+		for (int i = 0; i < NUM_KEYS; i++)
+			if (Keyboard::getInstance()._keyCodes[i] == key &&
+				Keyboard::getInstance()._keyStates[i] != 0)
+					return true;
 		return false;
+	}
+
+	void Keyboard::updateInput()
+	{
+		Keyboard &keyBoard = Keyboard::getInstance();
+
+		for (int i = 0; i < NUM_KEYS; i++) {
+			if (KEYPRESSED(keyBoard._keyCodes[i])) {
+				if (0 == keyBoard._keyStates[i])	
+					keyBoard._keyStates[i] = PRESSED | TAPPED;
+				else			
+					keyBoard._keyStates[i] = PRESSED;
+			} else {
+				if (keyBoard._keyStates[i] && (0 == (KEYUP&keyBoard._keyStates[i])))
+					keyBoard._keyStates[i] = KEYUP;
+				else
+					keyBoard._keyStates[i] = 0;
+			}
+		}
 	}
 }

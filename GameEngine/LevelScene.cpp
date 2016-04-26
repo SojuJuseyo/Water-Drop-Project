@@ -236,6 +236,8 @@ namespace Moo
 		_exitReached = false;
 		_playerDead = false;
 
+		Moo::Keyboard::updateInput();
+
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::B))
 			if (themeChan != nullptr)
 				themeChan->setPaused(false);

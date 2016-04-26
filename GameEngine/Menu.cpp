@@ -58,6 +58,8 @@ namespace Moo
 
 	bool Menu::runUpdate()
 	{
+		Moo::Keyboard::updateInput();
+
 		if (Moo::Keyboard::isDown(Keyboard::Enter))
 			switch (_offset)
 			{
