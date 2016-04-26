@@ -4,7 +4,7 @@
 #include <ctime>
 #include "WindowSettings.h"
 #include "Vector2f.h"
-#include "Entity.h"
+#include "DynamicEntity.h"
 #include "Sprite.h"
 
 #define MINIMUM_VELOCITY_Y	-270//-400
@@ -13,21 +13,18 @@
 
 namespace Moo
 {
-	class Character : public Entity
+	class Character : public DynamicEntity
 	{
 	public:
-		Character(Vector2f, float, Sprite *, bool, float, bool);
+		Character(Vector2f, float, Sprite *, bool, float, EntityType, std::string);
 		virtual ~Character();
+
 		void	move(Direction);
 		bool	jump(bool);
 		void	update();
 		void	resetPos();
-		Hitbox	resetHitbox();
 		HitZone	collisionAABB(Entity *entity);
-		Sprite	*getSprite() const;
-		Sprite  *getHitboxSprite() const;
-		void	setHealth(float);
-		float	getHealth() const;
+
 		void	changeHealth(float);
 		void	checkEvaporation();
 		void	setTimers();
@@ -39,18 +36,10 @@ namespace Moo
 		void	toggleGodMode();
 
 	private:
-		Sprite			*_sprite;
-		Sprite			*_hitboxSprite;
-		Moo::Texture	*_texture;
-		Vector2f		_playerVelocity;
-		bool			_isPlayer;
+		Vector2f		_characterVelocity;
 
 		std::chrono::time_point<std::chrono::system_clock> _startingTime, _lastEvaporation;
 
-		// Health points
-		float		_health;
-
-		// CHEAT
 		bool	_godMode;
 	};
 }

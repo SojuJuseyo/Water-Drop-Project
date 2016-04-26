@@ -40,7 +40,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -144,6 +144,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="ControleScene.cpp" />
     <ClCompile Include="Drawable.cpp" />
+    <ClCompile Include="DynamicEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Fps.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteRect.cpp" />
+    <ClCompile Include="StaticEntity.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -178,6 +180,7 @@
     <ClInclude Include="ControleScene.h" />
     <ClInclude Include="d3d.h" />
     <ClInclude Include="Drawable.h" />
+    <ClInclude Include="DynamicEntity.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Fps.h" />
@@ -198,6 +201,7 @@
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteRect.h" />
+    <ClInclude Include="StaticEntity.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />

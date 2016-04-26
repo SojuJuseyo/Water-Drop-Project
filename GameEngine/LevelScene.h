@@ -8,6 +8,7 @@
 #include "Bullet.h"
 #include "Game.h"
 #include "Character.h"
+#include "StaticEntity.h"
 #include "SoundSystem.h"
 #include "Camera.h"
 #include "SpriteRect.h"
@@ -31,6 +32,8 @@ namespace Moo
 		void	clean();
 		bool	init(std::shared_ptr<Moo::Window> window);
 		void	getEntitiesFromMap(JsonParser *map);
+		void	fillStaticEntitiesList(std::string, EntityType, float, float);
+		void	fillDynamicEntitiesList(std::string, int, int, EntityType, float, float, float, float, float, float, bool);
 		Camera	getCamera();
 		void	inputHandling();
 		void	displayHitboxesAndSprites();
@@ -41,8 +44,8 @@ namespace Moo
 		FMOD::Channel					*themeChan;
 
 	private:
-		std::vector<std::pair<std::string, std::shared_ptr<Moo::Entity>>> _staticEntities;
-		std::vector<std::pair<std::string, std::shared_ptr<Moo::Entity>>> _dynamicEntities;
+		std::vector<std::shared_ptr<Moo::StaticEntity>> _staticEntities;
+		std::vector<std::shared_ptr<Moo::DynamicEntity>> _dynamicEntities;
 
 		JsonParser			_map;
 		std::map<std::string, Moo::Texture> _textures;

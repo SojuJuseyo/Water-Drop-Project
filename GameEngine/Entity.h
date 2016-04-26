@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "Vector2f.h"
 #define	GRAVITY	135//200
 #define	JUMP_VELOCITY	500//750
@@ -17,6 +18,18 @@ enum Direction
 {
 	LEFT,
 	RIGHT
+};
+
+enum EntityType
+{
+	PLAYER,
+	ENEMY,
+	BULLET,
+	BLOCK,
+	PLATFORM,
+	GROUND,
+	EXIT,
+	ENTRANCE,
 };
 
 namespace Moo
@@ -37,25 +50,17 @@ namespace Moo
 		Entity();
 		virtual ~Entity() {}
 
-		void setVelocity(Vector2f);
-		void setMass(float);
 		void setHitbox(float, float, float, float);
-		void setGravity(bool);
 		void setCollision(bool);
 
-		Vector2f	getVelocity() const;
-		float		getMass() const;
 		Hitbox		getHitbox() const;
-		bool		getGravity() const;
+		EntityType	getEntityType() const;
 		bool		isCollidable() const;
 		HitZone		collisionAABB(Entity *entity);
 
 	protected:
-		Vector2f	_velocity;
-		float		_mass;
 		Hitbox		_hitbox;
-		Vector2f	_acceleration;
 		bool		_isCollidable;
-		bool		_hasGravity;
+		EntityType	_type;
 	};
 }

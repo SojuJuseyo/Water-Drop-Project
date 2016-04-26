@@ -7,21 +7,6 @@ namespace Moo
 	{
 	}
 
-	void Entity::setVelocity(Vector2f velocity)
-	{
-		_velocity = velocity;
-	}
-
-	void Entity::setMass(float mass)
-	{
-		_mass = mass;
-	}
-
-	void Entity::setGravity(bool hasGravity)
-	{
-		_hasGravity = hasGravity;
-	}
-
 	void Entity::setCollision(bool collision)
 	{
 		_isCollidable = collision;
@@ -35,19 +20,9 @@ namespace Moo
 		_hitbox.y2 = y2;
 	}
 
-	Vector2f Entity::getVelocity() const
+	EntityType Entity::getEntityType() const
 	{
-		return _velocity;
-	}
-
-	float Entity::getMass() const
-	{
-		return _mass;
-	}
-
-	bool Entity::getGravity() const
-	{
-		return _hasGravity;
+		return _type;
 	}
 
 	bool Entity::isCollidable() const

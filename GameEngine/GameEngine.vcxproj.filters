@@ -114,6 +114,12 @@
     <ClCompile Include="SpriteRect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StaticEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -216,6 +222,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

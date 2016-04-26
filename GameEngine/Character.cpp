@@ -2,24 +2,26 @@
 
 namespace Moo
 {
-	Character::Character(Vector2f velocity, float mass, Sprite *sprite, bool hasGravity, float health, bool isPlayer)
+	Character::Character(Vector2f velocity, float mass, Sprite *sprite, bool hasGravity, float health, EntityType type, std::string name)
 	{
-		this->setVelocity(velocity);
-		this->setMass(mass);
 		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getY() + sprite->getHeight(), sprite->getX() + sprite->getWidth(), sprite->getY());//x1 y1 x2 y2
-		this->_acceleration.y = this->_mass / FPS_LIMIT;
-		this->setGravity(hasGravity);
 		_hitboxSprite = new Sprite(*_sprite);
 		_texture = new Moo::Texture;
 		_texture->loadFromFile("hitbox.dds");
 		_hitboxSprite->loadTexture(_texture);
 
 		this->_health = health;
-		this->_isPlayer = isPlayer;
-
+		this->_type = type;
+		this->_name = name;
 		this->_godMode = false;
-		_playerVelocity = Vector2f(STANDARD_VELOCITY_X, 0);
+
+		this->setVelocity(velocity);
+		this->setMass(mass);
+		this->setGravity(hasGravity);
+		this->_acceleration.y = this->_mass / FPS_LIMIT;
+
+		_characterVelocity = Vector2f(STANDARD_VELOCITY_X, 0);
 	}
 
 	Character::~Character()
@@ -32,31 +34,19 @@ namespace Moo
 			_texture->release();
 	}
 
-	Hitbox Character::resetHitbox()
-	{
-		_hitbox.x1 = this->_sprite->getX();
-		_hitbox.y1 = this->_sprite->getY() + this->_sprite->getHeight();
-
-		_hitbox.x2 = this->_sprite->getX() + this->_sprite->getWidth();
-		_hitbox.y2 = this->_sprite->getY();
-
-		return _hitbox;
-	}
-
 	HitZone		Character::collisionAABB(Entity *entity)
 	{
-		this->resetHitbox();
-		return (Entity::collisionAABB(entity));
+		return (DynamicEntity::collisionAABB(entity));
 	}
 
 	void	Character::move(Direction direction)
 	{
-		if ((this->getVelocity().x <= _playerVelocity.x && this->getVelocity().x >= -_playerVelocity.x) || this->getVelocity().y < 0)
+		if ((this->getVelocity().x <= _characterVelocity.x && this->getVelocity().x >= -_characterVelocity.x) || this->getVelocity().y < 0)
 		{
 			if (direction == Direction::LEFT)
-				this->setVelocity(Vector2f(-_playerVelocity.x, this->getVelocity().y));
+				this->setVelocity(Vector2f(-_characterVelocity.x, this->getVelocity().y));
 			else
-				this->setVelocity(Vector2f(_playerVelocity.x, this->getVelocity().y));
+				this->setVelocity(Vector2f(_characterVelocity.x, this->getVelocity().y));
 		}
 		else
 			std::cout << "Wait your velocity X is: " << this->getVelocity().x << std::endl;
@@ -93,31 +83,9 @@ namespace Moo
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);
 
 		//Updating X velocity
-		if (_velocity.x >= _playerVelocity.x || _velocity.x <= -_playerVelocity.x)
+		if (_velocity.x >= _characterVelocity.x || _velocity.x <= -_characterVelocity.x)
 			_sprite->setX(_sprite->getX() + _velocity.x / FPS_LIMIT);
 		_velocity.x -= _velocity.x / FPS_LIMIT;
-	}
-
-	Sprite	*Character::getSprite() const
-	{
-		return _sprite;
-	}
-
-	Sprite	*Character::getHitboxSprite() const
-	{
-		_hitboxSprite->setPosition(_hitbox.x1, _hitbox.y2);
-
-		return _hitboxSprite;
-	}
-
-	void Character::setHealth(float _health)
-	{
-		this->_health = _health;
-	}
-
-	float	Character::getHealth() const
-	{
-		return (_health);
 	}
 
 	void Character::setGodMode(bool _godMode)
@@ -141,8 +109,8 @@ namespace Moo
 		this->_sprite->scale(Moo::Vector2f(value / 10, value / 10));
 		this->_hitboxSprite->setScale(this->_sprite->getScale());
 		this->resetHitbox();
-		if (_isPlayer == true)
-			this->_playerVelocity.x -= value;
+		if (this->_type == EntityType::PLAYER)
+			this->_characterVelocity.x -= value;
 	}
 
 	void Character::checkEvaporation()
@@ -151,7 +119,7 @@ namespace Moo
 		if (elapsed_seconds.count() > 4)
 		{
 			this->changeHealth(-EVAPORATION_RATE);
-			this->_playerVelocity.x += EVAPORATION_RATE;
+			this->_characterVelocity.x += EVAPORATION_RATE;
 			std::cout << "Evaporating, player's health is now " << _health << std::endl;
 			this->_lastEvaporation = std::chrono::system_clock::now();
 		}
@@ -160,9 +128,9 @@ namespace Moo
 	void Character::setWallJumpVelocity(bool positive)
 	{
 		if (positive == true)
-			this->setVelocity(Vector2f(this->_playerVelocity.x * 2, this->getVelocity().y));
+			this->setVelocity(Vector2f(this->_characterVelocity.x * 2, this->getVelocity().y));
 		else
-			this->setVelocity(Vector2f(-this->_playerVelocity.x * 2, this->getVelocity().y));
+			this->setVelocity(Vector2f(-this->_characterVelocity.x * 2, this->getVelocity().y));
 	}
 
 	void Character::setTimers()
