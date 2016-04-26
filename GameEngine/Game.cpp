@@ -59,6 +59,11 @@ namespace Moo
 		}
 	}
 
+	void			Game::resetCurrentScene()
+	{
+		resetScene(_currentScene->sceneType);
+	}
+
 	// a appeller qu'une fois au debut pour initialiser les Scenes
 	void			Game::initScenes(std::shared_ptr<Moo::Window> theUsedWindow)
 	{
@@ -66,13 +71,11 @@ namespace Moo
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
-		createScene(LEVEL1, new LevelScene());
-		for (auto &scene : _listOfScenes)
-		{
-			if (scene.scene != nullptr) {
-				scene.scene->init(_window);
-			}
-		}
+		createScene(LEVEL1, new LevelScene("2d-Maps/TestLevel1.json"));
+		createScene(LEVEL2, new LevelScene("2d-Maps/TestLevel2.json"));
+		createScene(LEVEL3, new LevelScene("2d-Maps/TestLevel3.json"));
+		for (int index = 0; index < (int)LEVEL1; ++index)
+			_listOfScenes[index].scene->init(_window);
 		runScene(MAIN_MENU);
 		_isGameRunning = true;
 		while (_isGameRunning) {
@@ -103,6 +106,7 @@ namespace Moo
 		Moo::d3d::getInstance().getCamera()->reset();
 		_currentScene->prevScene = tmpSceneForPrev; 
 		if ((int)type >= (int)LEVEL1) {
+			resetScene(type);
 			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
 			_currentScene->prevScene = getSceneByType(Game::PAUSE_MENU);
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)

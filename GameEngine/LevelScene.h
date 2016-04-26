@@ -24,7 +24,7 @@ namespace Moo
 	class LevelScene : public Scene
 	{
 	public:
-		LevelScene();
+		LevelScene(std::string mapFile);		// desormais quand on cree un levelscene (qui va correspondre a un niveau), on precise la map
 		~LevelScene();
 		bool	runUpdate();
 		void	clean();
@@ -51,5 +51,6 @@ namespace Moo
 		Moo::Camera						_camera;
 		bool							_triedJump, _exitReached, _playerDead;
 		std::chrono::time_point<std::chrono::system_clock> _startTime, _lastJump, _canTemporarilyJump;
+		std::string						_mapFilePath;
 	};
 }

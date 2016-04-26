@@ -109,7 +109,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SoundSystem.cpp">
-	  <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpriteRect.cpp">
       <Filter>Source Files</Filter>
@@ -238,6 +238,7 @@
     <Media Include="Victory.wav">
       <Filter>Resource Files\sounds</Filter>
     </Media>
+    <Media Include="Heart_of_Courage_8_Bit_s075.mp3" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="background.dds">

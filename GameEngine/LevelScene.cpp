@@ -2,9 +2,9 @@
 
 namespace Moo
 {
-	LevelScene::LevelScene()
+	LevelScene::LevelScene(std::string mapFile)
 	{
-
+		_mapFilePath = mapFile;
 	}
 
 	LevelScene::~LevelScene()
@@ -167,9 +167,8 @@ namespace Moo
 		backgroundText->loadFromFile("background.dds");
 
 		//We get the map
-		//map = new JsonParser("2d-Maps/50x50.json");
-		//map = new JsonParser("2d-Maps/MapPreAlpha.json");
-		map = new JsonParser("2d-Maps/MapPlaytestSession.json");
+		//map = new JsonParser("2d-Maps/MapPlaytestSession.json");
+		map = new JsonParser(_mapFilePath);
 
 		if (map->parseFile() == -1)
 			throw std::exception("Can't load the map");
@@ -358,8 +357,7 @@ namespace Moo
 		chan->stop();
 		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
-		Game::getInstance().resetScene(Game::LEVEL1);
-		Game::getInstance().runScene(Game::MAIN_MENU);
+		Game::getInstance().goToNextScene();
 	}
 
 	void	LevelScene::playerDead()

@@ -24,6 +24,8 @@ namespace Moo
 			PAUSE_MENU,
 			CONTROLS_MENU,
 			LEVEL1,
+			LEVEL2,
+			LEVEL3,
 			NUMBER_OF_SCENE
 		};
 		struct s_scene
@@ -40,7 +42,8 @@ namespace Moo
 		void							goToNextScene();											// a utiliser a la fin des menu in game qui permet directment de passer au niveau suivant
 		void							exit();														// sert a quitter le jeu
 		void							resetScene(e_scene type);									// reset une scene spécifique
-		void							resetAllScenes();											//reset toutes les scenes
+		void							resetAllScenes();											// reset toutes les scenes
+		void							resetCurrentScene();										// reset la scene actuelle
 		std::shared_ptr<SoundSystem>	getSoundSystem();											
 
 	private:
