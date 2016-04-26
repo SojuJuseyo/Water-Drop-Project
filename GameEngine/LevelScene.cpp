@@ -395,6 +395,7 @@ namespace Moo
 			else
 				isPlayer = false;
 			(*dynEntIt).second->setGravity(true);
+
 			if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
 				(*dynEntIt).second->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt).second->getVelocity().y));
 
@@ -403,10 +404,11 @@ namespace Moo
 				(std::static_pointer_cast<Moo::Character>((*dynEntIt).second))->update();
 				(std::static_pointer_cast<Moo::Character>((*dynEntIt).second))->resetHitbox();
 			}
+
 			deletedBullet = false;
 			deletedCharacter = false;
 
-			for (std::vector<std::pair<std::string, std::shared_ptr<Moo::Entity>>>::iterator statEntIt = _staticEntities.begin();
+			for (auto statEntIt = _staticEntities.begin();
 				 statEntIt != _staticEntities.end();
 				 ++statEntIt)
 			{
@@ -459,18 +461,19 @@ namespace Moo
 				}
 				character->resetHitbox();
 
-				for (std::vector<std::pair<std::string, std::shared_ptr<Moo::Entity>>>::iterator SecondDynEntIt = _dynamicEntities.begin();
+				for (auto SecondDynEntIt = _dynamicEntities.begin();
 					 SecondDynEntIt != _dynamicEntities.end();
 					 ++SecondDynEntIt)
 				{
-					if ((*SecondDynEntIt).second.get() != character.get()
+					if (!(_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0 && _strnicmp((*SecondDynEntIt).first.c_str(), "Bullet", 6) == 0)
+						&& (*SecondDynEntIt).second.get() != character.get()
 					 && ((hitZone = character->collisionAABB((*SecondDynEntIt).second.get())) != HitZone::NONE))
 					{
 						//If we collide with an enemy : Absorb him
 						std::cout << "Collision between " << (*dynEntIt).first << " and " << (*SecondDynEntIt).first << std::endl;
 						if (_strnicmp((*SecondDynEntIt).first.c_str(), "Enemy", 5) == 0)
 						{
-							auto enemyCollided = std::static_pointer_cast<Moo::Character>((*dynEntIt).second);
+							auto enemyCollided = std::static_pointer_cast<Moo::Character>((*SecondDynEntIt).second);
 							if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
 							{
 								dynEntIt = _dynamicEntities.erase(dynEntIt);
