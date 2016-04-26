@@ -22,7 +22,7 @@ namespace Moo
 
 	public:
 		SpriteRect();
-		SpriteRect(float, float, float, float, float, float);
+		SpriteRect(float, float, float, float);
 		~SpriteRect();
 
 		VERTEX *makeVertexTab(int, int); // x et y

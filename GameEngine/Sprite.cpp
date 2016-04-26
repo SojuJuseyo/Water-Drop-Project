@@ -25,7 +25,7 @@ namespace Moo
 	void	Sprite::loadTexture(Texture *texture)
 	{
 		_texture = texture;
-		_spriteRect = new SpriteRect((float)25, (float)25, _texture->getWidth(), _texture->getHeight(), _texture->getWidth(), _texture->getHeight());
+		_spriteRect = new SpriteRect(_texture->getWidth(), _texture->getHeight(), _texture->getWidth(), _texture->getHeight());
 		_texture->setResourceData(_spriteRect->makeVertexTab(0, 0));
 	}
 	 
@@ -42,6 +42,7 @@ namespace Moo
 			std::cout << "_spriteRect == null. Call loadTexture before trying to get the SpriteRect object;" << std::endl;
 		else
 			return _spriteRect;
+		return nullptr;
 	}
 
 	void	Sprite::draw()

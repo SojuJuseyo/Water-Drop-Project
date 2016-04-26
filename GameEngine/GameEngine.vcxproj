@@ -232,6 +232,7 @@
     <Image Include="Menu_Pause_WTP_DDS.dds" />
     <Image Include="Menu_WTP_DDS.dds" />
     <Image Include="platform.dds" />
+    <Image Include="tileset.dds" />
     <Image Include="You_Lost_DDS.dds" />
     <Image Include="You_Won_DDS.dds" />
   </ItemGroup>
