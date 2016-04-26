@@ -7,6 +7,9 @@ namespace Moo
 		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() - (sprite->getHeight() / 3) * 2);
 		this->setGravity(hasGravity);
+		this->setVelocity(Vector2f(0, 0));
+		this->setMass(100);
+		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		_hitboxSprite = new Sprite(*_sprite);
 		_texture = new Moo::Texture;
 		_texture->loadFromFile("hitbox.dds");

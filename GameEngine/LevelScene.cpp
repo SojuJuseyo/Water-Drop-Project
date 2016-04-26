@@ -13,50 +13,50 @@ namespace Moo
 	}
 
 	void LevelScene::clean()
-	{
+	{		
 		std::cout << "Clearing entities lists" << std::endl;
-		for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator statEntIt = staticEntities.begin(); statEntIt != staticEntities.end(); ++statEntIt)
-			delete (*statEntIt).second;
-		staticEntities.clear();
-		std::cout << "Static entities list is cleared, size: " << staticEntities.size() << std::endl;
-		for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator dynEntIt = dynamicEntities.begin(); dynEntIt != dynamicEntities.end(); ++dynEntIt)
-			delete (*dynEntIt).second;
-		dynamicEntities.clear();
-		std::cout << "Dynamic entities list is cleared, size: " << dynamicEntities.size() << std::endl;
-		if (map != nullptr)
-			delete map;
-		if (player != nullptr)
-			player = nullptr;
-		//if (themeChan != nullptr)
-		//	themeChan = nullptr;
-		if (background != nullptr && lose != nullptr && win != nullptr)
-			delete background, lose, win;
-		if (bulletText != nullptr && loseText != nullptr && winText != nullptr && backgroundText != nullptr)
-			delete bulletText, loseText, winText, backgroundText;
+		for (auto statEnt : _staticEntities)
+			statEnt.second.reset();
+		_staticEntities.clear();
+		std::cout << "Static entities list is cleared, size: " << _staticEntities.size() << std::endl;
+		for (auto dynEnt : _dynamicEntities)
+			dynEnt.second.reset();
+		_dynamicEntities.clear();
+		std::cout << "Dynamic entities list is cleared, size: " << _dynamicEntities.size() << std::endl;
+		_player.reset();
+		_background.reset();
 		std::cout << "Level scene is cleared" << std::endl;
+	}
+
+	void	LevelScene::loadFromSpriteSheet()
+	{
+		_spriteSheet["Block"] = SpriteRect(16.f, 16.f, 128.f, 16.f);
+		_spriteSheet["Platform"] = SpriteRect(16.f, 16.f, 128.f, 16.f);
+		_spriteSheet["Ground"] = SpriteRect(16.f, 16.f, 128.f, 16.f);
+		_spriteSheet["Exit"] = SpriteRect(16.f, 16.f, 128.f, 16.f);
+
+		_spriteSheet["Block"].makeVertexTab(4, 0);
+		_spriteSheet["Platform"].makeVertexTab(0, 0);
+		_spriteSheet["Ground"].makeVertexTab(1, 0);
+		_spriteSheet["Exit"].makeVertexTab(5, 0);
 	}
 
 	void	LevelScene::getEntitiesFromMap(JsonParser *map)
 	{
-		Moo::Texture *characterText = new Moo::Texture;
-		characterText->loadFromFile("character.dds");
-		Moo::Texture *enemyText = new Moo::Texture;
-		enemyText->loadFromFile("enemy.dds");
-		Moo::Texture *platformText = new Moo::Texture;
-		platformText->loadFromFile("platform.dds");
-		Moo::Texture *groundText = new Moo::Texture;
-		groundText->loadFromFile("ground.dds");
-		Moo::Texture *blocText = new Moo::Texture;
-		blocText->loadFromFile("bloc.dds");
-		Moo::Texture *exitText = new Moo::Texture;
-		exitText->loadFromFile("door_closed.dds");
+		_textures["Player"].loadFromFile("character.dds");
+		_textures["Enemy"].loadFromFile("enemy.dds");
+		_textures["Block"].loadFromFile("tileset.dds");
+		_textures["Platform"].loadFromFile("tileset.dds");
+		_textures["Ground"].loadFromFile("tileset.dds");
+		_textures["Exit"].loadFromFile("tileset.dds");
+		loadFromSpriteSheet();
 
 		//All the data contained in the map
 		std::list<Tile *> playerTiles = map->getMap().getTilesFromColor("#ffabcdef"); //blue
 		std::list<Tile *> platformTiles = map->getMap().getTilesFromColor("#fff93738"); //red
 		std::list<Tile *> bottomTiles = map->getMap().getTilesFromColor("#ff117050"); //green
 		std::list<Tile *> enemyTiles = map->getMap().getTilesFromColor("#ff000000"); //black
-		std::list<Tile *> blocTiles = map->getMap().getTilesFromColor("#ff551A8B"); //purple
+		std::list<Tile *> blockTiles = map->getMap().getTilesFromColor("#ff551A8B"); //purple
 		std::list<Tile *> exitTiles = map->getMap().getTilesFromColor("#ffffd700"); //gold
 
 		//Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
@@ -80,17 +80,17 @@ namespace Moo
 		float enemiesMass = 100;
 
 		//Enemies
-		for (std::list<Tile *>::const_iterator it = enemyTiles.begin(); it != enemyTiles.end(); ++it)
+		for (auto enemyTile : enemyTiles)
 		{
-			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
-			enemySprite->loadTexture(enemyText);
-			Moo::Character *enemy = new Moo::Character(Moo::Vector2f(1, 0), enemiesMass, enemySprite, true, 4, false);
+			Moo::Sprite *enemySprite = new Moo::Sprite(enemiesWidth, enemiesHeight, enemyTile->getPosX() * 40, enemyTile->getPosY() * 40);
+			enemySprite->loadTexture(&_textures["Enemy"]);
+			auto enemy = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), enemiesMass, enemySprite, true, 4.f, false);
 			enemy->setCollision(true);
 			// To make sure that enemies have less health than us at the beginning
 			enemy->setHealth(4);
 			enemySprite->scale(Moo::Vector2f(-0.1f, -0.1f));
 			enemy->getHitboxSprite()->setScale(enemy->getSprite()->getScale());
-			dynamicEntities.push_back(std::make_pair("Enemy " + std::to_string(i), enemy));
+			_dynamicEntities.push_back(std::make_pair("Enemy " + std::to_string(i), enemy));
 			++i;
 		}
 
@@ -98,38 +98,40 @@ namespace Moo
 		i = 1;
 
 		//platforms
-		for (std::list<Tile *>::const_iterator it = platformTiles.begin(); it != platformTiles.end(); ++it)
+		for (auto platformTile : platformTiles)
 		{
-			Moo::Sprite *platform = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
-			platform->loadTexture(platformText);
-			Moo::Character *platformEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, platform, false, 0, false);
-			staticEntities.push_back(std::make_pair("Platform " + std::to_string(i), platformEntity));
+			Moo::Sprite *platform = new Moo::Sprite(40, 40, platformTile->getPosX() * 40, platformTile->getPosY() * 40);
+			platform->loadTexture(&_textures["Platform"], &_spriteSheet["Platform"]);
+			auto platformEntity = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), 0.f, platform, false, 0.f, false);
+			_staticEntities.push_back(std::make_pair("Platform " + std::to_string(i), platformEntity));
 			++i;
 		}
 
 		//bloc
-		for (std::list<Tile *>::const_iterator it = blocTiles.begin(); it != blocTiles.end(); ++it)
+		for (auto blockTile : blockTiles)
 		{
-			Moo::Sprite *bloc = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
-			bloc->loadTexture(blocText);
-			staticEntities.push_back(std::make_pair("Bloc", new Moo::Character(Moo::Vector2f(1, 0), 0, bloc, false, 0, false)));
+			Moo::Sprite *block = new Moo::Sprite(40, 40, blockTile->getPosX() * 40, blockTile->getPosY() * 40);
+			block->loadTexture(&_textures["Block"], &_spriteSheet["Block"]);
+			auto blocEntity = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), 0.f, block, false, 0.f, false);
+			_staticEntities.push_back(std::make_pair("Block", blocEntity));
 		}
 
 		//bottom
-		for (std::list<Tile *>::const_iterator it = bottomTiles.begin(); it != bottomTiles.end(); ++it)
+		for (auto bottomTile : bottomTiles)
 		{
-			Moo::Sprite *ground = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
-			ground->loadTexture(groundText);
-			staticEntities.push_back(std::make_pair("Bottom", new Moo::Character(Moo::Vector2f(1, 0), 0, ground, false, 0, false)));
+			Moo::Sprite *ground = new Moo::Sprite(40, 40, bottomTile->getPosX() * 40, bottomTile->getPosY() * 40);
+			ground->loadTexture(&_textures["Ground"], &_spriteSheet["Ground"]);
+			auto groundEntity = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), 0.f, ground, false, 0.f, false);
+			_staticEntities.push_back(std::make_pair("Bottom", groundEntity));
 		}
 
 		//exit
-		for (std::list<Tile *>::const_iterator it = exitTiles.begin(); it != exitTiles.end(); ++it)
+		for (auto exitTile : exitTiles)
 		{
-			Moo::Sprite *exit = new Moo::Sprite(40, 40, (*it)->getPosX() * 40, (*it)->getPosY() * 40);
-			exit->loadTexture(exitText);
-			Moo::Character *exitEntity = new Moo::Character(Moo::Vector2f(1, 0), 0, exit, false, 0, false);
-			staticEntities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
+			Moo::Sprite *exit = new Moo::Sprite(40, 40, exitTile->getPosX() * 40, exitTile->getPosY() * 40);
+			exit->loadTexture(&_textures["Exit"], &_spriteSheet["Exit"]);
+			auto exitEntity = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), 0.f, exit, false, 0.f, false);
+			_staticEntities.push_back(std::make_pair("Exit " + std::to_string(i), exitEntity));
 			++i;
 		}
 
@@ -140,16 +142,11 @@ namespace Moo
 
 			//Player
 			Moo::Sprite *character = new Moo::Sprite(playerWidth, playerHeight, (*playerIt)->getPosX() * 40, (*playerIt)->getPosY() * 40);
-			character->loadTexture(characterText);
-			Moo::Character *player = new Moo::Character(Moo::Vector2f(0, 0), playerMass, character, true, 6, true);
+			character->loadTexture(&_textures["Player"]);
+			auto player = std::make_shared<Moo::Character>(Moo::Vector2f(0, 0), playerMass, character, true, 6.f, true);
 			//The player is always the first of the entities vector
-			dynamicEntities.insert(dynamicEntities.begin(), std::make_pair("Player", player));
+			_dynamicEntities.insert(_dynamicEntities.begin(), std::make_pair("Player", player));
 		}
-
-		// release Textures
-		//marioText->release();
-		//platformText->release();
-		//groundText->~Texture();
 	}
 
 	Camera LevelScene::getCamera()
@@ -162,64 +159,60 @@ namespace Moo
 		std::cout << "Starting init" << std::endl;
 		this->clean();
 		_window = window;
-
-		backgroundText = new Moo::Texture;
-		backgroundText->loadFromFile("background.dds");
+		
+		_textures["Background"].loadFromFile("background.dds");
 
 		//We get the map
 		//map = new JsonParser("2d-Maps/50x50.json");
 		//map = new JsonParser("2d-Maps/MapPreAlpha.json");
-		map = new JsonParser("2d-Maps/MapPlaytestSession.json");
+		_map = JsonParser("2d-Maps/MapPlaytestSession.json");
 
-		if (map->parseFile() == -1)
+		if (_map.parseFile() == -1)
 			throw std::exception("Can't load the map");
 
 		//map->getMap().displayMapInfos();
 
 		//Read the entities from the map
-		getEntitiesFromMap(map);
+		getEntitiesFromMap(&_map);
 
 		std::cout << "Succeeded in getting entities from the map" << std::endl;
-		std::cout << "Static entities list is filled, size: " << staticEntities.size() << std::endl;
-		std::cout << "Dynamic entities list is filled, size: " << dynamicEntities.size() << std::endl;
+		std::cout << "Static entities list is filled, size: " << _staticEntities.size() << std::endl;
+		std::cout << "Dynamic entities list is filled, size: " << _dynamicEntities.size() << std::endl;
 
 		//background
-		background = new Moo::Sprite(4000, 3000, 0, 0);
-		background->loadTexture(backgroundText);
+		_background = std::make_shared<Moo::Sprite>(4000.f, 3000.f, 0.f, 0.f);
+		_background->loadTexture(&_textures["Background"]);
 
-		player = dynamic_cast<Moo::Character *>(dynamicEntities[0].second);
+		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0].second);
 
 		// Temp texture for the bullet
-		bulletText = new Moo::Texture;
-		bulletText->loadFromFile("character.dds");
-		loseText = new Moo::Texture;
-		loseText->loadFromFile("You_Lost_DDS.dds");
-		winText = new Moo::Texture;
-		winText->loadFromFile("You_Won_DDS.dds");
-		Moo::d3d::getInstance().getCamera()->setInfoMap(map->getMap());
+		_textures["Bullet"].loadFromFile("character.dds");
+		_textures["Lose"].loadFromFile("You_Lost_DDS.dds");
+		_textures["Win"].loadFromFile("You_Won_DDS.dds");
+		Moo::d3d::getInstance().getCamera()->setInfoMap(_map.getMap());
 		_camera.reset();
-		lose = new Moo::Sprite(400, 133, 0, 0);
-		lose->loadTexture(loseText);
-		win = new Moo::Sprite(400, 133,	0, 0);
-		win->loadTexture(winText);
+		_lose = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
+		_lose->loadTexture(&_textures["Lose"]);
+		_win = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
+		_win->loadTexture(&_textures["Win"]);
 
 		//init sound system
 		_soundSystem = Game::getInstance().getSoundSystem();
 
 		if (themeChan == nullptr)
 		{
-			if (_soundSystem->addSound(map->getMap().getMapAudioFile().c_str(), "custom") == false)
+			if (_soundSystem->addSound(_map.getMap().getMapAudioFile().c_str(), "custom") == false)
 			{
-				std::cout << map->getMap().getMapAudioFile() << std::endl;
+				std::cout << _map.getMap().getMapAudioFile() << std::endl;
 				std::cout << "music failed" << std::endl;
 				themeChan = nullptr;
 			}
-			themeChan = _soundSystem->playSound("custom", true);
+			//themeChan = _soundSystem->playSound("custom", true);
 		}
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
 
-		player->setTimers();
+		_player->setTimers();
 		_startTime = std::chrono::system_clock::now();
 		_canTemporarilyJump = _startTime;
 		_lastJump = _startTime;
@@ -246,18 +239,18 @@ namespace Moo
 
 		//Cheats
 		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))
-			player->toggleGodMode();
+			_player->toggleGodMode();
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::SizeUp))
-			player->changeHealth(1);
+			_player->changeHealth(1);
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::SizeDown))
-			player->changeHealth(-1);
+			_player->changeHealth(-1);
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::Space))
 		{
 			bool wallJump = false;
-			if (player->getVelocity().y > 0)
+			if (_player->getVelocity().y > 0)
 			{
 				std::chrono::duration<double> elapsed_seconds_wallJump = std::chrono::system_clock::now() - _canTemporarilyJump;
 				std::chrono::duration<double> elapsed_seconds_lastJump = std::chrono::system_clock::now() - _lastJump;
@@ -265,15 +258,15 @@ namespace Moo
 				{
 					std::cout << "The player tried to jump" << std::endl;
 					wallJump = true;
-					if (player->getVelocity().x < 0)
-						player->setWallJumpVelocity(true);
+					if (_player->getVelocity().x < 0)
+						_player->setWallJumpVelocity(true);
 					else
-						player->setWallJumpVelocity(false);
+						_player->setWallJumpVelocity(false);
 				}
 				else
 					std::cout << "Too late to wall jump, elapsed seconds count: " << elapsed_seconds_wallJump.count() << std::endl;
 			}
-			if (player->jump(wallJump) == true)
+			if (_player->jump(wallJump) == true)
 			{
 				_soundSystem->playSound("jump", false);
 				_canTemporarilyJump = _startTime;
@@ -282,34 +275,33 @@ namespace Moo
 		}
 
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
-			player->move(Direction::LEFT);
+			_player->move(Direction::LEFT);
 
 		if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
-			player->move(Direction::RIGHT);
+			_player->move(Direction::RIGHT);
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
 		{
-			if (player->getHealth() > 1)
+			if (_player->getHealth() > 1)
 			{
 				_soundSystem->playSound("jump", false);
 				// Define the base pos of the bullet and create the sprite
-				float bulletPosX = player->getSprite()->getX() + (player->getSprite()->getWidth());
-				float bulletPosY = player->getSprite()->getY() + (player->getSprite()->getHeight() / 2);
-				Moo::Sprite *bulletSprite = new Moo::Sprite(15, 15, bulletPosX, bulletPosY);
+				float bulletPosX = _player->getSprite()->getX() + (_player->getSprite()->getWidth());
+				float bulletPosY = _player->getSprite()->getY() + (_player->getSprite()->getHeight() / 2);
+				Moo::Sprite *bulletSprite = new Moo::Sprite(15.f, 15.f, bulletPosX, bulletPosY);
 
-				bulletSprite->loadTexture(bulletText);
+				bulletSprite->loadTexture(&_textures["Bullet"]);
 
 				// Creation of the bullet
-				Moo::Bullet *bullet = new Moo::Bullet(bulletSprite, false);
+				auto bullet = std::make_shared<Moo::Bullet>(bulletSprite, false);
 				bullet->setCollision(true);
 
 				// Addition of the bullet to the bullet pool
-				dynamicEntities.push_back(std::pair<std::string, Moo::Entity *>("bullet", bullet));
-
+				_dynamicEntities.push_back(std::pair<std::string, std::shared_ptr<Moo::Entity>>("bullet", bullet));
 				// Check if cheat code is activated.
-				if (player->isGodMode() == false)
-					player->changeHealth(-1);
-				std::cout << "Player health : " << player->getHealth() << std::endl;
+				if (_player->isGodMode() == false)
+					_player->changeHealth(-1);
+				std::cout << "Player health : " << _player->getHealth() << std::endl;
 			}
 			else
 				std::cout << "Player is too small to shoot" << std::endl;
@@ -319,32 +311,32 @@ namespace Moo
 	void	LevelScene::displayHitboxesAndSprites()
 	{
 		_window->clear();
-		_window->draw(background);
+		_window->draw(_background.get());
 
 		// Display hitbox if godmode is on
-		if (player->isGodMode() == true)
-			_window->draw(player->getHitboxSprite());
+		if (_player->isGodMode() == true)
+			_window->draw(_player->getHitboxSprite());
 
 		//Draw static entities and their hitboxes
-		for (unsigned int i = 0; i < staticEntities.size(); ++i)
+		for (auto entity : _staticEntities)
 		{
-			_window->draw(((Moo::Character *)staticEntities[i].second)->getSprite());
-			_window->draw(((Moo::Character *)staticEntities[i].second)->getHitboxSprite());
+			_window->draw(std::static_pointer_cast<Moo::Character>(entity.second)->getSprite());
+			_window->draw(std::static_pointer_cast<Moo::Character>(entity.second)->getHitboxSprite());
 		}
 
 		//Draw dynamic entities and their hitboxes
-		for (unsigned int i = 0; i < dynamicEntities.size(); ++i)
+		for (auto entity : _dynamicEntities)
 		{
-			_window->draw(((Moo::Character *)dynamicEntities[i].second)->getSprite());
-			_window->draw(((Moo::Character *)dynamicEntities[i].second)->getHitboxSprite());
-			if (_strnicmp(dynamicEntities[i].first.c_str(), "Enemy", 5) == 0)
-				((Moo::Character *)dynamicEntities[i].second)->getSprite()->rotate(1);
+			_window->draw(std::static_pointer_cast<Moo::Character>(entity.second)->getSprite());
+			_window->draw(std::static_pointer_cast<Moo::Character>(entity.second)->getHitboxSprite());
+			if (_strnicmp(entity.first.c_str(), "Enemy", 5) == 0)
+				std::static_pointer_cast<Moo::Character>(entity.second)->getSprite()->rotate(1);
 		}
 	}
 
 	void	LevelScene::exitReached()
 	{
-		win->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
+		_win->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
 						  (Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
 						 ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
 						  (Moo::d3d::getInstance().getScreenSize().y / 2))
@@ -352,7 +344,7 @@ namespace Moo
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
 		FMOD::Channel *chan = _soundSystem->playSound("victory", false);
-		_window->draw(win);
+		_window->draw(_win.get());
 		_window->display();
 		Sleep(3000);
 		chan->stop();
@@ -364,7 +356,7 @@ namespace Moo
 
 	void	LevelScene::playerDead()
 	{
-		lose->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
+		_lose->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
 						   (Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
 						  ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
 						   (Moo::d3d::getInstance().getScreenSize().y / 2))
@@ -372,7 +364,7 @@ namespace Moo
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
 		FMOD::Channel *chan = _soundSystem->playSound("defeat", false);
-		_window->draw(lose);
+		_window->draw(_lose.get());
 		_window->display();
 		Sleep(3000);
 		chan->stop();
@@ -390,35 +382,35 @@ namespace Moo
 		bool deletedCharacter;
 		bool isPlayer;
 		Vector2f decal(0, 0);
-
-		for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator dynEntIt = dynamicEntities.begin(); dynEntIt != dynamicEntities.end();)
+		
+		for (auto dynEntIt = _dynamicEntities.begin(); dynEntIt != _dynamicEntities.end();)
 		{
 			decal = Vector2f(0, 0);
-			if ((*dynEntIt).second == player)
+			if ((*dynEntIt).second == _player)
 			{
 				isPlayer = true;
-				if (player->getHealth() > 1)
-					player->checkEvaporation();
+				if (_player->getHealth() > 1)
+					_player->checkEvaporation();
 			}
 			else
 				isPlayer = false;
 			(*dynEntIt).second->setGravity(true);
+			if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
+				(*dynEntIt).second->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt).second->getVelocity().y));
+
 			if ((*dynEntIt).second->getGravity() == true)
 			{
-				((Moo::Character *)(*dynEntIt).second)->update();
-				((Moo::Character *)(*dynEntIt).second)->resetHitbox();
+				(std::static_pointer_cast<Moo::Character>((*dynEntIt).second))->update();
+				(std::static_pointer_cast<Moo::Character>((*dynEntIt).second))->resetHitbox();
 			}
 			deletedBullet = false;
 			deletedCharacter = false;
 
-			if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
-				(*dynEntIt).second->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt).second->getVelocity().y));
-
-			for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator statEntIt = staticEntities.begin();
-				 statEntIt != staticEntities.end();
+			for (std::vector<std::pair<std::string, std::shared_ptr<Moo::Entity>>>::iterator statEntIt = _staticEntities.begin();
+				 statEntIt != _staticEntities.end();
 				 ++statEntIt)
 			{
-				if ((hitZone = (*dynEntIt).second->collisionAABB((*statEntIt).second)) != HitZone::NONE)
+				if ((hitZone = (*dynEntIt).second->collisionAABB((*statEntIt).second.get())) != HitZone::NONE)
 				{
 					//If player collides with an Exit
 					if (isPlayer == true && _strnicmp((*statEntIt).first.c_str(), "Exit", 4) == 0)
@@ -441,15 +433,14 @@ namespace Moo
 						else if (hitZone == HitZone::BOTTOM)
 						{
 							decal.y = (*statEntIt).second->getHitbox().y1 - (*dynEntIt).second->getHitbox().y2;
-							((Moo::Character *)(*dynEntIt).second)->resetPos();
+							std::static_pointer_cast<Moo::Character>((*dynEntIt).second)->resetPos();
 							(*dynEntIt).second->setGravity(false);
 						}
 					}
 					else if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
 					{
 						std::cout << "Deleting " << (*dynEntIt).first << std::endl;
-						delete (*dynEntIt).second;
-						dynEntIt = dynamicEntities.erase(dynEntIt);
+						dynEntIt = _dynamicEntities.erase(dynEntIt);
 						deletedBullet = true;
 						break;
 					}
@@ -458,7 +449,7 @@ namespace Moo
 
 			if (deletedBullet == false && _exitReached == false)
 			{
-				Moo::Character *character = ((Moo::Character *)(*dynEntIt).second);
+				auto character = std::static_pointer_cast<Moo::Character>((*dynEntIt).second);
 				if (decal.y != 0)
 					character->getSprite()->setY(character->getSprite()->getY() + decal.y);
 				if (decal.x != 0)
@@ -468,22 +459,21 @@ namespace Moo
 				}
 				character->resetHitbox();
 
-				for (std::vector<std::pair<std::string, Moo::Entity *>>::iterator SecondDynEntIt = dynamicEntities.begin();
-					 SecondDynEntIt != dynamicEntities.end();
+				for (std::vector<std::pair<std::string, std::shared_ptr<Moo::Entity>>>::iterator SecondDynEntIt = _dynamicEntities.begin();
+					 SecondDynEntIt != _dynamicEntities.end();
 					 ++SecondDynEntIt)
 				{
-					if ((*SecondDynEntIt).second != character
-					 && ((hitZone = character->collisionAABB((*SecondDynEntIt).second)) != HitZone::NONE))
+					if ((*SecondDynEntIt).second.get() != character.get()
+					 && ((hitZone = character->collisionAABB((*SecondDynEntIt).second.get())) != HitZone::NONE))
 					{
 						//If we collide with an enemy : Absorb him
 						std::cout << "Collision between " << (*dynEntIt).first << " and " << (*SecondDynEntIt).first << std::endl;
 						if (_strnicmp((*SecondDynEntIt).first.c_str(), "Enemy", 5) == 0)
 						{
-							Moo::Character *enemyCollided = ((Moo::Character *)(*SecondDynEntIt).second);
+							auto enemyCollided = std::static_pointer_cast<Moo::Character>((*dynEntIt).second);
 							if (_strnicmp((*dynEntIt).first.c_str(), "Bullet", 6) == 0)
 							{
-								delete character;
-								dynEntIt = dynamicEntities.erase(dynEntIt);
+								dynEntIt = _dynamicEntities.erase(dynEntIt);
 								deletedBullet = true;
 								enemyCollided->changeHealth(1);
 								std::cout << (*SecondDynEntIt).first << " health: " << enemyCollided->getHealth() << std::endl;
@@ -495,7 +485,7 @@ namespace Moo
 								{
 									character->changeHealth(enemyCollided->getHealth() * 33 / 100);
 									std::cout << (*dynEntIt).first << " health: " << character->getHealth() << std::endl;
-									SecondDynEntIt = dynamicEntities.erase(SecondDynEntIt);
+									SecondDynEntIt = _dynamicEntities.erase(SecondDynEntIt);
 									deletedCharacter = true;
 									break;
 								}
@@ -508,7 +498,7 @@ namespace Moo
 								{
 									enemyCollided->changeHealth(character->getHealth() * 33 / 100);
 									std::cout << (*SecondDynEntIt).first << " health: " << enemyCollided->getHealth() << std::endl;
-									dynEntIt = dynamicEntities.erase(dynEntIt);
+									dynEntIt = _dynamicEntities.erase(dynEntIt);
 									deletedCharacter = true;
 									break;
 								}
@@ -542,7 +532,7 @@ namespace Moo
 		applyGravityAndCollisions();
 
 		//Reseting the positon of the camera
-		Moo::d3d::getInstance().getCamera()->update(player->getHitbox());
+		Moo::d3d::getInstance().getCamera()->update(_player->getHitbox());
 		_camera = *Moo::d3d::getInstance().getCamera();
 
 		//Display the game elements

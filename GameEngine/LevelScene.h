@@ -10,6 +10,7 @@
 #include "Character.h"
 #include "SoundSystem.h"
 #include "Camera.h"
+#include "SpriteRect.h"
 
 struct s_collider
 {
@@ -35,19 +36,21 @@ namespace Moo
 		void	displayHitboxesAndSprites();
 		void	applyGravityAndCollisions();
 		void	exitReached();
+		void	loadFromSpriteSheet();
 		void	playerDead();
 		FMOD::Channel					*themeChan;
 
 	private:
-		std::vector<std::pair<std::string, Moo::Entity *>> staticEntities;
-		std::vector<std::pair<std::string, Moo::Entity *>> dynamicEntities;
-		JsonParser						*map;
-		Moo::Character					*player;
-		std::vector<Moo::Bullet *>		bulletPool;
-		Moo::Sprite						*background, *lose, *win;
-		Moo::Texture					*bulletText, *loseText, *winText, *backgroundText;
+		std::vector<std::pair<std::string, std::shared_ptr<Moo::Entity>>> _staticEntities;
+		std::vector<std::pair<std::string, std::shared_ptr<Moo::Entity>>> _dynamicEntities;
+
+		JsonParser			_map;
+		std::map<std::string, Moo::Texture> _textures;
+		std::map<std::string, SpriteRect> _spriteSheet;
+		std::shared_ptr<Moo::Character>	_player;
+		std::shared_ptr<Moo::Sprite>	_background, _lose, _win;
 		std::shared_ptr<Window>			_window;
-		std::shared_ptr<SoundSystem>	 _soundSystem;
+		std::shared_ptr<SoundSystem>	_soundSystem;
 		Moo::Camera						_camera;
 		bool							_triedJump, _exitReached, _playerDead;
 		std::chrono::time_point<std::chrono::system_clock> _startTime, _lastJump, _canTemporarilyJump;
