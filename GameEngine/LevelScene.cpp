@@ -240,7 +240,7 @@ namespace Moo
 		if (Moo::Keyboard::isDown(Moo::Keyboard::Space))
 		{
 			bool wallJump = false;
-			if (_player->getVelocity().y > 0)
+			if (_player->getGravity() == true)
 			{
 				std::chrono::duration<double> elapsed_seconds_wallJump = std::chrono::system_clock::now() - _canTemporarilyJump;
 				std::chrono::duration<double> elapsed_seconds_lastJump = std::chrono::system_clock::now() - _lastJump;
