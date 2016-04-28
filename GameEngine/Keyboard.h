@@ -4,10 +4,10 @@
 #include <windowsx.h>
 #include "Fps.h"
 
-#define NUM_KEYS 13
-#define KEYPRESSED(key)		(((GetAsyncKeyState(key) & 0x8000)) ? 1 : 0)
+#define NUM_KEYS				 13
+#define KEYPRESSED(key)			(((GetAsyncKeyState(key) & 0x8000)) ? 1 : 0)
 #define PRESSED					0x01
-#define TAPPED				0x04
+#define TAPPED					0x04
 #define KEYUP					0x08
 
 namespace Moo
@@ -38,10 +38,7 @@ namespace Moo
 			static Keyboard instance;
 			return instance;
 		}
-		void setLastKey(UINT);
-		UINT getLastKey();
 		static bool isPressed(Keyboard::Key key);
-		void release();
 		static bool isDown(Keyboard::Key key);
 		static void updateInput();
 

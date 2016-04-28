@@ -17,21 +17,6 @@ namespace Moo
 		return false;
 	}
 
-	void Keyboard::release()
-	{
-		Keyboard::getInstance().setLastKey(0);
-	}
-
-	void Keyboard::setLastKey(UINT lastKey)
-	{
-		_lastKey = lastKey;
-	}
-
-	UINT Keyboard::getLastKey()
-	{
-		return _lastKey;
-	}
-
 	bool Keyboard::isPressed(Keyboard::Key key)
 	{
 		for (int i = 0; i < NUM_KEYS; i++)
