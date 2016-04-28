@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Includes/MapInfos.h"
-#include "../Includes/JsonCpp/json.h"
+#include "../JsonCpp/json.h"
 
 #include <fstream>
 #include <algorithm>
