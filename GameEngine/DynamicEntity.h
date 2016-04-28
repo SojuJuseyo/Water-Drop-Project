@@ -1,6 +1,13 @@
 #pragma once
+
+#include "WindowSettings.h"
 #include "Entity.h"
 #include "Sprite.h"
+
+#define	GRAVITY					135//200
+#define	JUMP_VELOCITY			500//750
+#define MINIMUM_VELOCITY_Y		-270//-400
+#define STANDARD_VELOCITY_X		250
 
 namespace Moo
 {
@@ -21,17 +28,16 @@ namespace Moo
 		float			getHealth() const;
 		Sprite			*getSprite() const;
 		Sprite			*getHitboxSprite() const;
-		std::string		getName() const;
 
 		HitZone	collisionAABB(Entity *entity);
 		Hitbox	resetHitbox();
+		void	resetPos();
 
 	protected:
 		Vector2f	_velocity;
 		float		_mass;
 		float		_health;
 		Vector2f	_acceleration;
-		std::string	_name;
 		bool		_hasGravity;
 
 		Sprite			*_sprite;

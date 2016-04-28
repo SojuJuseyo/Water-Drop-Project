@@ -58,11 +58,6 @@ namespace Moo
 		return (_health);
 	}
 
-	std::string	DynamicEntity::getName() const
-	{
-		return _name;
-	}
-
 	Hitbox DynamicEntity::resetHitbox()
 	{
 		_hitbox.x1 = this->_sprite->getX();
@@ -78,5 +73,11 @@ namespace Moo
 	{
 		this->resetHitbox();
 		return (Entity::collisionAABB(entity));
+	}
+
+	void	DynamicEntity::resetPos()
+	{
+		_velocity.y = 0;
+		_acceleration.y = _mass / FPS_LIMIT;
 	}
 }

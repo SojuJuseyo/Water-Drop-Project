@@ -4,12 +4,24 @@ namespace Moo
 {
 	LevelScene::LevelScene()
 	{
-
+		_entityTypeName[EntityType::PLAYER] = "Player";
+		_entityTypeName[EntityType::ENEMY] = "Enemy";
+		_entityTypeName[EntityType::BULLET] = "Bullet";
+		_entityTypeName[EntityType::BLOCK] = "Block";
+		_entityTypeName[EntityType::PLATFORM] = "Platform";
+		_entityTypeName[EntityType::GROUND] = "Ground";
+		_entityTypeName[EntityType::EXIT] = "Exit";
+		_entityTypeName[EntityType::ENTRANCE] = "Entrance";
 	}
 
 	LevelScene::~LevelScene()
 	{
 
+	}
+
+	std::string	LevelScene::getEntityTypeName(EntityType type)
+	{
+		return 	_entityTypeName[type];
 	}
 
 	void LevelScene::clean()
@@ -41,24 +53,22 @@ namespace Moo
 		_spriteSheet["Exit"].makeVertexTab(5, 0);
 	}
 
-	void	LevelScene::fillStaticEntitiesList(std::string name, EntityType type, float posX, float posY)
+	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY)
 	{
 		Moo::Sprite *sprite = new Moo::Sprite(40, 40, posX * 40, posY * 40);
-		sprite->loadTexture(&_textures[name], &_spriteSheet[name]);
+		sprite->loadTexture(&_textures[getEntityTypeName(type)], &_spriteSheet[getEntityTypeName(type)]);
 		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type);
 		_staticEntities.push_back(staticEntity);
 	}
 
-	void	LevelScene::fillDynamicEntitiesList(std::string name, int id, int mult, EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter)
+	void	LevelScene::fillDynamicEntitiesList(int mult, EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter)
 	{
 		Moo::Sprite *sprite = new Moo::Sprite(width, height, posX * mult, posY * mult);
-		sprite->loadTexture(&_textures[name]);
+		sprite->loadTexture(&_textures[getEntityTypeName(type)]);
 
 		if (isCharacter == true)
 		{
-			if (id != 0)
-				name += " " + std::to_string(id);
-			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), mass, sprite, true, health, type, name);
+			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), mass, sprite, true, health, type);
 			if (type == EntityType::PLAYER)
 				_dynamicEntities.insert(_dynamicEntities.begin(), dynamicEntity);
 			else
@@ -66,7 +76,7 @@ namespace Moo
 		}
 		else
 		{
-			auto dynamicEntity = std::make_shared<Moo::Bullet>(sprite, mass, health, name);
+			auto dynamicEntity = std::make_shared<Moo::Bullet>(sprite, mass, health);
 			_dynamicEntities.push_back(dynamicEntity);
 		}
 	}
@@ -98,42 +108,41 @@ namespace Moo
 
 		//platforms
 		for (auto platformTile : platformTiles)
-			fillStaticEntitiesList("Platform", EntityType::PLATFORM, platformTile->getPosX(), platformTile->getPosY());
+			fillStaticEntitiesList(EntityType::PLATFORM, platformTile->getPosX(), platformTile->getPosY());
 
 		//bloc
 		for (auto blockTile : blockTiles)
-			fillStaticEntitiesList("Block", EntityType::BLOCK, blockTile->getPosX(), blockTile->getPosY());
+			fillStaticEntitiesList(EntityType::BLOCK, blockTile->getPosX(), blockTile->getPosY());
 
 		//bottom
 		for (auto bottomTile : bottomTiles)
-			fillStaticEntitiesList("Ground", EntityType::GROUND, bottomTile->getPosX(), bottomTile->getPosY());
+			fillStaticEntitiesList(EntityType::GROUND, bottomTile->getPosX(), bottomTile->getPosY());
 
 		//exit
 		for (auto exitTile : exitTiles)
-			fillStaticEntitiesList("Exit", EntityType::EXIT, exitTile->getPosX(), exitTile->getPosY());
+			fillStaticEntitiesList(EntityType::EXIT, exitTile->getPosX(), exitTile->getPosY());
 
 		//Enemies specs
 		float enemiesHeight = 40;
 		float enemiesWidth = 40;
+		float enemiesHealth = 4.f;
 		float enemiesMass = 100;
-
-		//counter
-		int i = 0;
 
 		//Enemies
 		for (auto enemyTile : enemyTiles)
-			fillDynamicEntitiesList("Enemy", ++i, 40, EntityType::ENEMY, enemyTile->getPosX(), enemyTile->getPosY(), enemiesWidth, enemiesHeight, enemiesMass, 4.f, true);
+			fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile->getPosX(), enemyTile->getPosY(), enemiesWidth, enemiesHeight, enemiesMass, enemiesHealth, true);
 
 		//Player specs
 		float playerHeight = 48.4f;
 		float playerWidth = 48.4f;
+		float playerHealth = 6.f;
 		float playerMass = 300;
 
 		if (playerTiles.size() > 0)
 		{
 			//Get the first element because there is only one player
 			std::list<Tile *>::const_iterator playerIt = playerTiles.begin();
-			fillDynamicEntitiesList("Player", 0, 40, EntityType::PLAYER, (*playerIt)->getPosX(), (*playerIt)->getPosY(), playerWidth, playerHeight, playerMass, 6.f, true);
+			fillDynamicEntitiesList(40, EntityType::PLAYER, (*playerIt)->getPosX(), (*playerIt)->getPosY(), playerWidth, playerHeight, playerMass, 6.f, true);
 		}
 	}
 
@@ -151,9 +160,10 @@ namespace Moo
 		_textures["Background"].loadFromFile("background.dds");
 
 		//We get the map
-		//map = new JsonParser("2d-Maps/50x50.json");
+		//_map = JsonParser("2d-Maps/test.json");
 		//map = new JsonParser("2d-Maps/MapPreAlpha.json");
 		_map = JsonParser("2d-Maps/MapPlaytestSession.json");
+		//_map = JsonParser("2d-Maps/MapPlaytestSessionNoEnemy.json");
 
 		if (_map.parseFile() == -1)
 			throw std::exception("Can't load the map");
@@ -276,7 +286,7 @@ namespace Moo
 			{
 				_soundSystem->playSound("jump", false);
 
-				fillDynamicEntitiesList("Bullet", 0, 1, EntityType::BULLET,
+				fillDynamicEntitiesList(1, EntityType::BULLET,
 										_player->getSprite()->getX() + _player->getSprite()->getWidth(),
 										_player->getSprite()->getY() + (_player->getSprite()->getHeight() / 2),
 										15.f, 15.f, 100.f, 1.f, false);
@@ -303,17 +313,17 @@ namespace Moo
 		//Draw static entities and their hitboxes
 		for (auto entity : _staticEntities)
 		{
-			_window->draw(std::static_pointer_cast<Moo::StaticEntity>(entity)->getSprite());
-			_window->draw(std::static_pointer_cast<Moo::StaticEntity>(entity)->getHitboxSprite());
+			_window->draw(entity->getSprite());
+			_window->draw(entity->getHitboxSprite());
 		}
 
 		//Draw dynamic entities and their hitboxes
 		for (auto entity : _dynamicEntities)
 		{
-			_window->draw(std::static_pointer_cast<Moo::DynamicEntity>(entity)->getSprite());
-			_window->draw(std::static_pointer_cast<Moo::DynamicEntity>(entity)->getHitboxSprite());
+			_window->draw(entity->getSprite());
+			_window->draw(entity->getHitboxSprite());
 			if (entity->getEntityType() == EntityType::ENEMY)
-				std::static_pointer_cast<Moo::DynamicEntity>(entity)->getSprite()->rotate(1);
+				entity->getSprite()->rotate(1);
 		}
 	}
 
@@ -371,7 +381,8 @@ namespace Moo
 			if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1)
 				_player->checkEvaporation();
 
-			(*dynEntIt)->setGravity(true);
+			if ((*dynEntIt)->getEntityType() != EntityType::ENEMY)
+				(*dynEntIt)->setGravity(true);
 
 			if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
 				(*dynEntIt)->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt)->getVelocity().y));
@@ -405,18 +416,18 @@ namespace Moo
 						else if (hitZone == HitZone::TOP)
 						{
 							decal.y = (*statEntIt)->getHitbox().y2 - (*dynEntIt)->getHitbox().y1;
-							std::static_pointer_cast<Moo::DynamicEntity>(*dynEntIt)->setVelocity(Vector2f(std::static_pointer_cast<Moo::DynamicEntity>(*dynEntIt)->getVelocity().x, -1));
+							(*dynEntIt)->setVelocity(Vector2f((*dynEntIt)->getVelocity().x, -1));
 						}
 						else if (hitZone == HitZone::BOTTOM)
 						{
 							decal.y = (*statEntIt)->getHitbox().y1 - (*dynEntIt)->getHitbox().y2;
 							std::static_pointer_cast<Moo::Character>((*dynEntIt))->resetPos();
-							std::static_pointer_cast<Moo::DynamicEntity>(*dynEntIt)->setGravity(false);
+							(*dynEntIt)->setGravity(false);
 						}
 					}
 					else if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
 					{
-						std::cout << "Deleting " << std::static_pointer_cast<Moo::Character>(*dynEntIt)->getName() << std::endl;
+						std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType()) << std::endl;
 						dynEntIt = _dynamicEntities.erase(dynEntIt);
 						deletedBullet = true;
 						break;
@@ -441,25 +452,24 @@ namespace Moo
 					 && (*SecondDynEntIt).get() != (*dynEntIt).get()
 					 && ((hitZone = (*dynEntIt)->collisionAABB((*SecondDynEntIt).get())) != HitZone::NONE))
 					{
-						auto collidedDynamicEntity = std::static_pointer_cast<Moo::Character>(*SecondDynEntIt);
 						//If we collide with an enemy : Absorb him
-						std::cout << "Collision between " << (*dynEntIt)->getName() << " and " << collidedDynamicEntity->getName() << std::endl;
-						if (collidedDynamicEntity->getEntityType() == EntityType::ENEMY)
+						std::cout << "Collision between " << getEntityTypeName((*dynEntIt)->getEntityType()) << " and " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
+						if ((*SecondDynEntIt)->getEntityType() == EntityType::ENEMY)
 						{
 							if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
 							{
-								collidedDynamicEntity->changeHealth((*dynEntIt)->getHealth());
-								std::cout << collidedDynamicEntity->getName() << " health: " << collidedDynamicEntity->getHealth() << std::endl;
-								std::cout << "Deleting " << (*dynEntIt)->getName() << std::endl;
+								std::static_pointer_cast<Moo::Character>((*SecondDynEntIt))->changeHealth((*dynEntIt)->getHealth());
+								std::cout << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << " health: " << (*SecondDynEntIt)->getHealth() << std::endl;
+								std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType()) << std::endl;
 								dynEntIt = _dynamicEntities.erase(dynEntIt);
 								deletedBullet = true;
 								break;
 							}
-							else if ((*dynEntIt)->getHealth() >= collidedDynamicEntity->getHealth() || std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() == true)
+							else if ((*dynEntIt)->getHealth() >= (*SecondDynEntIt)->getHealth() || std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() == true)
 							{
-								std::static_pointer_cast<Moo::Character>(*dynEntIt)->changeHealth(collidedDynamicEntity->getHealth() * 33 / 100);
-								std::cout << (*dynEntIt)->getName() << " health: " << (*dynEntIt)->getHealth() << std::endl;
-								std::cout << "Deleting " << collidedDynamicEntity->getName() << std::endl;
+								std::static_pointer_cast<Moo::Character>(*dynEntIt)->changeHealth((*SecondDynEntIt)->getHealth() * 33 / 100);
+								std::cout << getEntityTypeName((*dynEntIt)->getEntityType()) << " health: " << (*dynEntIt)->getHealth() << std::endl;
+								std::cout << "Deleting " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
 								SecondDynEntIt = _dynamicEntities.erase(SecondDynEntIt);
 								deletedCharacter = true;
 								break;

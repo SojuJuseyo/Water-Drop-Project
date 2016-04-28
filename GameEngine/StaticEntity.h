@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Vector2f.h"
 #include "Entity.h"
 #include "Sprite.h"

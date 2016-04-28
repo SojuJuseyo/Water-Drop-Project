@@ -28,12 +28,14 @@ namespace Moo
 	public:
 		LevelScene();
 		~LevelScene();
+
+		std::string	getEntityTypeName(EntityType);
 		bool	runUpdate();
 		void	clean();
 		bool	init(std::shared_ptr<Moo::Window> window);
 		void	getEntitiesFromMap(JsonParser *map);
-		void	fillStaticEntitiesList(std::string, EntityType, float, float);
-		void	fillDynamicEntitiesList(std::string, int, int, EntityType, float, float, float, float, float, float, bool);
+		void	fillStaticEntitiesList(EntityType, float, float);
+		void	fillDynamicEntitiesList(int, EntityType, float, float, float, float, float, float, bool);
 		Camera	getCamera();
 		void	inputHandling();
 		void	displayHitboxesAndSprites();
@@ -44,8 +46,9 @@ namespace Moo
 		FMOD::Channel					*themeChan;
 
 	private:
-		std::vector<std::shared_ptr<Moo::StaticEntity>> _staticEntities;
-		std::vector<std::shared_ptr<Moo::DynamicEntity>> _dynamicEntities;
+		std::vector<std::shared_ptr<Moo::StaticEntity>>		_staticEntities;
+		std::vector<std::shared_ptr<Moo::DynamicEntity>>	_dynamicEntities;
+		std::map<EntityType, std::string>					_entityTypeName;
 
 		JsonParser			_map;
 		std::map<std::string, Moo::Texture> _textures;

@@ -7,8 +7,6 @@
 #include "DynamicEntity.h"
 #include "Sprite.h"
 
-#define MINIMUM_VELOCITY_Y	-270//-400
-#define STANDARD_VELOCITY_X	250
 #define EVAPORATION_RATE	0.25 //per second
 
 namespace Moo
@@ -16,13 +14,12 @@ namespace Moo
 	class Character : public DynamicEntity
 	{
 	public:
-		Character(Vector2f, float, Sprite *, bool, float, EntityType, std::string);
+		Character(Vector2f, float, Sprite *, bool, float, EntityType);
 		virtual ~Character();
 
 		void	move(Direction);
 		bool	jump(bool);
 		void	update();
-		void	resetPos();
 		HitZone	collisionAABB(Entity *entity);
 
 		void	changeHealth(float);

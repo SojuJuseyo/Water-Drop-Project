@@ -1,9 +1,8 @@
 #pragma once
 
 #include <string>
+#include <map>
 #include "Vector2f.h"
-#define	GRAVITY	135//200
-#define	JUMP_VELOCITY	500//750
 
 enum HitZone
 {
@@ -29,7 +28,7 @@ enum EntityType
 	PLATFORM,
 	GROUND,
 	EXIT,
-	ENTRANCE,
+	ENTRANCE
 };
 
 namespace Moo
@@ -53,14 +52,14 @@ namespace Moo
 		void setHitbox(float, float, float, float);
 		void setCollision(bool);
 
-		Hitbox		getHitbox() const;
-		EntityType	getEntityType() const;
-		bool		isCollidable() const;
-		HitZone		collisionAABB(Entity *entity);
+		Hitbox				getHitbox() const;
+		EntityType			getEntityType() const;
+		bool				isCollidable() const;
+		HitZone				collisionAABB(Entity *entity);
 
 	protected:
-		Hitbox		_hitbox;
-		bool		_isCollidable;
-		EntityType	_type;
+		Hitbox									_hitbox;
+		bool									_isCollidable;
+		EntityType								_type;
 	};
 }

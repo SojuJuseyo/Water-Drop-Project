@@ -2,7 +2,7 @@
 
 namespace Moo
 {
-	Character::Character(Vector2f velocity, float mass, Sprite *sprite, bool hasGravity, float health, EntityType type, std::string name)
+	Character::Character(Vector2f velocity, float mass, Sprite *sprite, bool hasGravity, float health, EntityType type)
 	{
 		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getY() + sprite->getHeight(), sprite->getX() + sprite->getWidth(), sprite->getY());//x1 y1 x2 y2
@@ -13,7 +13,6 @@ namespace Moo
 
 		this->_health = health;
 		this->_type = type;
-		this->_name = name;
 		this->_godMode = false;
 
 		this->setVelocity(velocity);
@@ -64,12 +63,6 @@ namespace Moo
 			return (true);
 		}
 		return (false);
-	}
-
-	void	Character::resetPos()
-	{
-		_velocity.y = 0;
-		_acceleration.y = _mass / FPS_LIMIT;
 	}
 
 	void	Character::update()
