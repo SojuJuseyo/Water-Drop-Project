@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "d3d.h"
-#include "Drawable.h"
-#include "Transformable.h"
+#include "Includes/d3d.h"
+#include "Includes/Drawable.h"
+#include "Includes/Transformable.h"
 
 #define GRAPHICS_PATH "Ressources/Graphics/"
 

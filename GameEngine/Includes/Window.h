@@ -5,12 +5,12 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <sstream>
-#include "WindowSettings.h"
-#include "d3d.h"
-#include "Fps.h"
-#include "Keyboard.h"
-#include "Sprite.h"
-#include "SpriteRect.h"
+#include "Includes/WindowSettings.h"
+#include "Includes/d3d.h"
+#include "Includes/Fps.h"
+#include "Includes/Keyboard.h"
+#include "Includes/Sprite.h"
+#include "Includes/SpriteRect.h"
 
 #define WM_FULLSCREEN WM_USER + 0
 #define WM_LEFT WM_USER + 1
