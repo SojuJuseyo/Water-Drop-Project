@@ -5,7 +5,7 @@
 #include <map>
 #include <fmod_errors.h>
 
-#include "Includes/Exceptions.h"
+#include "../Includes/Exceptions.h"
 
 #define SOUNDS_PATH "Ressources/Sounds/"
 

@@ -3,15 +3,15 @@
 #include <ctime>
 #include <chrono>
 
-#include "Includes/Scene.h"
-#include "Includes/JsonParser.h"
-#include "Includes/Bullet.h"
-#include "Includes/Game.h"
-#include "Includes/Character.h"
-#include "Includes/StaticEntity.h"
-#include "Includes/SoundSystem.h"
-#include "Includes/Camera.h"
-#include "Includes/SpriteRect.h"
+#include "../Includes/Scene.h"
+#include "../Includes/JsonParser.h"
+#include "../Includes/Bullet.h"
+#include "../Includes/Game.h"
+#include "../Includes/Character.h"
+#include "../Includes/StaticEntity.h"
+#include "../Includes/SoundSystem.h"
+#include "../Includes/Camera.h"
+#include "../Includes/SpriteRect.h"
 
 struct s_collider
 {

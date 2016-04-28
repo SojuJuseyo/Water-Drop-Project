@@ -2,10 +2,10 @@
 
 #include <chrono>
 #include <ctime>
-#include "Includes/WindowSettings.h"
-#include "Includes/Vector2f.h"
-#include "Includes/DynamicEntity.h"
-#include "Includes/Sprite.h"
+#include "../Includes/WindowSettings.h"
+#include "../Includes/Vector2f.h"
+#include "../Includes/DynamicEntity.h"
+#include "../Includes/Sprite.h"
 
 #define EVAPORATION_RATE	0.25 //per second
 

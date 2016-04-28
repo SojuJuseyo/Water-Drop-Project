@@ -1,4 +1,4 @@
-#include "Includes/SoundSystem.h"
+#include "../Includes/SoundSystem.h"
 #include <stdio.h>
 
 SoundSystem::SoundSystem()

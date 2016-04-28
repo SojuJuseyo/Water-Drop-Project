@@ -1,4 +1,4 @@
-#include "Includes/Text.h"
+#include "../Includes/Text.h"
 
 namespace Moo
 {

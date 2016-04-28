@@ -1,4 +1,4 @@
-#include "Includes/Timer.h"
+#include "../Includes/Timer.h"
 
 namespace Moo {
 	Timer::Timer()
