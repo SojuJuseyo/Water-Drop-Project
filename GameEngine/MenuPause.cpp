@@ -17,7 +17,7 @@ namespace Moo
 
 		//background
 		backgroundText = new Texture;
-		backgroundText->loadFromFile("Menu_Pause_WTP_DDS.dds");
+		backgroundText->loadFromFile(GRAPHICS_PATH + std::string("Menu_Pause_WTP_DDS.dds"));
 		background = new Sprite(d3d::getInstance().getScreenSize().x, d3d::getInstance().getScreenSize().y, 0, 0);
 		background->loadTexture(backgroundText);
 
@@ -29,7 +29,7 @@ namespace Moo
 
 		//Buttons
 		buttonText = new Texture;
-		buttonText->loadFromFile("hitbox.dds");
+		buttonText->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 
 		//Button Resume
 		button_resume = new Sprite(widthOfButtons,

@@ -38,14 +38,14 @@ namespace Moo
 
 	Sprite	*DynamicEntity::getSprite() const
 	{
-		return _sprite;
+		return _sprite.get();
 	}
 
-	Sprite	*DynamicEntity::getHitboxSprite() const
+	Sprite	*DynamicEntity::getHitboxSprite()
 	{
 		_hitboxSprite->setPosition(_hitbox.x1, _hitbox.y2);
 
-		return _hitboxSprite;
+		return _hitboxSprite.get();
 	}
 
 	void DynamicEntity::setHealth(float _health)

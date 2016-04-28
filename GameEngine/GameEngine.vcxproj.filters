@@ -33,12 +33,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RectangleShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -132,12 +126,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="d3d.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RectangleShape.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
@@ -244,9 +232,6 @@
     <Media Include="Menu.wav">
       <Filter>Resource Files\sounds</Filter>
     </Media>
-    <Media Include="music.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
     <Media Include="Victory.wav">
       <Filter>Resource Files\sounds</Filter>
     </Media>
@@ -256,22 +241,13 @@
     <Image Include="background.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
-    <Image Include="bloc.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
     <Image Include="character.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
     <Image Include="controle.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
-    <Image Include="door_closed.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
     <Image Include="enemy.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="ground.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
     <Image Include="hitbox.dds">
@@ -281,9 +257,6 @@
       <Filter>Resource Files\graphics</Filter>
     </Image>
     <Image Include="Menu_WTP_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="platform.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
     <Image Include="You_Lost_DDS.dds">

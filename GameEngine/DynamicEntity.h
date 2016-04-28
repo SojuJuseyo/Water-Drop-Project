@@ -17,31 +17,31 @@ namespace Moo
 		DynamicEntity();
 		virtual ~DynamicEntity() {};
 
-		void	setGravity(bool);
-		void	setVelocity(Vector2f);
-		void	setMass(float);
-		void	setHealth(float);
+		void			setGravity(bool);
+		void			setVelocity(Vector2f);
+		void			setMass(float);
+		void			setHealth(float);
 
 		bool			getGravity() const;
 		Vector2f		getVelocity() const;
 		float			getMass() const;
 		float			getHealth() const;
 		Sprite			*getSprite() const;
-		Sprite			*getHitboxSprite() const;
+		Sprite			*getHitboxSprite();
 
-		HitZone	collisionAABB(Entity *entity);
-		Hitbox	resetHitbox();
-		void	resetPos();
+		HitZone			collisionAABB(Entity *entity);
+		Hitbox			resetHitbox();
+		void			resetPos();
 
 	protected:
-		Vector2f	_velocity;
-		float		_mass;
-		float		_health;
-		Vector2f	_acceleration;
-		bool		_hasGravity;
+		Vector2f					_velocity;
+		float						_mass;
+		float						_health;
+		Vector2f					_acceleration;
+		bool						_hasGravity;
 
-		Sprite			*_sprite;
-		Sprite			*_hitboxSprite;
-		Moo::Texture	*_texture;
+		std::shared_ptr<Sprite>		_sprite;
+		std::shared_ptr<Sprite>		_hitboxSprite;
+		std::shared_ptr<Texture>	_texture;
 	};
 }

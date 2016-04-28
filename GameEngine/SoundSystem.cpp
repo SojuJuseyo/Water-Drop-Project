@@ -37,7 +37,7 @@ bool SoundSystem::createSound(SoundClass *sound, const char* file)
 		std::cerr << "Create sound failed, file name is null" << std::endl;
 		return false;
 	}
-	FMOD_RESULT res = m_pSystem->createSound(file, FMOD_DEFAULT, 0, sound);
+	FMOD_RESULT res = m_pSystem->createSound(std::string(SOUNDS_PATH + std::string(file)).c_str(), FMOD_DEFAULT, 0, sound);
 	if (res != FMOD_OK) {
 		std::cerr << "Create " << file << " sound failed, " << FMOD_ErrorString(res) << std::endl;
 		return false;

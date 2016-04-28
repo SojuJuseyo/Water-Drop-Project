@@ -7,6 +7,8 @@
 
 #include "Exceptions.h"
 
+#define SOUNDS_PATH "Ressources/Sounds/"
+
 typedef FMOD::Sound* SoundClass;
 
 class SoundSystem

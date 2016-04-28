@@ -9,15 +9,15 @@ namespace Moo
 	class StaticEntity : public Entity
 	{
 	public:
-		StaticEntity(Sprite *, EntityType);
+		StaticEntity(std::shared_ptr<Sprite>, EntityType);
 		~StaticEntity();
 
 		Sprite			*getSprite() const;
 		Sprite			*getHitboxSprite() const;
 
 	private:
-		Sprite			*_sprite;
-		Sprite			*_hitboxSprite;
-		Moo::Texture	*_texture;
+		std::shared_ptr<Sprite>			_sprite;
+		std::shared_ptr<Sprite>			_hitboxSprite;
+		std::shared_ptr<Texture>		_texture;
 	};
 }

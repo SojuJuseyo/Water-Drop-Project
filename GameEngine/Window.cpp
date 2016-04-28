@@ -102,16 +102,6 @@ namespace Moo
 		_devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
-	void	Window::draw(Shape *shape)
-	{
-		UINT stride = sizeof(VERTEX);
-		UINT offset = 0;
-
-		shape->draw();
-		_devcon->IASetVertexBuffers(0, 1, shape->getVertexBuffer(), &stride, &offset);
-		_devcon->Draw(8, 0);
-	}
-
 	void	Window::draw(Drawable *drawable)
 	{
 		drawable->draw();

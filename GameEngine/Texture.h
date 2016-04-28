@@ -6,6 +6,8 @@
 #include "Drawable.h"
 #include "Transformable.h"
 
+#define GRAPHICS_PATH "Ressources/Graphics/"
+
 namespace Moo
 {
 	class Texture

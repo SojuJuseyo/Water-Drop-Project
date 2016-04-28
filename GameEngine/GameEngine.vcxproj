@@ -157,9 +157,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuPause.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="RectangleShape.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="SoundSystem.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteRect.cpp" />
@@ -195,9 +193,7 @@
     <ClInclude Include="MenuPause.h" />
     <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="RectangleShape.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Shape.h" />
     <ClInclude Include="SoundSystem.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteRect.h" />
@@ -221,21 +217,16 @@
     <Media Include="Heart_of_Courage_8_Bit_s075.mp3" />
     <Media Include="jump.wav" />
     <Media Include="Menu.wav" />
-    <Media Include="music.wav" />
     <Media Include="Victory.wav" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="background.dds" />
-    <Image Include="bloc.dds" />
     <Image Include="character.dds" />
     <Image Include="controle.dds" />
-    <Image Include="door_closed.dds" />
     <Image Include="enemy.dds" />
-    <Image Include="ground.dds" />
     <Image Include="hitbox.dds" />
     <Image Include="Menu_Pause_WTP_DDS.dds" />
     <Image Include="Menu_WTP_DDS.dds" />
-    <Image Include="platform.dds" />
     <Image Include="tileset.dds" />
     <Image Include="You_Lost_DDS.dds" />
     <Image Include="You_Won_DDS.dds" />

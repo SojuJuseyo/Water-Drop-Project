@@ -15,7 +15,7 @@ namespace Moo
 	{
 		_window = window;
 		controleText = new Moo::Texture;
-		controleText->loadFromFile("controle.dds");
+		controleText->loadFromFile(GRAPHICS_PATH + std::string("controle.dds"));
 		controle = new Moo::Sprite(1280, 1080, 0, 0);
 		controle->setScale(Vector2f(0.65f, 0.56f));
 		controle->loadTexture(controleText);

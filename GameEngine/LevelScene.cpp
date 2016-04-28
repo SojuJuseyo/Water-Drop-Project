@@ -16,7 +16,6 @@ namespace Moo
 
 	LevelScene::~LevelScene()
 	{
-
 	}
 
 	std::string	LevelScene::getEntityTypeName(EntityType type)
@@ -55,7 +54,7 @@ namespace Moo
 
 	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY)
 	{
-		Moo::Sprite *sprite = new Moo::Sprite(40, 40, posX * 40, posY * 40);
+		auto sprite = std::make_shared<Moo::Sprite>(40.f, 40.f, posX * 40, posY * 40);
 		sprite->loadTexture(&_textures[getEntityTypeName(type)], &_spriteSheet[getEntityTypeName(type)]);
 		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type);
 		_staticEntities.push_back(staticEntity);
@@ -63,7 +62,7 @@ namespace Moo
 
 	void	LevelScene::fillDynamicEntitiesList(int mult, EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter)
 	{
-		Moo::Sprite *sprite = new Moo::Sprite(width, height, posX * mult, posY * mult);
+		auto sprite = std::make_shared<Moo::Sprite>(width, height, posX * mult, posY * mult);
 		sprite->loadTexture(&_textures[getEntityTypeName(type)]);
 
 		if (isCharacter == true)
@@ -83,12 +82,12 @@ namespace Moo
 
 	void	LevelScene::getEntitiesFromMap(JsonParser *map)
 	{
-		_textures["Player"].loadFromFile("character.dds");
-		_textures["Enemy"].loadFromFile("enemy.dds");
-		_textures["Block"].loadFromFile("tileset.dds");
-		_textures["Platform"].loadFromFile("tileset.dds");
-		_textures["Ground"].loadFromFile("tileset.dds");
-		_textures["Exit"].loadFromFile("tileset.dds");
+		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("character.dds"));
+		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
+		_textures["Block"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
+		_textures["Platform"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
+		_textures["Ground"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
+		_textures["Exit"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
@@ -157,12 +156,12 @@ namespace Moo
 		this->clean();
 		_window = window;
 		
-		_textures["Background"].loadFromFile("background.dds");
+		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 
 		//We get the map
 		//_map = JsonParser("2d-Maps/test.json");
 		//map = new JsonParser("2d-Maps/MapPreAlpha.json");
-		_map = JsonParser("2d-Maps/MapPlaytestSession.json");
+		_map = JsonParser("Maps/MapPlaytestSession.json");
 		//_map = JsonParser("2d-Maps/MapPlaytestSessionNoEnemy.json");
 
 		if (_map.parseFile() == -1)
@@ -184,9 +183,9 @@ namespace Moo
 		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
 
 		// Temp texture for the bullet
-		_textures["Bullet"].loadFromFile("character.dds");
-		_textures["Lose"].loadFromFile("You_Lost_DDS.dds");
-		_textures["Win"].loadFromFile("You_Won_DDS.dds");
+		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("character.dds"));
+		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("You_Lost_DDS.dds"));
+		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("You_Won_DDS.dds"));
 		Moo::d3d::getInstance().getCamera()->setInfoMap(_map.getMap());
 		_camera.reset();
 		_lose = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);

@@ -58,8 +58,8 @@ namespace Moo
 		HitZone				collisionAABB(Entity *entity);
 
 	protected:
-		Hitbox									_hitbox;
-		bool									_isCollidable;
-		EntityType								_type;
+		Hitbox				_hitbox;
+		bool				_isCollidable;
+		EntityType			_type;
 	};
 }

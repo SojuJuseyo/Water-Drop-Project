@@ -2,14 +2,14 @@
 
 namespace Moo
 {
-	Character::Character(Vector2f velocity, float mass, Sprite *sprite, bool hasGravity, float health, EntityType type)
+	Character::Character(Vector2f velocity, float mass, std::shared_ptr<Sprite> sprite, bool hasGravity, float health, EntityType type)
 	{
 		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getY() + sprite->getHeight(), sprite->getX() + sprite->getWidth(), sprite->getY());//x1 y1 x2 y2
-		_hitboxSprite = new Sprite(*_sprite);
-		_texture = new Moo::Texture;
-		_texture->loadFromFile("hitbox.dds");
-		_hitboxSprite->loadTexture(_texture);
+		_hitboxSprite = std::make_shared<Sprite>(*sprite);
+		_texture = std::make_shared<Moo::Texture>();
+		_texture->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
+		_hitboxSprite->loadTexture(_texture.get());
 
 		this->_health = health;
 		this->_type = type;
@@ -25,12 +25,6 @@ namespace Moo
 
 	Character::~Character()
 	{
-		if (_sprite != nullptr)
-			delete _sprite;
-		if (_hitboxSprite != nullptr)
-			delete _hitboxSprite;
-		if (_texture != nullptr)
-			_texture->release();
 	}
 
 	HitZone		Character::collisionAABB(Entity *entity)

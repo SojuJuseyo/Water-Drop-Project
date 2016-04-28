@@ -9,7 +9,6 @@
 #include "d3d.h"
 #include "Fps.h"
 #include "Keyboard.h"
-#include "RectangleShape.h"
 #include "Sprite.h"
 #include "SpriteRect.h"
 
@@ -30,7 +29,6 @@ namespace Moo
 		bool isOpen();
 		void destroy();
 		void clear();
-		void draw(Shape * shape);
 		void draw(Drawable * drawable);
 		void display();
 		void setFpsLimit(float limit);
@@ -39,7 +37,6 @@ namespace Moo
 	private:
 		WindowSettings _config;
 		HWND _hwnd;
-		std::vector<RectangleShape *> _rectangles;
 		float _fpsLimit;
 		ID3D11Device *_dev;
 		ID3D11DeviceContext *_devcon;

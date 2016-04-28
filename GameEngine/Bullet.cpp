@@ -2,7 +2,7 @@
 
 namespace Moo
 {
-	Bullet::Bullet(Sprite *sprite, float mass, float health)
+	Bullet::Bullet(std::shared_ptr<Sprite> sprite, float mass, float health)
 	{
 		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() - (sprite->getHeight() / 3) * 2);
@@ -12,20 +12,14 @@ namespace Moo
 		this->_health = health;
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		this->_type = EntityType::BULLET;
-		_hitboxSprite = new Sprite(*_sprite);
-		_texture = new Moo::Texture;
-		_texture->loadFromFile("hitbox.dds");
-		_hitboxSprite->loadTexture(_texture);
+		_hitboxSprite = std::make_shared<Sprite>(*sprite);
+		_texture = std::make_shared<Moo::Texture>();
+		_texture->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
+		_hitboxSprite->loadTexture(_texture.get());
 	}
 
 	Bullet::~Bullet()
 	{
-		if (_sprite != nullptr)
-			delete _sprite;
-		if (_hitboxSprite != nullptr)
-			delete _hitboxSprite;
-		if (_texture != nullptr)
-			_texture->release();
 	}
 
 	HitZone Bullet::collisionAABB(Entity *entity)
