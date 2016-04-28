@@ -22,55 +22,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Defeat.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="jump.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="Menu.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="Victory.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="Heart_of_Courage_8_Bit_s075.mp3">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="background.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="character.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="controle.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="enemy.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="hitbox.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="Menu_Pause_WTP_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="Menu_WTP_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="You_Lost_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="You_Won_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="tileset.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="TextureMap.fx">
       <Filter>Resource Files\shaders</Filter>
     </None>
@@ -276,5 +227,57 @@
     <ClCompile Include="Src\WindowSettings.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Ressources\Graphics\background.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\character.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\controle.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\enemy.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\Font.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\hitbox.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\Menu_Pause_WTP_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\Menu_WTP_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\tileset.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\You_Lost_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\You_Won_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Ressources\Sounds\Defeat.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\Heart_of_Courage_8_Bit_s075.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\jump.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\Menu.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\Victory.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
   </ItemGroup>
 </Project>

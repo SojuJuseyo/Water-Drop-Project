@@ -144,25 +144,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Defeat.wav" />
-    <Media Include="Heart_of_Courage_8_Bit_s075.mp3" />
-    <Media Include="jump.wav" />
-    <Media Include="Menu.wav" />
-    <Media Include="Victory.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="background.dds" />
-    <Image Include="character.dds" />
-    <Image Include="controle.dds" />
-    <Image Include="enemy.dds" />
-    <Image Include="hitbox.dds" />
-    <Image Include="Menu_Pause_WTP_DDS.dds" />
-    <Image Include="Menu_WTP_DDS.dds" />
-    <Image Include="tileset.dds" />
-    <Image Include="You_Lost_DDS.dds" />
-    <Image Include="You_Won_DDS.dds" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Includes\Bullet.h" />
     <ClInclude Include="Includes\Camera.h" />
     <ClInclude Include="Includes\Character.h" />
@@ -231,6 +212,26 @@
     <ClCompile Include="Src\Vector2f.cpp" />
     <ClCompile Include="Src\Window.cpp" />
     <ClCompile Include="Src\WindowSettings.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Ressources\Graphics\background.dds" />
+    <Image Include="Ressources\Graphics\character.dds" />
+    <Image Include="Ressources\Graphics\controle.dds" />
+    <Image Include="Ressources\Graphics\enemy.dds" />
+    <Image Include="Ressources\Graphics\Font.dds" />
+    <Image Include="Ressources\Graphics\hitbox.dds" />
+    <Image Include="Ressources\Graphics\Menu_Pause_WTP_DDS.dds" />
+    <Image Include="Ressources\Graphics\Menu_WTP_DDS.dds" />
+    <Image Include="Ressources\Graphics\tileset.dds" />
+    <Image Include="Ressources\Graphics\You_Lost_DDS.dds" />
+    <Image Include="Ressources\Graphics\You_Won_DDS.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Ressources\Sounds\Defeat.wav" />
+    <Media Include="Ressources\Sounds\Heart_of_Courage_8_Bit_s075.mp3" />
+    <Media Include="Ressources\Sounds\jump.wav" />
+    <Media Include="Ressources\Sounds\Menu.wav" />
+    <Media Include="Ressources\Sounds\Victory.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
