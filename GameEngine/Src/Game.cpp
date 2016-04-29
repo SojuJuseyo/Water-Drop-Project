@@ -1,6 +1,18 @@
 #include "Game.h"
 #include "log.h"
 
+/*
+** TODO :
+
+	- dans Window, on sait la difference entre echap et la croix, il faut reussir a faire une inclusion croise et inclure Game la dedans pour appeller des bailles de Game
+	- full gestion du prev qui sa'adapte aux menu et in game
+	- le resume qui reprend la scene in game parfaitement la ou le joueur etait (cf le point precedent donc)
+	- prevoir l'affichage du loading screen avant CHAQUE runScene
+	- prevoir la possibilite d'un ecran de victoire si la joueur arrive au bout des niveaux de jeu
+	- linker la touche R a la fonction cleanCurrentLevel pour recommencer rapidement le niveau (meme fonction que quand le joueur meurt)
+
+*/
+
 namespace Moo
 {
 	Game::Game()
@@ -51,8 +63,8 @@ namespace Moo
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
 		createScene(LEVEL1, new LevelScene("Maps/MapTestSprites.json"));
-		createScene(LEVEL2, new LevelScene("Maps/MapTestSprites.json"));
-		createScene(LEVEL3, new LevelScene("Maps/MapTestSprites.json"));
+		createScene(LEVEL2, new LevelScene("Maps/MapSmall.json"));
+		createScene(LEVEL3, new LevelScene("Maps/TheElevator.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU);
 		_isGameRunning = true;
