@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Includes/pch.h"
+#include "pch.h"
 #include <windows.h>
 #include <iostream>
 #include <windowsx.h>
@@ -17,8 +17,8 @@ using namespace Microsoft::WRL;
 
 struct VERTEX { XMFLOAT3 position; XMFLOAT4 color; XMFLOAT2 texture; };
 
-#include "../Includes/Vector2f.h"
-#include "../Includes/Camera.h"
+#include "Vector2f.h"
+#include "Camera.h"
 
 namespace Moo
 {

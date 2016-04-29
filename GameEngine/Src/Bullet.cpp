@@ -1,4 +1,4 @@
-#include "../Includes/Bullet.h"
+#include "Bullet.h"
 
 namespace Moo
 {

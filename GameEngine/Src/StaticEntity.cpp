@@ -1,4 +1,4 @@
-#include "../Includes/StaticEntity.h"
+#include "StaticEntity.h"
 
 namespace Moo
 {

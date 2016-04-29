@@ -1,4 +1,4 @@
-#include "../Includes/MenuPause.h"
+#include "MenuPause.h"
 
 namespace Moo
 {

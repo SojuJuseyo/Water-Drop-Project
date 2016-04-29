@@ -1,4 +1,4 @@
-#include "../Includes/LoadingScene.h"
+#include "LoadingScene.h"
 
 namespace Moo
 {

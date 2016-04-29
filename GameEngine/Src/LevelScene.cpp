@@ -1,4 +1,4 @@
-#include "../Includes/LevelScene.h"
+#include "LevelScene.h"
 
 namespace Moo
 {
@@ -55,6 +55,7 @@ namespace Moo
 	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY)
 	{
 		auto sprite = std::make_shared<Moo::Sprite>(40.f, 40.f, posX * 40, posY * 40);
+		//sprite->loadTexture(&_textures["Block"], &_spriteSheet[getEntityTypeName(type)]);
 		sprite->loadTexture(&_textures[getEntityTypeName(type)], &_spriteSheet[getEntityTypeName(type)]);
 		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, false);
 		_staticEntities.push_back(staticEntity);

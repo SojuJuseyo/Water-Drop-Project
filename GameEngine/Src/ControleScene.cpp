@@ -1,4 +1,4 @@
-#include "../Includes/ControleScene.h"
+#include "ControleScene.h"
 
 namespace Moo
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Includes/Scene.h"
-#include "../Includes/LevelScene.h"
+#include "Scene.h"
+#include "LevelScene.h"
 
 namespace Moo
 {

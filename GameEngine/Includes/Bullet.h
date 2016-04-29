@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Includes/WindowSettings.h"
-#include "../Includes/Vector2f.h"
-#include "../Includes/DynamicEntity.h"
-#include "../Includes/Sprite.h"
+#include "WindowSettings.h"
+#include "Vector2f.h"
+#include "DynamicEntity.h"
+#include "Sprite.h"
 
 namespace Moo
 {
