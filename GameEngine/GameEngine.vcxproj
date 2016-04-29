@@ -239,6 +239,8 @@
     <Media Include="Ressources\Sounds\Heart_of_Courage_8_Bit_s075.mp3" />
     <Media Include="Ressources\Sounds\jump.wav" />
     <Media Include="Ressources\Sounds\Menu.wav" />
+    <Media Include="Ressources\Sounds\powerup.wav" />
+    <Media Include="Ressources\Sounds\shoot.wav" />
     <Media Include="Ressources\Sounds\Victory.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

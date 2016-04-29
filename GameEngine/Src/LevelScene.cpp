@@ -281,7 +281,7 @@ namespace Moo
 		{
 			if (_player->getHealth() > 1)
 			{
-				_soundSystem->playSound("jump", false);
+				_soundSystem->playSound("shoot", false);
 
 				fillDynamicEntitiesList(1, EntityType::BULLET,
 										_player->getSprite()->getX() + _player->getSprite()->getWidth(),
@@ -463,6 +463,8 @@ namespace Moo
 							}
 							else if ((*dynEntIt)->getHealth() >= (*SecondDynEntIt)->getHealth() || std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() == true)
 							{
+								if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
+									_soundSystem->playSound("powerup", false);
 								std::static_pointer_cast<Moo::Character>(*dynEntIt)->changeHealth((*SecondDynEntIt)->getHealth() * 33 / 100);
 								std::cout << getEntityTypeName((*dynEntIt)->getEntityType()) << " health: " << (*dynEntIt)->getHealth() << std::endl;
 								std::cout << "Deleting " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;

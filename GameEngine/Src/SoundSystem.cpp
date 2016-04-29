@@ -62,6 +62,9 @@ void SoundSystem::initAllSounds()
 	createSound(&soundMap["victory"], "Victory.wav");
 	createSound(&soundMap["defeat"], "Defeat.wav");
 	createSound(&soundMap["menu"], "Menu.wav");
+	createSound(&soundMap["shoot"], "shoot.wav");
+	createSound(&soundMap["powerup"], "powerup.wav");
+
 }
 
 // Returns a channel FMOD, use it's method stop() to stop the sound
