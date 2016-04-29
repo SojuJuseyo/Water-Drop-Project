@@ -81,7 +81,12 @@ namespace Moo
 				d3d::getInstance().setFullScreenState(false);
 			}
 			if (msg.wParam == VK_ESCAPE) {
-				return false;
+				std::cout << "ESC" << std::endl;
+				//return false;
+			}
+			if (msg.message == WM_QUIT) {
+				std::cout << "croix" << std::endl;
+				//return false;
 			}
 		}
 		return true;

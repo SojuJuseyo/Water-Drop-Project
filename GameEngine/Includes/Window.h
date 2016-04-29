@@ -46,10 +46,6 @@ namespace Moo
 
 static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (wParam == VK_ESCAPE) {
-		PostQuitMessage(0);
-		return 0;
-	}
 	if (wParam == VK_F1) {
 		PostMessage(hWnd, WM_FULLSCREEN, 0, 0);
 	}
