@@ -80,4 +80,17 @@ namespace Moo
 		_velocity.y = 0;
 		_acceleration.y = _mass / FPS_LIMIT;
 	}
+
+	void	DynamicEntity::changeHealth(float value)
+	{
+		this->setHealth(this->_health + value);
+		this->_sprite->scale(Moo::Vector2f(value / 10, value / 10));
+		this->_hitboxSprite->setScale(this->_sprite->getScale());
+		this->resetHitbox();
+	}
+
+	void	DynamicEntity::evaporateHeatZone()
+	{
+			this->changeHealth(EVAPORATION_RATE / FPS_LIMIT);
+	}
 }
