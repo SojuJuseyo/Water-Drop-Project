@@ -36,11 +36,14 @@ namespace Moo
 		_spriteRect = spriteRect;
 	}
 
+	void Sprite::setspriteRect(SpriteRect *spriteRect)
+	{
+		_spriteRect = spriteRect;
+	}
+
 	SpriteRect *Sprite::getspriteRect()
 	{
-		if (_spriteRect == nullptr)
-			std::cout << "_spriteRect == null. Call loadTexture before trying to get the SpriteRect object;" << std::endl;
-		else
+		if (_spriteRect != nullptr)
 			return _spriteRect;
 		return nullptr;
 	}
@@ -49,6 +52,8 @@ namespace Moo
 	{	
 		unsigned int stride = sizeof(VERTEX);
 		unsigned int offset = 0;
+
+		//_texture->setResourceData(_spriteRect->getVertexTab());
 
 		_devcon->IASetInputLayout(_texture->getInputLayout());
 		_devcon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
