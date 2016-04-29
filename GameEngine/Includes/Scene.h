@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Includes/Text.h"
-#include "../Includes/Keyboard.h"
-#include "../Includes/Window.h"
+#include "Text.h"
+#include "Keyboard.h"
+#include "Window.h"
 
 namespace Moo
 {

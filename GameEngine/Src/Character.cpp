@@ -1,4 +1,4 @@
-#include "../Includes/Character.h"
+#include "Character.h"
 
 namespace Moo
 {
@@ -88,16 +88,6 @@ namespace Moo
 	bool Character::isGodMode() const
 	{
 		return (this->_godMode);
-	}
-
-	void Character::changeHealth(float value)
-	{
-		this->setHealth(this->_health + value);
-		this->_sprite->scale(Moo::Vector2f(value / 10, value / 10));
-		this->_hitboxSprite->setScale(this->_sprite->getScale());
-		this->resetHitbox();
-		if (this->_type == EntityType::PLAYER)
-			this->_characterVelocity.x -= value;
 	}
 
 	void Character::checkEvaporation()

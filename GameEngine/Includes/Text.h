@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Includes/Texture.h"
-#include "../Includes/Drawable.h"
-#include "../Includes/Transformable.h"
+#include "Texture.h"
+#include "Drawable.h"
+#include "Transformable.h"
 
 namespace Moo
 {

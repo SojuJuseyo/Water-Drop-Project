@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Includes/Tile.h"
+#include "Tile.h"
 
 #include <list>
 #include <utility>

@@ -1,4 +1,4 @@
-#include "../Includes/JsonParser.h"
+#include "JsonParser.h"
 
 JsonParser::JsonParser()
 {

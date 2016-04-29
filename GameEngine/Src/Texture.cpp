@@ -1,5 +1,5 @@
-#include "../Includes/Texture.h"
-#include "../Includes/SpriteRect.h"
+#include "Texture.h"
+#include "SpriteRect.h"
 
 namespace Moo
 {

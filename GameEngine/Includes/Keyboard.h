@@ -2,7 +2,7 @@
 
 #include <windows.h>
 #include <windowsx.h>
-#include "../Includes/Fps.h"
+#include "Fps.h"
 
 #define NUM_KEYS				 13
 #define KEYPRESSED(key)			(((GetAsyncKeyState(key) & 0x8000)) ? 1 : 0)

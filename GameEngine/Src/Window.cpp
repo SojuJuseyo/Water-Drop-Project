@@ -1,4 +1,4 @@
-#include "../Includes/Window.h"
+#include "Window.h"
 
 namespace Moo
 {

@@ -1,4 +1,4 @@
-#include "../Includes/Tile.h"
+#include "Tile.h"
 
 Tile::Tile()
 {

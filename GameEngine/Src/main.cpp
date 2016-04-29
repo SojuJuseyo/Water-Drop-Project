@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Includes/Window.h"
-#include "../Includes/Game.h"
-#include "../Includes/Exceptions.h"
-#include "../Includes/Log.h"
+#include "Window.h"
+#include "Game.h"
+#include "Exceptions.h"
+#include "Log.h"
 
 #include <vector>
 

@@ -1,4 +1,4 @@
-#include "../Includes/Keyboard.h"
+#include "Keyboard.h"
 #include <iostream>
 
 namespace Moo
