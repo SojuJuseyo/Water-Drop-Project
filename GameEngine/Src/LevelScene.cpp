@@ -2,8 +2,9 @@
 
 namespace Moo
 {
-	LevelScene::LevelScene()
+	LevelScene::LevelScene(const std::string &pathMapFile)
 	{
+		_pathMapFile = pathMapFile;
 		_entityTypeName[EntityType::PLAYER] = "Player";
 		_entityTypeName[EntityType::ENEMY] = "Enemy";
 		_entityTypeName[EntityType::BULLET] = "Bullet";
@@ -55,7 +56,6 @@ namespace Moo
 	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY)
 	{
 		auto sprite = std::make_shared<Moo::Sprite>(40.f, 40.f, posX * 40, posY * 40);
-		//sprite->loadTexture(&_textures["Block"], &_spriteSheet[getEntityTypeName(type)]);
 		sprite->loadTexture(&_textures[getEntityTypeName(type)], &_spriteSheet[getEntityTypeName(type)]);
 		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, false);
 		_staticEntities.push_back(staticEntity);
@@ -92,19 +92,12 @@ namespace Moo
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
-		std::list<Tile *> playerTiles = map->getMap().getTilesFromSprite("5"); //blue
-		std::list<Tile *> platformTiles = map->getMap().getTilesFromSprite("4"); //red
-		std::list<Tile *> bottomTiles = map->getMap().getTilesFromSprite("1"); //green
-		std::list<Tile *> enemyTiles = map->getMap().getTilesFromSprite("3"); //black
-		std::list<Tile *> blockTiles = map->getMap().getTilesFromSprite("0"); //purple
-		std::list<Tile *> exitTiles = map->getMap().getTilesFromSprite("6"); //gold
-
-		//Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
-		/*float multHeight = WINDOW_HEIGHT / map->getMap().getMapHeight();
-		float multWidth = WINDOW_WIDTH / map->getMap().getMapWidth();
-
-		std::cout << "multHeight: " << multHeight << std::endl;
-		std::cout << "multWidth: " << multWidth << std::endl;*/
+		std::list<Tile *> blockTiles = map->getMap().getTilesFromSprite("0");
+		std::list<Tile *> bottomTiles = map->getMap().getTilesFromSprite("1");
+		std::list<Tile *> enemyTiles = map->getMap().getTilesFromSprite("3");
+		std::list<Tile *> platformTiles = map->getMap().getTilesFromSprite("4");
+		std::list<Tile *> playerTiles = map->getMap().getTilesFromSprite("5");
+		std::list<Tile *> exitTiles = map->getMap().getTilesFromSprite("6");
 
 		//platforms
 		for (auto platformTile : platformTiles)
@@ -160,12 +153,11 @@ namespace Moo
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 
 		//We get the map
-		//_map = JsonParser("Maps/MapPlaytestSession.json");
-		//_map = JsonParser("2d-Maps/MapPlaytestSessionNoEnemy.json");
-		_map = JsonParser("Maps/MapTestSprites.json");
+		_map = JsonParser(_pathMapFile);
 
-		if (_map.parseFile() == -1)
+		if (_map.parseFile() == -1) {
 			throw std::exception("Can't load the map");
+		}
 
 		//map->getMap().displayMapInfos();
 
@@ -342,8 +334,7 @@ namespace Moo
 		chan->stop();
 		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
-		Game::getInstance().resetScene(Game::LEVEL1);
-		Game::getInstance().runScene(Game::MAIN_MENU);
+		Game::getInstance().goToNextScene();
 	}
 
 	void	LevelScene::playerDead()
@@ -362,8 +353,7 @@ namespace Moo
 		chan->stop();
 		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
-		Game::getInstance().resetScene(Game::LEVEL1);
-		Game::getInstance().runScene(Game::LEVEL1);
+		Game::getInstance().cleanCurrentScene();
 	}
 
 	void	LevelScene::applyGravityAndCollisions()

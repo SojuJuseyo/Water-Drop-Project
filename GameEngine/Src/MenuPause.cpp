@@ -72,7 +72,6 @@ namespace Moo
 				return true;
 				break;
 			case e_menu_pause::EXIT:
-				Game::getInstance().resetScene(Game::LEVEL1);
 				Game::getInstance().runScene(Game::MAIN_MENU);
 				return true;
 				break;

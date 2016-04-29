@@ -20,15 +20,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//Getting the game window
 	auto window = std::make_shared<Moo::Window>(hInstance, Moo::WindowSettings("Water Drop", Moo::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)));
 	window->setFpsLimit(FPS_LIMIT);
-
+	Moo::Game::getInstance().startGame(window);
+	/*
 	try {
 		//Main game loop
-		Moo::Game::getInstance().initScenes(window);
 	}
 	catch (Moo::InitException &e) {
 		std::cerr << "CRITICAL_ERROR: " << e.what() << std::endl;
 		LOG(Moo::Log::CRITICAL_ERROR) << e.what() << std::endl;
 	}
+	*/
 	/*
 	catch (Moo::Exception &e) {
 		std::cerr << "WARNING: " << e.what() << std::endl;

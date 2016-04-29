@@ -1,25 +1,5 @@
 #include "Game.h"
 #include "log.h"
-/*
-todo :
-
-gere SOIT tout les loading au debut SOIT chaque scene est load quand on en a besoin
-
-gerer la scene precedente pour faire un return
-
-chaque scene est une class et contient son init
-
-chaque scene infinite loop pour gerer leur contenu, il faut faire en sort que les scene useless ne soit pas execute, il faut que
-
-
-son :
-d3d::getInstance().getCamera()->setPosition(camera.getPosition());
-audio.playSound(music, true);
-
-a appeller quune seule fois par scene
-
-a chaque run scene il faut reupt la posisiton de la camera par une posisiuton stocke dans la scene en elle meme
-*/
 
 namespace Moo
 {
@@ -38,41 +18,42 @@ namespace Moo
 		return instance;
 	}
 
-	void			Game::resetScene(e_scene sceneType)
+	// fait un clean sur la scene actuelle
+	void			Game::cleanCurrentScene()
 	{
 		for (auto &scene : _listOfScenes) {
-			if (scene.sceneType == sceneType) {
+			if (scene.sceneType == _currentScene->sceneType) {
 				scene.scene->init(_window);
 				return;
 			}
 		}
 	}
 
+	// fait un init sur toute les scenes (sauf la scene du loading screen) et reset la camera generale
 	void			Game::resetAllScenes()
 	{
-		for (auto &scene : _listOfScenes)
+		for (int index = 1; index < (int)_listOfScenes.size(); ++index)
 		{
-			if (scene.scene != nullptr) {
-				scene.scene->init(_window);
-				Moo::d3d::getInstance().getCamera()->reset();
+			if (_listOfScenes[index].scene != nullptr) {
+				_listOfScenes[index].scene->init(_window);
 			}
 		}
+		Moo::d3d::getInstance().getCamera()->reset();
 	}
 
-	// a appeller qu'une fois au debut pour initialiser les Scenes
-	void			Game::initScenes(std::shared_ptr<Moo::Window> theUsedWindow)
+	// a appeller qu'une fois au debut pour initialiser les Scenes + lance automatiquement l'execution du jeu en lancant MAIN MENU + contient la game loop
+	void			Game::startGame(std::shared_ptr<Moo::Window> theUsedWindow)
 	{
 		_window = theUsedWindow;
+		createScene(LOADING, new LoadingScene());
+		displayLoadingScreen();
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
-		createScene(LEVEL1, new LevelScene());
-		for (auto &scene : _listOfScenes)
-		{
-			if (scene.scene != nullptr) {
-				scene.scene->init(_window);
-			}
-		}
+		createScene(LEVEL1, new LevelScene("Maps/MapTestSprites.json"));
+		createScene(LEVEL2, new LevelScene("Maps/MapTestSprites.json"));
+		createScene(LEVEL3, new LevelScene("Maps/MapTestSprites.json"));
+		resetAllScenes();
 		runScene(MAIN_MENU);
 		_isGameRunning = true;
 		while (_isGameRunning) {
@@ -82,7 +63,8 @@ namespace Moo
 			}
 		}
 	}
-	
+
+	// call de l'exit pour stoper la game loop
 	void			Game::exit()
 	{
 		_isGameRunning = false;
@@ -101,8 +83,9 @@ namespace Moo
 			return;
 		}
 		Moo::d3d::getInstance().getCamera()->reset();
-		_currentScene->prevScene = tmpSceneForPrev; 
+		_currentScene->prevScene = tmpSceneForPrev;
 		if ((int)type >= (int)LEVEL1) {
+			cleanCurrentScene();
 			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
 			_currentScene->prevScene = getSceneByType(Game::PAUSE_MENU);
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
@@ -113,6 +96,7 @@ namespace Moo
 		}
 	}
 
+	// retour en arriere sert a pauser le jeu, et revenir en arriere dans les menu principaux
 	void			Game::backToPrevScene()
 	{
 		if (_currentScene != nullptr && _currentScene->prevScene != nullptr) {
@@ -120,6 +104,7 @@ namespace Moo
 		}
 	}
 
+	// charge la scene de jeu suivant
 	void			Game::goToNextScene()
 	{
 		if (_currentScene != nullptr && (int)_currentScene->sceneType >= (int)LEVEL1) {
@@ -137,6 +122,7 @@ namespace Moo
 		return _soundSystem;
 	}
 
+	// boucle d'update (game loop)
 	bool			Game::update()
 	{
 		if (_currentScene != nullptr && _currentScene->scene != nullptr) {
@@ -147,6 +133,7 @@ namespace Moo
 		return false;
 	}
 
+	// cree une structure scene (incluant la reference de la scene et son type) et push dans la liste des scenes
 	void			Game::createScene(e_scene sceneType, Scene* sceneRef)
 	{
 		s_scene newScene;
@@ -156,6 +143,7 @@ namespace Moo
 		_listOfScenes.push_back(newScene);
 	}
 
+	// renvoie la reference de la scene via son type (parmi les scenes crees)
 	Game::s_scene*		Game::getSceneByType(e_scene sceneType)
 	{
 		for (auto &scene : _listOfScenes) {
@@ -164,5 +152,20 @@ namespace Moo
 			}
 		}
 		return nullptr;
+	}
+
+	// init et affiche le loading screen
+	void Game::displayLoadingScreen()
+	{
+		for (auto &scene : _listOfScenes)
+		{
+			if (scene.sceneType == LOADING)
+			{
+				if (scene.scene->_hasBeenInited == false)
+					scene.scene->init(_window);
+				scene.scene->runUpdate();
+				return;
+			}
+		}
 	}
 }
