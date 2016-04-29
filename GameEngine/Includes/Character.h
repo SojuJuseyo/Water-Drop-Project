@@ -7,8 +7,6 @@
 #include "DynamicEntity.h"
 #include "Sprite.h"
 
-#define EVAPORATION_RATE	0.25 //per second
-
 namespace Moo
 {
 	class Character : public DynamicEntity
@@ -22,7 +20,6 @@ namespace Moo
 		void	update();
 		HitZone	collisionAABB(Entity *entity);
 
-		void	changeHealth(float);
 		void	checkEvaporation();
 		void	setTimers();
 		void	setWallJumpVelocity(bool);

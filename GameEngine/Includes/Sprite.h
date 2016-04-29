@@ -35,6 +35,7 @@ namespace Moo
 		void loadTexture(Texture *);
 		void loadTexture(Texture *, SpriteRect *);
 		SpriteRect *getspriteRect();
+		void setspriteRect(SpriteRect *);
 		void draw();
 		float getWidth();
 		float getHeight();

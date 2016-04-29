@@ -8,6 +8,7 @@
 #define	JUMP_VELOCITY			500//750
 #define MINIMUM_VELOCITY_Y		-270//-400
 #define STANDARD_VELOCITY_X		250
+#define EVAPORATION_RATE		0.25 //per second
 
 namespace Moo
 {
@@ -28,6 +29,9 @@ namespace Moo
 		float			getHealth() const;
 		Sprite			*getSprite() const;
 		Sprite			*getHitboxSprite();
+
+		void			changeHealth(float);
+		void			evaporateHeatZone();
 
 		HitZone			collisionAABB(Entity *entity);
 		Hitbox			resetHitbox();

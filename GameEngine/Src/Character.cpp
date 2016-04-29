@@ -90,16 +90,6 @@ namespace Moo
 		return (this->_godMode);
 	}
 
-	void Character::changeHealth(float value)
-	{
-		this->setHealth(this->_health + value);
-		this->_sprite->scale(Moo::Vector2f(value / 10, value / 10));
-		this->_hitboxSprite->setScale(this->_sprite->getScale());
-		this->resetHitbox();
-		if (this->_type == EntityType::PLAYER)
-			this->_characterVelocity.x -= value;
-	}
-
 	void Character::checkEvaporation()
 	{
 		std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - this->_lastEvaporation;
