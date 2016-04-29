@@ -92,10 +92,10 @@ namespace Moo
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
-		std::list<Tile *> blockTiles = map->getMap().getTilesFromSprite("0");
+		std::list<Tile *> platformTiles = map->getMap().getTilesFromSprite("0");
 		std::list<Tile *> bottomTiles = map->getMap().getTilesFromSprite("1");
 		std::list<Tile *> enemyTiles = map->getMap().getTilesFromSprite("3");
-		std::list<Tile *> platformTiles = map->getMap().getTilesFromSprite("4");
+		std::list<Tile *> blockTiles = map->getMap().getTilesFromSprite("4");
 		std::list<Tile *> playerTiles = map->getMap().getTilesFromSprite("5");
 		std::list<Tile *> exitTiles = map->getMap().getTilesFromSprite("6");
 
@@ -161,7 +161,7 @@ namespace Moo
 
 		//We get the map
 		//_map = JsonParser("Maps/MapPlaytestSession.json");
-		//_map = JsonParser("2d-Maps/MapPlaytestSessionNoEnemy.json");
+		//_map = JsonParser("Maps/MapPlaytestSessionNoEnemy.json");
 		_map = JsonParser("Maps/MapTestSprites.json");
 		//_map = JsonParser("Maps/MapSmall.json");
 
