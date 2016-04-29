@@ -1,17 +1,17 @@
-#include "../Includes/ControleScene.h"
+#include "../Includes/LoadingScene.h"
 
 namespace Moo
 {
-	ControleScene::ControleScene()
+	LoadingScene::LoadingScene()
 	{
 
 	}
 
-	ControleScene::~ControleScene()
+	LoadingScene::~LoadingScene()
 	{
 
 	}
-	bool ControleScene::init(std::shared_ptr<Moo::Window> window)
+	bool LoadingScene::init(std::shared_ptr<Moo::Window> window)
 	{
 		_window = window;
 		_backgroundTexture = std::make_shared<Texture>();
@@ -22,7 +22,7 @@ namespace Moo
 		return true;
 	}
 
-	bool ControleScene::runUpdate()
+	bool LoadingScene::runUpdate()
 	{
 		_window->clear();
 		_window->draw(_backgroundSprite.get());
@@ -30,7 +30,7 @@ namespace Moo
 		return true;
 	}
 
-	void ControleScene::clean()
+	void LoadingScene::clean()
 	{
 	}
 }

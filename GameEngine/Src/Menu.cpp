@@ -15,10 +15,10 @@ namespace Moo
 		_window = window;
 
 		//background
-		backgroundText = new Texture;
-		backgroundText->loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
-		background = new Sprite(d3d::getInstance().getScreenSize().x, d3d::getInstance().getScreenSize().y, 0, 0);
-		background->loadTexture(backgroundText);
+		_textures["Background"] = std::make_shared<Texture>();
+		_textures["Background"]->loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
+		_sprites["Background"] = std::make_shared<Sprite>(d3d::getInstance().getScreenSize().x, d3d::getInstance().getScreenSize().y, 0.f, 0.f);
+		_sprites["Background"]->loadTexture(_textures["Background"].get());
 
 		//Buttons attributes
 		float spaceBetweenButtons = 10;
@@ -27,29 +27,29 @@ namespace Moo
 		float heightOfButtons = 75;
 
 		//Buttons
-		buttonText = new Texture;
-		buttonText->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
+		_textures["Button"] = std::make_shared<Texture>();
+		_textures["Button"]->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 
 		//Button Play
-		button_play = new Sprite(widthOfButtons,
+		_sprites["Play"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
 			positionOfButtonsX,
 			d3d::getInstance().getScreenSize().y / 10 * 6);
-		button_play->loadTexture(buttonText);
+		_sprites["Play"]->loadTexture(_textures["Button"].get());
 
 		//Button Controls
-		button_controls = new Sprite(widthOfButtons,
+		_sprites["Controls"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
 			positionOfButtonsX,
-			button_play->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Play button
-		button_controls->loadTexture(buttonText);
+			_sprites["Play"]->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Play button
+		_sprites["Controls"]->loadTexture(_textures["Button"].get());
 
 		//Button Quit
-		button_quit = new Sprite(widthOfButtons,
+		_sprites["Quit"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
 			positionOfButtonsX,
-			button_controls->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
-		button_quit->loadTexture(buttonText);
+			_sprites["Controls"]->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
+		_sprites["Quit"]->loadTexture(_textures["Button"].get());
 
 		_offset = e_menu::PLAY;
 		return true;
@@ -108,18 +108,18 @@ namespace Moo
 		}
 
 		_window->clear();
-		_window->draw(background);
+		_window->draw(_sprites["Background"].get());
 
 		switch (_offset)
 		{
 		case e_menu::PLAY:
-			_window->draw(button_play);
+			_window->draw(_sprites["Play"].get());
 			break;
 		case e_menu::CONTROLS:
-			_window->draw(button_controls);
+			_window->draw(_sprites["Controls"].get());
 			break;
 		case e_menu::QUIT:
-			_window->draw(button_quit);
+			_window->draw(_sprites["Quit"].get());
 			break;
 		}
 		_window->display();

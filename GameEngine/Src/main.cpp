@@ -10,10 +10,12 @@
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) 
 {
 	//Console
+#ifdef _DEBUG
 	FILE * pConsole;
 	AllocConsole();
 	freopen_s(&pConsole, "CONOUT$", "wb", stdout);
 	freopen_s(&pConsole, "CONOUT$", "wb", stderr);
+#endif // DEBUG
 
 	//Getting the game window
 	auto window = std::make_shared<Moo::Window>(hInstance, Moo::WindowSettings("Water Drop", Moo::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)));

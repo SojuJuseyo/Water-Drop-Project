@@ -4,11 +4,11 @@
 
 namespace Moo
 {
-	class ControleScene : public Scene
+	class LoadingScene : public Scene
 	{
 	public:
-		ControleScene();
-		~ControleScene();
+		LoadingScene();
+		~LoadingScene();
 		void	clean();
 		bool	init(std::shared_ptr<Moo::Window> window);
 		bool	runUpdate();

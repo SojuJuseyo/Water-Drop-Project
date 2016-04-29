@@ -165,6 +165,7 @@
     <ClInclude Include="Includes\JsonParser.h" />
     <ClInclude Include="Includes\Keyboard.h" />
     <ClInclude Include="Includes\LevelScene.h" />
+    <ClInclude Include="Includes\LoadingScene.h" />
     <ClInclude Include="Includes\Log.h" />
     <ClInclude Include="Includes\MapInfos.h" />
     <ClInclude Include="Includes\Menu.h" />
@@ -200,6 +201,7 @@
     <ClCompile Include="Src\JsonParser.cpp" />
     <ClCompile Include="Src\Keyboard.cpp" />
     <ClCompile Include="Src\LevelScene.cpp" />
+    <ClCompile Include="Src\LoadingScene.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MapInfos.cpp" />
     <ClCompile Include="Src\Menu.cpp" />
