@@ -129,6 +129,9 @@
     <ClInclude Include="Includes\WindowSettings.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\LoadingScene.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp">
@@ -225,6 +228,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\WindowSettings.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\LoadingScene.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
