@@ -28,6 +28,15 @@
     <None Include="TextureMap.fx">
       <Filter>Resource Files\shaders</Filter>
     </None>
+    <None Include="Maps\MapSmall.json">
+      <Filter>Resource Files\maps</Filter>
+    </None>
+    <None Include="Maps\MapTestSprites.json">
+      <Filter>Resource Files\maps</Filter>
+    </None>
+    <None Include="Maps\TheElevator.json">
+      <Filter>Resource Files\maps</Filter>
+    </None>
     <None Include="Maps\MapPlaytestSession.json">
       <Filter>Resource Files\maps</Filter>
     </None>
@@ -35,18 +44,6 @@
       <Filter>Resource Files\maps</Filter>
     </None>
     <None Include="Maps\MapPreAlpha.json">
-      <Filter>Resource Files\maps</Filter>
-    </None>
-    <None Include="Maps\MapTestSprites.json">
-      <Filter>Resource Files\maps</Filter>
-    </None>
-    <None Include="Maps\TestLevel1.json">
-      <Filter>Resource Files\maps</Filter>
-    </None>
-    <None Include="Maps\TestLevel2.json">
-      <Filter>Resource Files\maps</Filter>
-    </None>
-    <None Include="Maps\TestLevel3.json">
       <Filter>Resource Files\maps</Filter>
     </None>
   </ItemGroup>

@@ -148,10 +148,9 @@
     <None Include="Maps\MapPlaytestSession.json" />
     <None Include="Maps\MapPlaytestSessionNoEnemy.json" />
     <None Include="Maps\MapPreAlpha.json" />
+    <None Include="Maps\MapSmall.json" />
     <None Include="Maps\MapTestSprites.json" />
-    <None Include="Maps\TestLevel1.json" />
-    <None Include="Maps\TestLevel2.json" />
-    <None Include="Maps\TestLevel3.json" />
+    <None Include="Maps\TheElevator.json" />
     <None Include="TextureMap.fx">
       <FileType>Document</FileType>
     </None>

@@ -30,10 +30,7 @@ namespace Moo
 		void	toggleGodMode();
 
 	private:
-		Vector2f		_characterVelocity;
-
 		std::chrono::time_point<std::chrono::system_clock> _startingTime, _lastEvaporation;
-
 		bool	_godMode;
 	};
 }

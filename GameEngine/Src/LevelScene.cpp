@@ -25,7 +25,7 @@ namespace Moo
 	}
 
 	void LevelScene::clean()
-	{		
+	{
 		std::cout << "Clearing entities lists" << std::endl;
 		for (auto statEnt : _staticEntities)
 			statEnt.reset();
@@ -68,7 +68,7 @@ namespace Moo
 
 		if (isCharacter == true)
 		{
-			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), mass, sprite, true, health, type);
+			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(0, 0), mass, sprite, true, health, type);
 			if (type == EntityType::PLAYER)
 				_dynamicEntities.insert(_dynamicEntities.begin(), dynamicEntity);
 			else
@@ -149,7 +149,7 @@ namespace Moo
 		std::cout << "Starting init" << std::endl;
 		this->clean();
 		_window = window;
-		
+
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 
 		//We get the map
@@ -278,9 +278,9 @@ namespace Moo
 				_soundSystem->playSound("shoot", false);
 
 				fillDynamicEntitiesList(1, EntityType::BULLET,
-										_player->getSprite()->getX() + _player->getSprite()->getWidth(),
-										_player->getSprite()->getY() + (_player->getSprite()->getHeight() / 2),
-										15.f, 15.f, 100.f, 1.f, false);
+					_player->getSprite()->getX() + _player->getSprite()->getWidth(),
+					_player->getSprite()->getY() + (_player->getSprite()->getHeight() / 2),
+					15.f, 15.f, 100.f, 1.f, false);
 
 				// Check if cheat code is activated.
 				if (_player->isGodMode() == false)
@@ -321,9 +321,9 @@ namespace Moo
 	void	LevelScene::exitReached()
 	{
 		_win->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
-						  (Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
-						 ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
-						  (Moo::d3d::getInstance().getScreenSize().y / 2))
+			(Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
+			((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
+				(Moo::d3d::getInstance().getScreenSize().y / 2))
 			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
@@ -340,9 +340,9 @@ namespace Moo
 	void	LevelScene::playerDead()
 	{
 		_lose->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
-						   (Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
-						  ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
-						   (Moo::d3d::getInstance().getScreenSize().y / 2))
+			(Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
+			((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
+				(Moo::d3d::getInstance().getScreenSize().y / 2))
 			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
@@ -378,7 +378,7 @@ namespace Moo
 			if ((*dynEntIt)->getGravity() == true)
 			{
 				(std::static_pointer_cast<Moo::Character>((*dynEntIt)))->update();
-				(std::static_pointer_cast<Moo::Character>((*dynEntIt)))->resetHitbox();
+				(*dynEntIt)->resetHitbox();
 			}
 
 			deletedBullet = false;
@@ -410,7 +410,7 @@ namespace Moo
 						else if (hitZone == HitZone::BOTTOM)
 						{
 							decal.y = (*statEntIt)->getHitbox().y1 - (*dynEntIt)->getHitbox().y2;
-							std::static_pointer_cast<Moo::Character>((*dynEntIt))->resetPos();
+							(*dynEntIt)->resetPos();
 							(*dynEntIt)->setGravity(false);
 						}
 					}
@@ -441,8 +441,8 @@ namespace Moo
 				for (auto SecondDynEntIt = _dynamicEntities.begin(); SecondDynEntIt != _dynamicEntities.end(); ++SecondDynEntIt)
 				{
 					if (!((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() == EntityType::BULLET)
-					 && (*SecondDynEntIt).get() != (*dynEntIt).get()
-					 && ((hitZone = (*dynEntIt)->collisionAABB((*SecondDynEntIt).get())) != HitZone::NONE))
+						&& (*SecondDynEntIt).get() != (*dynEntIt).get()
+						&& ((hitZone = (*dynEntIt)->collisionAABB((*SecondDynEntIt).get())) != HitZone::NONE))
 					{
 						//If we collide with an enemy : Absorb him
 						std::cout << "Collision between " << getEntityTypeName((*dynEntIt)->getEntityType()) << " and " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
@@ -461,7 +461,7 @@ namespace Moo
 							{
 								if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
 									_soundSystem->playSound("powerup", false);
-								std::static_pointer_cast<Moo::Character>(*dynEntIt)->changeHealth((*SecondDynEntIt)->getHealth() * 33 / 100);
+								(*dynEntIt)->changeHealth((*SecondDynEntIt)->getHealth() * 33 / 100);
 								std::cout << getEntityTypeName((*dynEntIt)->getEntityType()) << " health: " << (*dynEntIt)->getHealth() << std::endl;
 								std::cout << "Deleting " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
 								SecondDynEntIt = _dynamicEntities.erase(SecondDynEntIt);
@@ -492,7 +492,7 @@ namespace Moo
 	{
 		/*
 		if (themeChan != nullptr)
-			themeChan->setPaused(false);
+		themeChan->setPaused(false);
 		*/
 
 		//Getting the inputs of the player
@@ -513,7 +513,7 @@ namespace Moo
 
 		/*
 		if (themeChan != nullptr)
-			themeChan->setPaused(true);
+		themeChan->setPaused(true);
 		*/
 		return true;
 	}
