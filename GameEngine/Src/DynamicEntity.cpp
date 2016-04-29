@@ -77,7 +77,7 @@ namespace Moo
 
 	void	DynamicEntity::resetPos()
 	{
-		_velocity.y = 0;
+		_velocity = Vector2f(0, 0);
 		_acceleration.y = _mass / FPS_LIMIT;
 	}
 

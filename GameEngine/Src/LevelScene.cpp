@@ -68,7 +68,7 @@ namespace Moo
 
 		if (isCharacter == true)
 		{
-			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), mass, sprite, true, health, type);
+			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(0, 0), mass, sprite, true, health, type);
 			if (type == EntityType::PLAYER)
 				_dynamicEntities.insert(_dynamicEntities.begin(), dynamicEntity);
 			else
@@ -92,12 +92,12 @@ namespace Moo
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
-		std::list<Tile *> playerTiles = map->getMap().getTilesFromSprite("5"); //blue
-		std::list<Tile *> platformTiles = map->getMap().getTilesFromSprite("4"); //red
-		std::list<Tile *> bottomTiles = map->getMap().getTilesFromSprite("1"); //green
-		std::list<Tile *> enemyTiles = map->getMap().getTilesFromSprite("3"); //black
-		std::list<Tile *> blockTiles = map->getMap().getTilesFromSprite("0"); //purple
-		std::list<Tile *> exitTiles = map->getMap().getTilesFromSprite("6"); //gold
+		std::list<Tile *> blockTiles = map->getMap().getTilesFromSprite("0");
+		std::list<Tile *> bottomTiles = map->getMap().getTilesFromSprite("1");
+		std::list<Tile *> enemyTiles = map->getMap().getTilesFromSprite("3");
+		std::list<Tile *> platformTiles = map->getMap().getTilesFromSprite("4");
+		std::list<Tile *> playerTiles = map->getMap().getTilesFromSprite("5");
+		std::list<Tile *> exitTiles = map->getMap().getTilesFromSprite("6");
 
 		//Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
 		/*float multHeight = WINDOW_HEIGHT / map->getMap().getMapHeight();
@@ -163,6 +163,7 @@ namespace Moo
 		//_map = JsonParser("Maps/MapPlaytestSession.json");
 		//_map = JsonParser("2d-Maps/MapPlaytestSessionNoEnemy.json");
 		_map = JsonParser("Maps/MapTestSprites.json");
+		//_map = JsonParser("Maps/MapSmall.json");
 
 		if (_map.parseFile() == -1)
 			throw std::exception("Can't load the map");
@@ -388,7 +389,7 @@ namespace Moo
 			if ((*dynEntIt)->getGravity() == true)
 			{
 				(std::static_pointer_cast<Moo::Character>((*dynEntIt)))->update();
-				(std::static_pointer_cast<Moo::Character>((*dynEntIt)))->resetHitbox();
+				(*dynEntIt)->resetHitbox();
 			}
 
 			deletedBullet = false;
@@ -420,7 +421,7 @@ namespace Moo
 						else if (hitZone == HitZone::BOTTOM)
 						{
 							decal.y = (*statEntIt)->getHitbox().y1 - (*dynEntIt)->getHitbox().y2;
-							std::static_pointer_cast<Moo::Character>((*dynEntIt))->resetPos();
+							(*dynEntIt)->resetPos();
 							(*dynEntIt)->setGravity(false);
 						}
 					}
@@ -471,7 +472,7 @@ namespace Moo
 							{
 								if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
 									_soundSystem->playSound("powerup", false);
-								std::static_pointer_cast<Moo::Character>(*dynEntIt)->changeHealth((*SecondDynEntIt)->getHealth() * 33 / 100);
+								(*dynEntIt)->changeHealth((*SecondDynEntIt)->getHealth() * 33 / 100);
 								std::cout << getEntityTypeName((*dynEntIt)->getEntityType()) << " health: " << (*dynEntIt)->getHealth() << std::endl;
 								std::cout << "Deleting " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
 								SecondDynEntIt = _dynamicEntities.erase(SecondDynEntIt);
