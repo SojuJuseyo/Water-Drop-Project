@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -19,266 +11,279 @@
     <Filter Include="Resource Files\graphics">
       <UniqueIdentifier>{3d1cf0fd-1348-4d45-97f5-e20a13357044}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{15db02e7-a190-4eaf-887a-b64d3189d306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{c65384ae-30ee-44c8-872b-a67e092da5d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes">
+      <UniqueIdentifier>{58d910e5-396d-4462-8093-1e105397dbfd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowSettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RectangleShape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Fps.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2f.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Drawable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transformable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="jsoncpp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JsonParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MapInfos.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuPause.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ControleScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <None Include="TextureMap.fx">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Bullet.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="WindowSettings.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Camera.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Character.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="d3d.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\ControleScene.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="RectangleShape.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\d3d.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Shape.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Drawable.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\DynamicEntity.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Entity.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Fps.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Exceptions.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Fps.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Game.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2f.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\json.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\JsonParser.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Keyboard.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\LevelScene.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Transformable.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Log.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\MapInfos.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Menu.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="json.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\MenuPause.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="JsonParser.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\ParticleEmitter.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="MapInfos.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\pch.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Scene.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\SoundSystem.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Sprite.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\SpriteRect.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="LevelScene.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\StaticEntity.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Text.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="MenuPause.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Texture.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="ControleScene.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Tile.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="SoundSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Timer.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Exceptions.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Transformable.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Log.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Vector2f.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleEmitter.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\Window.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteRect.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Includes\WindowSettings.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\LoadingScene.h">
+      <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TextureMap.fx" />
+    <ClCompile Include="Src\Bullet.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Camera.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Character.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ControleScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\d3d.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Drawable.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DynamicEntity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Entity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Fps.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Game.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\jsoncpp.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\JsonParser.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Keyboard.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\LevelScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\main.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MapInfos.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Menu.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MenuPause.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\pch.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SoundSystem.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Sprite.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SpriteRect.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\StaticEntity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Text.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Texture.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Tile.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Timer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Transformable.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Vector2f.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Window.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\WindowSettings.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\LoadingScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Defeat.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="jump.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="Menu.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="music.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="Victory.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="Heart_of_Courage_8_Bit_s075.mp3" />
+    <Image Include="Ressources\Graphics\background.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\character.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\controle.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\enemy.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\Font.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\hitbox.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\Menu_Pause_WTP_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\Menu_WTP_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\tileset.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\You_Lost_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\You_Won_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="background.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="bloc.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="character.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="controle.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="door_closed.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="enemy.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="ground.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="hitbox.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="Menu_Pause_WTP_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="Menu_WTP_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="platform.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="You_Lost_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="You_Won_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
+    <Media Include="Ressources\Sounds\Defeat.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\Heart_of_Courage_8_Bit_s075.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\jump.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\Menu.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\Victory.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
   </ItemGroup>
 </Project>
