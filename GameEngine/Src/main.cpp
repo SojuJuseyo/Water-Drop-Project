@@ -21,7 +21,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	try {
 		//Main game loop
-		Moo::Game::getInstance().initScenes(window);
+		Moo::Game::getInstance().startGame(window);
 	}
 	catch (Moo::InitException &e) {
 		std::cerr << "CRITICAL_ERROR: " << e.what() << std::endl;

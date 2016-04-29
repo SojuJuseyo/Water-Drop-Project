@@ -2,8 +2,9 @@
 
 namespace Moo
 {
-	LevelScene::LevelScene()
+	LevelScene::LevelScene(std::string pathMapFile)
 	{
+		_pathMapFile = pathMapFile;
 		_entityTypeName[EntityType::PLAYER] = "Player";
 		_entityTypeName[EntityType::ENEMY] = "Enemy";
 		_entityTypeName[EntityType::BULLET] = "Bullet";
@@ -159,10 +160,8 @@ namespace Moo
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 
 		//We get the map
-		//_map = JsonParser("2d-Maps/test.json");
-		//map = new JsonParser("2d-Maps/MapPreAlpha.json");
-		_map = JsonParser("Maps/MapPlaytestSession.json");
-		//_map = JsonParser("2d-Maps/MapPlaytestSessionNoEnemy.json");
+		//_map = JsonParser("Maps/MapPlaytestSession.json");
+		_map = JsonParser(_pathMapFile);
 
 		if (_map.parseFile() == -1)
 			throw std::exception("Can't load the map");
@@ -213,7 +212,6 @@ namespace Moo
 		_startTime = std::chrono::system_clock::now();
 		_canTemporarilyJump = _startTime;
 		_lastJump = _startTime;
-
 		std::cout << "Init successful" << std::endl;
 
 		return (true);
@@ -342,8 +340,7 @@ namespace Moo
 		chan->stop();
 		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
-		Game::getInstance().resetScene(Game::LEVEL1);
-		Game::getInstance().runScene(Game::MAIN_MENU);
+		Game::getInstance().goToNextScene();
 	}
 
 	void	LevelScene::playerDead()
@@ -362,8 +359,7 @@ namespace Moo
 		chan->stop();
 		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
-		Game::getInstance().resetScene(Game::LEVEL1);
-		Game::getInstance().runScene(Game::LEVEL1);
+		Game::getInstance().cleanCurrentScene();
 	}
 
 	void	LevelScene::applyGravityAndCollisions()

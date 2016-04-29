@@ -1,0 +1,200 @@
+{
+  "name": "TestLevel1",
+  "size": "10/10",
+  "audio": null,
+  "tileList": {
+    "#FF551A8B": [
+      {
+        "coordx": 0,
+        "coordy": 1
+      },
+      {
+        "coordx": 9,
+        "coordy": 1
+      },
+      {
+        "coordx": 0,
+        "coordy": 2
+      },
+      {
+        "coordx": 9,
+        "coordy": 2
+      },
+      {
+        "coordx": 0,
+        "coordy": 3
+      },
+      {
+        "coordx": 9,
+        "coordy": 3
+      },
+      {
+        "coordx": 0,
+        "coordy": 4
+      },
+      {
+        "coordx": 9,
+        "coordy": 4
+      },
+      {
+        "coordx": 0,
+        "coordy": 5
+      },
+      {
+        "coordx": 9,
+        "coordy": 5
+      },
+      {
+        "coordx": 0,
+        "coordy": 6
+      },
+      {
+        "coordx": 9,
+        "coordy": 6
+      },
+      {
+        "coordx": 0,
+        "coordy": 7
+      },
+      {
+        "coordx": 9,
+        "coordy": 7
+      },
+      {
+        "coordx": 0,
+        "coordy": 8
+      },
+      {
+        "coordx": 9,
+        "coordy": 8
+      },
+      {
+        "coordx": 0,
+        "coordy": 9
+      },
+      {
+        "coordx": 9,
+        "coordy": 9
+      }
+    ],
+    "#FFF93738": [
+      {
+        "coordx": 3,
+        "coordy": 4
+      },
+      {
+        "coordx": 4,
+        "coordy": 4
+      },
+      {
+        "coordx": 5,
+        "coordy": 4
+      },
+      {
+        "coordx": 6,
+        "coordy": 4
+      },
+      {
+        "coordx": 3,
+        "coordy": 5
+      },
+      {
+        "coordx": 3,
+        "coordy": 6
+      },
+      {
+        "coordx": 4,
+        "coordy": 6
+      },
+      {
+        "coordx": 5,
+        "coordy": 6
+      },
+      {
+        "coordx": 6,
+        "coordy": 6
+      },
+      {
+        "coordx": 6,
+        "coordy": 7
+      },
+      {
+        "coordx": 3,
+        "coordy": 8
+      },
+      {
+        "coordx": 4,
+        "coordy": 8
+      },
+      {
+        "coordx": 5,
+        "coordy": 8
+      },
+      {
+        "coordx": 6,
+        "coordy": 8
+      }
+    ],
+    "#FF000000": [
+      {
+        "coordx": 5,
+        "coordy": 1
+      }
+    ],
+    "#FFABCDEF": [
+      {
+        "coordx": 2,
+        "coordy": 2
+      }
+    ],
+    "#FFFFD700": [
+      {
+        "coordx": 8,
+        "coordy": 1
+      }
+    ],
+    "#FF117050": [
+      {
+        "coordx": 0,
+        "coordy": 0
+      },
+      {
+        "coordx": 1,
+        "coordy": 0
+      },
+      {
+        "coordx": 2,
+        "coordy": 0
+      },
+      {
+        "coordx": 3,
+        "coordy": 0
+      },
+      {
+        "coordx": 4,
+        "coordy": 0
+      },
+      {
+        "coordx": 5,
+        "coordy": 0
+      },
+      {
+        "coordx": 6,
+        "coordy": 0
+      },
+      {
+        "coordx": 7,
+        "coordy": 0
+      },
+      {
+        "coordx": 8,
+        "coordy": 0
+      },
+      {
+        "coordx": 9,
+        "coordy": 0
+      }
+    ],
+    "#00000000": []
+  }
+}

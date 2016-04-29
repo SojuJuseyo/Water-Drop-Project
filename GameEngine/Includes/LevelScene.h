@@ -26,7 +26,7 @@ namespace Moo
 	class LevelScene : public Scene
 	{
 	public:
-		LevelScene();
+		LevelScene(std::string pathMapFile);
 		~LevelScene();
 
 		std::string	getEntityTypeName(EntityType);
@@ -60,5 +60,6 @@ namespace Moo
 		Moo::Camera						_camera;
 		bool							_triedJump, _exitReached, _playerDead;
 		std::chrono::time_point<std::chrono::system_clock> _startTime, _lastJump, _canTemporarilyJump;
+		std::string _pathMapFile;
 	};
 }
