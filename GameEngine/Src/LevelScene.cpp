@@ -159,8 +159,6 @@ namespace Moo
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 
 		//We get the map
-		//_map = JsonParser("2d-Maps/test.json");
-		//map = new JsonParser("2d-Maps/MapPreAlpha.json");
 		_map = JsonParser("Maps/MapPlaytestSession.json");
 		//_map = JsonParser("2d-Maps/MapPlaytestSessionNoEnemy.json");
 
@@ -372,7 +370,7 @@ namespace Moo
 		HitZone hitZone;
 		bool deletedBullet, deletedCharacter;
 		Vector2f decal(0, 0);
-		
+
 		for (auto dynEntIt = _dynamicEntities.begin(); dynEntIt != _dynamicEntities.end();)
 		{
 			decal = Vector2f(0, 0);
@@ -380,8 +378,7 @@ namespace Moo
 			if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1)
 				_player->checkEvaporation();
 
-			if ((*dynEntIt)->getEntityType() != EntityType::ENEMY)
-				(*dynEntIt)->setGravity(true);
+			(*dynEntIt)->setGravity(true);
 
 			if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
 				(*dynEntIt)->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt)->getVelocity().y));
