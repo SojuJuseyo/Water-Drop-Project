@@ -91,12 +91,12 @@ namespace Moo
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
-		std::list<Tile *> playerTiles = map->getMap().getTilesFromColor("#ffabcdef"); //blue
-		std::list<Tile *> platformTiles = map->getMap().getTilesFromColor("#fff93738"); //red
-		std::list<Tile *> bottomTiles = map->getMap().getTilesFromColor("#ff117050"); //green
-		std::list<Tile *> enemyTiles = map->getMap().getTilesFromColor("#ff000000"); //black
-		std::list<Tile *> blockTiles = map->getMap().getTilesFromColor("#ff551A8B"); //purple
-		std::list<Tile *> exitTiles = map->getMap().getTilesFromColor("#ffffd700"); //gold
+		std::list<Tile *> playerTiles = map->getMap().getTilesFromSprite("5"); //blue
+		std::list<Tile *> platformTiles = map->getMap().getTilesFromSprite("4"); //red
+		std::list<Tile *> bottomTiles = map->getMap().getTilesFromSprite("1"); //green
+		std::list<Tile *> enemyTiles = map->getMap().getTilesFromSprite("3"); //black
+		std::list<Tile *> blockTiles = map->getMap().getTilesFromSprite("0"); //purple
+		std::list<Tile *> exitTiles = map->getMap().getTilesFromSprite("6"); //gold
 
 		//Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
 		/*float multHeight = WINDOW_HEIGHT / map->getMap().getMapHeight();
@@ -159,8 +159,9 @@ namespace Moo
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 
 		//We get the map
-		_map = JsonParser("Maps/MapPlaytestSession.json");
+		//_map = JsonParser("Maps/MapPlaytestSession.json");
 		//_map = JsonParser("2d-Maps/MapPlaytestSessionNoEnemy.json");
+		_map = JsonParser("Maps/MapTestSprites.json");
 
 		if (_map.parseFile() == -1)
 			throw std::exception("Can't load the map");

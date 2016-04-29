@@ -43,19 +43,19 @@ int JsonParser::parseFile()
 	this->map.setMapAudioFile(jsonObject[MAPAUDIOATTRIBUTE].asString());
 
 	tileListObject = jsonObject[MAPTILELISTATTRIBUTE];
-	// Get a vector of color used
-	std::vector<std::string> colorsUsed = tileListObject.getMemberNames();
+	// Get a vector of sprites used
+	std::vector<std::string> spritesUsed = tileListObject.getMemberNames();
 	std::list<std::pair<std::string, std::list<Tile *>>> mapTileList;
 
 	// C++11 foreach
-	for (std::string color : colorsUsed)
+	for (std::string sprite : spritesUsed)
 	{
-		std::list<Tile *> selectedColorTileList;
-		Json::Value selectedColorTileListObject = tileListObject[color];
-		Json::Value::iterator itr = selectedColorTileListObject.begin();
+		std::list<Tile *> selectedSpriteTileList;
+		Json::Value selectedSpriteTileListObject = tileListObject[sprite];
+		Json::Value::iterator itr = selectedSpriteTileListObject.begin();
 
-		// Iterate through the list of tiles in a given color
-		for (Json::ValueIterator itr = selectedColorTileListObject.begin(); itr != selectedColorTileListObject.end(); itr++)
+		// Iterate through the list of tiles using a given sprite
+		for (Json::ValueIterator itr = selectedSpriteTileListObject.begin(); itr != selectedSpriteTileListObject.end(); itr++)
 		{
 			Tile *newTile = new Tile();
 			Json::Value itrValue = (*itr);
@@ -63,17 +63,18 @@ int JsonParser::parseFile()
 			newTile->setPosX(itrValue[MAPCOORDX].asFloat());
 			newTile->setPosY(itrValue[MAPCOORDY].asFloat());
 			
-			selectedColorTileList.push_back(newTile);
+			selectedSpriteTileList.push_back(newTile);
 		}
 
-		std::pair<std::string, std::list<Tile *>> colorTileListPair;
-		colorTileListPair = std::make_pair(color, selectedColorTileList);
-		mapTileList.push_back(colorTileListPair);
+		std::pair<std::string, std::list<Tile *>> spriteTileListPair;
+		spriteTileListPair = std::make_pair(sprite, selectedSpriteTileList);
+		mapTileList.push_back(spriteTileListPair);
 	}
 
 	this->map.setMapTileList(mapTileList);
 
 	std::cout << "Map successfully loaded." << std::endl;
+	
 	return (0);
 }
 

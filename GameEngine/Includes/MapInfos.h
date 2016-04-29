@@ -11,10 +11,11 @@ class MapInfos
 private:
 
 	// Informations of the map
-	std::string mapName;
+	std::string	mapName;
 	float mapWidth;
 	float mapHeight;
 	std::string mapAudioFile;
+	// std::string -> "0" or "1" or "2" ... 0 being the first sprite of the spritesheet, 1 the second etc ...
 	std::list<std::pair<std::string,std::list<Tile *>>> mapTileList;
 
 public:
@@ -24,7 +25,7 @@ public:
 
 	void displayMapInfos();
 
-	std::list<Tile *> getTilesFromColor(std::string);
+	std::list<Tile *> getTilesFromSprite(std::string);
 
 	// Setters and Getters
 	void setMapName(std::string);
