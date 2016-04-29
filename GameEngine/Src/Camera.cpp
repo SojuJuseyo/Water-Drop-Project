@@ -1,4 +1,4 @@
-#include "../Includes/Camera.h"
+#include "Camera.h"
 
 namespace Moo
 {

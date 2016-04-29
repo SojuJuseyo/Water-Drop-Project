@@ -1,4 +1,4 @@
-#include "../Includes/Entity.h"
+#include "Entity.h"
 #include <iostream>
 
 namespace Moo

@@ -1,5 +1,5 @@
-#include "../Includes/Game.h"
-#include "../Includes/log.h"
+#include "Game.h"
+#include "log.h"
 /*
 todo :
 

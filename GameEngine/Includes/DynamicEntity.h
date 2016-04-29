@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Includes/WindowSettings.h"
-#include "../Includes/Entity.h"
-#include "../Includes/Sprite.h"
+#include "WindowSettings.h"
+#include "Entity.h"
+#include "Sprite.h"
 
 #define	GRAVITY					135//200
 #define	JUMP_VELOCITY			500//750

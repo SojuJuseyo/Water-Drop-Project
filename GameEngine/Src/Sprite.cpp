@@ -1,4 +1,4 @@
-#include "../Includes/Sprite.h"
+#include "Sprite.h"
 
 namespace Moo
 {

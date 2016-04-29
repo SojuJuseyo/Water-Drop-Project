@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "../Includes/Vector2f.h"
+#include "Vector2f.h"
 
 #define FPS_LIMIT		60
 

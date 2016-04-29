@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Includes/Texture.h"
-#include "../Includes/Drawable.h"
-#include "../Includes/Transformable.h"
-#include "../Includes/SpriteRect.h"
+#include "Texture.h"
+#include "Drawable.h"
+#include "Transformable.h"
+#include "SpriteRect.h"
 
 using namespace Microsoft::WRL;
 

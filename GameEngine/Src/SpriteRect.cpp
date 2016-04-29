@@ -1,4 +1,4 @@
-#include "../Includes/SpriteRect.h"
+#include "SpriteRect.h"
 
 namespace Moo
 {
