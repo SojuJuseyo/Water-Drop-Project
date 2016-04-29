@@ -5,12 +5,12 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <sstream>
-#include "../Includes/WindowSettings.h"
-#include "../Includes/d3d.h"
-#include "../Includes/Fps.h"
-#include "../Includes/Keyboard.h"
-#include "../Includes/Sprite.h"
-#include "../Includes/SpriteRect.h"
+#include "WindowSettings.h"
+#include "d3d.h"
+#include "Fps.h"
+#include "Keyboard.h"
+#include "Sprite.h"
+#include "SpriteRect.h"
 
 #define WM_FULLSCREEN WM_USER + 0
 #define WM_LEFT WM_USER + 1
@@ -46,10 +46,6 @@ namespace Moo
 
 static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (wParam == VK_ESCAPE) {
-		PostQuitMessage(0);
-		return 0;
-	}
 	if (wParam == VK_F1) {
 		PostMessage(hWnd, WM_FULLSCREEN, 0, 0);
 	}

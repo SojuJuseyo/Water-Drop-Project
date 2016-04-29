@@ -1,4 +1,4 @@
-#include "../Includes/LoadingScene.h"
+#include "LoadingScene.h"
 
 namespace Moo
 {
@@ -9,8 +9,8 @@ namespace Moo
 
 	LoadingScene::~LoadingScene()
 	{
-	}
 
+	}
 	bool LoadingScene::init(std::shared_ptr<Moo::Window> window)
 	{
 		_window = window;

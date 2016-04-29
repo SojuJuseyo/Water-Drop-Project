@@ -3,15 +3,15 @@
 #include <ctime>
 #include <chrono>
 
-#include "../Includes/Scene.h"
-#include "../Includes/JsonParser.h"
-#include "../Includes/Bullet.h"
-#include "../Includes/Game.h"
-#include "../Includes/Character.h"
-#include "../Includes/StaticEntity.h"
-#include "../Includes/SoundSystem.h"
-#include "../Includes/Camera.h"
-#include "../Includes/SpriteRect.h"
+#include "Scene.h"
+#include "JsonParser.h"
+#include "Bullet.h"
+#include "Game.h"
+#include "Character.h"
+#include "StaticEntity.h"
+#include "SoundSystem.h"
+#include "Camera.h"
+#include "SpriteRect.h"
 
 struct s_collider
 {
@@ -26,7 +26,7 @@ namespace Moo
 	class LevelScene : public Scene
 	{
 	public:
-		LevelScene(std::string pathMapFile);
+		LevelScene(const std::string &);
 		~LevelScene();
 
 		std::string	getEntityTypeName(EntityType);

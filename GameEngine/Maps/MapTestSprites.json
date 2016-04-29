@@ -1,0 +1,455 @@
+{
+  "name": "MapTestSprites",
+  "size": "20/20",
+  "audio": null,
+  "tileList": {
+    "0": [
+      {
+        "coordx": 0,
+        "coordy": 1
+      },
+      {
+        "coordx": 19,
+        "coordy": 1
+      },
+      {
+        "coordx": 0,
+        "coordy": 2
+      },
+      {
+        "coordx": 19,
+        "coordy": 2
+      },
+      {
+        "coordx": 0,
+        "coordy": 3
+      },
+      {
+        "coordx": 19,
+        "coordy": 3
+      },
+      {
+        "coordx": 0,
+        "coordy": 4
+      },
+      {
+        "coordx": 19,
+        "coordy": 4
+      },
+      {
+        "coordx": 0,
+        "coordy": 5
+      },
+      {
+        "coordx": 19,
+        "coordy": 5
+      },
+      {
+        "coordx": 0,
+        "coordy": 6
+      },
+      {
+        "coordx": 19,
+        "coordy": 6
+      },
+      {
+        "coordx": 0,
+        "coordy": 7
+      },
+      {
+        "coordx": 19,
+        "coordy": 7
+      },
+      {
+        "coordx": 0,
+        "coordy": 8
+      },
+      {
+        "coordx": 19,
+        "coordy": 8
+      },
+      {
+        "coordx": 0,
+        "coordy": 9
+      },
+      {
+        "coordx": 19,
+        "coordy": 9
+      },
+      {
+        "coordx": 0,
+        "coordy": 10
+      },
+      {
+        "coordx": 19,
+        "coordy": 10
+      },
+      {
+        "coordx": 0,
+        "coordy": 11
+      },
+      {
+        "coordx": 19,
+        "coordy": 11
+      },
+      {
+        "coordx": 0,
+        "coordy": 12
+      },
+      {
+        "coordx": 19,
+        "coordy": 12
+      },
+      {
+        "coordx": 0,
+        "coordy": 13
+      },
+      {
+        "coordx": 19,
+        "coordy": 13
+      },
+      {
+        "coordx": 0,
+        "coordy": 14
+      },
+      {
+        "coordx": 19,
+        "coordy": 14
+      },
+      {
+        "coordx": 0,
+        "coordy": 15
+      },
+      {
+        "coordx": 19,
+        "coordy": 15
+      },
+      {
+        "coordx": 0,
+        "coordy": 16
+      },
+      {
+        "coordx": 19,
+        "coordy": 16
+      },
+      {
+        "coordx": 0,
+        "coordy": 17
+      },
+      {
+        "coordx": 19,
+        "coordy": 17
+      },
+      {
+        "coordx": 0,
+        "coordy": 18
+      },
+      {
+        "coordx": 19,
+        "coordy": 18
+      },
+      {
+        "coordx": 0,
+        "coordy": 19
+      },
+      {
+        "coordx": 1,
+        "coordy": 19
+      },
+      {
+        "coordx": 2,
+        "coordy": 19
+      },
+      {
+        "coordx": 3,
+        "coordy": 19
+      },
+      {
+        "coordx": 4,
+        "coordy": 19
+      },
+      {
+        "coordx": 5,
+        "coordy": 19
+      },
+      {
+        "coordx": 6,
+        "coordy": 19
+      },
+      {
+        "coordx": 7,
+        "coordy": 19
+      },
+      {
+        "coordx": 8,
+        "coordy": 19
+      },
+      {
+        "coordx": 9,
+        "coordy": 19
+      },
+      {
+        "coordx": 10,
+        "coordy": 19
+      },
+      {
+        "coordx": 11,
+        "coordy": 19
+      },
+      {
+        "coordx": 12,
+        "coordy": 19
+      },
+      {
+        "coordx": 13,
+        "coordy": 19
+      },
+      {
+        "coordx": 14,
+        "coordy": 19
+      },
+      {
+        "coordx": 15,
+        "coordy": 19
+      },
+      {
+        "coordx": 16,
+        "coordy": 19
+      },
+      {
+        "coordx": 17,
+        "coordy": 19
+      },
+      {
+        "coordx": 18,
+        "coordy": 19
+      },
+      {
+        "coordx": 19,
+        "coordy": 19
+      }
+    ],
+    "1": [
+      {
+        "coordx": 0,
+        "coordy": 0
+      },
+      {
+        "coordx": 1,
+        "coordy": 0
+      },
+      {
+        "coordx": 2,
+        "coordy": 0
+      },
+      {
+        "coordx": 3,
+        "coordy": 0
+      },
+      {
+        "coordx": 4,
+        "coordy": 0
+      },
+      {
+        "coordx": 5,
+        "coordy": 0
+      },
+      {
+        "coordx": 6,
+        "coordy": 0
+      },
+      {
+        "coordx": 7,
+        "coordy": 0
+      },
+      {
+        "coordx": 8,
+        "coordy": 0
+      },
+      {
+        "coordx": 9,
+        "coordy": 0
+      },
+      {
+        "coordx": 10,
+        "coordy": 0
+      },
+      {
+        "coordx": 11,
+        "coordy": 0
+      },
+      {
+        "coordx": 12,
+        "coordy": 0
+      },
+      {
+        "coordx": 13,
+        "coordy": 0
+      },
+      {
+        "coordx": 14,
+        "coordy": 0
+      },
+      {
+        "coordx": 15,
+        "coordy": 0
+      },
+      {
+        "coordx": 16,
+        "coordy": 0
+      },
+      {
+        "coordx": 17,
+        "coordy": 0
+      },
+      {
+        "coordx": 18,
+        "coordy": 0
+      },
+      {
+        "coordx": 19,
+        "coordy": 0
+      }
+    ],
+    "3": [
+      {
+        "coordx": 5,
+        "coordy": 1
+      },
+      {
+        "coordx": 6,
+        "coordy": 1
+      },
+      {
+        "coordx": 10,
+        "coordy": 1
+      },
+      {
+        "coordx": 12,
+        "coordy": 1
+      },
+      {
+        "coordx": 14,
+        "coordy": 1
+      },
+      {
+        "coordx": 13,
+        "coordy": 2
+      },
+      {
+        "coordx": 11,
+        "coordy": 3
+      },
+      {
+        "coordx": 14,
+        "coordy": 3
+      },
+      {
+        "coordx": 11,
+        "coordy": 4
+      },
+      {
+        "coordx": 14,
+        "coordy": 4
+      },
+      {
+        "coordx": 2,
+        "coordy": 6
+      },
+      {
+        "coordx": 14,
+        "coordy": 6
+      },
+      {
+        "coordx": 11,
+        "coordy": 7
+      }
+    ],
+    "4": [
+      {
+        "coordx": 8,
+        "coordy": 3
+      },
+      {
+        "coordx": 8,
+        "coordy": 4
+      },
+      {
+        "coordx": 1,
+        "coordy": 5
+      },
+      {
+        "coordx": 2,
+        "coordy": 5
+      },
+      {
+        "coordx": 3,
+        "coordy": 5
+      },
+      {
+        "coordx": 8,
+        "coordy": 5
+      },
+      {
+        "coordx": 8,
+        "coordy": 6
+      },
+      {
+        "coordx": 8,
+        "coordy": 7
+      },
+      {
+        "coordx": 6,
+        "coordy": 10
+      },
+      {
+        "coordx": 7,
+        "coordy": 10
+      },
+      {
+        "coordx": 8,
+        "coordy": 10
+      },
+      {
+        "coordx": 9,
+        "coordy": 10
+      },
+      {
+        "coordx": 10,
+        "coordy": 10
+      },
+      {
+        "coordx": 12,
+        "coordy": 13
+      },
+      {
+        "coordx": 13,
+        "coordy": 13
+      },
+      {
+        "coordx": 14,
+        "coordy": 13
+      },
+      {
+        "coordx": 15,
+        "coordy": 13
+      },
+      {
+        "coordx": 16,
+        "coordy": 13
+      }
+    ],
+    "5": [
+      {
+        "coordx": 2,
+        "coordy": 3
+      }
+    ],
+    "6": [
+      {
+        "coordx": 15,
+        "coordy": 14
+      }
+    ]
+  }
+}

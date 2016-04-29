@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Includes/Vector2f.h"
-#include "../Includes/Entity.h"
-#include "../Includes/MapInfos.h"
+#include "Vector2f.h"
+#include "Entity.h"
+#include "MapInfos.h"
 
 namespace Moo
 {

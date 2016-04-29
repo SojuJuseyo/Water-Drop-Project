@@ -1,9 +1,5 @@
-#include "../Includes/Game.h"
-
-/*
-todo :
-
-*/
+#include "Game.h"
+#include "log.h"
 
 namespace Moo
 {
@@ -54,9 +50,9 @@ namespace Moo
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
-		createScene(LEVEL1, new LevelScene("Maps/TestLevel1.json"));
-		createScene(LEVEL2, new LevelScene("Maps/TestLevel2.json"));
-		createScene(LEVEL3, new LevelScene("Maps/TestLevel3.json"));
+		createScene(LEVEL1, new LevelScene("Maps/MapTestSprites.json"));
+		createScene(LEVEL2, new LevelScene("Maps/MapTestSprites.json"));
+		createScene(LEVEL3, new LevelScene("Maps/MapTestSprites.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU);
 		_isGameRunning = true;
@@ -67,7 +63,7 @@ namespace Moo
 			}
 		}
 	}
-	
+
 	// call de l'exit pour stoper la game loop
 	void			Game::exit()
 	{
@@ -87,7 +83,7 @@ namespace Moo
 			return;
 		}
 		Moo::d3d::getInstance().getCamera()->reset();
-		_currentScene->prevScene = tmpSceneForPrev; 
+		_currentScene->prevScene = tmpSceneForPrev;
 		if ((int)type >= (int)LEVEL1) {
 			cleanCurrentScene();
 			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
@@ -168,7 +164,7 @@ namespace Moo
 				if (scene.scene->_hasBeenInited == false)
 					scene.scene->init(_window);
 				scene.scene->runUpdate();
-				return ;
+				return;
 			}
 		}
 	}

@@ -2,16 +2,15 @@
 
 #include <iostream>
 #include <vector>
-#include "../Includes/log.h"
-#include "../Includes/window.h"
-#include "../Includes/Keyboard.h"
-#include "../Includes/Scene.h"
-#include "../Includes/LevelScene.h"
-#include "../Includes/MenuPause.h"
-#include "../Includes/Menu.h"
-#include "../Includes/LoadingScene.h"
-#include "../Includes/ControleScene.h"
-#include "../Includes/SoundSystem.h"
+#include "window.h"
+#include "Keyboard.h"
+#include "Scene.h"
+#include "LevelScene.h"
+#include "MenuPause.h"
+#include "Menu.h"
+#include "ControleScene.h"
+#include "SoundSystem.h"
+#include "LoadingScene.h"
 
 #define WINDOW_WIDTH 800.f
 #define WINDOW_HEIGHT 600.f
@@ -46,7 +45,7 @@ namespace Moo
 		void							exit();														// sert a quitter le jeu
 		void							cleanCurrentScene();										// clean la scene actuel
 		void							resetAllScenes();											// reset (init) toutes les scenes
-		std::shared_ptr<SoundSystem>	getSoundSystem();											
+		std::shared_ptr<SoundSystem>	getSoundSystem();
 
 	private:
 		Game();

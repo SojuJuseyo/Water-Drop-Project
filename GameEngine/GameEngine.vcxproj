@@ -77,7 +77,11 @@
     <LibraryPath>C:\Program Files %28x86%29\OpenAL 1.1 SDK\libs\Win32;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Program Files %28x86%29\OpenAL 1.1 SDK\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64;C:\Program Files %28x86%29\OpenAL 1.1 SDK\libs\Win64</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include</IncludePath>
     <LibraryPath>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64;C:\Program Files %28x86%29\OpenAL 1.1 SDK\libs\Win64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -99,12 +103,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;$(MSBuildProjectDirectory)\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>OpenAL32.lib;fmod_vc.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmod_vc.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -131,14 +135,22 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;$(MSBuildProjectDirectory)\Includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>fmod_vc.lib;fmod64_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="Maps\MapPlaytestSession.json" />
+    <None Include="Maps\MapPlaytestSessionNoEnemy.json" />
+    <None Include="Maps\MapPreAlpha.json" />
+    <None Include="Maps\MapSmall.json" />
+    <None Include="Maps\MapTestSprites.json" />
+    <None Include="Maps\TheElevator.json" />
     <None Include="TextureMap.fx">
       <FileType>Document</FileType>
     </None>
@@ -233,6 +245,8 @@
     <Media Include="Ressources\Sounds\Heart_of_Courage_8_Bit_s075.mp3" />
     <Media Include="Ressources\Sounds\jump.wav" />
     <Media Include="Ressources\Sounds\Menu.wav" />
+    <Media Include="Ressources\Sounds\powerup.wav" />
+    <Media Include="Ressources\Sounds\shoot.wav" />
     <Media Include="Ressources\Sounds\Victory.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

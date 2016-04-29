@@ -1,4 +1,4 @@
-#include "../Includes/Character.h"
+#include "Character.h"
 
 namespace Moo
 {
@@ -19,8 +19,6 @@ namespace Moo
 		this->setMass(mass);
 		this->setGravity(hasGravity);
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
-
-		_characterVelocity = Vector2f(STANDARD_VELOCITY_X, 0);
 	}
 
 	Character::~Character()
@@ -34,12 +32,12 @@ namespace Moo
 
 	void	Character::move(Direction direction)
 	{
-		if ((this->getVelocity().x <= _characterVelocity.x && this->getVelocity().x >= -_characterVelocity.x) || this->getVelocity().y < 0)
+		if ((this->getVelocity().x <= STANDARD_VELOCITY_X && this->getVelocity().x >= -STANDARD_VELOCITY_X) || this->getVelocity().y < 0)
 		{
 			if (direction == Direction::LEFT)
-				this->setVelocity(Vector2f(-_characterVelocity.x, this->getVelocity().y));
+				this->setVelocity(Vector2f(-STANDARD_VELOCITY_X, this->getVelocity().y));
 			else
-				this->setVelocity(Vector2f(_characterVelocity.x, this->getVelocity().y));
+				this->setVelocity(Vector2f(STANDARD_VELOCITY_X, this->getVelocity().y));
 		}
 		else
 			std::cout << "Wait your velocity X is: " << this->getVelocity().x << std::endl;
@@ -70,7 +68,7 @@ namespace Moo
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);
 
 		//Updating X velocity
-		if (_velocity.x >= _characterVelocity.x || _velocity.x <= -_characterVelocity.x)
+		if (_velocity.x >= STANDARD_VELOCITY_X || _velocity.x <= -STANDARD_VELOCITY_X)
 			_sprite->setX(_sprite->getX() + _velocity.x / FPS_LIMIT);
 		_velocity.x -= _velocity.x / FPS_LIMIT;
 	}
@@ -90,23 +88,12 @@ namespace Moo
 		return (this->_godMode);
 	}
 
-	void Character::changeHealth(float value)
-	{
-		this->setHealth(this->_health + value);
-		this->_sprite->scale(Moo::Vector2f(value / 10, value / 10));
-		this->_hitboxSprite->setScale(this->_sprite->getScale());
-		this->resetHitbox();
-		if (this->_type == EntityType::PLAYER)
-			this->_characterVelocity.x -= value;
-	}
-
 	void Character::checkEvaporation()
 	{
 		std::chrono::duration<double> elapsed_seconds = std::chrono::system_clock::now() - this->_lastEvaporation;
 		if (elapsed_seconds.count() > 4)
 		{
 			this->changeHealth(-EVAPORATION_RATE);
-			this->_characterVelocity.x += EVAPORATION_RATE;
 			std::cout << "Evaporating, player's health is now " << _health << std::endl;
 			this->_lastEvaporation = std::chrono::system_clock::now();
 		}
@@ -115,9 +102,9 @@ namespace Moo
 	void Character::setWallJumpVelocity(bool positive)
 	{
 		if (positive == true)
-			this->setVelocity(Vector2f(this->_characterVelocity.x * 2, this->getVelocity().y));
+			this->setVelocity(Vector2f(/*this->_characterVelocity.x * 2*/500, this->getVelocity().y));
 		else
-			this->setVelocity(Vector2f(-this->_characterVelocity.x * 2, this->getVelocity().y));
+			this->setVelocity(Vector2f(/*-this->_characterVelocity.x * 2*/-500, this->getVelocity().y));
 	}
 
 	void Character::setTimers()

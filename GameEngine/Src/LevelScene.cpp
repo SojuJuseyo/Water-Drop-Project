@@ -1,8 +1,8 @@
-#include "../Includes/LevelScene.h"
+#include "LevelScene.h"
 
 namespace Moo
 {
-	LevelScene::LevelScene(std::string pathMapFile)
+	LevelScene::LevelScene(const std::string &pathMapFile)
 	{
 		_pathMapFile = pathMapFile;
 		_entityTypeName[EntityType::PLAYER] = "Player";
@@ -25,7 +25,7 @@ namespace Moo
 	}
 
 	void LevelScene::clean()
-	{		
+	{
 		std::cout << "Clearing entities lists" << std::endl;
 		for (auto statEnt : _staticEntities)
 			statEnt.reset();
@@ -57,7 +57,7 @@ namespace Moo
 	{
 		auto sprite = std::make_shared<Moo::Sprite>(40.f, 40.f, posX * 40, posY * 40);
 		sprite->loadTexture(&_textures[getEntityTypeName(type)], &_spriteSheet[getEntityTypeName(type)]);
-		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type);
+		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, false);
 		_staticEntities.push_back(staticEntity);
 	}
 
@@ -68,7 +68,7 @@ namespace Moo
 
 		if (isCharacter == true)
 		{
-			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(1, 0), mass, sprite, true, health, type);
+			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(0, 0), mass, sprite, true, health, type);
 			if (type == EntityType::PLAYER)
 				_dynamicEntities.insert(_dynamicEntities.begin(), dynamicEntity);
 			else
@@ -92,19 +92,12 @@ namespace Moo
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
-		std::list<Tile *> playerTiles = map->getMap().getTilesFromColor("#ffabcdef"); //blue
-		std::list<Tile *> platformTiles = map->getMap().getTilesFromColor("#fff93738"); //red
-		std::list<Tile *> bottomTiles = map->getMap().getTilesFromColor("#ff117050"); //green
-		std::list<Tile *> enemyTiles = map->getMap().getTilesFromColor("#ff000000"); //black
-		std::list<Tile *> blockTiles = map->getMap().getTilesFromColor("#ff551A8B"); //purple
-		std::list<Tile *> exitTiles = map->getMap().getTilesFromColor("#ffffd700"); //gold
-
-		//Because the map created by the map editor are not in WINDOW_HEIGHT * WINDOW_WIDTH resolution
-		/*float multHeight = WINDOW_HEIGHT / map->getMap().getMapHeight();
-		float multWidth = WINDOW_WIDTH / map->getMap().getMapWidth();
-
-		std::cout << "multHeight: " << multHeight << std::endl;
-		std::cout << "multWidth: " << multWidth << std::endl;*/
+		std::list<Tile *> blockTiles = map->getMap().getTilesFromSprite("0");
+		std::list<Tile *> bottomTiles = map->getMap().getTilesFromSprite("1");
+		std::list<Tile *> enemyTiles = map->getMap().getTilesFromSprite("3");
+		std::list<Tile *> platformTiles = map->getMap().getTilesFromSprite("4");
+		std::list<Tile *> playerTiles = map->getMap().getTilesFromSprite("5");
+		std::list<Tile *> exitTiles = map->getMap().getTilesFromSprite("6");
 
 		//platforms
 		for (auto platformTile : platformTiles)
@@ -156,15 +149,15 @@ namespace Moo
 		std::cout << "Starting init" << std::endl;
 		this->clean();
 		_window = window;
-		
+
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 
 		//We get the map
-		//_map = JsonParser("Maps/MapPlaytestSession.json");
 		_map = JsonParser(_pathMapFile);
 
-		if (_map.parseFile() == -1)
+		if (_map.parseFile() == -1) {
 			throw std::exception("Can't load the map");
+		}
 
 		//map->getMap().displayMapInfos();
 
@@ -212,6 +205,7 @@ namespace Moo
 		_startTime = std::chrono::system_clock::now();
 		_canTemporarilyJump = _startTime;
 		_lastJump = _startTime;
+
 		std::cout << "Init successful" << std::endl;
 
 		return (true);
@@ -281,12 +275,12 @@ namespace Moo
 		{
 			if (_player->getHealth() > 1)
 			{
-				_soundSystem->playSound("jump", false);
+				_soundSystem->playSound("shoot", false);
 
 				fillDynamicEntitiesList(1, EntityType::BULLET,
-										_player->getSprite()->getX() + _player->getSprite()->getWidth(),
-										_player->getSprite()->getY() + (_player->getSprite()->getHeight() / 2),
-										15.f, 15.f, 100.f, 1.f, false);
+					_player->getSprite()->getX() + _player->getSprite()->getWidth(),
+					_player->getSprite()->getY() + (_player->getSprite()->getHeight() / 2),
+					15.f, 15.f, 100.f, 1.f, false);
 
 				// Check if cheat code is activated.
 				if (_player->isGodMode() == false)
@@ -327,9 +321,9 @@ namespace Moo
 	void	LevelScene::exitReached()
 	{
 		_win->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
-						  (Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
-						 ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
-						  (Moo::d3d::getInstance().getScreenSize().y / 2))
+			(Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
+			((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
+				(Moo::d3d::getInstance().getScreenSize().y / 2))
 			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
@@ -346,9 +340,9 @@ namespace Moo
 	void	LevelScene::playerDead()
 	{
 		_lose->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
-						   (Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
-						  ((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
-						   (Moo::d3d::getInstance().getScreenSize().y / 2))
+			(Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
+			((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
+				(Moo::d3d::getInstance().getScreenSize().y / 2))
 			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
@@ -366,9 +360,9 @@ namespace Moo
 	{
 		//Init collison & gravity loop values
 		HitZone hitZone;
-		bool deletedBullet, deletedCharacter;
+		bool deletedBullet, deletedCharacter, isInHeatZone;
 		Vector2f decal(0, 0);
-		
+
 		for (auto dynEntIt = _dynamicEntities.begin(); dynEntIt != _dynamicEntities.end();)
 		{
 			decal = Vector2f(0, 0);
@@ -376,8 +370,7 @@ namespace Moo
 			if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1)
 				_player->checkEvaporation();
 
-			if ((*dynEntIt)->getEntityType() != EntityType::ENEMY)
-				(*dynEntIt)->setGravity(true);
+			(*dynEntIt)->setGravity(true);
 
 			if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
 				(*dynEntIt)->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt)->getVelocity().y));
@@ -385,11 +378,12 @@ namespace Moo
 			if ((*dynEntIt)->getGravity() == true)
 			{
 				(std::static_pointer_cast<Moo::Character>((*dynEntIt)))->update();
-				(std::static_pointer_cast<Moo::Character>((*dynEntIt)))->resetHitbox();
+				(*dynEntIt)->resetHitbox();
 			}
 
 			deletedBullet = false;
 			deletedCharacter = false;
+			isInHeatZone = false;
 
 			for (auto statEntIt = _staticEntities.begin(); statEntIt != _staticEntities.end(); ++statEntIt)
 			{
@@ -416,7 +410,7 @@ namespace Moo
 						else if (hitZone == HitZone::BOTTOM)
 						{
 							decal.y = (*statEntIt)->getHitbox().y1 - (*dynEntIt)->getHitbox().y2;
-							std::static_pointer_cast<Moo::Character>((*dynEntIt))->resetPos();
+							(*dynEntIt)->resetPos();
 							(*dynEntIt)->setGravity(false);
 						}
 					}
@@ -427,6 +421,7 @@ namespace Moo
 						deletedBullet = true;
 						break;
 					}
+					isInHeatZone = (*statEntIt)->getIsHeatZone();
 				}
 			}
 
@@ -440,12 +435,14 @@ namespace Moo
 					(*dynEntIt)->getSprite()->setX((*dynEntIt)->getSprite()->getX() + decal.x);
 				}
 				(*dynEntIt)->resetHitbox();
+				if (isInHeatZone == true)
+					(*dynEntIt)->evaporateHeatZone();
 
 				for (auto SecondDynEntIt = _dynamicEntities.begin(); SecondDynEntIt != _dynamicEntities.end(); ++SecondDynEntIt)
 				{
 					if (!((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() == EntityType::BULLET)
-					 && (*SecondDynEntIt).get() != (*dynEntIt).get()
-					 && ((hitZone = (*dynEntIt)->collisionAABB((*SecondDynEntIt).get())) != HitZone::NONE))
+						&& (*SecondDynEntIt).get() != (*dynEntIt).get()
+						&& ((hitZone = (*dynEntIt)->collisionAABB((*SecondDynEntIt).get())) != HitZone::NONE))
 					{
 						//If we collide with an enemy : Absorb him
 						std::cout << "Collision between " << getEntityTypeName((*dynEntIt)->getEntityType()) << " and " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
@@ -453,7 +450,7 @@ namespace Moo
 						{
 							if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
 							{
-								std::static_pointer_cast<Moo::Character>((*SecondDynEntIt))->changeHealth((*dynEntIt)->getHealth());
+								(*SecondDynEntIt)->changeHealth((*dynEntIt)->getHealth());
 								std::cout << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << " health: " << (*SecondDynEntIt)->getHealth() << std::endl;
 								std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType()) << std::endl;
 								dynEntIt = _dynamicEntities.erase(dynEntIt);
@@ -462,7 +459,9 @@ namespace Moo
 							}
 							else if ((*dynEntIt)->getHealth() >= (*SecondDynEntIt)->getHealth() || std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() == true)
 							{
-								std::static_pointer_cast<Moo::Character>(*dynEntIt)->changeHealth((*SecondDynEntIt)->getHealth() * 33 / 100);
+								if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
+									_soundSystem->playSound("powerup", false);
+								(*dynEntIt)->changeHealth((*SecondDynEntIt)->getHealth() * 33 / 100);
 								std::cout << getEntityTypeName((*dynEntIt)->getEntityType()) << " health: " << (*dynEntIt)->getHealth() << std::endl;
 								std::cout << "Deleting " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
 								SecondDynEntIt = _dynamicEntities.erase(SecondDynEntIt);
@@ -493,7 +492,7 @@ namespace Moo
 	{
 		/*
 		if (themeChan != nullptr)
-			themeChan->setPaused(false);
+		themeChan->setPaused(false);
 		*/
 
 		//Getting the inputs of the player
@@ -514,7 +513,7 @@ namespace Moo
 
 		/*
 		if (themeChan != nullptr)
-			themeChan->setPaused(true);
+		themeChan->setPaused(true);
 		*/
 		return true;
 	}

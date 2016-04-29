@@ -20,10 +20,31 @@
     <Filter Include="Includes">
       <UniqueIdentifier>{58d910e5-396d-4462-8093-1e105397dbfd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\maps">
+      <UniqueIdentifier>{5af59139-50b4-4e5e-9745-b3776ad85125}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="TextureMap.fx">
       <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="Maps\MapSmall.json">
+      <Filter>Resource Files\maps</Filter>
+    </None>
+    <None Include="Maps\MapTestSprites.json">
+      <Filter>Resource Files\maps</Filter>
+    </None>
+    <None Include="Maps\TheElevator.json">
+      <Filter>Resource Files\maps</Filter>
+    </None>
+    <None Include="Maps\MapPlaytestSession.json">
+      <Filter>Resource Files\maps</Filter>
+    </None>
+    <None Include="Maps\MapPlaytestSessionNoEnemy.json">
+      <Filter>Resource Files\maps</Filter>
+    </None>
+    <None Include="Maps\MapPreAlpha.json">
+      <Filter>Resource Files\maps</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +305,12 @@
     </Media>
     <Media Include="Ressources\Sounds\Victory.wav">
       <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\powerup.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\shoot.wav">
+      <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>
 </Project>

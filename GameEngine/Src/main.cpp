@@ -1,32 +1,35 @@
 #pragma once
 
-#include "../Includes/Window.h"
-#include "../Includes/Game.h"
-#include "../Includes/Exceptions.h"
-#include "../Includes/Log.h"
+#include "Window.h"
+#include "Game.h"
+#include "Exceptions.h"
+#include "Log.h"
 
 #include <vector>
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow) 
 {
 	//Console
+#ifdef _DEBUG
 	FILE * pConsole;
 	AllocConsole();
 	freopen_s(&pConsole, "CONOUT$", "wb", stdout);
 	freopen_s(&pConsole, "CONOUT$", "wb", stderr);
+#endif // DEBUG
 
 	//Getting the game window
 	auto window = std::make_shared<Moo::Window>(hInstance, Moo::WindowSettings("Water Drop", Moo::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)));
 	window->setFpsLimit(FPS_LIMIT);
-
+	Moo::Game::getInstance().startGame(window);
+	/*
 	try {
 		//Main game loop
-		Moo::Game::getInstance().startGame(window);
 	}
 	catch (Moo::InitException &e) {
 		std::cerr << "CRITICAL_ERROR: " << e.what() << std::endl;
 		LOG(Moo::Log::CRITICAL_ERROR) << e.what() << std::endl;
 	}
+	*/
 	/*
 	catch (Moo::Exception &e) {
 		std::cerr << "WARNING: " << e.what() << std::endl;

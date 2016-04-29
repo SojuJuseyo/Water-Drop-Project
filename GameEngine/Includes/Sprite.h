@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Includes/Texture.h"
-#include "../Includes/Drawable.h"
-#include "../Includes/Transformable.h"
-#include "../Includes/SpriteRect.h"
+#include "Texture.h"
+#include "Drawable.h"
+#include "Transformable.h"
+#include "SpriteRect.h"
 
 using namespace Microsoft::WRL;
 
@@ -35,6 +35,7 @@ namespace Moo
 		void loadTexture(Texture *);
 		void loadTexture(Texture *, SpriteRect *);
 		SpriteRect *getspriteRect();
+		void setspriteRect(SpriteRect *);
 		void draw();
 		float getWidth();
 		float getHeight();

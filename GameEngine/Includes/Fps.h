@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Includes/Timer.h"
+#include "Timer.h"
 
 namespace Moo
 {

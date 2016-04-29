@@ -1,4 +1,4 @@
-#include "../Includes/WindowSettings.h"
+#include "WindowSettings.h"
 
 namespace Moo
 {

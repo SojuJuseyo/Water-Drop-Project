@@ -2,12 +2,10 @@
 
 #include <chrono>
 #include <ctime>
-#include "../Includes/WindowSettings.h"
-#include "../Includes/Vector2f.h"
-#include "../Includes/DynamicEntity.h"
-#include "../Includes/Sprite.h"
-
-#define EVAPORATION_RATE	0.25 //per second
+#include "WindowSettings.h"
+#include "Vector2f.h"
+#include "DynamicEntity.h"
+#include "Sprite.h"
 
 namespace Moo
 {
@@ -22,7 +20,6 @@ namespace Moo
 		void	update();
 		HitZone	collisionAABB(Entity *entity);
 
-		void	changeHealth(float);
 		void	checkEvaporation();
 		void	setTimers();
 		void	setWallJumpVelocity(bool);
@@ -33,10 +30,7 @@ namespace Moo
 		void	toggleGodMode();
 
 	private:
-		Vector2f		_characterVelocity;
-
 		std::chrono::time_point<std::chrono::system_clock> _startingTime, _lastEvaporation;
-
 		bool	_godMode;
 	};
 }

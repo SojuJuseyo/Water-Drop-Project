@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Vector2f.h"
-#include "../Includes/Sprite.h"
+#include "Sprite.h"
 
 namespace Moo
 {
