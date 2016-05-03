@@ -38,8 +38,8 @@ namespace Moo
 		WindowSettings _config;
 		HWND _hwnd;
 		float _fpsLimit;
-		ID3D11Device *_dev;
-		ID3D11DeviceContext *_devcon;
+		ComPtr<ID3D11Device> _dev;
+		ComPtr<ID3D11DeviceContext> _devcon;
 		d3d _system;
 	};
 }

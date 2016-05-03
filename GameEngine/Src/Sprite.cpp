@@ -10,7 +10,7 @@ namespace Moo
 
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
-		_spriteRect = nullptr;
+		_rect = nullptr;
 	}
 
 	Sprite::Sprite(Sprite & sprite)
@@ -25,36 +25,67 @@ namespace Moo
 	void	Sprite::loadTexture(Texture *texture)
 	{
 		_texture = texture;
-		_spriteRect = new SpriteRect(_texture->getWidth(), _texture->getHeight(), _texture->getWidth(), _texture->getHeight());
-		_texture->setResourceData(_spriteRect->makeVertexTab(0, 0));
-	}
-	 
-	void	Sprite::loadTexture(Texture *texture, SpriteRect *spriteRect)
-	{
-		_texture = texture;
-		_texture->setResourceData(spriteRect->getVertexTab());
-		_spriteRect = spriteRect;
 	}
 
-	void Sprite::setspriteRect(SpriteRect *spriteRect)
+	void	Sprite::setRectFromSpriteSheet(Vector2f pos, Vector2f size)
 	{
-		_spriteRect = spriteRect;
+		if (_rect == nullptr) {
+			_rect = new VERTEX[6];
+		}
+		auto widthTexture = size.x;
+		auto heightTexture = size.y;
+		auto widthWholeTexture = _texture->getWidth();
+		auto heightWholeTexture = _texture->getHeight();
+		auto offsetX = widthTexture / widthWholeTexture;
+		auto offsetY = heightTexture / heightWholeTexture;
+
+		auto x = pos.x;
+		auto y = pos.y;
+
+		auto widthSprite = 0.5f;
+		auto heightSprite = 0.5f;
+		
+		_rect[0].position = XMFLOAT3(widthSprite, heightSprite, 1.0f);
+		_rect[0].texture = XMFLOAT2(offsetX * (x + 1), offsetY * y);
+
+		_rect[1].position = XMFLOAT3(widthSprite, -heightSprite, 1.0f);
+		_rect[1].texture = XMFLOAT2(offsetX * (x + 1), offsetY * (y + 1));
+
+		_rect[2].position = XMFLOAT3(-widthSprite, -heightSprite, 1.0f);
+		_rect[2].texture = XMFLOAT2(offsetX * x, offsetY * (y + 1));
+
+		_rect[3].position = XMFLOAT3(-widthSprite, -heightSprite, 1.0f);
+		_rect[3].texture = XMFLOAT2(offsetX * x, offsetY * (y + 1));
+
+		_rect[4].position = XMFLOAT3(-widthSprite, heightSprite, 1.0f);
+		_rect[4].texture = XMFLOAT2(offsetX * x, offsetY * y);
+
+		_rect[5].position = XMFLOAT3(widthSprite, heightSprite, 1.0f);
+		_rect[5].texture = XMFLOAT2(offsetX * (x + 1), offsetY * y);
 	}
 
-	SpriteRect *Sprite::getspriteRect()
+	void	Sprite::setResourceData()
 	{
-		if (_spriteRect != nullptr)
-			return _spriteRect;
-		return nullptr;
+		D3D11_BUFFER_DESC vertexDesc;
+		ZeroMemory(&vertexDesc, sizeof(vertexDesc));
+		vertexDesc.Usage = D3D11_USAGE_DEFAULT;
+		vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		vertexDesc.ByteWidth = sizeof(VERTEX) * 6;
+
+		ZeroMemory(&_resourceData, sizeof(_resourceData));
+		_resourceData.pSysMem = _rect;
+		_dev->CreateBuffer(&vertexDesc, &_resourceData, &_vertexBuffer);
 	}
 
 	void	Sprite::draw()
 	{	
+		if (_rect == nullptr) {
+			this->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(_texture->getWidth(), _texture->getHeight()));
+		}
+		this->setResourceData();
+
 		unsigned int stride = sizeof(VERTEX);
 		unsigned int offset = 0;
-
-		//_texture->setResourceData(_spriteRect->getVertexTab());
-
 		_devcon->IASetInputLayout(_texture->getInputLayout());
 		_devcon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -66,11 +97,11 @@ namespace Moo
 		XMMATRIX view = d3d::getInstance().getView();
 		XMMATRIX projection = d3d::getInstance().getProjection();
 
-		vpMatrix = DirectX::XMMatrixMultiply((XMMATRIX)view, (XMMATRIX)projection);
+		_vpMatrix = DirectX::XMMatrixMultiply((XMMATRIX)view, (XMMATRIX)projection);
 
 		auto colorMap = _texture->getColorMap();
 		_devcon->PSSetShaderResources(0, 1, &colorMap);
-		auto vertexBuffer = _texture->getVertexBuffer();
+		auto vertexBuffer = _vertexBuffer.Get();
 		_devcon->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 		XMVECTOR axis = DirectX::XMVectorSet(0, 0, 0, 0);
 
@@ -78,16 +109,17 @@ namespace Moo
 
 		XMMATRIX rotationZ = XMMatrixRotationZ(DirectX::XMConvertToRadians(getRotation()));
 
-		XMMATRIX scalling = DirectX::XMMatrixScaling(getScale().x * (_width / 50), getScale().y * (_height / 50), 1);
-		
+		XMMATRIX scalling = DirectX::XMMatrixScaling(getScale().x * _width, getScale().y * _height, 1);
+
 		XMMATRIX world = scalling * rotationZ * translation;
 
-		XMMATRIX mvp = DirectX::XMMatrixMultiply((XMMATRIX)world, (XMMATRIX)vpMatrix);
+		XMMATRIX mvp = DirectX::XMMatrixMultiply((XMMATRIX)world, (XMMATRIX)_vpMatrix);
 		mvp = DirectX::XMMatrixTranspose(mvp);
 
 		auto contentBuffer = _texture->getContentBuffer();
 		_devcon->UpdateSubresource(contentBuffer, 0, 0, &mvp, 0, 0);
 		_devcon->VSSetConstantBuffers(0, 1, &contentBuffer);
+
 		_devcon->Draw(6, 0);
 	}
 
@@ -103,6 +135,6 @@ namespace Moo
 
 	ID3D11Buffer* const* Sprite::getVertexBuffer() const
 	{
-		return vertexBuffer.GetAddressOf();
+		return _vertexBuffer.GetAddressOf();
 	}
 }

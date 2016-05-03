@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Text.h"
 #include "Keyboard.h"
 #include "Window.h"
 

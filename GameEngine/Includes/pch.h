@@ -69,6 +69,8 @@
 #pragma warning(pop)
 
 #include <wrl.h>
+#include <sstream>
+#include "Exceptions.h"
 
 namespace DirectX
 {
@@ -77,4 +79,15 @@ namespace DirectX
     typedef const XMVECTOR& HXMVECTOR;
     typedef const XMMATRIX& FXMMATRIX;
     #endif
+
+	inline void ThrowIfFailed(HRESULT hr)
+	{
+		if (FAILED(hr))
+		{
+			std::stringstream ss;
+			ss << "#" << hr;
+			// Set a breakpoint on this line to catch Win32 API errors.
+			throw Moo::Exception(ss.str().c_str());
+		}
+	}
 }

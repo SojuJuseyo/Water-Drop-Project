@@ -42,21 +42,17 @@ namespace Moo
 
 	void	LevelScene::loadFromSpriteSheet()
 	{
-		_spriteSheet["Block"] = SpriteRect(16.f, 16.f, 128.f, 16.f);
-		_spriteSheet["Platform"] = SpriteRect(16.f, 16.f, 128.f, 16.f);
-		_spriteSheet["Ground"] = SpriteRect(16.f, 16.f, 128.f, 16.f);
-		_spriteSheet["Exit"] = SpriteRect(16.f, 16.f, 128.f, 16.f);
-
-		_spriteSheet["Block"].makeVertexTab(4, 0);
-		_spriteSheet["Platform"].makeVertexTab(0, 0);
-		_spriteSheet["Ground"].makeVertexTab(1, 0);
-		_spriteSheet["Exit"].makeVertexTab(5, 0);
+		_spriteSheet["Block"] = Moo::Vector2f(4, 0);
+		_spriteSheet["Platform"] = Moo::Vector2f(0, 0);
+		_spriteSheet["Ground"] = Moo::Vector2f(1, 0);
+		_spriteSheet["Exit"] = Moo::Vector2f(5, 0);
 	}
 
 	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY)
 	{
 		auto sprite = std::make_shared<Moo::Sprite>(40.f, 40.f, posX * 40, posY * 40);
-		sprite->loadTexture(&_textures[getEntityTypeName(type)], &_spriteSheet[getEntityTypeName(type)]);
+		sprite->loadTexture(&_textures["Tileset"]);
+		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(16, 16));
 		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, false);
 		_staticEntities.push_back(staticEntity);
 	}
@@ -65,7 +61,9 @@ namespace Moo
 	{
 		auto sprite = std::make_shared<Moo::Sprite>(width, height, posX * mult, posY * mult);
 		sprite->loadTexture(&_textures[getEntityTypeName(type)]);
-
+		if (type == EntityType::PLAYER) {
+			sprite->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
+		}
 		if (isCharacter == true)
 		{
 			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(0, 0), mass, sprite, true, health, type);
@@ -83,12 +81,10 @@ namespace Moo
 
 	void	LevelScene::getEntitiesFromMap(MapInfos map)
 	{
-		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("character.dds"));
+		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("player.dds"));
+
 		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
-		_textures["Block"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
-		_textures["Platform"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
-		_textures["Ground"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
-		_textures["Exit"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
+		_textures["Tileset"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
@@ -262,11 +258,17 @@ namespace Moo
 			}
 		}
 
-		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left)) {
 			_player->move(Direction::LEFT);
+			_player->setDirection(Direction::LEFT);
+			_player->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(36, 42));
+		}
 
-		if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::Right)) {
 			_player->move(Direction::RIGHT);
+			_player->setDirection(Direction::RIGHT);
+			_player->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
+		}
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
 		{
