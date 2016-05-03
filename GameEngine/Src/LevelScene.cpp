@@ -81,7 +81,7 @@ namespace Moo
 		}
 	}
 
-	void	LevelScene::getEntitiesFromMap(JsonParser *map)
+	void	LevelScene::getEntitiesFromMap(MapInfos map)
 	{
 		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("character.dds"));
 		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
@@ -92,12 +92,12 @@ namespace Moo
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
-		std::list<Tile *> blockTiles = map->getMap().getTilesFromSprite("0");
-		std::list<Tile *> bottomTiles = map->getMap().getTilesFromSprite("1");
-		std::list<Tile *> enemyTiles = map->getMap().getTilesFromSprite("3");
-		std::list<Tile *> platformTiles = map->getMap().getTilesFromSprite("4");
-		std::list<Tile *> playerTiles = map->getMap().getTilesFromSprite("5");
-		std::list<Tile *> exitTiles = map->getMap().getTilesFromSprite("6");
+		std::list<Tile *> blockTiles = map.getTilesFromSprite("0");
+		std::list<Tile *> bottomTiles = map.getTilesFromSprite("1");
+		std::list<Tile *> enemyTiles = map.getTilesFromSprite("3");
+		std::list<Tile *> platformTiles = map.getTilesFromSprite("4");
+		std::list<Tile *> playerTiles = map.getTilesFromSprite("5");
+		std::list<Tile *> exitTiles = map.getTilesFromSprite("6");
 
 		//platforms
 		for (auto platformTile : platformTiles)
@@ -153,16 +153,13 @@ namespace Moo
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 
 		//We get the map
-		_map = JsonParser(_pathMapFile);
+		JsonParser fileParser = JsonParser(_pathMapFile);
 
-		if (_map.parseFile() == -1) {
-			throw std::exception("Can't load the map");
-		}
-
-		//map->getMap().displayMapInfos();
+		fileParser.parseFile(FileType::MAP);
+		_map = fileParser.parseMap();
 
 		//Read the entities from the map
-		getEntitiesFromMap(&_map);
+		getEntitiesFromMap(_map);
 
 		std::cout << "Succeeded in getting entities from the map" << std::endl;
 		std::cout << "Static entities list is filled, size: " << _staticEntities.size() << std::endl;
@@ -178,7 +175,7 @@ namespace Moo
 		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("character.dds"));
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("You_Lost_DDS.dds"));
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("You_Won_DDS.dds"));
-		Moo::d3d::getInstance().getCamera()->setInfoMap(_map.getMap());
+		Moo::d3d::getInstance().getCamera()->setInfoMap(_map);
 		_camera.reset();
 		_lose = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
 		_lose->loadTexture(&_textures["Lose"]);
@@ -190,9 +187,9 @@ namespace Moo
 
 		if (themeChan == nullptr)
 		{
-			if (_soundSystem->addSound(_map.getMap().getMapAudioFile().c_str(), "custom") == false)
+			if (_soundSystem->addSound(_map.getMapAudioFile().c_str(), "custom") == false)
 			{
-				std::cout << _map.getMap().getMapAudioFile() << std::endl;
+				std::cout << _map.getMapAudioFile() << std::endl;
 				std::cout << "music failed" << std::endl;
 				themeChan = nullptr;
 			}

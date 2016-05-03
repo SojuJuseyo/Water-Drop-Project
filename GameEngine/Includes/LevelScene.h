@@ -33,7 +33,7 @@ namespace Moo
 		bool	runUpdate();
 		void	clean();
 		bool	init(std::shared_ptr<Moo::Window> window);
-		void	getEntitiesFromMap(JsonParser *map);
+		void	getEntitiesFromMap(MapInfos map);
 		void	fillStaticEntitiesList(EntityType, float, float);
 		void	fillDynamicEntitiesList(int, EntityType, float, float, float, float, float, float, bool);
 		Camera	getCamera();
@@ -50,7 +50,7 @@ namespace Moo
 		std::vector<std::shared_ptr<Moo::DynamicEntity>>	_dynamicEntities;
 		std::map<EntityType, std::string>					_entityTypeName;
 
-		JsonParser			_map;
+		MapInfos			_map;
 		std::map<std::string, Moo::Texture> _textures;
 		std::map<std::string, SpriteRect> _spriteSheet;
 		std::shared_ptr<Moo::Character>	_player;

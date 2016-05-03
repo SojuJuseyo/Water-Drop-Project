@@ -5,9 +5,9 @@ JsonParser::JsonParser()
 
 }
 
-JsonParser::JsonParser(std::string _filePath)
+JsonParser::JsonParser(std::string filePath)
 {
-	this->filePath = _filePath;
+	this->_filePath = filePath;
 }
 
 JsonParser::~JsonParser()
@@ -16,33 +16,43 @@ JsonParser::~JsonParser()
 }
 
 // Function parsing the Json file and setting the map variables
-int JsonParser::parseFile()
+void	JsonParser::parseFile(FileType fileType)
 {
-	std::ifstream	fileStream(this->filePath);
+	std::ifstream	fileStream(this->_filePath);
 	Json::Reader	jsonReader;
-	Json::Value		jsonObject;
-	Json::Value		tileListObject;
 
+	this->_fileType = fileType;
+	this->defineFileFieldNames();
 	// Parse the stream and fill the jsonObject with the values
-	if (!jsonReader.parse(fileStream, jsonObject))
-	{
-		std::cout << "Can't find the map. Please check the path." << std::endl;
-		return (-1);
-	}
-	// Check that the name of the map, its size and its tilelist are correctly set
-	if (this->checkFieldNamesExistence(jsonObject) == false)
-	{
-		std::cout << "Map corrupted. All the required fields are not present. Please correct the map or recreate it." << std::endl;
-		return (-1);
-	}
+	if (!jsonReader.parse(fileStream, _fileContent))
+		throw std::string("Can't find the file. Please check the path.");
 
-	this->map.setMapName(jsonObject[MAPNAMEATTRIBUTE].asString());
+	// Check that the field names of this type of file are present
+	if (checkFieldNamesExistence() == false)
+		throw std::string("File corrupted. All the required fields are not present. Please correct the file or recreate it.");
+}
+
+void	JsonParser::defineFileFieldNames()
+{
+	if (this->_fileType == FileType::MAP)
+		_fieldNames = { MAP_NAME_ATTRIBUTE, MAP_SIZE_ATTRIBUTE, MAP_TILE_LIST_ATTRIBUTE, MAP_AUDIO_ATTRIBUTE, MAP_HEATZONE_LIST_ATTRIBUTE };
+	else if (this->_fileType == FileType::SETTINGS)
+		_fieldNames = { SETTINGS_RESOLUTION, SETTINGS_KEYS_MAPPING, SETTINGS_VOLUME, SETTINGS_FULLSCREEN, SETTINGS_FPS };
+}
+
+// Function parsing the Json file and setting the map variables
+MapInfos JsonParser::parseMap()
+{
+	Json::Value		tileListObject;
+	MapInfos		map;
+
+	map.setMapName(_fileContent[MAP_NAME_ATTRIBUTE].asString());
 	// Parse the size string (format : X/Y) and split it in two integers
-	this->parseMapSize(jsonObject[MAPSIZEATTRIBUTE].asString());
+	parseMapSize(_fileContent[MAP_SIZE_ATTRIBUTE].asString(), map);
 
-	this->map.setMapAudioFile(jsonObject[MAPAUDIOATTRIBUTE].asString());
+	map.setMapAudioFile(_fileContent[MAP_AUDIO_ATTRIBUTE].asString());
 
-	tileListObject = jsonObject[MAPTILELISTATTRIBUTE];
+	tileListObject = _fileContent[MAP_TILE_LIST_ATTRIBUTE];
 	// Get a vector of sprites used
 	std::vector<std::string> spritesUsed = tileListObject.getMemberNames();
 	std::list<std::pair<std::string, std::list<Tile *>>> mapTileList;
@@ -60,9 +70,9 @@ int JsonParser::parseFile()
 			Tile *newTile = new Tile();
 			Json::Value itrValue = (*itr);
 
-			newTile->setPosX(itrValue[MAPCOORDX].asFloat());
-			newTile->setPosY(itrValue[MAPCOORDY].asFloat());
-			
+			newTile->setPosX(itrValue[MAP_COORD_X].asFloat());
+			newTile->setPosY(itrValue[MAP_COORD_Y].asFloat());
+
 			selectedSpriteTileList.push_back(newTile);
 		}
 
@@ -71,28 +81,36 @@ int JsonParser::parseFile()
 		mapTileList.push_back(spriteTileListPair);
 	}
 
-	this->map.setMapTileList(mapTileList);
+	map.setMapTileList(mapTileList);
 
 	std::cout << "Map successfully loaded." << std::endl;
-	
-	return (0);
+
+	return (map);
+}
+
+std::map<std::string, std::string>	JsonParser::getFileContent()
+{
+	std::map<std::string, std::string>	fileContent;
+
+	for (std::string fieldName : _fieldNames)
+		fileContent[fieldName] = _fileContent[fieldName].asString();
+
+	return (fileContent);
 }
 
 // Check if field names are all set (name, size, tilelist)
-bool JsonParser::checkFieldNamesExistence(Json::Value jsonObject)
+bool	JsonParser::checkFieldNamesExistence()
 {
-	std::vector<std::string> fieldNames = jsonObject.getMemberNames();
-	std::vector<std::string> defineFieldNames = { MAPNAMEATTRIBUTE, MAPSIZEATTRIBUTE, MAPTILELISTATTRIBUTE, MAPAUDIOATTRIBUTE };
-
+	std::vector<std::string> fieldNames = _fileContent.getMemberNames();
 	std::sort(fieldNames.begin(), fieldNames.end());
-	std::sort(defineFieldNames.begin(), defineFieldNames.end());
-	if (fieldNames == defineFieldNames)
+	std::sort(_fieldNames.begin(), _fieldNames.end());
+	if (fieldNames == _fieldNames)
 		return (true);
 	return (false);
 }
 
 // Parse the size string (format : X/Y) and split it in two integers
-void JsonParser::parseMapSize(std::string mapSize)
+void JsonParser::parseMapSize(std::string mapSize, MapInfos	&map)
 {
 	// I have no idea what this is doing but as strtok is deprecating I have to use the black magic function strtok_s
 	// using a black magic variable as last parameter
@@ -100,10 +118,10 @@ void JsonParser::parseMapSize(std::string mapSize)
 	int mapSizeX = 0, mapSizeY = 0;
 	
 	char *word = strtok_s(&mapSize[0], "/", &next_token[0]);
-	this->map.setMapWidth((float)atoi(word));
+	map.setMapWidth((float)atoi(word));
 
 	word = strtok_s(NULL, "/", &next_token[0]);
-	this->map.setMapHeight((float)atoi(word));
+	map.setMapHeight((float)atoi(word));
 }
 
 // Debug function asking for the path of the map
@@ -127,22 +145,12 @@ void JsonParser::getFilenameFromConsole()
 // Setters and getters
 ////////////////////////////////
 
-void JsonParser::setFilePath(std::string _filePath)
+void JsonParser::setFilePath(std::string filePath)
 {
-	this->filePath = _filePath;
+	this->_filePath = filePath;
 }
 
 std::string JsonParser::getFilePath() const
 {
-	return (this->filePath);
-}
-
-void JsonParser::setMap(MapInfos _map)
-{
-	this->map = _map;
-}
-
-MapInfos JsonParser::getMap() const
-{
-	return (this->map);
+	return (this->_filePath);
 }

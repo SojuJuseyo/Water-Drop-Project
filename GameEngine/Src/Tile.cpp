@@ -14,22 +14,32 @@ Tile::~Tile()
 // Setters and getters
 ////////////////////////////////
 
-void Tile::setPosX(float _posX)
+void Tile::setPosX(float posX)
 {
-	this->posX = _posX;
+	this->_posX = posX;
 }
 
 float Tile::getPosX() const
 {
-	return (this->posX);
+	return (this->_posX);
 }
 
-void Tile::setPosY(float _posY)
+void Tile::setPosY(float posY)
 {
-	this->posY = _posY;
+	this->_posY = posY;
 }
 
 float Tile::getPosY() const
 {
-	return (this->posY);
+	return (this->_posY);
+}
+
+void Tile::setisHeatZone(bool isHeatZone)
+{
+	this->_isHeatZone = isHeatZone;
+}
+
+bool Tile::getisHeatZone() const
+{
+	return (this->_isHeatZone);
 }
