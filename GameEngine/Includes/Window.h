@@ -10,7 +10,6 @@
 #include "Fps.h"
 #include "Keyboard.h"
 #include "Sprite.h"
-#include "SpriteRect.h"
 
 #define WM_FULLSCREEN WM_USER + 0
 #define WM_LEFT WM_USER + 1

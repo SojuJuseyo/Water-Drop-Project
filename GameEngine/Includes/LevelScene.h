@@ -11,7 +11,6 @@
 #include "StaticEntity.h"
 #include "SoundSystem.h"
 #include "Camera.h"
-#include "SpriteRect.h"
 
 struct s_collider
 {

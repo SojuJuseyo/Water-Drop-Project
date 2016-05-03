@@ -12,7 +12,7 @@ namespace Moo
 		this->_health = health;
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		this->_type = EntityType::BULLET;
-		_hitboxSprite = std::make_shared<Sprite>(*sprite);
+		_hitboxSprite = std::make_shared<Sprite>(sprite->getWidth(), sprite->getHeight(), sprite->getPosition().x, sprite->getPosition().y);
 		_texture = std::make_shared<Moo::Texture>();
 		_texture->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 		_hitboxSprite->loadTexture(_texture.get());
