@@ -153,6 +153,9 @@
     <ClInclude Include="Includes\LoadingScene.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\GameManagmentHeader.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp">

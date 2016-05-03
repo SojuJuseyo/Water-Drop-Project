@@ -1,15 +1,12 @@
-#include "Game.h"
+#include "GameManagmentHeader.h"
 #include "log.h"
 
 /*
 ** TODO :
 
-	- dans Window, on sait la difference entre echap et la croix, il faut reussir a faire une inclusion croise et inclure Game la dedans pour appeller des bailles de Game
-	- full gestion du prev qui sa'adapte aux menu et in game
-	- le resume qui reprend la scene in game parfaitement la ou le joueur etait (cf le point precedent donc)
 	- prevoir l'affichage du loading screen avant CHAQUE runScene
 	- prevoir la possibilite d'un ecran de victoire si la joueur arrive au bout des niveaux de jeu
-	- linker la touche R a la fonction cleanCurrentLevel pour recommencer rapidement le niveau (meme fonction que quand le joueur meurt)
+	- rajouter le sleep au load de chaque niveau de jeu (car si le joueur a spam une touche ca queu chelou quand le niveau a fini de load) (OU : trouver une solution alternative a ca)
 
 */
 
@@ -33,8 +30,10 @@ namespace Moo
 	// fait un clean sur la scene actuelle
 	void			Game::cleanCurrentScene()
 	{
-		for (auto &scene : _listOfScenes) {
-			if (scene.sceneType == _currentScene->sceneType) {
+		for (auto &scene : _listOfScenes)
+		{
+			if (scene.sceneType == _currentScene->sceneType)
+			{
 				scene.scene->init(_window);
 				return;
 			}
@@ -62,16 +61,17 @@ namespace Moo
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
-		createScene(LEVEL1, new LevelScene("Maps/MapTestSprites.json"));
-		createScene(LEVEL2, new LevelScene("Maps/MapSmall.json"));
-		createScene(LEVEL3, new LevelScene("Maps/TheElevator.json"));
+		createScene(LEVEL1, new LevelScene("Maps/TestLevel1.json"));
+		createScene(LEVEL2, new LevelScene("Maps/TestLevel2.json"));
+		createScene(LEVEL3, new LevelScene("Maps/TestLevel3.json"));
 		resetAllScenes();
-		runScene(MAIN_MENU);
+		runScene(MAIN_MENU, false);
 		_isGameRunning = true;
 		while (_isGameRunning) {
 			update();
+			// checkons ca :
 			if (!theUsedWindow->isOpen()) {
-				backToPrevScene();
+				exit();
 			}
 		}
 	}
@@ -83,7 +83,7 @@ namespace Moo
 	}
 
 	// a appeller quand on veut passer d'une scene a l'autre.
-	void			Game::runScene(e_scene type)
+	void			Game::runScene(e_scene type, bool isContinue)
 	{
 		std::cout << "RUN SCENE " << type << " NOMBER OF SCENES : " << _listOfScenes.size() << std::endl;
 		s_scene *tmpSceneForPrev = _currentScene;
@@ -97,7 +97,8 @@ namespace Moo
 		Moo::d3d::getInstance().getCamera()->reset();
 		_currentScene->prevScene = tmpSceneForPrev;
 		if ((int)type >= (int)LEVEL1) {
-			cleanCurrentScene();
+			if (!isContinue)
+				cleanCurrentScene();
 			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
 			_currentScene->prevScene = getSceneByType(Game::PAUSE_MENU);
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
@@ -112,7 +113,7 @@ namespace Moo
 	void			Game::backToPrevScene()
 	{
 		if (_currentScene != nullptr && _currentScene->prevScene != nullptr) {
-			runScene(_currentScene->prevScene->sceneType);
+			runScene(_currentScene->prevScene->sceneType, true);
 		}
 	}
 
@@ -121,10 +122,10 @@ namespace Moo
 	{
 		if (_currentScene != nullptr && (int)_currentScene->sceneType >= (int)LEVEL1) {
 			if ((int)_currentScene->sceneType < (int)NUMBER_OF_SCENE - 1) {
-				runScene((e_scene)((int)_currentScene->sceneType + 1));
+				runScene((e_scene)((int)_currentScene->sceneType + 1), false);
 			}
 			else {
-				runScene(MAIN_MENU);
+				runScene(MAIN_MENU, false);
 			}
 		}
 	}
@@ -138,6 +139,9 @@ namespace Moo
 	bool			Game::update()
 	{
 		if (_currentScene != nullptr && _currentScene->scene != nullptr) {
+			if (Moo::Keyboard::isDown(Moo::Keyboard::Escape)) {
+				backToPrevScene();
+			}
 			if (!_currentScene->scene->runUpdate()) {
 				exit();
 			}

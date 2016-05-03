@@ -39,7 +39,7 @@ namespace Moo
 
 		static Game&					getInstance();
 		void							startGame(std::shared_ptr<Moo::Window> theUsedWindow);		// a appeller une fois au lancement du programme, il load tout les niveaux, les init et commence automatiquement a run le main menu
-		void							runScene(e_scene);											// lance tel ou tel scene directement
+		void							runScene(e_scene, bool);									// lance tel ou tel scene directement, le bool isContinue c'est pour savoir si on veut faire un refresh du niveau avant ou pas
 		void							backToPrevScene();											// remet bien la scene precedente (si c'etait un niveau de jeu, ca met le jeu en pause; si c'etait la page des controls ca renvoit au menu principal si le jeu etait pas lance et sinon au menu pause)
 		void							goToNextScene();											// a utiliser a la fin des menu in game qui permet directment de passer au niveau suivant
 		void							exit();														// sert a quitter le jeu

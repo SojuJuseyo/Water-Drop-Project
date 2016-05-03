@@ -228,6 +228,9 @@ namespace Moo
 			if (themeChan != nullptr)
 				themeChan->setPaused(true);
 
+		if (Moo::Keyboard::isDown(Moo::Keyboard::R))
+			Moo::Game::getInstance().cleanCurrentScene();
+
 		//Cheats
 		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))
 			_player->toggleGodMode();

@@ -168,6 +168,7 @@
     <ClInclude Include="Includes\Exceptions.h" />
     <ClInclude Include="Includes\Fps.h" />
     <ClInclude Include="Includes\Game.h" />
+    <ClInclude Include="Includes\GameManagmentHeader.h" />
     <ClInclude Include="Includes\json.h" />
     <ClInclude Include="Includes\JsonParser.h" />
     <ClInclude Include="Includes\Keyboard.h" />
