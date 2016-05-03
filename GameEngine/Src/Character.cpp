@@ -2,7 +2,7 @@
 
 namespace Moo
 {
-	Character::Character(Vector2f velocity, float mass, std::shared_ptr<Sprite> sprite, bool hasGravity, float health, EntityType type)
+	Character::Character(Vector2f velocity, float mass, std::shared_ptr<Sprite> sprite, bool hasGravity, float health, EntityType type, Direction direction)
 	{
 		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getY() + sprite->getHeight(), sprite->getX() + sprite->getWidth(), sprite->getY());//x1 y1 x2 y2
@@ -14,6 +14,7 @@ namespace Moo
 		this->_health = health;
 		this->_type = type;
 		this->_godMode = false;
+		this->_direction = direction;
 
 		this->setVelocity(velocity);
 		this->setMass(mass);

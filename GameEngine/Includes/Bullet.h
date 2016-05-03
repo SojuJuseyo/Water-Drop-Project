@@ -10,7 +10,7 @@ namespace Moo
 	class Bullet : public DynamicEntity
 	{
 	public:
-		Bullet(std::shared_ptr<Sprite>, float, float);
+		Bullet(std::shared_ptr<Sprite>, float, float, Direction);
 		virtual ~Bullet();
 
 		HitZone	collisionAABB(Entity *entity);

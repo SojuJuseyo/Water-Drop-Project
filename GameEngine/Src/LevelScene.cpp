@@ -57,7 +57,7 @@ namespace Moo
 		_staticEntities.push_back(staticEntity);
 	}
 
-	void	LevelScene::fillDynamicEntitiesList(int mult, EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter)
+	void	LevelScene::fillDynamicEntitiesList(int mult, EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter, Direction direction)
 	{
 		auto sprite = std::make_shared<Moo::Sprite>(width, height, posX * mult, posY * mult);
 		sprite->loadTexture(&_textures[getEntityTypeName(type)]);
@@ -66,7 +66,7 @@ namespace Moo
 		}
 		if (isCharacter == true)
 		{
-			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(0, 0), mass, sprite, true, health, type);
+			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(0, 0), mass, sprite, true, health, type, direction);
 			if (type == EntityType::PLAYER)
 				_dynamicEntities.insert(_dynamicEntities.begin(), dynamicEntity);
 			else
@@ -74,7 +74,7 @@ namespace Moo
 		}
 		else
 		{
-			auto dynamicEntity = std::make_shared<Moo::Bullet>(sprite, mass, health);
+			auto dynamicEntity = std::make_shared<Moo::Bullet>(sprite, mass, health, direction);
 			_dynamicEntities.push_back(dynamicEntity);
 		}
 	}
@@ -119,7 +119,7 @@ namespace Moo
 
 		//Enemies
 		for (auto enemyTile : enemyTiles)
-			fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile->getPosX(), enemyTile->getPosY(), enemiesWidth, enemiesHeight, enemiesMass, enemiesHealth, true);
+			fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile->getPosX(), enemyTile->getPosY(), enemiesWidth, enemiesHeight, enemiesMass, enemiesHealth, true, Direction::RIGHT);
 
 		//Player specs
 		float playerHeight = 48.4f;
@@ -131,7 +131,7 @@ namespace Moo
 		{
 			//Get the first element because there is only one player
 			std::list<Tile *>::const_iterator playerIt = playerTiles.begin();
-			fillDynamicEntitiesList(40, EntityType::PLAYER, (*playerIt)->getPosX(), (*playerIt)->getPosY(), playerWidth, playerHeight, playerMass, 6.f, true);
+			fillDynamicEntitiesList(40, EntityType::PLAYER, (*playerIt)->getPosX(), (*playerIt)->getPosY(), playerWidth, playerHeight, playerMass, 6.f, true, Direction::RIGHT);
 		}
 	}
 
@@ -213,11 +213,14 @@ namespace Moo
 
 		Moo::Keyboard::updateInput();
 
-		if (Moo::Keyboard::isPressed(Moo::Keyboard::B))
+		if (Moo::Keyboard::isDown(Moo::Keyboard::A))
+			std::cout << "Dynamic entities list size: " << _dynamicEntities.size() << std::endl;
+
+		if (Moo::Keyboard::isDown(Moo::Keyboard::B))
 			if (themeChan != nullptr)
 				themeChan->setPaused(false);
 
-		if (Moo::Keyboard::isPressed(Moo::Keyboard::C))
+		if (Moo::Keyboard::isDown(Moo::Keyboard::C))
 			if (themeChan != nullptr)
 				themeChan->setPaused(true);
 
@@ -258,16 +261,24 @@ namespace Moo
 			}
 		}
 
-		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left)) {
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::Left))
+		{
+			if (_player->getDirection() != Direction::LEFT)
+			{
+				_player->setDirection(Direction::LEFT);
+				_player->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(36, 42));
+			}
 			_player->move(Direction::LEFT);
-			_player->setDirection(Direction::LEFT);
-			_player->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(36, 42));
 		}
 
-		if (Moo::Keyboard::isPressed(Moo::Keyboard::Right)) {
+		if (Moo::Keyboard::isPressed(Moo::Keyboard::Right))
+		{
+			if (_player->getDirection() != Direction::RIGHT)
+			{
+				_player->setDirection(Direction::RIGHT);
+				_player->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
+			}
 			_player->move(Direction::RIGHT);
-			_player->setDirection(Direction::RIGHT);
-			_player->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
 		}
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
@@ -276,10 +287,16 @@ namespace Moo
 			{
 				_soundSystem->playSound("shoot", false);
 
+				float startPosX;
+				if (_player->getDirection() == Direction::RIGHT)
+					startPosX = _player->getSprite()->getX() + _player->getSprite()->getWidth();
+				else
+					startPosX = _player->getSprite()->getX();
+
 				fillDynamicEntitiesList(1, EntityType::BULLET,
-					_player->getSprite()->getX() + _player->getSprite()->getWidth(),
+					startPosX,
 					_player->getSprite()->getY() + (_player->getSprite()->getHeight() / 2),
-					15.f, 15.f, 100.f, 1.f, false);
+					15.f, 15.f, 100.f, 1.f, false, _player->getDirection());
 
 				// Check if cheat code is activated.
 				if (_player->isGodMode() == false)
@@ -311,8 +328,7 @@ namespace Moo
 		for (auto entity : _dynamicEntities)
 		{
 			_window->draw(entity->getSprite());
-			if (entity->getEntityType() == EntityType::PLAYER)
-				_window->draw(entity->getHitboxSprite());
+			//_window->draw(entity->getHitboxSprite());
 			if (entity->getEntityType() == EntityType::ENEMY)
 				entity->getSprite()->rotate(1);
 		}
@@ -360,7 +376,7 @@ namespace Moo
 	{
 		//Init collison & gravity loop values
 		HitZone hitZone;
-		bool deletedBullet, deletedCharacter, isInHeatZone;
+		bool deletedDynEnt, isInHeatZone;
 		Vector2f decal(0, 0);
 
 		for (auto dynEntIt = _dynamicEntities.begin(); dynEntIt != _dynamicEntities.end();)
@@ -373,7 +389,12 @@ namespace Moo
 			(*dynEntIt)->setGravity(true);
 
 			if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
-				(*dynEntIt)->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt)->getVelocity().y));
+			{
+				if ((*dynEntIt)->getDirection() == Direction::RIGHT)
+					(*dynEntIt)->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt)->getVelocity().y));
+				else
+					(*dynEntIt)->setVelocity(Vector2f(-STANDARD_VELOCITY_X * 2, (*dynEntIt)->getVelocity().y));
+			}
 
 			if ((*dynEntIt)->getGravity() == true)
 			{
@@ -381,8 +402,7 @@ namespace Moo
 				(*dynEntIt)->resetHitbox();
 			}
 
-			deletedBullet = false;
-			deletedCharacter = false;
+			deletedDynEnt = false;
 			isInHeatZone = false;
 
 			for (auto statEntIt = _staticEntities.begin(); statEntIt != _staticEntities.end(); ++statEntIt)
@@ -416,22 +436,24 @@ namespace Moo
 					}
 					else if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
 					{
-						std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType()) << std::endl;
+						std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType())
+								  << " after its collision with " << getEntityTypeName((*statEntIt)->getEntityType()) << std::endl;
 						dynEntIt = _dynamicEntities.erase(dynEntIt);
-						deletedBullet = true;
+						deletedDynEnt = true;
 						break;
 					}
 					isInHeatZone = (*statEntIt)->getIsHeatZone();
 				}
 			}
 
-			if (deletedBullet == false && _exitReached == false)
+			if (deletedDynEnt == false && _exitReached == false)
 			{
 				if (decal.y != 0)
 					(*dynEntIt)->getSprite()->setY((*dynEntIt)->getSprite()->getY() + decal.y);
 				if (decal.x != 0)
 				{
-					_canTemporarilyJump = std::chrono::system_clock::now();
+					if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
+						_canTemporarilyJump = std::chrono::system_clock::now();
 					(*dynEntIt)->getSprite()->setX((*dynEntIt)->getSprite()->getX() + decal.x);
 				}
 				(*dynEntIt)->resetHitbox();
@@ -445,41 +467,52 @@ namespace Moo
 						&& ((hitZone = (*dynEntIt)->collisionAABB((*SecondDynEntIt).get())) != HitZone::NONE))
 					{
 						//If we collide with an enemy : Absorb him
-						std::cout << "Collision between " << getEntityTypeName((*dynEntIt)->getEntityType()) << " and " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
-						if ((*SecondDynEntIt)->getEntityType() == EntityType::ENEMY)
+						//std::cout << "Collision between " << getEntityTypeName((*dynEntIt)->getEntityType()) << " and " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
+						if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
 						{
-							if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
+							if ((*SecondDynEntIt)->getEntityType() != EntityType::PLAYER)
 							{
 								(*SecondDynEntIt)->changeHealth((*dynEntIt)->getHealth());
-								std::cout << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << " health: " << (*SecondDynEntIt)->getHealth() << std::endl;
-								std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType()) << std::endl;
+								//std::cout << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << " health: " << (*SecondDynEntIt)->getHealth() << std::endl;
+								std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType())
+										  << " after its collision with " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
 								dynEntIt = _dynamicEntities.erase(dynEntIt);
-								deletedBullet = true;
+								deletedDynEnt = true;
 								break;
 							}
-							else if ((*dynEntIt)->getHealth() >= (*SecondDynEntIt)->getHealth() || std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() == true)
-							{
-								if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
-									_soundSystem->playSound("powerup", false);
-								(*dynEntIt)->changeHealth((*SecondDynEntIt)->getHealth() * 33 / 100);
-								std::cout << getEntityTypeName((*dynEntIt)->getEntityType()) << " health: " << (*dynEntIt)->getHealth() << std::endl;
-								std::cout << "Deleting " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
-								SecondDynEntIt = _dynamicEntities.erase(SecondDynEntIt);
-								deletedCharacter = true;
-								break;
-							}
-							else if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
+						}
+						else if (((*dynEntIt)->getHealth() <= (*SecondDynEntIt)->getHealth() && std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() != true)
+						|| std::static_pointer_cast<Moo::Character>(*SecondDynEntIt)->isGodMode() == true)
+						{
+							if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
 							{
 								_playerDead = true;
 								break;
 							}
+
+							(*SecondDynEntIt)->changeHealth((*dynEntIt)->getHealth() * 33 / 100);
+
+							if ((*SecondDynEntIt)->getEntityType() == EntityType::PLAYER)
+							{
+								_soundSystem->playSound("powerup", false);
+							}
+
+							if ((*dynEntIt)->getEntityType() != (*SecondDynEntIt)->getEntityType())
+							{
+								std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType())
+									<< " after its collision with " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
+								std::cout << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << " health is now: " << (*SecondDynEntIt)->getHealth() << std::endl;
+							}
+							dynEntIt = _dynamicEntities.erase(dynEntIt);
+							deletedDynEnt = true;
+							break;
 						}
 					}
 				}
 			}
-			if (deletedBullet == false && deletedCharacter == false)
+			if (deletedDynEnt == false)
 				++dynEntIt;
-			else if (_playerDead == true)// || deletedCharacter == true || _exitReached == true)
+			else if (_playerDead == true || _exitReached == true)
 				break;
 		}
 		if (_playerDead == true)

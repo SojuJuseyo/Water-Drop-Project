@@ -47,7 +47,8 @@ namespace Moo
 			(A.x2 <= B.x2 && A.x2 >= B.x1 && (A.x2 - B.x1 >= CollideWidthOfB)) ||  //Or on the right
 			(A.x1 < B.x1 && A.x2 >= B.x2) ||										//Or to be bigger (width) than the collider 
 			(A.x1 > B.x1 && A.x2 <= B.x2) ||										//Or to be smaller (width) than the collider
-			(A.x1 == B.x1 && A.x2 == B.x2))										//Or to be on the exact same X
+			(A.x1 == B.x1 && A.x2 == B.x2) ||										//Or to be on the exact same X
+			(A.x2 > B.x2 && A.x1 == B.x1))
 		{
 			if (A.y1 > B.y2 && A.y1 < B.y1 && (A.y1 - B.y2 <= CollideHeightOfB) //Collison with top & the depth of the collision is less than CollideHeightOfB
 			 || A.y2 < B.y2 && A.y1 == B.y1)
