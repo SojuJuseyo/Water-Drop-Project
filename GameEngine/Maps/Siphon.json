@@ -432,15 +432,7 @@
       },
       {
         "coordx": 12,
-        "coordy": 5
-      },
-      {
-        "coordx": 12,
         "coordy": 8
-      },
-      {
-        "coordx": 12,
-        "coordy": 9
       },
       {
         "coordx": 18,
@@ -449,10 +441,6 @@
       {
         "coordx": 5,
         "coordy": 11
-      },
-      {
-        "coordx": 11,
-        "coordy": 13
       }
     ],
     "4": [
@@ -594,10 +582,6 @@
       },
       {
         "coordx": 7,
-        "coordy": 12
-      },
-      {
-        "coordx": 11,
         "coordy": 12
       },
       {
@@ -915,7 +899,7 @@
         "coordy": 9
       },
       {
-        "coordx": 11,
+        "coordx": 12,
         "coordy": 9
       },
       {
@@ -1055,6 +1039,10 @@
         "coordy": 12
       },
       {
+        "coordx": 11,
+        "coordy": 12
+      },
+      {
         "coordx": 14,
         "coordy": 12
       },
@@ -1092,6 +1080,10 @@
       },
       {
         "coordx": 10,
+        "coordy": 13
+      },
+      {
+        "coordx": 11,
         "coordy": 13
       },
       {
