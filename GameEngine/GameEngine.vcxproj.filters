@@ -120,9 +120,6 @@
     <ClInclude Include="Includes\Sprite.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\SpriteRect.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
     <ClInclude Include="Includes\StaticEntity.h">
       <Filter>Includes</Filter>
     </ClInclude>
@@ -221,9 +218,6 @@
     <ClCompile Include="Src\Sprite.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\SpriteRect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="Src\StaticEntity.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -259,9 +253,6 @@
     <Image Include="Ressources\Graphics\background.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
-    <Image Include="Ressources\Graphics\character.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
     <Image Include="Ressources\Graphics\controle.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
@@ -287,6 +278,9 @@
       <Filter>Resource Files\graphics</Filter>
     </Image>
     <Image Include="Ressources\Graphics\You_Won_DDS.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\player.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
   </ItemGroup>
