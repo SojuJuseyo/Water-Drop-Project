@@ -102,9 +102,9 @@ namespace Moo
 	void Character::setWallJumpVelocity(bool positive)
 	{
 		if (positive == true)
-			this->setVelocity(Vector2f(/*this->_characterVelocity.x * 2*/500, this->getVelocity().y));
+			this->setVelocity(Vector2f(/*this->_characterVelocity.x * 2*/500, this->getVelocity().y + 100));
 		else
-			this->setVelocity(Vector2f(/*-this->_characterVelocity.x * 2*/-500, this->getVelocity().y));
+			this->setVelocity(Vector2f(/*-this->_characterVelocity.x * 2*/-500, this->getVelocity().y + 100));
 	}
 
 	void Character::setTimers()
