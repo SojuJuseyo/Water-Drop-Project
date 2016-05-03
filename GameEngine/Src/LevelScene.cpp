@@ -168,7 +168,7 @@ namespace Moo
 		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
 
 		// Temp texture for the bullet
-		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("character.dds"));
+		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("You_Lost_DDS.dds"));
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("You_Won_DDS.dds"));
 		Moo::d3d::getInstance().getCamera()->setInfoMap(_map);

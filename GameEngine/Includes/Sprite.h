@@ -3,7 +3,6 @@
 #include "Texture.h"
 #include "Drawable.h"
 #include "Transformable.h"
-#include "SpriteRect.h"
 
 using namespace Microsoft::WRL;
 
