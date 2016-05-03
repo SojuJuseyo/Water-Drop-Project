@@ -304,14 +304,15 @@ namespace Moo
 		for (auto entity : _staticEntities)
 		{
 			_window->draw(entity->getSprite());
-			_window->draw(entity->getHitboxSprite());
+			//_window->draw(entity->getHitboxSprite());
 		}
 
 		//Draw dynamic entities and their hitboxes
 		for (auto entity : _dynamicEntities)
 		{
 			_window->draw(entity->getSprite());
-			_window->draw(entity->getHitboxSprite());
+			if (entity->getEntityType() == EntityType::PLAYER)
+				_window->draw(entity->getHitboxSprite());
 			if (entity->getEntityType() == EntityType::ENEMY)
 				entity->getSprite()->rotate(1);
 		}
@@ -478,7 +479,7 @@ namespace Moo
 			}
 			if (deletedBullet == false && deletedCharacter == false)
 				++dynEntIt;
-			else if (deletedCharacter == true || _playerDead == true || _exitReached == true)
+			else if (_playerDead == true)// || deletedCharacter == true || _exitReached == true)
 				break;
 		}
 		if (_playerDead == true)
