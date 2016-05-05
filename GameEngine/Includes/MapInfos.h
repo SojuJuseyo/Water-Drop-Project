@@ -5,6 +5,15 @@
 #include <list>
 #include <utility>
 
+// Map related field names & attributes
+#define MAP_NAME_ATTRIBUTE				"name"
+#define MAP_SIZE_ATTRIBUTE				"size"
+#define MAP_TILE_LIST_ATTRIBUTE			"tileList"
+#define MAP_HEATZONE_LIST_ATTRIBUTE		"heatZonesList"
+#define MAP_AUDIO_ATTRIBUTE				"audio"
+#define MAP_COORD_X						"coordx"
+#define MAP_COORD_Y						"coordy"
+
 class MapInfos
 {
 
