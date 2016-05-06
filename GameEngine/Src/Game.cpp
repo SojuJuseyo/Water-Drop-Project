@@ -35,7 +35,7 @@ namespace Moo
 			if (scene.sceneType == _currentScene->sceneType)
 			{
 				scene.scene->init(_window);
-				return;
+				break;
 			}
 		}
 	}

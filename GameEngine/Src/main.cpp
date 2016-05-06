@@ -11,32 +11,25 @@ namespace Moo
 {
 	static void	testJsonParser()
 	{
-		try
-		{
-			// SETTINGS FILE
-			JsonParser test = JsonParser("Settings.json");
-			test.parseFile(FileType::SETTINGS);
-			Settings settings = test.getSettingsFileContent();
-			std::cout << "------------- BEGINNING OF TESTING SETTINGS FILE READER -------------" << std::endl << std::endl;
-			std::cout << "Resolution: " << settings.getResolutionString() << std::endl;
-			std::cout << "Volume: " << settings.getVolumeString() << std::endl;
-			std::cout << "Fullscreen: " << settings.getIsFullscreenString() << std::endl;
-			std::cout << "Fps: " << settings.getFpsString() << std::endl;
-			//std::cout << "Keys Mapping: " << settings.getKeysMapping() << std::endl;
-			test.saveSettings(settings, "Settings.json");
-			std::cout << std::endl << "------------- END OF TESTING SETTINGS FILE READER -------------" << std::endl << std::endl;
-			// MAP FILE
-			std::cout << "------------- BEGINNING OF TESTING MAP FILE READER -------------" << std::endl << std::endl;
-			test.setFilePath("Maps/TestHeatZones.json");
-			test.parseFile(FileType::MAP);
-			MapInfos map = test.parseMap();
-			map.displayMapInfos();
-			std::cout << std::endl << "------------- END OF TESTING MAP FILE READER -------------" << std::endl;
-		}
-		catch (std::string &e)
-		{
-			std::cout << e << std::endl;
-		}
+		// SETTINGS FILE
+		JsonParser test = JsonParser("Settings.json");
+		test.parseFile(FileType::SETTINGS);
+		Settings settings = test.getSettingsFileContent();
+		std::cout << "------------- BEGINNING OF TESTING SETTINGS FILE READER -------------" << std::endl << std::endl;
+		std::cout << "Resolution: " << settings.getResolutionString() << std::endl;
+		std::cout << "Volume: " << settings.getVolumeString() << std::endl;
+		std::cout << "Fullscreen: " << settings.getIsFullscreenString() << std::endl;
+		std::cout << "Fps: " << settings.getFpsString() << std::endl;
+		//std::cout << "Keys Mapping: " << settings.getKeysMapping() << std::endl;
+		test.saveSettings(settings, "Settings.json");
+		std::cout << std::endl << "------------- END OF TESTING SETTINGS FILE READER -------------" << std::endl << std::endl;
+		// MAP FILE
+		std::cout << "------------- BEGINNING OF TESTING MAP FILE READER -------------" << std::endl << std::endl;
+		test.setFilePath("Maps/TestHeatZones.json");
+		test.parseFile(FileType::MAP);
+		MapInfos map = test.parseMap();
+		map.displayMapInfos();
+		std::cout << std::endl << "------------- END OF TESTING MAP FILE READER -------------" << std::endl;
 
 		system("pause");
 	}
@@ -52,12 +45,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	freopen_s(&pConsole, "CONOUT$", "wb", stderr);
 #endif // DEBUG
 
-	//Getting the game window
-	auto window = std::make_shared<Moo::Window>(hInstance, Moo::WindowSettings("Water Drop", Moo::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)));
-	window->setFpsLimit(FPS_LIMIT);
-	Moo::Game::getInstance().startGame(window);
+	try
+	{
+		//Getting the game window
+		auto window = std::make_shared<Moo::Window>(hInstance, Moo::WindowSettings("Water Drop", Moo::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)));
+		window->setFpsLimit(FPS_LIMIT);
+		Moo::Game::getInstance().startGame(window);
 
-	//Moo::testJsonParser();
+		//Moo::testJsonParser();
+	}
+	catch (std::string &e)
+	{
+		std::cout << e << std::endl;
+	}
 
 	/*
 	try {

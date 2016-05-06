@@ -37,6 +37,9 @@ namespace Moo
 		std::cout << "Dynamic entities list is cleared, size: " << _dynamicEntities.size() << std::endl;
 		_player.reset();
 		_background.reset();
+		_triedJump = false;
+		_exitReached = false;
+		_playerDead = false;
 		std::cout << "Level scene is cleared" << std::endl;
 	}
 
@@ -520,7 +523,9 @@ namespace Moo
 		*/
 
 		//Getting the inputs of the player
-		inputHandling();
+		std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
+		if (elapsed_time_start.count() > 0.75)
+			inputHandling();
 
 		//Applying gravity to dynamic entities and checking all collisions
 		applyGravityAndCollisions();
