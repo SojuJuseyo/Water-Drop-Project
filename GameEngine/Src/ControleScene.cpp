@@ -24,6 +24,7 @@ namespace Moo
 
 	bool ControleScene::runUpdate()
 	{
+		Moo::Keyboard::updateInput();
 		_window->clear();
 		_window->draw(_backgroundSprite.get());
 		_window->display();

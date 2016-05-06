@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "GameManagmentHeader.h"
 
 namespace Moo
 {
@@ -80,7 +80,16 @@ namespace Moo
 			if (msg.wParam == VK_F2) {
 				d3d::getInstance().setFullScreenState(false);
 			}
+			/*
 			if (msg.wParam == VK_ESCAPE) {
+				// escape
+				std::cout << "VK_ESCAPE handled" << std::endl;
+				Moo::Game::getInstance().backToPrevScene();
+			}
+			*/
+			if (msg.message == WM_QUIT) {
+				// croix
+				Moo::Game::getInstance().exit();
 				return false;
 			}
 		}

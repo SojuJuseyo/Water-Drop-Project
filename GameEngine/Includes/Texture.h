@@ -7,7 +7,6 @@
 #include "Transformable.h"
 
 #define GRAPHICS_PATH "Ressources/Graphics/"
-
 using namespace Microsoft::WRL;
 
 namespace Moo

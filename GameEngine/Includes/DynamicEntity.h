@@ -29,6 +29,7 @@ namespace Moo
 		float			getHealth() const;
 		Sprite			*getSprite() const;
 		Sprite			*getHitboxSprite();
+
 		Direction		getDirection() const;
 		void			setDirection(Direction);
 

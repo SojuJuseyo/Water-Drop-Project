@@ -16,6 +16,7 @@ namespace Moo
 
 	Texture::~Texture()
 	{
+		release();
 	}
 
 	bool Texture::CompileD3DShader(char* filePath, char* entry, char* shaderModel, ID3DBlob** buffer)
