@@ -12,14 +12,6 @@
 #include "SoundSystem.h"
 #include "Camera.h"
 
-struct s_collider
-{
-	bool		isCollideUp;
-	bool		isCollideDown;
-	bool		isCollideRight;
-	bool		isCollideLeft;
-};
-
 namespace Moo
 {
 	class LevelScene : public Scene

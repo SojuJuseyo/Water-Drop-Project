@@ -468,34 +468,16 @@ namespace Moo
 					{
 						//If we collide with an enemy : Absorb him
 						//std::cout << "Collision between " << getEntityTypeName((*dynEntIt)->getEntityType()) << " and " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
-						if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
+						if ((((*dynEntIt)->getEntityType() != EntityType::BULLET
+							&&(*dynEntIt)->getHealth() <= (*SecondDynEntIt)->getHealth()
+							&& std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() != true)
+							|| std::static_pointer_cast<Moo::Character>(*SecondDynEntIt)->isGodMode() == true)
+						|| ((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() != EntityType::PLAYER))
 						{
-							if ((*SecondDynEntIt)->getEntityType() != EntityType::PLAYER)
-							{
-								(*SecondDynEntIt)->changeHealth((*dynEntIt)->getHealth());
-								//std::cout << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << " health: " << (*SecondDynEntIt)->getHealth() << std::endl;
-								std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType())
-										  << " after its collision with " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
-								dynEntIt = _dynamicEntities.erase(dynEntIt);
-								deletedDynEnt = true;
-								break;
-							}
-						}
-						else if (((*dynEntIt)->getHealth() <= (*SecondDynEntIt)->getHealth() && std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() != true)
-						|| std::static_pointer_cast<Moo::Character>(*SecondDynEntIt)->isGodMode() == true)
-						{
-							if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
-							{
-								_playerDead = true;
-								break;
-							}
+							if ((*dynEntIt)->getEntityType() != EntityType::BULLET && (*SecondDynEntIt)->getEntityType() == EntityType::PLAYER)
+								_soundSystem->playSound("powerup", false);
 
 							(*SecondDynEntIt)->changeHealth((*dynEntIt)->getHealth() * 33 / 100);
-
-							if ((*SecondDynEntIt)->getEntityType() == EntityType::PLAYER)
-							{
-								_soundSystem->playSound("powerup", false);
-							}
 
 							if ((*dynEntIt)->getEntityType() != (*SecondDynEntIt)->getEntityType())
 							{
@@ -503,8 +485,14 @@ namespace Moo
 									<< " after its collision with " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
 								std::cout << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << " health is now: " << (*SecondDynEntIt)->getHealth() << std::endl;
 							}
-							dynEntIt = _dynamicEntities.erase(dynEntIt);
-							deletedDynEnt = true;
+
+							if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
+								_playerDead = true;
+							else
+							{
+								dynEntIt = _dynamicEntities.erase(dynEntIt);
+								deletedDynEnt = true;
+							}
 							break;
 						}
 					}
