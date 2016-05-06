@@ -57,33 +57,51 @@ namespace Moo
 		tileListObject = _fileContent[MAP_TILE_LIST_ATTRIBUTE];
 		// Get a vector of sprites used
 		std::vector<std::string> spritesUsed = tileListObject.getMemberNames();
-		std::list<std::pair<std::string, std::list<Tile *>>> mapTileList;
+		std::list<std::pair<std::string, std::list<Tile>>> mapTileList;
 
 		// C++11 foreach
 		for (std::string sprite : spritesUsed)
 		{
-			std::list<Tile *> selectedSpriteTileList;
+			std::list<Tile> selectedSpriteTileList;
 			Json::Value selectedSpriteTileListObject = tileListObject[sprite];
 			Json::Value::iterator itr = selectedSpriteTileListObject.begin();
 
 			// Iterate through the list of tiles using a given sprite
 			for (Json::ValueIterator itr = selectedSpriteTileListObject.begin(); itr != selectedSpriteTileListObject.end(); itr++)
 			{
-				Tile *newTile = new Tile();
+				Tile newTile;
 				Json::Value itrValue = (*itr);
 
-				newTile->setPosX(itrValue[MAP_COORD_X].asFloat());
-				newTile->setPosY(itrValue[MAP_COORD_Y].asFloat());
+				newTile.setPosX(itrValue[MAP_COORD_X].asFloat());
+				newTile.setPosY(itrValue[MAP_COORD_Y].asFloat());
+				std::string tmp = itrValue[MAP_COLLIDABLE_TILE].asString();
+				if (tmp == "true")
+					newTile.setIsCollidable(true);
+				else
+					newTile.setIsCollidable(false);
 
 				selectedSpriteTileList.push_back(newTile);
 			}
 
-			std::pair<std::string, std::list<Tile *>> spriteTileListPair;
+			std::pair<std::string, std::list<Tile>> spriteTileListPair;
 			spriteTileListPair = std::make_pair(sprite, selectedSpriteTileList);
 			mapTileList.push_back(spriteTileListPair);
 		}
-
 		map.setMapTileList(mapTileList);
+
+		Json::Value		heatZonesListObject = _fileContent[MAP_HEATZONE_LIST_ATTRIBUTE];
+		std::list<Tile> heatZoneTileList;
+		for (Json::ValueIterator itr = heatZonesListObject.begin(); itr != heatZonesListObject.end(); itr++)
+		{
+			Tile newTile;
+			Json::Value itrValue = (*itr);
+
+			newTile.setPosX(itrValue[MAP_COORD_X].asFloat());
+			newTile.setPosY(itrValue[MAP_COORD_Y].asFloat());
+
+			heatZoneTileList.push_back(newTile);
+		}
+		map.setHeatZonesTileList(heatZoneTileList);
 
 		std::cout << "Map successfully loaded." << std::endl;
 

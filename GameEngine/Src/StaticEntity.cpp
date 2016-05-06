@@ -2,12 +2,13 @@
 
 namespace Moo
 {
-	StaticEntity::StaticEntity(std::shared_ptr<Sprite> sprite, EntityType type, bool isHeatZone)
+	StaticEntity::StaticEntity(std::shared_ptr<Sprite> sprite, EntityType type, bool isHeatZone, bool isCollidable)
 	{
 		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getY() + sprite->getHeight(), sprite->getX() + sprite->getWidth(), sprite->getY());//x1 y1 x2 y2
 		this->_type = type;
 		this->_isHeatZone = isHeatZone;
+		this->_isCollidable = isCollidable;
 		_hitboxSprite = std::make_shared<Sprite>(sprite->getWidth(), sprite->getHeight(), sprite->getPosition().x, sprite->getPosition().y);
 		_texture = std::make_shared<Moo::Texture>();
 		_texture->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
@@ -33,5 +34,10 @@ namespace Moo
 	bool	StaticEntity::getIsHeatZone() const
 	{
 		return _isHeatZone;
+	}
+
+	void	StaticEntity::setIsHeatZone(bool isHeatZone)
+	{
+		this->_isHeatZone = isHeatZone;
 	}
 }

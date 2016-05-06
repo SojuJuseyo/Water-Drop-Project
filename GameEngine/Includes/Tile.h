@@ -11,6 +11,7 @@ private:
 	float	_posX;
 	float	_posY;
 	bool	_isHeatZone;
+	bool	_isCollidable;
 
 public:
 
@@ -24,6 +25,9 @@ public:
 	void	setPosY(float);
 	float	getPosY() const;
 
-	void	setisHeatZone(bool);
-	bool	getisHeatZone() const;
+	void	setIsHeatZone(bool);
+	bool	getIsHeatZone() const;
+
+	void	setIsCollidable(bool);
+	bool	getIsCollidable() const;
 };

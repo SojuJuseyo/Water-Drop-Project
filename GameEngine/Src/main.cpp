@@ -57,6 +57,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	catch (std::string &e)
 	{
 		std::cout << e << std::endl;
+		system("pause");
 	}
 
 	/*

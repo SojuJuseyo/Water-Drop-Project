@@ -28,7 +28,8 @@ enum EntityType
 	PLATFORM,
 	GROUND,
 	EXIT,
-	ENTRANCE
+	ENTRANCE,
+	BLANK_HEAT_ZONE
 };
 
 namespace Moo

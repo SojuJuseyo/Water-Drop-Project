@@ -51,12 +51,12 @@ namespace Moo
 		_spriteSheet["Exit"] = Moo::Vector2f(5, 0);
 	}
 
-	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY)
+	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY, bool isHeatZone, bool isCollidable)
 	{
 		auto sprite = std::make_shared<Moo::Sprite>(40.f, 40.f, posX * 40, posY * 40);
 		sprite->loadTexture(&_textures["Tileset"]);
 		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(16, 16));
-		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, false);
+		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, isCollidable);
 		_staticEntities.push_back(staticEntity);
 	}
 
@@ -85,34 +85,48 @@ namespace Moo
 	void	LevelScene::getEntitiesFromMap(MapInfos map)
 	{
 		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("player.dds"));
-
 		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
 		_textures["Tileset"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
-		std::list<Tile *> blockTiles = map.getTilesFromSprite("0");
-		std::list<Tile *> bottomTiles = map.getTilesFromSprite("1");
-		std::list<Tile *> enemyTiles = map.getTilesFromSprite("3");
-		std::list<Tile *> platformTiles = map.getTilesFromSprite("4");
-		std::list<Tile *> playerTiles = map.getTilesFromSprite("5");
-		std::list<Tile *> exitTiles = map.getTilesFromSprite("6");
+		std::list<Tile> blockTiles = map.getTilesFromSprite("0");
+		std::list<Tile> bottomTiles = map.getTilesFromSprite("1");
+		std::list<Tile> enemyTiles = map.getTilesFromSprite("3");
+		std::list<Tile> platformTiles = map.getTilesFromSprite("4");
+		std::list<Tile> playerTiles = map.getTilesFromSprite("5");
+		std::list<Tile> exitTiles = map.getTilesFromSprite("6");
+		std::list<Tile> heatZonesTiles = map.getHeatZonesTileList();
 
 		//platforms
 		for (auto platformTile : platformTiles)
-			fillStaticEntitiesList(EntityType::PLATFORM, platformTile->getPosX(), platformTile->getPosY());
+			fillStaticEntitiesList(EntityType::PLATFORM, platformTile.getPosX(), platformTile.getPosY(), false, platformTile.getIsCollidable());
 
 		//bloc
 		for (auto blockTile : blockTiles)
-			fillStaticEntitiesList(EntityType::BLOCK, blockTile->getPosX(), blockTile->getPosY());
+			fillStaticEntitiesList(EntityType::BLOCK, blockTile.getPosX(), blockTile.getPosY(), false, blockTile.getIsCollidable());
 
 		//bottom
 		for (auto bottomTile : bottomTiles)
-			fillStaticEntitiesList(EntityType::GROUND, bottomTile->getPosX(), bottomTile->getPosY());
+			fillStaticEntitiesList(EntityType::GROUND, bottomTile.getPosX(), bottomTile.getPosY(), false, bottomTile.getIsCollidable());
 
 		//exit
 		for (auto exitTile : exitTiles)
-			fillStaticEntitiesList(EntityType::EXIT, exitTile->getPosX(), exitTile->getPosY());
+			fillStaticEntitiesList(EntityType::EXIT, exitTile.getPosX(), exitTile.getPosY(), false, exitTile.getIsCollidable());
+
+		//set if static entities are heat zones
+		for (auto heatZoneTile : heatZonesTiles)
+		{
+			bool _wasInList = false;
+			for (auto staticEntity : _staticEntities)
+				if (staticEntity->getSprite()->getX() == heatZoneTile.getPosX() && staticEntity->getSprite()->getY() == heatZoneTile.getPosY())
+				{
+					_wasInList = true;
+					staticEntity->setIsHeatZone(true);
+				}
+			if (_wasInList == false)
+				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, false);
+		}
 
 		//Enemies specs
 		float enemiesHeight = 40;
@@ -122,7 +136,7 @@ namespace Moo
 
 		//Enemies
 		for (auto enemyTile : enemyTiles)
-			fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile->getPosX(), enemyTile->getPosY(), enemiesWidth, enemiesHeight, enemiesMass, enemiesHealth, true, Direction::RIGHT);
+			fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), enemiesWidth, enemiesHeight, enemiesMass, enemiesHealth, true, Direction::RIGHT);
 
 		//Player specs
 		float playerHeight = 48.4f;
@@ -133,8 +147,8 @@ namespace Moo
 		if (playerTiles.size() > 0)
 		{
 			//Get the first element because there is only one player
-			std::list<Tile *>::const_iterator playerIt = playerTiles.begin();
-			fillDynamicEntitiesList(40, EntityType::PLAYER, (*playerIt)->getPosX(), (*playerIt)->getPosY(), playerWidth, playerHeight, playerMass, 6.f, true, Direction::RIGHT);
+			std::list<Tile>::const_iterator playerIt = playerTiles.begin();
+			fillDynamicEntitiesList(40, EntityType::PLAYER, (*playerIt).getPosX(), (*playerIt).getPosY(), playerWidth, playerHeight, playerMass, 6.f, true, Direction::RIGHT);
 		}
 	}
 
@@ -326,7 +340,8 @@ namespace Moo
 		//Draw static entities and their hitboxes
 		for (auto entity : _staticEntities)
 		{
-			_window->draw(entity->getSprite());
+			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)
+				_window->draw(entity->getSprite());
 			//_window->draw(entity->getHitboxSprite());
 		}
 
@@ -413,7 +428,9 @@ namespace Moo
 
 			for (auto statEntIt = _staticEntities.begin(); statEntIt != _staticEntities.end(); ++statEntIt)
 			{
-				if ((hitZone = (*dynEntIt)->collisionAABB((*statEntIt).get())) != HitZone::NONE)
+				if ((*statEntIt)->isCollidable() == true
+				 && (*statEntIt)->getEntityType() != EntityType::BLANK_HEAT_ZONE
+				 && (hitZone = (*dynEntIt)->collisionAABB((*statEntIt).get())) != HitZone::NONE)
 				{
 					//If player collides with an Exit
 					if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && (*statEntIt)->getEntityType() == EntityType::EXIT)
