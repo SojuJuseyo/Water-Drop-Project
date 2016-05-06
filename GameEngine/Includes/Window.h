@@ -10,7 +10,6 @@
 #include "Fps.h"
 #include "Keyboard.h"
 #include "Sprite.h"
-#include "SpriteRect.h"
 
 #define WM_FULLSCREEN WM_USER + 0
 #define WM_LEFT WM_USER + 1
@@ -38,8 +37,8 @@ namespace Moo
 		WindowSettings _config;
 		HWND _hwnd;
 		float _fpsLimit;
-		ID3D11Device *_dev;
-		ID3D11DeviceContext *_devcon;
+		ComPtr<ID3D11Device> _dev;
+		ComPtr<ID3D11DeviceContext> _devcon;
 		d3d _system;
 	};
 }

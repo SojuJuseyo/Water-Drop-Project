@@ -2,7 +2,7 @@
 
 namespace Moo
 {
-	Bullet::Bullet(std::shared_ptr<Sprite> sprite, float mass, float health)
+	Bullet::Bullet(std::shared_ptr<Sprite> sprite, float mass, float health, Direction direction)
 	{
 		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getX() + sprite->getWidth(), sprite->getY(), sprite->getY() - (sprite->getHeight() / 3) * 2);
@@ -12,7 +12,8 @@ namespace Moo
 		this->_health = health;
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
 		this->_type = EntityType::BULLET;
-		_hitboxSprite = std::make_shared<Sprite>(*sprite);
+		this->_direction = direction;
+		_hitboxSprite = std::make_shared<Sprite>(sprite->getWidth(), sprite->getHeight(), sprite->getPosition().x, sprite->getPosition().y);
 		_texture = std::make_shared<Moo::Texture>();
 		_texture->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 		_hitboxSprite->loadTexture(_texture.get());

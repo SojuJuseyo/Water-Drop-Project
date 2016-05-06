@@ -2,18 +2,19 @@
 
 namespace Moo
 {
-	Character::Character(Vector2f velocity, float mass, std::shared_ptr<Sprite> sprite, bool hasGravity, float health, EntityType type)
+	Character::Character(Vector2f velocity, float mass, std::shared_ptr<Sprite> sprite, bool hasGravity, float health, EntityType type, Direction direction)
 	{
 		this->_sprite = sprite;
 		this->setHitbox(sprite->getX(), sprite->getY() + sprite->getHeight(), sprite->getX() + sprite->getWidth(), sprite->getY());//x1 y1 x2 y2
-		_hitboxSprite = std::make_shared<Sprite>(*sprite);
+		_hitboxSprite = std::make_shared<Sprite>(sprite->getWidth(), sprite->getHeight(), sprite->getPosition().x, sprite->getPosition().y);
 		_texture = std::make_shared<Moo::Texture>();
 		_texture->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 		_hitboxSprite->loadTexture(_texture.get());
-
+		//_hitboxSprite->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(100, 100));
 		this->_health = health;
 		this->_type = type;
 		this->_godMode = false;
+		this->_direction = direction;
 
 		this->setVelocity(velocity);
 		this->setMass(mass);
@@ -102,9 +103,9 @@ namespace Moo
 	void Character::setWallJumpVelocity(bool positive)
 	{
 		if (positive == true)
-			this->setVelocity(Vector2f(/*this->_characterVelocity.x * 2*/500, this->getVelocity().y));
-		else
-			this->setVelocity(Vector2f(/*-this->_characterVelocity.x * 2*/-500, this->getVelocity().y));
+			this->setVelocity(Vector2f(/*this->_characterVelocity.x * 2*/500, this->getVelocity().y + this->getVelocity().y > 0 ? 20 : 60));
+		else 
+			this->setVelocity(Vector2f(/*-this->_characterVelocity.x * 2*/-500, this->getVelocity().y + this->getVelocity().y > 0 ? 20 : 60));
 	}
 
 	void Character::setTimers()

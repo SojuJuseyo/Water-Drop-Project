@@ -3,7 +3,6 @@
 #include "Texture.h"
 #include "Drawable.h"
 #include "Transformable.h"
-#include "SpriteRect.h"
 
 using namespace Microsoft::WRL;
 
@@ -33,9 +32,8 @@ namespace Moo
 		}
 
 		void loadTexture(Texture *);
-		void loadTexture(Texture *, SpriteRect *);
-		SpriteRect *getspriteRect();
-		void setspriteRect(SpriteRect *);
+		void setResourceData();
+		void setRectFromSpriteSheet(Vector2f pos, Vector2f size);
 		void draw();
 		float getWidth();
 		float getHeight();
@@ -47,9 +45,10 @@ namespace Moo
 		float _height;
 		ComPtr<ID3D11Device> _dev;
 		ComPtr<ID3D11DeviceContext> _devcon;
-		ComPtr<ID3D11Buffer> vertexBuffer;
-		XMMATRIX vpMatrix;
+		ComPtr<ID3D11Buffer> _vertexBuffer;
+		XMMATRIX _vpMatrix;
 
-		SpriteRect *_spriteRect;
+		D3D11_SUBRESOURCE_DATA _resourceData;
+		VERTEX *_rect;
 	};
 }

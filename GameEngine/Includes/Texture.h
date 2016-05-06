@@ -7,6 +7,7 @@
 #include "Transformable.h"
 
 #define GRAPHICS_PATH "Ressources/Graphics/"
+using namespace Microsoft::WRL;
 
 namespace Moo
 {
@@ -23,31 +24,25 @@ namespace Moo
 		ID3D11PixelShader * getPixelShader();
 		ID3D11SamplerState * getColorMapSampler();
 		ID3D11ShaderResourceView * getColorMap();
-		ID3D11Buffer * getVertexBuffer();
 		ID3D11Buffer * getContentBuffer();
 		float getWidth();
 		float getHeight();
-		void setResourceData(VERTEX *);
 		void release();
 
-	private:
-		ID3D11Device *_dev;
-		ID3D11DeviceContext *_devcon;
-
-		ID3D11VertexShader* solidColorVS;
-		ID3D11PixelShader* solidColorPS;
-
-		ID3D11InputLayout* inputLayout;
-		ID3D11Buffer* vertexBuffer;
-		ID3D11Buffer* mvpCB;
-		ID3D11SamplerState* colorMapSampler;
-		ID3D11BlendState* alphaBlendState;
-		ID3D11ShaderResourceView* colorMap;
-
-		D3D11_SUBRESOURCE_DATA resourceData;
-
-		float _width;
-		float _height;
+		float _textureWidth;
+		float _textureHeight;
 		XMFLOAT4 _color;
+	private:
+		ComPtr<ID3D11Device> _dev;
+		ComPtr<ID3D11DeviceContext> _devcon;
+
+		ComPtr<ID3D11VertexShader> solidColorVS;
+		ComPtr<ID3D11PixelShader> solidColorPS;
+
+		ComPtr<ID3D11InputLayout> inputLayout;
+		ComPtr<ID3D11Buffer> mvpCB;
+		ComPtr<ID3D11SamplerState> colorMapSampler;
+		ComPtr<ID3D11BlendState> alphaBlendState;
+		ComPtr<ID3D11ShaderResourceView> colorMap;
 	};
 }

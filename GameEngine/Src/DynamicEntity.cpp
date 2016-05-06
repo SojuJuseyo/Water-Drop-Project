@@ -48,6 +48,16 @@ namespace Moo
 		return _hitboxSprite.get();
 	}
 
+	Direction DynamicEntity::getDirection() const
+	{
+		return _direction;
+	}
+
+	void DynamicEntity::setDirection(Direction direction)
+	{
+		_direction = direction;
+	}
+
 	void DynamicEntity::setHealth(float _health)
 	{
 		this->_health = _health;

@@ -8,7 +8,7 @@ namespace Moo
 		this->setHitbox(sprite->getX(), sprite->getY() + sprite->getHeight(), sprite->getX() + sprite->getWidth(), sprite->getY());//x1 y1 x2 y2
 		this->_type = type;
 		this->_isHeatZone = isHeatZone;
-		_hitboxSprite = std::make_shared<Sprite>(*sprite);
+		_hitboxSprite = std::make_shared<Sprite>(sprite->getWidth(), sprite->getHeight(), sprite->getPosition().x, sprite->getPosition().y);
 		_texture = std::make_shared<Moo::Texture>();
 		_texture->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 		_hitboxSprite->loadTexture(_texture.get());

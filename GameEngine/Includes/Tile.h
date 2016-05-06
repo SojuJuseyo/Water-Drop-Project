@@ -8,8 +8,9 @@ class Tile
 
 private:
 
-	float	posX;
-	float	posY;
+	float	_posX;
+	float	_posY;
+	bool	_isHeatZone;
 
 public:
 
@@ -22,4 +23,7 @@ public:
 
 	void	setPosY(float);
 	float	getPosY() const;
+
+	void	setisHeatZone(bool);
+	bool	getisHeatZone() const;
 };

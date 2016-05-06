@@ -13,7 +13,6 @@ MapInfos::~MapInfos()
 // Display all the map. Debug function
 void MapInfos::displayMapInfos()
 {
-	std::cout << "BEGINNING OF THE DEBUG OUTPUT" << std::endl;
 	std::cout << "Map Name : " << this->mapName << std::endl;
 	std::cout << "Map Width : " << this->mapWidth << std::endl;
 	std::cout << "Map Height : " << this->mapHeight << std::endl;
@@ -21,10 +20,8 @@ void MapInfos::displayMapInfos()
 
 	for (std::list<std::pair<std::string, std::list<Tile *>>>::iterator it = this->mapTileList.begin(); it != this->mapTileList.end(); it++)
 	{
-		std::cout << std::endl;
 		std::cout << "Sprite used : " << (*it).first << std::endl;
 		std::cout << "Number of elements : " << (*it).second.size() << std::endl;
-		std::cout << std::endl;
 
 		std::list<Tile *> tileList = (*it).second;
 		for (std::list<Tile *>::iterator it2 = tileList.begin(); it2 != tileList.end(); it2++)
@@ -32,7 +29,6 @@ void MapInfos::displayMapInfos()
 			std::cout << "Tile in [" << (*it2)->getPosX() << ", " << (*it2)->getPosY() << "]" << std::endl;
 		}
 	}
-	std::cout << "END OF THE DEBUG OUTPUT" << std::endl;
 }
 
 std::list<Tile *> MapInfos::getTilesFromSprite(std::string _sprite)
@@ -97,4 +93,14 @@ void MapInfos::setMapTileList(std::list<std::pair<std::string, std::list<Tile *>
 std::list < std::pair<std::string, std::list<Tile *>>> MapInfos::getMapTileList() const
 {
 	return (this->mapTileList);
+}
+
+void MapInfos::setHeatZonesTileList(std::list<Tile *> _mapHeatZonesList)
+{
+	this->mapHeatZonesList = _mapHeatZonesList;
+}
+
+std::list<Tile *> MapInfos::getHeatZonesTileList() const
+{
+	return (this->mapHeatZonesList);
 }

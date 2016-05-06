@@ -24,7 +24,10 @@ namespace Moo
 
 	bool ControleScene::runUpdate()
 	{
+<<<<<<< HEAD
 		Moo::Keyboard::updateInput();
+=======
+>>>>>>> refs/remotes/origin/master
 		_window->clear();
 		_window->draw(_backgroundSprite.get());
 		_window->display();

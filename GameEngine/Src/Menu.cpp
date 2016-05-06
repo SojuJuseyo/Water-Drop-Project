@@ -17,7 +17,8 @@ namespace Moo
 		//background
 		_textures["Background"] = std::make_shared<Texture>();
 		_textures["Background"]->loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
-		_sprites["Background"] = std::make_shared<Sprite>(d3d::getInstance().getScreenSize().x, d3d::getInstance().getScreenSize().y, 0.f, 0.f);
+		_sprites["Background"] = std::make_shared<Moo::Sprite>(1280.f, 1080.f, 0.f, 0.f);
+		_sprites["Background"]->setScale(Vector2f(0.65f, 0.56f));
 		_sprites["Background"]->loadTexture(_textures["Background"].get());
 
 		//Buttons attributes

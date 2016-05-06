@@ -1,50 +1,59 @@
 #pragma once
 
 #include "MapInfos.h"
+#include "Settings.h"
 #include "../JsonCpp/json.h"
 
 #include <fstream>
 #include <algorithm>
 
-#define MAPNAMEATTRIBUTE "name"
-#define MAPSIZEATTRIBUTE "size"
-#define MAPTILELISTATTRIBUTE "tileList"
-#define MAPAUDIOATTRIBUTE "audio"
-#define MAPCOORDX "coordx"
-#define MAPCOORDY "coordy"
-
-class JsonParser 
+enum FileType
 {
-
-private:
-
-	// The path of the Json file to parse
-	std::string filePath;
-
-	// Informations of the map
-	MapInfos map;
-
-public:
-
-	JsonParser();
-	JsonParser(std::string);
-	~JsonParser();
-
-	// Function parsing the Json file and setting the map variables
-	int parseFile();
-	// Check if field names are all set (name, size, tilelist)
-	bool JsonParser::checkFieldNamesExistence(Json::Value);
-	// Parse the map size string
-	void JsonParser::parseMapSize(std::string mapSize);
-
-	// Debug function
-	void JsonParser::getFilenameFromConsole();
-
-	// Setters and Getters
-	void setFilePath(std::string);
-	std::string getFilePath() const;
-
-	void setMap(MapInfos);
-	MapInfos getMap() const;
-
+	MAP,
+	SETTINGS,
+	LEVELS
 };
+
+namespace Moo
+{
+	class JsonParser
+	{
+	private:
+		std::string					_filePath;
+		Json::Value					_fileContent;
+		std::vector<std::string>	_fieldNames;
+		FileType					_fileType;
+
+	public:
+
+		JsonParser();
+		JsonParser(std::string);
+		~JsonParser();
+
+		void	saveSettings(Settings &, std::string) const;
+
+		// Function parsing the Json file
+		void parseFile(FileType fileType);
+
+		void	defineFileFieldNames();
+
+		// Check if field names are all set (name, size, tilelist)
+		bool checkFieldNamesExistence();
+
+		// Debug function
+		void getFilenameFromConsole();
+
+		// Setters and Getters
+		void setFilePath(std::string);
+		std::string getFilePath() const;
+
+		// Map related functions variables
+		MapInfos	parseMap();
+		void		parseMapSize(std::string mapSize, MapInfos	&map);
+
+		// Settings related functions
+		Settings	getSettingsFileContent();
+
+		// Levels order related functions
+	};
+}

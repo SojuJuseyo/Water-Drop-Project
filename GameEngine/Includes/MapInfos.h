@@ -5,6 +5,15 @@
 #include <list>
 #include <utility>
 
+// Map related field names & attributes
+#define MAP_NAME_ATTRIBUTE				"name"
+#define MAP_SIZE_ATTRIBUTE				"size"
+#define MAP_TILE_LIST_ATTRIBUTE			"tileList"
+#define MAP_HEATZONE_LIST_ATTRIBUTE		"heatZonesList"
+#define MAP_AUDIO_ATTRIBUTE				"audio"
+#define MAP_COORD_X						"coordx"
+#define MAP_COORD_Y						"coordy"
+
 class MapInfos
 {
 
@@ -17,6 +26,7 @@ private:
 	std::string mapAudioFile;
 	// std::string -> "0" or "1" or "2" ... 0 being the first sprite of the spritesheet, 1 the second etc ...
 	std::list<std::pair<std::string,std::list<Tile *>>> mapTileList;
+	std::list<Tile *>	mapHeatZonesList;
 
 public:
 
@@ -43,4 +53,6 @@ public:
 	void setMapTileList(std::list<std::pair<std::string, std::list<Tile *>>>);
 	std::list<std::pair<std::string, std::list<Tile *>>> getMapTileList() const;
 
+	void setHeatZonesTileList(std::list<Tile *>);
+	std::list<Tile *> getHeatZonesTileList() const;
 };

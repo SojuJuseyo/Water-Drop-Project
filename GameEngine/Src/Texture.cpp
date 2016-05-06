@@ -1,5 +1,4 @@
 #include "Texture.h"
-#include "SpriteRect.h"
 
 namespace Moo
 {
@@ -11,6 +10,8 @@ namespace Moo
 	{
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
+		_textureHeight = 0;
+		_textureWidth = 0;
 	}
 
 	Texture::~Texture()
@@ -20,51 +21,59 @@ namespace Moo
 
 	bool Texture::CompileD3DShader(char* filePath, char* entry, char* shaderModel, ID3DBlob** buffer)
 	{
-		D3DX11CompileFromFile(filePath, 0, 0, entry, shaderModel, NULL, 0, 0, buffer, NULL, 0);
+		D3DX11CompileFromFile(filePath, 0, 0, entry, shaderModel,
+			NULL, 0, 0, buffer, NULL, 0);
 		return true;
 	}
 
 	void Texture::loadFromFile(const std::string &filename)
 	{
-		ID3DBlob* vsBuffer = 0;
-
-		bool compileResult = CompileD3DShader("Shaders/TextureMap.fx", "VS_Main", "vs_4_0", &vsBuffer);
-
-		_dev->CreateVertexShader(vsBuffer->GetBufferPointer(),
-			vsBuffer->GetBufferSize(), 0, &solidColorVS);
-
-
+		ID3DBlob* vsBuffer, *psBuffer = 0;
 		D3D11_INPUT_ELEMENT_DESC solidColorLayout[] =
 		{
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
 
+		CompileD3DShader("Shaders/TextureMap.fx", "VS_Main", "vs_4_0", &vsBuffer);
+		CompileD3DShader("Shaders/TextureMap.fx", "PS_Main", "ps_4_0", &psBuffer);
+
+		DirectX::ThrowIfFailed(
+			_dev->CreateVertexShader(vsBuffer->GetBufferPointer(),
+				vsBuffer->GetBufferSize(),
+				0,
+				&solidColorVS)
+			);
+
+		DirectX::ThrowIfFailed(
+			_dev->CreatePixelShader(psBuffer->GetBufferPointer(),
+				psBuffer->GetBufferSize(),
+				0,
+				&solidColorPS)
+			);
+
 		unsigned int totalLayoutElements = ARRAYSIZE(solidColorLayout);
 
-		_dev->CreateInputLayout(solidColorLayout, totalLayoutElements,
-			vsBuffer->GetBufferPointer(), vsBuffer->GetBufferSize(), &inputLayout);
+		DirectX::ThrowIfFailed(
+			_dev->CreateInputLayout(solidColorLayout,
+				totalLayoutElements,
+				vsBuffer->GetBufferPointer(),
+				vsBuffer->GetBufferSize(),
+				&inputLayout)
+			);
 
-		ID3DBlob* psBuffer = 0;
-
-		compileResult = CompileD3DShader("Shaders/TextureMap.fx", "PS_Main", "ps_4_0", &psBuffer);
-
-		_dev->CreatePixelShader(psBuffer->GetBufferPointer(),
-			psBuffer->GetBufferSize(), 0, &solidColorPS);
-
-		D3DX11CreateShaderResourceViewFromFile(_dev,
+		D3DX11CreateShaderResourceViewFromFile(_dev.Get(),
 			filename.c_str(), 0, 0, &colorMap, 0);
 
-		// Récuperer taille de la texture
+		// R?cuperer taille de la texture
 		ID3D11Resource *resource;
 		ID3D11Texture2D *texture2D;
 		D3D11_TEXTURE2D_DESC textureDesc;
-
 		colorMap->GetResource(&resource);
 		resource->QueryInterface<ID3D11Texture2D>(&texture2D);
 		texture2D->GetDesc(&textureDesc);
-		_width = static_cast<float>(textureDesc.Width);
-		_height = static_cast<float>(textureDesc.Height);
+		_textureWidth = static_cast<float>(textureDesc.Width);
+		_textureHeight = static_cast<float>(textureDesc.Height);
 
 		D3D11_BUFFER_DESC constDesc;
 		ZeroMemory(&constDesc, sizeof(constDesc));
@@ -72,7 +81,7 @@ namespace Moo
 		constDesc.ByteWidth = sizeof(XMMATRIX);
 		constDesc.Usage = D3D11_USAGE_DEFAULT;
 
-		_dev->CreateBuffer(&constDesc, 0, &mvpCB);
+		_dev->CreateBuffer(&constDesc, 0, mvpCB.GetAddressOf());
 
 		ID3D11Resource* colorTex;
 
@@ -81,9 +90,6 @@ namespace Moo
 		D3D11_TEXTURE2D_DESC colorTexDesc;
 		((ID3D11Texture2D*)colorTex)->GetDesc(&colorTexDesc);
 		colorTex->Release();
-
-		float halfWidth = (float)_width / 2.0f;
-		float halfHeight = (float)_height / 2.0f;
 
 		ID3D11RasterizerState *rasterize;
 
@@ -118,82 +124,62 @@ namespace Moo
 
 		float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-		_dev->CreateBlendState(&blendDesc, &alphaBlendState);
-		_devcon->OMSetBlendState(alphaBlendState, blendFactor, 0xFFFFFFFF);
+		_dev->CreateBlendState(&blendDesc, alphaBlendState.GetAddressOf());
+		_devcon->OMSetBlendState(alphaBlendState.Get(), blendFactor, 0xFFFFFFFF);
 
 		D3D11_SAMPLER_DESC desc = CD3D11_SAMPLER_DESC(CD3D11_DEFAULT());
 		_dev->CreateSamplerState(&desc, &colorMapSampler);
 	}
 
+
 	ID3D11InputLayout *Texture::getInputLayout()
 	{
-		return inputLayout;
+		return inputLayout.Get();
 	}
 
 	ID3D11VertexShader *Texture::getVertexShader()
 	{
-		return solidColorVS;
+		return solidColorVS.Get();
 	}
 
 	ID3D11PixelShader *Texture::getPixelShader()
 	{
-		return solidColorPS;
+		return solidColorPS.Get();
 	}
 
 	ID3D11SamplerState *Texture::getColorMapSampler()
 	{
-		return colorMapSampler;
+		return colorMapSampler.Get();
 	}
 
 	ID3D11ShaderResourceView *Texture::getColorMap()
 	{
-		return colorMap;
-	}
-
-	ID3D11Buffer *Texture::getVertexBuffer()
-	{
-		return vertexBuffer;
+		return colorMap.Get();
 	}
 
 	ID3D11Buffer *Texture::getContentBuffer()
 	{
-		return mvpCB;
+		return mvpCB.Get();
 	}
 
 	float Texture::getWidth()
 	{
-		return _width;
+		return _textureWidth;
 	}
 
 	float Texture::getHeight()
 	{
-		return _height;
-	}
-
-	void Texture::setResourceData(VERTEX *tab)
-	{
-		D3D11_BUFFER_DESC vertexDesc;
-		ZeroMemory(&vertexDesc, sizeof(vertexDesc));
-		vertexDesc.Usage = D3D11_USAGE_DEFAULT;
-		vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		vertexDesc.ByteWidth = sizeof(VERTEX) * 6;
-
-
-		ZeroMemory(&resourceData, sizeof(resourceData));
-		resourceData.pSysMem = tab;
-		_dev->CreateBuffer(&vertexDesc, &resourceData, &vertexBuffer);
+		return _textureHeight;
 	}
 
 	void Texture::release()
 	{
-		vertexBuffer->Release();
-		solidColorVS->Release();
-		solidColorPS->Release();
-		inputLayout->Release();
-		mvpCB->Release();
-		colorMapSampler->Release();
-		alphaBlendState->Release();
-		colorMap->Release();
+		solidColorVS.Reset();
+		solidColorPS.Reset();
+		inputLayout.Reset();
+		mvpCB.Reset();
+		colorMapSampler.Reset();
+		alphaBlendState.Reset();
+		colorMap.Reset();
 	}
 }
-

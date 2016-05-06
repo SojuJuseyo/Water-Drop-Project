@@ -50,7 +50,7 @@ namespace Moo
 		void d3d::releaseBackBuffer()
 		{
 			_renderTarget.Reset();
- 			_backBuffer.Reset();
+			_backBuffer.Reset();
 		}
 
 		void d3d::init(HWND hWnd, Vector2f screenSize)
@@ -93,7 +93,7 @@ namespace Moo
 				_devcon.GetAddressOf()
 				);
 
-			_camera = new Camera;
+			_camera = std::make_unique<Camera>();
 			setFullScreenState(false);
 		}
 
@@ -124,12 +124,12 @@ namespace Moo
 			_devcon->RSSetViewports(
 				1,
 				&_viewport
-			);
+				);
 		}
 
 		Camera		*d3d::getCamera()
 		{
-			return _camera;
+			return _camera.get();
 		}
 
 		XMMATRIX	d3d::getView()
@@ -178,7 +178,7 @@ namespace Moo
 			UINT windowHeight = _fullscreenstate ? 1080 : 0;
 
 			_swapchain->ResizeBuffers(0, windowWidth, windowHeight, DXGI_FORMAT_UNKNOWN, 0);
-			
+
 			_swapchain->SetFullscreenState(state, NULL);
 
 			configureBackBuffer();
@@ -188,31 +188,31 @@ namespace Moo
 		{
 			_devcon->ClearRenderTargetView(_renderTarget.Get(), color);
 		}
-		
-		ID3D11Device* d3d::getD3DDevice()
+
+		ComPtr<ID3D11Device> d3d::getD3DDevice()
 		{
-			return _dev.Get();
+			return _dev;
 		}
 
-		ID3D11DeviceContext* d3d::getContext()
+		ComPtr<ID3D11DeviceContext> d3d::getContext()
 		{
-			return _devcon.Get();
+			return _devcon;
 		}
 
 		static d3d& d3d::getInstance()
 		{
 			static d3d instance;
-				return instance;
+			return instance;
 		}
 
-		private:
+	private:
 		d3d(d3d const&) = delete;
 		void operator=(d3d const&) = delete;
 
 		bool _fullscreenstate;
 
 		Vector2f _screenSize;
-		Camera *_camera;
+		std::unique_ptr<Camera> _camera;
 
 
 		//-----------------------------------------------------------------------------

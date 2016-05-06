@@ -181,11 +181,10 @@
     <ClInclude Include="Includes\ParticleEmitter.h" />
     <ClInclude Include="Includes\pch.h" />
     <ClInclude Include="Includes\Scene.h" />
+    <ClInclude Include="Includes\Settings.h" />
     <ClInclude Include="Includes\SoundSystem.h" />
     <ClInclude Include="Includes\Sprite.h" />
-    <ClInclude Include="Includes\SpriteRect.h" />
     <ClInclude Include="Includes\StaticEntity.h" />
-    <ClInclude Include="Includes\Text.h" />
     <ClInclude Include="Includes\Texture.h" />
     <ClInclude Include="Includes\Tile.h" />
     <ClInclude Include="Includes\Timer.h" />
@@ -216,11 +215,10 @@
     <ClCompile Include="Src\MenuPause.cpp" />
     <ClCompile Include="Src\pch.cpp" />
     <ClCompile Include="Src\Scene.cpp" />
+    <ClCompile Include="Src\Settings.cpp" />
     <ClCompile Include="Src\SoundSystem.cpp" />
     <ClCompile Include="Src\Sprite.cpp" />
-    <ClCompile Include="Src\SpriteRect.cpp" />
     <ClCompile Include="Src\StaticEntity.cpp" />
-    <ClCompile Include="Src\Text.cpp" />
     <ClCompile Include="Src\Texture.cpp" />
     <ClCompile Include="Src\Tile.cpp" />
     <ClCompile Include="Src\Timer.cpp" />
@@ -238,6 +236,7 @@
     <Image Include="Ressources\Graphics\hitbox.dds" />
     <Image Include="Ressources\Graphics\Menu_Pause_WTP_DDS.dds" />
     <Image Include="Ressources\Graphics\Menu_WTP_DDS.dds" />
+    <Image Include="Ressources\Graphics\player.dds" />
     <Image Include="Ressources\Graphics\tileset.dds" />
     <Image Include="Ressources\Graphics\You_Lost_DDS.dds" />
     <Image Include="Ressources\Graphics\You_Won_DDS.dds" />

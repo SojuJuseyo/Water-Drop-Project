@@ -120,13 +120,7 @@
     <ClInclude Include="Includes\Sprite.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\SpriteRect.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
     <ClInclude Include="Includes\StaticEntity.h">
-      <Filter>Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Includes\Text.h">
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="Includes\Texture.h">
@@ -153,7 +147,7 @@
     <ClInclude Include="Includes\LoadingScene.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\GameManagmentHeader.h">
+    <ClInclude Include="Includes\Settings.h">
       <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
@@ -224,13 +218,7 @@
     <ClCompile Include="Src\Sprite.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\SpriteRect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="Src\StaticEntity.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Text.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\Texture.cpp">
@@ -255,6 +243,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\LoadingScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Settings.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

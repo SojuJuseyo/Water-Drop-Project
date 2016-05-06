@@ -30,6 +30,9 @@ namespace Moo
 		Sprite			*getSprite() const;
 		Sprite			*getHitboxSprite();
 
+		Direction		getDirection() const;
+		void			setDirection(Direction);
+
 		void			changeHealth(float);
 		void			evaporateHeatZone();
 
@@ -43,6 +46,7 @@ namespace Moo
 		float						_health;
 		Vector2f					_acceleration;
 		bool						_hasGravity;
+		Direction					_direction;
 
 		std::shared_ptr<Sprite>		_sprite;
 		std::shared_ptr<Sprite>		_hitboxSprite;
