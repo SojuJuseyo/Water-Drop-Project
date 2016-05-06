@@ -11,15 +11,6 @@
 #include "StaticEntity.h"
 #include "SoundSystem.h"
 #include "Camera.h"
-#include "SpriteRect.h"
-
-struct s_collider
-{
-	bool		isCollideUp;
-	bool		isCollideDown;
-	bool		isCollideRight;
-	bool		isCollideLeft;
-};
 
 namespace Moo
 {
@@ -52,7 +43,7 @@ namespace Moo
 
 		MapInfos			_map;
 		std::map<std::string, Moo::Texture> _textures;
-		std::map<std::string, SpriteRect> _spriteSheet;
+		std::map<std::string, Moo::Vector2f> _spriteSheet;
 		std::shared_ptr<Moo::Character>	_player;
 		std::shared_ptr<Moo::Sprite>	_background, _lose, _win;
 		std::shared_ptr<Window>			_window;

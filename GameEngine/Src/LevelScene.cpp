@@ -51,7 +51,8 @@ namespace Moo
 	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY)
 	{
 		auto sprite = std::make_shared<Moo::Sprite>(40.f, 40.f, posX * 40, posY * 40);
-		sprite->loadTexture(&_textures[getEntityTypeName(type)], &_spriteSheet[getEntityTypeName(type)]);
+		sprite->loadTexture(&_textures["Tileset"]);
+		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(16, 16));
 		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, false);
 		_staticEntities.push_back(staticEntity);
 	}
@@ -211,9 +212,6 @@ namespace Moo
 		_playerDead = false;
 
 		Moo::Keyboard::updateInput();
-
-		if (Moo::Keyboard::isDown(Moo::Keyboard::R))
-			Moo::Game::getInstance().cleanCurrentScene();
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::A))
 			std::cout << "Dynamic entities list size: " << _dynamicEntities.size() << std::endl;
@@ -439,7 +437,7 @@ namespace Moo
 					else if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
 					{
 						std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType())
-								  << " after its collision with " << getEntityTypeName((*statEntIt)->getEntityType()) << std::endl;
+							<< " after its collision with " << getEntityTypeName((*statEntIt)->getEntityType()) << std::endl;
 						dynEntIt = _dynamicEntities.erase(dynEntIt);
 						deletedDynEnt = true;
 						break;
@@ -471,10 +469,10 @@ namespace Moo
 						//If we collide with an enemy : Absorb him
 						//std::cout << "Collision between " << getEntityTypeName((*dynEntIt)->getEntityType()) << " and " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
 						if ((((*dynEntIt)->getEntityType() != EntityType::BULLET
-							&&(*dynEntIt)->getHealth() <= (*SecondDynEntIt)->getHealth()
+							&& (*dynEntIt)->getHealth() <= (*SecondDynEntIt)->getHealth()
 							&& std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() != true)
 							|| std::static_pointer_cast<Moo::Character>(*SecondDynEntIt)->isGodMode() == true)
-						|| ((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() != EntityType::PLAYER))
+							|| ((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() != EntityType::PLAYER))
 						{
 							if ((*dynEntIt)->getEntityType() != EntityType::BULLET && (*SecondDynEntIt)->getEntityType() == EntityType::PLAYER)
 								_soundSystem->playSound("powerup", false);
