@@ -101,6 +101,6 @@ namespace Moo
 
 	void	DynamicEntity::evaporateHeatZone()
 	{
-			this->changeHealth((float)(EVAPORATION_RATE / FPS_LIMIT));
+			this->changeHealth((float)(-EVAPORATION_RATE / FPS_LIMIT));
 	}
 }

@@ -90,10 +90,10 @@ namespace Moo
 		loadFromSpriteSheet();
 
 		//All the data contained in the map
-		std::list<Tile> blockTiles = map.getTilesFromSprite("0");
+		std::list<Tile> platformTiles = map.getTilesFromSprite("0");
 		std::list<Tile> bottomTiles = map.getTilesFromSprite("1");
 		std::list<Tile> enemyTiles = map.getTilesFromSprite("3");
-		std::list<Tile> platformTiles = map.getTilesFromSprite("4");
+		std::list<Tile> blockTiles = map.getTilesFromSprite("4");
 		std::list<Tile> playerTiles = map.getTilesFromSprite("5");
 		std::list<Tile> exitTiles = map.getTilesFromSprite("6");
 		std::list<Tile> heatZonesTiles = map.getHeatZonesTileList();
@@ -125,7 +125,7 @@ namespace Moo
 					staticEntity->setIsHeatZone(true);
 				}
 			if (_wasInList == false)
-				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, false);
+				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, true);
 		}
 
 		//Enemies specs
@@ -303,7 +303,7 @@ namespace Moo
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
 		{
-			if (_player->getHealth() > 1)
+			if (_player->getHealth() > 1.5f)
 			{
 				_soundSystem->playSound("shoot", false);
 
@@ -340,7 +340,7 @@ namespace Moo
 		//Draw static entities and their hitboxes
 		for (auto entity : _staticEntities)
 		{
-			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)
+			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)// && entity->isCollidable() == true)
 				_window->draw(entity->getSprite());
 			//_window->draw(entity->getHitboxSprite());
 		}
@@ -429,7 +429,6 @@ namespace Moo
 			for (auto statEntIt = _staticEntities.begin(); statEntIt != _staticEntities.end(); ++statEntIt)
 			{
 				if ((*statEntIt)->isCollidable() == true
-				 && (*statEntIt)->getEntityType() != EntityType::BLANK_HEAT_ZONE
 				 && (hitZone = (*dynEntIt)->collisionAABB((*statEntIt).get())) != HitZone::NONE)
 				{
 					//If player collides with an Exit
@@ -437,6 +436,11 @@ namespace Moo
 					{
 						_exitReached = true;
 						break;
+					}
+					//If player is in a heatzone
+					else if ((*statEntIt)->getEntityType() == EntityType::BLANK_HEAT_ZONE)
+					{
+						isInHeatZone = true;
 					}
 					//If we collide with a wall/platform/bottom
 					else if ((*dynEntIt)->getEntityType() == EntityType::PLAYER || ((*dynEntIt)->getEntityType() == EntityType::ENEMY))
@@ -465,7 +469,8 @@ namespace Moo
 						deletedDynEnt = true;
 						break;
 					}
-					isInHeatZone = (*statEntIt)->getIsHeatZone();
+					if (isInHeatZone == false && (*statEntIt)->getIsHeatZone() == true)
+						isInHeatZone = true;
 				}
 			}
 
@@ -480,9 +485,8 @@ namespace Moo
 					(*dynEntIt)->getSprite()->setX((*dynEntIt)->getSprite()->getX() + decal.x);
 				}
 				(*dynEntIt)->resetHitbox();
-				if (isInHeatZone == true)
+				if (isInHeatZone == true && (*dynEntIt)->getHealth() > 1.5f && std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() != true)
 					(*dynEntIt)->evaporateHeatZone();
-
 				for (auto SecondDynEntIt = _dynamicEntities.begin(); SecondDynEntIt != _dynamicEntities.end(); ++SecondDynEntIt)
 				{
 					if (!((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() == EntityType::BULLET)

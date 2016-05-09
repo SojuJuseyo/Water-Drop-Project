@@ -63,7 +63,7 @@ namespace Moo
 		createScene(CONTROLS_MENU, new ControleScene());
 		createScene(LEVEL1, new LevelScene("Maps/Test_is_Collidable.json"));
 		createScene(LEVEL2, new LevelScene("Maps/Siphon.json"));
-		createScene(LEVEL3, new LevelScene("Maps/Yamakasi.json"));
+		createScene(LEVEL3, new LevelScene("Maps/TempleRun.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
 		_isGameRunning = true;
@@ -85,7 +85,7 @@ namespace Moo
 	// a appeller quand on veut passer d'une scene a l'autre.
 	void			Game::runScene(e_scene type, bool isContinue)
 	{
-		std::cout << "RUN SCENE " << type << " NOMBER OF SCENES : " << _listOfScenes.size() << std::endl;
+		std::cout << "RUN SCENE " << type << " NUMBER OF SCENE : " << _listOfScenes.size() << std::endl;
 		s_scene *tmpSceneForPrev = _currentScene;
 		s_scene *tmpScene = getSceneByType(type);
 		if (tmpScene != nullptr) {
