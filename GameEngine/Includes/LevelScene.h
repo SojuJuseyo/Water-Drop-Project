@@ -23,11 +23,11 @@ namespace Moo
 		std::string	getEntityTypeName(EntityType);
 		bool	runUpdate();
 		void	clean();
-		bool	init(std::shared_ptr<Moo::Window> window);
-		void	getEntitiesFromMap(MapInfos map);
+		void	getEntitiesFromMap(std::shared_ptr<MapInfos> map);
 		void	fillStaticEntitiesList(EntityType, float, float);
 		void	fillDynamicEntitiesList(int, EntityType, float, float, float, float, float, float, bool, Direction);
 		Camera	getCamera();
+		bool	init(std::shared_ptr<Window> window, std::map<std::string, Texture>);
 		void	inputHandling();
 		void	displayHitboxesAndSprites();
 		void	applyGravityAndCollisions();
@@ -37,12 +37,12 @@ namespace Moo
 		FMOD::Channel					*themeChan;
 
 	private:
-		std::vector<std::shared_ptr<Moo::StaticEntity>>		_staticEntities;
-		std::vector<std::shared_ptr<Moo::DynamicEntity>>	_dynamicEntities;
+		std::vector<std::shared_ptr<Moo::StaticEntity>>		_staticEntities, _saveStaticEntities;
+		std::vector<std::shared_ptr<Moo::DynamicEntity>>	_dynamicEntities, _saveDynamicEntities;
 		std::map<EntityType, std::string>					_entityTypeName;
 
-		MapInfos			_map;
-		std::map<std::string, Moo::Texture> _textures;
+		std::shared_ptr<MapInfos>			_map;
+		std::shared_ptr<std::map<std::string, Texture>> _textures;
 		std::map<std::string, Moo::Vector2f> _spriteSheet;
 		std::shared_ptr<Moo::Character>	_player;
 		std::shared_ptr<Moo::Sprite>	_background, _lose, _win;
