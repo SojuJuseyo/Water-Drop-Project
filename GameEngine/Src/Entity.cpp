@@ -3,7 +3,7 @@
 
 namespace Moo
 {
-	Entity::Entity() : _isCollidable(true)
+	Entity::Entity()
 	{
 	}
 

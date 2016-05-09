@@ -24,7 +24,7 @@ namespace Moo
 		bool	runUpdate();
 		void	clean();
 		void	getEntitiesFromMap(std::shared_ptr<MapInfos> map);
-		void	fillStaticEntitiesList(EntityType, float, float);
+		void	fillStaticEntitiesList(EntityType, float, float, bool, bool);
 		void	fillDynamicEntitiesList(int, EntityType, float, float, float, float, float, float, bool, Direction);
 		Camera	getCamera();
 		bool	init(std::shared_ptr<Window> window, std::map<std::string, Texture>);
