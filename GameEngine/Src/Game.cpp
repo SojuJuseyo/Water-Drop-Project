@@ -15,6 +15,18 @@ namespace Moo
 	Game::Game()
 	{
 		_soundSystem = std::make_shared<SoundSystem>();
+		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("player.dds"));
+		_textures["Background_Controle"].loadFromFile(GRAPHICS_PATH + std::string("controle.dds"));
+		_textures["Background_Menu"].loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
+		_textures["Hitbox"].loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
+		_textures["Background_Menu_Pause"].loadFromFile(GRAPHICS_PATH + std::string("Menu_Pause_WTP_DDS.dds"));
+		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
+		_textures["Tileset"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
+		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
+		// Temp texture for the bullet
+		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
+		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("You_Lost_DDS.dds"));
+		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("You_Won_DDS.dds"));
 	}
 
 	Game::~Game()
@@ -34,7 +46,7 @@ namespace Moo
 		{
 			if (scene.sceneType == _currentScene->sceneType)
 			{
-				scene.scene->init(_window);
+				scene.scene->init(_window, _textures);
 				break;
 			}
 		}
@@ -46,7 +58,7 @@ namespace Moo
 		for (int index = 1; index < (int)_listOfScenes.size(); ++index)
 		{
 			if (_listOfScenes[index].scene != nullptr) {
-				_listOfScenes[index].scene->init(_window);
+				_listOfScenes[index].scene->init(_window, _textures);
 			}
 		}
 		Moo::d3d::getInstance().getCamera()->reset();
@@ -62,8 +74,8 @@ namespace Moo
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
 		createScene(LEVEL1, new LevelScene("Maps/MapTestManyDynamicEntities.json"));
-		createScene(LEVEL2, new LevelScene("Maps/Siphon.json"));
-		createScene(LEVEL3, new LevelScene("Maps/Yamakasi.json"));
+		//createScene(LEVEL2, new LevelScene("Maps/Siphon.json"));
+		//createScene(LEVEL3, new LevelScene("Maps/Yamakasi.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
 		_isGameRunning = true;
@@ -178,7 +190,7 @@ namespace Moo
 			if (scene.sceneType == LOADING)
 			{
 				if (scene.scene->_hasBeenInited == false)
-					scene.scene->init(_window);
+					scene.scene->init(_window, _textures);
 				scene.scene->runUpdate();
 				return;
 			}

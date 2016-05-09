@@ -38,6 +38,7 @@ namespace Moo
 		float getWidth();
 		float getHeight();
 		ID3D11Buffer * const * getVertexBuffer() const;
+		Texture * getTexture() const;
 
 	private:
 		Texture *_texture;

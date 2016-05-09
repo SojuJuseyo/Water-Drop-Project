@@ -17,14 +17,14 @@ namespace Moo
 	public:
 		Menu();
 		~Menu();
-		bool	init(std::shared_ptr<Moo::Window> window);
+		bool	init(std::shared_ptr<Moo::Window> window, std::map<std::string, Texture>);
 		bool	runUpdate();
 		void	clean();
 
 	private:
 		e_menu	_offset;
-		std::map<std::string, std::shared_ptr<Texture>> _textures;
 		std::map<std::string, std::shared_ptr<Sprite>> _sprites;
 		std::shared_ptr<Moo::Window> _window;
+		std::shared_ptr<std::map<std::string, Texture>> _textures;
 	};
 }

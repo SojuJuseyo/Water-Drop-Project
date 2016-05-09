@@ -11,6 +11,7 @@ namespace Moo
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
 		_rect = nullptr;
+		_texture = new Texture();
 	}
 
 	Sprite::Sprite(Sprite & sprite)
@@ -83,7 +84,10 @@ namespace Moo
 			this->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(_texture->getWidth(), _texture->getHeight()));
 		}
 		this->setResourceData();
-
+		if (_texture == nullptr) {
+			std::cout << "Texture null, call loadTexture before draw" << std::endl;
+			return;
+		}
 		unsigned int stride = sizeof(VERTEX);
 		unsigned int offset = 0;
 		_devcon->IASetInputLayout(_texture->getInputLayout());
@@ -136,5 +140,10 @@ namespace Moo
 	ID3D11Buffer* const* Sprite::getVertexBuffer() const
 	{
 		return _vertexBuffer.GetAddressOf();
+	}
+
+	Texture *Sprite::getTexture() const
+	{
+		return _texture;
 	}
 }

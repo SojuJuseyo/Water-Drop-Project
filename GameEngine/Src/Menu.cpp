@@ -10,16 +10,15 @@ namespace Moo
 	{
 	}
 
-	bool Menu::init(std::shared_ptr<Moo::Window> window)
+	bool Menu::init(std::shared_ptr<Moo::Window> window, std::map<std::string, Texture> textures)
 	{
 		_window = window;
+		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
 
 		//background
-		_textures["Background"] = std::make_shared<Texture>();
-		_textures["Background"]->loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
 		_sprites["Background"] = std::make_shared<Moo::Sprite>(1280.f, 1080.f, 0.f, 0.f);
 		_sprites["Background"]->setScale(Vector2f(0.65f, 0.56f));
-		_sprites["Background"]->loadTexture(_textures["Background"].get());
+		_sprites["Background"]->loadTexture(&_textures.get()->at("Background_Menu"));
 
 		//Buttons attributes
 		float spaceBetweenButtons = 10;
@@ -27,30 +26,26 @@ namespace Moo
 		float widthOfButtons = 200;
 		float heightOfButtons = 75;
 
-		//Buttons
-		_textures["Button"] = std::make_shared<Texture>();
-		_textures["Button"]->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
-
 		//Button Play
 		_sprites["Play"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
 			positionOfButtonsX,
 			d3d::getInstance().getScreenSize().y / 10 * 6);
-		_sprites["Play"]->loadTexture(_textures["Button"].get());
+		_sprites["Play"]->loadTexture(&_textures.get()->at("Hitbox"));
 
 		//Button Controls
 		_sprites["Controls"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
 			positionOfButtonsX,
 			_sprites["Play"]->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Play button
-		_sprites["Controls"]->loadTexture(_textures["Button"].get());
+		_sprites["Controls"]->loadTexture(&_textures.get()->at("Hitbox"));
 
 		//Button Quit
 		_sprites["Quit"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
 			positionOfButtonsX,
 			_sprites["Controls"]->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
-		_sprites["Quit"]->loadTexture(_textures["Button"].get());
+		_sprites["Quit"]->loadTexture(&_textures.get()->at("Hitbox"));
 
 		_offset = e_menu::PLAY;
 		return true;
