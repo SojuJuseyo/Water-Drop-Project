@@ -90,8 +90,8 @@ namespace Moo
 		std::list<Tile> enemyTiles = map->getTilesFromSprite("3");
 		std::list<Tile> playerTiles = map->getTilesFromSprite("5");
 
-		if (_staticEntities.empty()) {
-
+		if (_staticEntities.empty())
+		{
 			//All the data contained in the map - static
 			std::list<Tile> blockTiles = map->getTilesFromSprite("0");
 			std::list<Tile> bottomTiles = map->getTilesFromSprite("1");
