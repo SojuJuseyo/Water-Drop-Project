@@ -53,3 +53,13 @@ bool Tile::getIsCollidable() const
 {
 	return (this->_isCollidable);
 }
+
+void Tile::setProperties(TileProperties *properties)
+{
+	_properties = properties;
+}
+
+TileProperties *Tile::getProperties() const
+{
+	return (_properties);
+}

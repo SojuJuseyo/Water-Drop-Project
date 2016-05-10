@@ -75,9 +75,9 @@ namespace Moo
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
-		createScene(LEVEL1, new LevelScene("Maps/Siphon.json"));//Siphon
-		createScene(LEVEL2, new LevelScene("Maps/DownTheCliff.json"));
-		createScene(LEVEL3, new LevelScene("Maps/Raining.json"));
+		createScene(LEVEL1, new LevelScene("Maps/Movements.json"));
+		createScene(LEVEL2, new LevelScene("Maps/Jump.json"));
+		createScene(LEVEL3, new LevelScene("Maps/Shoot.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
 		_isGameRunning = true;

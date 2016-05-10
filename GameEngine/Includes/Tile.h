@@ -2,16 +2,18 @@
 
 #include <iostream>
 #include <string>
+#include "TileProperties.h"
 
 class Tile
 {
 
 private:
 
-	float	_posX;
-	float	_posY;
-	bool	_isHeatZone;
-	bool	_isCollidable;
+	float			_posX;
+	float			_posY;
+	bool			_isHeatZone;
+	bool			_isCollidable;
+	TileProperties	*_properties;
 
 public:
 
@@ -30,4 +32,7 @@ public:
 
 	void	setIsCollidable(bool);
 	bool	getIsCollidable() const;
+
+	void	setProperties(TileProperties *);
+	TileProperties *getProperties() const;
 };
