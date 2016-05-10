@@ -303,7 +303,7 @@ namespace Moo
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::Shot))
 		{
-			if (_player->getHealth() > 1.5f)
+			if (_player->getHealth() > 2.f)
 			{
 				_soundSystem->playSound("shoot", false);
 
@@ -485,8 +485,22 @@ namespace Moo
 					(*dynEntIt)->getSprite()->setX((*dynEntIt)->getSprite()->getX() + decal.x);
 				}
 				(*dynEntIt)->resetHitbox();
-				if (isInHeatZone == true && (*dynEntIt)->getHealth() > 1.5f && std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() != true)
+				if (isInHeatZone == true && std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() != true)
+				{
+					if ((*dynEntIt)->getHealth() < 0.5f || ((*dynEntIt)->getEntityType() == EntityType::BULLET && (*dynEntIt)->getHealth() < 0.975f))
+					{
+						std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType()) << " because of heat zone evaporation" << std::endl;
+						if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
+							_playerDead = true;
+						else
+						{
+							dynEntIt = _dynamicEntities.erase(dynEntIt);
+							deletedDynEnt = true;
+						}
+						break;
+					}
 					(*dynEntIt)->evaporateHeatZone();
+				}
 				for (auto SecondDynEntIt = _dynamicEntities.begin(); SecondDynEntIt != _dynamicEntities.end(); ++SecondDynEntIt)
 				{
 					if (!((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() == EntityType::BULLET)
