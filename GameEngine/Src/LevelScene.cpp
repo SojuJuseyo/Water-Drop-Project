@@ -25,7 +25,7 @@ namespace Moo
 		return 	_entityTypeName[type];
 	}
 
-	void LevelScene::clean()
+	void	LevelScene::clean()
 	{
 		std::cout << "Clearing entities lists" << std::endl;
 		for (auto statEnt : _staticEntities)
@@ -153,7 +153,7 @@ namespace Moo
 		}
 	}
 
-	Camera LevelScene::getCamera()
+	Camera	LevelScene::getCamera()
 	{
 		return _camera;
 	}
