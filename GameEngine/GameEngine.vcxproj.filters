@@ -150,6 +150,12 @@
     <ClInclude Include="Includes\Settings.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\WinScene.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\GameManagmentHeader.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp">
@@ -248,6 +254,9 @@
     <ClCompile Include="Src\Settings.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="Src\WinScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Ressources\Graphics\background.dds">
@@ -283,6 +292,7 @@
     <Image Include="Ressources\Graphics\You_Won_DDS.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
+    <Image Include="Ressources\Graphics\player.dds" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Ressources\Sounds\Defeat.wav">

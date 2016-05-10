@@ -9,6 +9,7 @@
 #include "MenuPause.h"
 #include "Menu.h"
 #include "ControleScene.h"
+#include "WinScene.h"
 #include "SoundSystem.h"
 #include "LoadingScene.h"
 #include "Texture.h"
@@ -26,6 +27,7 @@ namespace Moo
 			MAIN_MENU,
 			PAUSE_MENU,
 			CONTROLS_MENU,
+			WIN,
 			LEVEL1,
 			LEVEL2,
 			LEVEL3,
