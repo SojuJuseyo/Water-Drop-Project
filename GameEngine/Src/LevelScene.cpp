@@ -25,7 +25,7 @@ namespace Moo
 		return 	_entityTypeName[type];
 	}
 
-	void LevelScene::clean()
+	void	LevelScene::clean()
 	{
 		std::cout << "Clearing entities lists" << std::endl;
 		for (auto statEnt : _staticEntities)
@@ -90,8 +90,8 @@ namespace Moo
 		std::list<Tile> enemyTiles = map->getTilesFromSprite("3");
 		std::list<Tile> playerTiles = map->getTilesFromSprite("5");
 
-		if (_staticEntities.empty()) {
-
+		if (_staticEntities.empty())
+		{
 			//All the data contained in the map - static
 			std::list<Tile> blockTiles = map->getTilesFromSprite("0");
 			std::list<Tile> bottomTiles = map->getTilesFromSprite("1");
@@ -153,7 +153,7 @@ namespace Moo
 		}
 	}
 
-	Camera LevelScene::getCamera()
+	Camera	LevelScene::getCamera()
 	{
 		return _camera;
 	}
@@ -406,7 +406,7 @@ namespace Moo
 		{
 			decal = Vector2f(0, 0);
 
-			if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1)
+			if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1.f)
 				_player->checkEvaporation();
 
 			(*dynEntIt)->setGravity(true);
