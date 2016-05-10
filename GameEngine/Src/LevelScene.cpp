@@ -406,7 +406,7 @@ namespace Moo
 		{
 			decal = Vector2f(0, 0);
 
-			if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1)
+			if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1.f)
 				_player->checkEvaporation();
 
 			(*dynEntIt)->setGravity(true);
