@@ -110,7 +110,6 @@ namespace Moo
 
 		//Various variables
 		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
-		_camera.update(_player->getHitbox());
 		_player->setTimers();
 		_startTime = std::chrono::system_clock::now();
 		_canTemporarilyJump = _startTime;
@@ -221,7 +220,8 @@ namespace Moo
 		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
 
 		Moo::d3d::getInstance().getCamera()->setInfoMap(_map);
-		_camera.update(_player->getHitbox());
+		_camera.setInfoMap(_map);
+		_camera.resetToPlayer(_player->getHitbox());
 		_lose = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
 		_lose->loadTexture(&_textures.get()->at("Lose"));
 
@@ -409,7 +409,6 @@ namespace Moo
 		_window->display();
 		Sleep(3000);
 		chan->stop();
-		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
 		Game::getInstance().goToNextScene();
 	}
@@ -428,7 +427,6 @@ namespace Moo
 		_window->display();
 		Sleep(3000);
 		chan->stop();
-		_camera.reset();
 		Moo::d3d::getInstance().getCamera()->reset();
 		Game::getInstance().cleanCurrentScene();
 	}
