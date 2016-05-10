@@ -27,20 +27,39 @@ namespace Moo
 
 	void	LevelScene::clean()
 	{
-		std::cout << "Clearing entities lists" << std::endl;
-		for (auto statEnt : _staticEntities)
-			statEnt.reset();
-		_staticEntities.clear();
-		std::cout << "Static entities list is cleared, size: " << _staticEntities.size() << std::endl;
-		for (auto dynEnt : _dynamicEntities)
-			dynEnt.reset();
-		_dynamicEntities.clear();
-		std::cout << "Dynamic entities list is cleared, size: " << _dynamicEntities.size() << std::endl;
-		_player.reset();
+		std::cout << "---------- Reseting level ----------" << std::endl << std::endl;
+
+		//Reset all characters
+		for (auto dynamicEntity : _dynamicEntities)
+			if (dynamicEntity->getEntityType() != EntityType::BULLET)
+				(std::static_pointer_cast<Moo::Character>(dynamicEntity))->reset();
+
+		//Sound
+		_soundSystem = Game::getInstance().getSoundSystem();
+		if (themeChan == nullptr)
+		{
+			if (_soundSystem->addSound(_map->getMapAudioFile().c_str(), "custom") == false)
+			{
+				std::cout << _map->getMapAudioFile() << std::endl;
+				std::cout << "music failed" << std::endl;
+				themeChan = nullptr;
+			}
+			themeChan = _soundSystem->playSound("custom", true);
+		}
+		if (themeChan != nullptr)
+			themeChan->setPaused(true);
+
+		//Various variables
+		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
+		_player->setTimers();
+		_startTime = std::chrono::system_clock::now();
+		_canTemporarilyJump = _startTime;
+		_lastJump = _startTime;
 		_triedJump = false;
 		_exitReached = false;
 		_playerDead = false;
-		std::cout << "Level scene is cleared" << std::endl;
+
+		std::cout << std::endl << "---------- Level reseted ----------" << std::endl;
 	}
 
 	void	LevelScene::loadFromSpriteSheet()
@@ -84,85 +103,49 @@ namespace Moo
 		}
 	}
 
-	void	LevelScene::resetDynamycEntities()
-	{
-		std::cout << "---------- Reseting level ----------" << std::endl << std::endl;
-
-		//Reset all characters
-		for (auto dynamicEntity : _dynamicEntities)
-			if (dynamicEntity->getEntityType() != EntityType::BULLET)
-				(std::static_pointer_cast<Moo::Character>(dynamicEntity))->reset();
-		
-		//Sound
-		_soundSystem = Game::getInstance().getSoundSystem();
-		if (themeChan == nullptr)
-		{
-			if (_soundSystem->addSound(_map->getMapAudioFile().c_str(), "custom") == false)
-			{
-				std::cout << _map->getMapAudioFile() << std::endl;
-				std::cout << "music failed" << std::endl;
-				themeChan = nullptr;
-			}
-			themeChan = _soundSystem->playSound("custom", true);
-		}
-		if (themeChan != nullptr)
-			themeChan->setPaused(true);
-
-		//Various variables
-		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
-		_player->setTimers();
-		_startTime = std::chrono::system_clock::now();
-		_canTemporarilyJump = _startTime;
-		_lastJump = _startTime;
-
-		std::cout << std::endl << "---------- Level reseted ----------" << std::endl;
-	}
-
 	void	LevelScene::getEntitiesFromMap(std::shared_ptr<MapInfos> map)
 	{			
 		//All the data contained in the map - dynamic
 		std::list<Tile> enemyTiles = map->getTilesFromSprite("3");
 		std::list<Tile> playerTiles = map->getTilesFromSprite("5");
 
-		if (_staticEntities.empty())
+		//All the data contained in the map - static
+		std::list<Tile> blockTiles = map->getTilesFromSprite("0");
+		std::list<Tile> bottomTiles = map->getTilesFromSprite("1");
+		std::list<Tile> platformTiles = map->getTilesFromSprite("4");
+		std::list<Tile> exitTiles = map->getTilesFromSprite("6");
+		std::list<Tile> heatZonesTiles = map->getHeatZonesTileList();
+
+		//platforms
+		for (auto platformTile : platformTiles)
+			fillStaticEntitiesList(EntityType::PLATFORM, platformTile.getPosX(), platformTile.getPosY(), false, platformTile.getIsCollidable());
+
+		//bloc
+		for (auto blockTile : blockTiles)
+			fillStaticEntitiesList(EntityType::BLOCK, blockTile.getPosX(), blockTile.getPosY(), false, blockTile.getIsCollidable());
+
+		//bottom
+		for (auto bottomTile : bottomTiles)
+			fillStaticEntitiesList(EntityType::GROUND, bottomTile.getPosX(), bottomTile.getPosY(), false, bottomTile.getIsCollidable());
+
+		//exit
+		for (auto exitTile : exitTiles)
+			fillStaticEntitiesList(EntityType::EXIT, exitTile.getPosX(), exitTile.getPosY(), false, exitTile.getIsCollidable());
+
+		//set if static entities are heat zones
+		for (auto heatZoneTile : heatZonesTiles)
 		{
-			//All the data contained in the map - static
-			std::list<Tile> blockTiles = map->getTilesFromSprite("0");
-			std::list<Tile> bottomTiles = map->getTilesFromSprite("1");
-			std::list<Tile> platformTiles = map->getTilesFromSprite("4");
-			std::list<Tile> exitTiles = map->getTilesFromSprite("6");
-			std::list<Tile> heatZonesTiles = map->getHeatZonesTileList();
-
-			//platforms
-			for (auto platformTile : platformTiles)
-				fillStaticEntitiesList(EntityType::PLATFORM, platformTile.getPosX(), platformTile.getPosY(), false, platformTile.getIsCollidable());
-
-			//bloc
-			for (auto blockTile : blockTiles)
-				fillStaticEntitiesList(EntityType::BLOCK, blockTile.getPosX(), blockTile.getPosY(), false, blockTile.getIsCollidable());
-
-			//bottom
-			for (auto bottomTile : bottomTiles)
-				fillStaticEntitiesList(EntityType::GROUND, bottomTile.getPosX(), bottomTile.getPosY(), false, bottomTile.getIsCollidable());
-
-			//exit
-			for (auto exitTile : exitTiles)
-				fillStaticEntitiesList(EntityType::EXIT, exitTile.getPosX(), exitTile.getPosY(), false, exitTile.getIsCollidable());
-
-			//set if static entities are heat zones
-			for (auto heatZoneTile : heatZonesTiles)
-			{
-				bool _wasInList = false;
-				for (auto staticEntity : _staticEntities)
-					if (staticEntity->getSprite()->getX() == heatZoneTile.getPosX() && staticEntity->getSprite()->getY() == heatZoneTile.getPosY())
-					{
-						_wasInList = true;
-						staticEntity->setIsHeatZone(true);
-					}
-				if (_wasInList == false)
-					fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, true);
-			}
+			bool _wasInList = false;
+			for (auto staticEntity : _staticEntities)
+				if (staticEntity->getSprite()->getX() == heatZoneTile.getPosX() && staticEntity->getSprite()->getY() == heatZoneTile.getPosY())
+				{
+					_wasInList = true;
+					staticEntity->setIsHeatZone(true);
+				}
+			if (_wasInList == false)
+				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, true);
 		}
+
 		//Enemies specs
 		float enemiesHeight = 40;
 		float enemiesWidth = 40;
@@ -194,12 +177,12 @@ namespace Moo
 
 	bool	LevelScene::init(std::shared_ptr<Window> window, std::map<std::string, Texture> textures)
 	{
-		std::cout << "Starting init" << std::endl;
-		this->clean();
+		std::cout << "---------- Starting init ----------" << std::endl << std::endl;
 		_window = window;
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
 		//We get the map
-		if (_map == nullptr) {
+		if (_map == nullptr)
+		{
 			JsonParser fileParser = JsonParser(_pathMapFile);
 
 			fileParser.parseFile(FileType::MAP);
@@ -249,8 +232,11 @@ namespace Moo
 		_startTime = std::chrono::system_clock::now();
 		_canTemporarilyJump = _startTime;
 		_lastJump = _startTime;
+		_triedJump = false;
+		_exitReached = false;
+		_playerDead = false;
 
-		std::cout << "Init successful" << std::endl;
+		std::cout << std::endl << "---------- Init successful ----------" << std::endl;
 
 		return (true);
 	}
