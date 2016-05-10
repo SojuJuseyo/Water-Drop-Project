@@ -11,7 +11,24 @@ namespace Moo
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
 		_rect = nullptr;
-		_texture = new Texture();
+		_isAnimated = false;
+	}
+
+	Sprite::Sprite(float width, float height, float x, float y, float framesPerSecond, int rows, int columns)
+	{
+		_width = width;
+		_height = height;
+		setPosition(x, y);
+
+		_dev = d3d::getInstance().getD3DDevice();
+		_devcon = d3d::getInstance().getContext();
+		_rect = nullptr;
+		_framesPerSecond = framesPerSecond;
+		_rows = rows;
+		_columns = columns;
+		_isAnimated = true;
+		_timer = nullptr;
+		_currentFrame = 0;
 	}
 
 	Sprite::Sprite(Sprite & sprite)
@@ -80,8 +97,20 @@ namespace Moo
 
 	void	Sprite::draw()
 	{
-		if (_rect == nullptr) {
+		if (_rect == nullptr)
 			this->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(_texture->getWidth(), _texture->getHeight()));
+		if (_isAnimated)
+		{
+			if (_timer == nullptr)
+				_timer = new Timer;
+			if (_timer->getElapsedSeconds() > _framesPerSecond)
+			{
+				_currentFrame++;
+				if (_currentFrame == _rows * _columns)
+					_currentFrame = 0;
+				this->setRectFromSpriteSheet(Moo::Vector2f(float(_currentFrame % _columns), float(_currentFrame / _columns)), Moo::Vector2f(16, 16));
+				_timer->reset();
+			}
 		}
 		this->setResourceData();
 		if (_texture == nullptr) {
