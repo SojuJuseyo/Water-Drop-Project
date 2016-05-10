@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Drawable.h"
 #include "Transformable.h"
+#include "Fps.h"
 
 using namespace Microsoft::WRL;
 
@@ -18,6 +19,7 @@ namespace Moo
 	{
 	public:
 		Sprite(float width, float height, float x, float y);
+		Sprite(float width, float height, float x, float y, float framesPerSecond, int rows, int columns);
 		Sprite(Sprite &sprite);
 		~Sprite();
 
@@ -50,5 +52,12 @@ namespace Moo
 
 		D3D11_SUBRESOURCE_DATA _resourceData;
 		VERTEX *_rect;
+
+		Timer *_timer;
+		bool _isAnimated;
+		float _framesPerSecond;
+		int _rows;
+		int _columns;
+		int _currentFrame;
 	};
 }
