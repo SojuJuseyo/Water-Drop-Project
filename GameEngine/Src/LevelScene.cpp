@@ -14,8 +14,6 @@ namespace Moo
 		_entityTypeName[EntityType::EXIT] = "Exit";
 		_entityTypeName[EntityType::ENTRANCE] = "Entrance";
 		loadFromSpriteSheet();
-		_saveDynamicEntities.clear();
-		_saveStaticEntities.clear();
 	}
 
 	LevelScene::~LevelScene()
@@ -87,46 +85,50 @@ namespace Moo
 	}
 
 	void	LevelScene::getEntitiesFromMap(std::shared_ptr<MapInfos> map)
-	{
-		//All the data contained in the map
-		std::list<Tile > blockTiles = map->getTilesFromSprite("0");
-		std::list<Tile > bottomTiles = map->getTilesFromSprite("1");
-		std::list<Tile > enemyTiles = map->getTilesFromSprite("3");
-		std::list<Tile > platformTiles = map->getTilesFromSprite("4");
-		std::list<Tile > playerTiles = map->getTilesFromSprite("5");
-		std::list<Tile > exitTiles = map->getTilesFromSprite("6");
-		std::list<Tile> heatZonesTiles = map->getHeatZonesTileList();
+	{			
+		//All the data contained in the map - dynamic
+		std::list<Tile> enemyTiles = map->getTilesFromSprite("3");
+		std::list<Tile> playerTiles = map->getTilesFromSprite("5");
 
-		//platforms
-		for (auto platformTile : platformTiles)
-			fillStaticEntitiesList(EntityType::PLATFORM, platformTile.getPosX(), platformTile.getPosY(), false, platformTile.getIsCollidable());
+		if (_staticEntities.empty()) {
 
-		//bloc
-		for (auto blockTile : blockTiles)
-			fillStaticEntitiesList(EntityType::BLOCK, blockTile.getPosX(), blockTile.getPosY(), false, blockTile.getIsCollidable());
+			//All the data contained in the map - static
+			std::list<Tile> blockTiles = map->getTilesFromSprite("0");
+			std::list<Tile> bottomTiles = map->getTilesFromSprite("1");
+			std::list<Tile> platformTiles = map->getTilesFromSprite("4");
+			std::list<Tile> exitTiles = map->getTilesFromSprite("6");
+			std::list<Tile> heatZonesTiles = map->getHeatZonesTileList();
 
-		//bottom
-		for (auto bottomTile : bottomTiles)
-			fillStaticEntitiesList(EntityType::GROUND, bottomTile.getPosX(), bottomTile.getPosY(), false, bottomTile.getIsCollidable());
+			//platforms
+			for (auto platformTile : platformTiles)
+				fillStaticEntitiesList(EntityType::PLATFORM, platformTile.getPosX(), platformTile.getPosY(), false, platformTile.getIsCollidable());
 
-		//exit
-		for (auto exitTile : exitTiles)
-			fillStaticEntitiesList(EntityType::EXIT, exitTile.getPosX(), exitTile.getPosY(), false, exitTile.getIsCollidable());
+			//bloc
+			for (auto blockTile : blockTiles)
+				fillStaticEntitiesList(EntityType::BLOCK, blockTile.getPosX(), blockTile.getPosY(), false, blockTile.getIsCollidable());
 
-		//set if static entities are heat zones
-		for (auto heatZoneTile : heatZonesTiles)
-		{
-			bool _wasInList = false;
-			for (auto staticEntity : _staticEntities)
-				if (staticEntity->getSprite()->getX() == heatZoneTile.getPosX() && staticEntity->getSprite()->getY() == heatZoneTile.getPosY())
-				{
-					_wasInList = true;
-					staticEntity->setIsHeatZone(true);
-				}
-			if (_wasInList == false)
-				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, true);
+			//bottom
+			for (auto bottomTile : bottomTiles)
+				fillStaticEntitiesList(EntityType::GROUND, bottomTile.getPosX(), bottomTile.getPosY(), false, bottomTile.getIsCollidable());
+
+			//exit
+			for (auto exitTile : exitTiles)
+				fillStaticEntitiesList(EntityType::EXIT, exitTile.getPosX(), exitTile.getPosY(), false, exitTile.getIsCollidable());
+
+			//set if static entities are heat zones
+			for (auto heatZoneTile : heatZonesTiles)
+			{
+				bool _wasInList = false;
+				for (auto staticEntity : _staticEntities)
+					if (staticEntity->getSprite()->getX() == heatZoneTile.getPosX() && staticEntity->getSprite()->getY() == heatZoneTile.getPosY())
+					{
+						_wasInList = true;
+						staticEntity->setIsHeatZone(true);
+					}
+				if (_wasInList == false)
+					fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, true);
+			}
 		}
-
 		//Enemies specs
 		float enemiesHeight = 40;
 		float enemiesWidth = 40;
@@ -240,6 +242,9 @@ namespace Moo
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::R))
 			Moo::Game::getInstance().cleanCurrentScene();
+
+		//if (Moo::Keyboard::isDown(Moo::Keyboard::D))
+		//	std::cout << Moo::Fps::getInstance().getFrameTime() / 1.0f << std::endl;
 
 		//Cheats
 		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))

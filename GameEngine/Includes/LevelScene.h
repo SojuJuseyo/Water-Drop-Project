@@ -37,8 +37,8 @@ namespace Moo
 		FMOD::Channel					*themeChan;
 
 	private:
-		std::vector<std::shared_ptr<Moo::StaticEntity>>		_staticEntities, _saveStaticEntities;
-		std::vector<std::shared_ptr<Moo::DynamicEntity>>	_dynamicEntities, _saveDynamicEntities;
+		std::vector<std::shared_ptr<Moo::StaticEntity>>		_staticEntities;
+		std::vector<std::shared_ptr<Moo::DynamicEntity>>	_dynamicEntities;
 		std::map<EntityType, std::string>					_entityTypeName;
 
 		std::shared_ptr<MapInfos>			_map;
