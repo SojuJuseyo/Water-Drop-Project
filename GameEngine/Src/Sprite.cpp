@@ -62,7 +62,7 @@ namespace Moo
 
 		auto widthSprite = 0.5f;
 		auto heightSprite = 0.5f;
-		
+
 		_rect[0].position = XMFLOAT3(widthSprite, heightSprite, 1.0f);
 		_rect[0].texture = XMFLOAT2(offsetX * (x + 1), offsetY * y);
 

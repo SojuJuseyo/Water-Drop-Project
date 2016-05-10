@@ -9,12 +9,14 @@ namespace Moo
 	class StaticEntity : public Entity
 	{
 	public:
-		StaticEntity(std::shared_ptr<Sprite>, EntityType, bool);
+		StaticEntity(std::shared_ptr<Sprite>, EntityType, bool, bool);
 		~StaticEntity();
 
 		Sprite			*getSprite() const;
 		Sprite			*getHitboxSprite() const;
+
 		bool			getIsHeatZone() const;
+		void			setIsHeatZone(bool);
 
 	private:
 		std::shared_ptr<Sprite>			_sprite;

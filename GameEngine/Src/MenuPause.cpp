@@ -64,15 +64,15 @@ namespace Moo
 			switch (_offset)
 			{
 			case e_menu_pause::RESUME:
-				Game::getInstance().runScene(Game::LEVEL1);
+				Game::getInstance().backToPrevScene();
 				return true;
 				break;
 			case e_menu_pause::HOW_TO_PLAY:
-				Game::getInstance().runScene(Game::CONTROLS_MENU);
+				Game::getInstance().runScene(Game::CONTROLS_MENU, false);
 				return true;
 				break;
 			case e_menu_pause::EXIT:
-				Game::getInstance().runScene(Game::MAIN_MENU);
+				Game::getInstance().runScene(Game::MAIN_MENU, false);
 				return true;
 				break;
 			}

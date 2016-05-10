@@ -12,7 +12,7 @@ namespace Moo
 	class Character : public DynamicEntity
 	{
 	public:
-		Character(Vector2f, float, std::shared_ptr<Sprite>, bool, float, EntityType);
+		Character(Vector2f, float, std::shared_ptr<Sprite>, bool, float, EntityType, Direction);
 		virtual ~Character();
 
 		void	move(Direction);

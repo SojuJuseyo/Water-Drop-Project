@@ -30,6 +30,7 @@ namespace Moo
 		//Buttons
 		_textures["Button"] = std::make_shared<Texture>();
 		_textures["Button"]->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
+
 		//Button Play
 		_sprites["Play"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
@@ -64,11 +65,11 @@ namespace Moo
 			switch (_offset)
 			{
 			case e_menu::PLAY:
-				Game::getInstance().runScene(Game::LEVEL1);
+				Game::getInstance().runScene(Game::LEVEL1, false);
 				return true;
 				break;
 			case e_menu::CONTROLS:
-				Game::getInstance().runScene(Game::CONTROLS_MENU);
+				Game::getInstance().runScene(Game::CONTROLS_MENU, false);
 				return true;
 				break;
 			case e_menu::QUIT:

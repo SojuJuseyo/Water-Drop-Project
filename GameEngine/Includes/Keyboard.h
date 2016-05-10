@@ -4,7 +4,7 @@
 #include <windowsx.h>
 #include "Fps.h"
 
-#define NUM_KEYS				 13
+#define NUM_KEYS				 15
 #define KEYPRESSED(key)			(((GetAsyncKeyState(key) & 0x8000)) ? 1 : 0)
 #define PRESSED					0x01
 #define TAPPED					0x04
@@ -28,9 +28,11 @@ namespace Moo
 			A = 'A',
 			B = 'B',
 			C = 'C',
+			R = 'R',
 			GodMode = 'G',
 			SizeUp = VK_ADD,
 			SizeDown = VK_SUBTRACT,
+			Escape = VK_ESCAPE
 		};
 
 		static Keyboard& Keyboard::getInstance()
@@ -56,8 +58,10 @@ namespace Moo
 			'B',
 			'C',
 			'G',
+			'R',
 			VK_ADD,
-			VK_SUBTRACT };
+			VK_SUBTRACT,
+			VK_ESCAPE };
 		int _keyStates[NUM_KEYS] = { 0 };
 	};
 }

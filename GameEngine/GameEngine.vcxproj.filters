@@ -253,6 +253,9 @@
     <Image Include="Ressources\Graphics\background.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
+    <Image Include="Ressources\Graphics\character.dds">
+      <Filter>Resource Files\graphics</Filter>
+    </Image>
     <Image Include="Ressources\Graphics\controle.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
@@ -278,9 +281,6 @@
       <Filter>Resource Files\graphics</Filter>
     </Image>
     <Image Include="Ressources\Graphics\You_Won_DDS.dds">
-      <Filter>Resource Files\graphics</Filter>
-    </Image>
-    <Image Include="Ressources\Graphics\player.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
   </ItemGroup>

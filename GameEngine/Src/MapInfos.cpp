@@ -18,27 +18,27 @@ void MapInfos::displayMapInfos()
 	std::cout << "Map Height : " << this->mapHeight << std::endl;
 	std::cout << "Number of different sprites used : " << this->mapTileList.size() << std::endl;
 
-	for (std::list<std::pair<std::string, std::list<Tile *>>>::iterator it = this->mapTileList.begin(); it != this->mapTileList.end(); it++)
+	for (std::list<std::pair<std::string, std::list<Tile>>>::iterator it = this->mapTileList.begin(); it != this->mapTileList.end(); it++)
 	{
 		std::cout << "Sprite used : " << (*it).first << std::endl;
 		std::cout << "Number of elements : " << (*it).second.size() << std::endl;
 
-		std::list<Tile *> tileList = (*it).second;
-		for (std::list<Tile *>::iterator it2 = tileList.begin(); it2 != tileList.end(); it2++)
+		std::list<Tile> tileList = (*it).second;
+		for (std::list<Tile>::iterator it2 = tileList.begin(); it2 != tileList.end(); it2++)
 		{
-			std::cout << "Tile in [" << (*it2)->getPosX() << ", " << (*it2)->getPosY() << "]" << std::endl;
+			std::cout << "Tile in [" << (*it2).getPosX() << ", " << (*it2).getPosY() << "]" << std::endl;
 		}
 	}
 }
 
-std::list<Tile *> MapInfos::getTilesFromSprite(std::string _sprite)
+std::list<Tile> MapInfos::getTilesFromSprite(std::string _sprite)
 {
-	for (std::list<std::pair<std::string, std::list<Tile *>>>::iterator it = this->mapTileList.begin(); it != this->mapTileList.end(); it++)
+	for (std::list<std::pair<std::string, std::list<Tile>>>::iterator it = this->mapTileList.begin(); it != this->mapTileList.end(); it++)
 	{
 		if (_stricmp(_sprite.c_str(), (*it).first.c_str()) == 0)
 			return ((*it).second);
 	}
-	return ((std::list<Tile *>)NULL);
+	return ((std::list<Tile>)NULL);
 }
 
 ////////////////////////////////
@@ -85,22 +85,22 @@ std::string MapInfos::getMapAudioFile() const
 	return (this->mapAudioFile);
 }
 
-void MapInfos::setMapTileList(std::list<std::pair<std::string, std::list<Tile *>>> _mapTileList)
+void MapInfos::setMapTileList(std::list< std::pair< std::string, std::list<Tile> > > _mapTileList)
 {
 	this->mapTileList = _mapTileList;
 }
 
-std::list < std::pair<std::string, std::list<Tile *>>> MapInfos::getMapTileList() const
+std::list < std::pair<std::string, std::list<Tile>> > MapInfos::getMapTileList() const
 {
 	return (this->mapTileList);
 }
 
-void MapInfos::setHeatZonesTileList(std::list<Tile *> _mapHeatZonesList)
+void MapInfos::setHeatZonesTileList(std::list<Tile> _mapHeatZonesList)
 {
 	this->mapHeatZonesList = _mapHeatZonesList;
 }
 
-std::list<Tile *> MapInfos::getHeatZonesTileList() const
+std::list<Tile> MapInfos::getHeatZonesTileList() const
 {
 	return (this->mapHeatZonesList);
 }

@@ -34,12 +34,22 @@ float Tile::getPosY() const
 	return (this->_posY);
 }
 
-void Tile::setisHeatZone(bool isHeatZone)
+void Tile::setIsHeatZone(bool isHeatZone)
 {
 	this->_isHeatZone = isHeatZone;
 }
 
-bool Tile::getisHeatZone() const
+bool Tile::getIsHeatZone() const
 {
 	return (this->_isHeatZone);
+}
+
+void Tile::setIsCollidable(bool isCollidable)
+{
+	this->_isCollidable = isCollidable;
+}
+
+bool Tile::getIsCollidable() const
+{
+	return (this->_isCollidable);
 }

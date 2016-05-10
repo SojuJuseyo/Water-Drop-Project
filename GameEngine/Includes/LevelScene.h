@@ -12,14 +12,6 @@
 #include "SoundSystem.h"
 #include "Camera.h"
 
-struct s_collider
-{
-	bool		isCollideUp;
-	bool		isCollideDown;
-	bool		isCollideRight;
-	bool		isCollideLeft;
-};
-
 namespace Moo
 {
 	class LevelScene : public Scene
@@ -33,8 +25,8 @@ namespace Moo
 		void	clean();
 		bool	init(std::shared_ptr<Moo::Window> window);
 		void	getEntitiesFromMap(MapInfos map);
-		void	fillStaticEntitiesList(EntityType, float, float);
-		void	fillDynamicEntitiesList(int, EntityType, float, float, float, float, float, float, bool);
+		void	fillStaticEntitiesList(EntityType, float, float, bool, bool);
+		void	fillDynamicEntitiesList(int, EntityType, float, float, float, float, float, float, bool, Direction);
 		Camera	getCamera();
 		void	inputHandling();
 		void	displayHitboxesAndSprites();
