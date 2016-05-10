@@ -150,6 +150,7 @@
     <ClInclude Include="Includes\Settings.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\GameManagmentHeader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp">
@@ -283,6 +284,7 @@
     <Image Include="Ressources\Graphics\You_Won_DDS.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
+    <Image Include="Ressources\Graphics\player.dds" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="Ressources\Sounds\Defeat.wav">

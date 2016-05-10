@@ -58,6 +58,7 @@ namespace Moo
 		_triedJump = false;
 		_exitReached = false;
 		_playerDead = false;
+		_camera.resetToPlayer(_player->getHitbox());
 
 		std::cout << std::endl << "---------- Level reseted ----------" << std::endl;
 	}
@@ -202,7 +203,6 @@ namespace Moo
 
 		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
 
-		Moo::d3d::getInstance().getCamera()->setInfoMap(_map);
 		_camera.setInfoMap(_map);
 		_camera.resetToPlayer(_player->getHitbox());
 		_lose = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
@@ -395,7 +395,6 @@ namespace Moo
 		_window->display();
 		Sleep(3000);
 		chan->stop();
-		Moo::d3d::getInstance().getCamera()->reset();
 		Game::getInstance().goToNextScene();
 	}
 
@@ -413,7 +412,6 @@ namespace Moo
 		_window->display();
 		Sleep(3000);
 		chan->stop();
-		Moo::d3d::getInstance().getCamera()->reset();
 		Game::getInstance().cleanCurrentScene();
 	}
 
