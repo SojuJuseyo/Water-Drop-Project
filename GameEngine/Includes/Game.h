@@ -11,6 +11,7 @@
 #include "ControleScene.h"
 #include "SoundSystem.h"
 #include "LoadingScene.h"
+#include "Texture.h"
 
 #define WINDOW_WIDTH 800.f
 #define WINDOW_HEIGHT 600.f
@@ -59,6 +60,7 @@ namespace Moo
 		std::vector<s_scene>			_listOfScenes;
 		std::shared_ptr<Moo::Window>	_window;
 		std::shared_ptr<SoundSystem>	_soundSystem;
+		std::map<std::string, Texture> _textures;
 
 		s_scene*						_currentScene = nullptr;
 		bool							_isGameRunning = false;

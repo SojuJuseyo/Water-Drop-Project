@@ -65,7 +65,6 @@ namespace Moo
 		D3DX11CreateShaderResourceViewFromFile(_dev.Get(),
 			filename.c_str(), 0, 0, &colorMap, 0);
 
-		// R?cuperer taille de la texture
 		ID3D11Resource *resource;
 		ID3D11Texture2D *texture2D;
 		D3D11_TEXTURE2D_DESC textureDesc;

@@ -11,15 +11,14 @@ namespace Moo
 	{
 	}
 
-	bool MenuPause::init(std::shared_ptr<Moo::Window> window)
+	bool MenuPause::init(std::shared_ptr<Moo::Window> window, std::map<std::string, Texture> textures)
 	{
 		_window = window;
+		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
 
 		//background
-		_textures["Background"] = std::make_shared<Texture>();
-		_textures["Background"]->loadFromFile(GRAPHICS_PATH + std::string("Menu_Pause_WTP_DDS.dds"));
 		_sprites["Background"] = std::make_shared<Sprite>(d3d::getInstance().getScreenSize().x, d3d::getInstance().getScreenSize().y, 0.f, 0.f);
-		_sprites["Background"]->loadTexture(_textures["Background"].get());
+		_sprites["Background"]->loadTexture(&_textures.get()->at("Background_Menu_Pause"));
 
 		//Buttons attributes
 		float spaceBetweenButtons = 10;
@@ -27,30 +26,26 @@ namespace Moo
 		float widthOfButtons = 200;
 		float heightOfButtons = 75;
 
-		//Buttons
-		_textures["Button"] = std::make_shared<Texture>();
-		_textures["Button"]->loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
-
 		//Button Play
 		_sprites["Resume"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
 			positionOfButtonsX,
 			d3d::getInstance().getScreenSize().y / 10 * 6);
-		_sprites["Resume"]->loadTexture(_textures["Button"].get());
+		_sprites["Resume"]->loadTexture(&_textures.get()->at("Hitbox"));
 
 		//Button Controls
 		_sprites["Controls"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
 			positionOfButtonsX,
 			_sprites["Resume"]->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Play button
-		_sprites["Controls"]->loadTexture(_textures["Button"].get());
+		_sprites["Controls"]->loadTexture(&_textures.get()->at("Hitbox"));
 
 		//Button Quit
 		_sprites["Quit"] = std::make_shared<Sprite>(widthOfButtons,
 			heightOfButtons,
 			positionOfButtonsX,
 			_sprites["Controls"]->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
-		_sprites["Quit"]->loadTexture(_textures["Button"].get());
+		_sprites["Quit"]->loadTexture(&_textures.get()->at("Hitbox"));
 
 		_offset = e_menu_pause::RESUME;
 		return true;

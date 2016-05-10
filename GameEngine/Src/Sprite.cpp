@@ -113,7 +113,10 @@ namespace Moo
 			}
 		}
 		this->setResourceData();
-
+		if (_texture == nullptr) {
+			std::cout << "Texture null, call loadTexture before draw" << std::endl;
+			return;
+		}
 		unsigned int stride = sizeof(VERTEX);
 		unsigned int offset = 0;
 		_devcon->IASetInputLayout(_texture->getInputLayout());
@@ -166,5 +169,10 @@ namespace Moo
 	ID3D11Buffer* const* Sprite::getVertexBuffer() const
 	{
 		return _vertexBuffer.GetAddressOf();
+	}
+
+	Texture *Sprite::getTexture() const
+	{
+		return _texture;
 	}
 }

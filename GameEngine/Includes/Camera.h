@@ -3,6 +3,7 @@
 #include "Vector2f.h"
 #include "Entity.h"
 #include "MapInfos.h"
+#include <memory>
 
 namespace Moo
 {
@@ -13,7 +14,7 @@ namespace Moo
 		~Camera();
 		Vector2f getPosition() const;
 		void setPosition(const Vector2f &);
-		void setInfoMap(MapInfos);
+		void setInfoMap(std::shared_ptr<MapInfos>);
 		void reset();
 		void resetToPlayer(Hitbox);
 		void update(Hitbox);
@@ -22,6 +23,6 @@ namespace Moo
 		Vector2f _position;
 		Hitbox _lastHitbox;
 		bool _isHitboxSet;
-		MapInfos _mapInfos;
+		std::shared_ptr<MapInfos> _mapInfos;
 	};
 }

@@ -31,7 +31,6 @@ namespace Moo
 
 		float _textureWidth;
 		float _textureHeight;
-		XMFLOAT4 _color;
 	private:
 		ComPtr<ID3D11Device> _dev;
 		ComPtr<ID3D11DeviceContext> _devcon;

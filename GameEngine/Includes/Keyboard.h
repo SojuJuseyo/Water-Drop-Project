@@ -29,6 +29,7 @@ namespace Moo
 			B = 'B',
 			C = 'C',
 			R = 'R',
+			D = 'D',
 			GodMode = 'G',
 			SizeUp = VK_ADD,
 			SizeDown = VK_SUBTRACT,
