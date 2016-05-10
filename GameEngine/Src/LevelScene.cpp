@@ -189,7 +189,8 @@ namespace Moo
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("You_Lost_DDS.dds"));
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("You_Won_DDS.dds"));
 		Moo::d3d::getInstance().getCamera()->setInfoMap(_map);
-		_camera.update(_player->getHitbox());
+		_camera.setInfoMap(_map);
+		_camera.resetToPlayer(_player->getHitbox());
 		_lose = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
 		_lose->loadTexture(&_textures["Lose"]);
 		_win = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);

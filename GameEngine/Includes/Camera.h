@@ -15,6 +15,7 @@ namespace Moo
 		void setPosition(const Vector2f &);
 		void setInfoMap(MapInfos);
 		void reset();
+		void resetToPlayer(Hitbox);
 		void update(Hitbox);
 		void move(const Vector2f &);
 	private:

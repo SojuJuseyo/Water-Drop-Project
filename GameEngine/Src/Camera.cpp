@@ -17,6 +17,21 @@ namespace Moo
 		_position = Vector2f(0, 0);
 	}
 
+	void	Camera::resetToPlayer(Hitbox hitbox)
+	{
+		float x = (hitbox.x1 - 320) * -1;
+		float y = (hitbox.y1 - 320) * -1;
+		if (x > 0)
+			x = 0;
+		if (y > 0)
+			y = 0;
+		if (x < (_mapInfos.getMapWidth() * 40 - 800) * -1)
+			x = (_mapInfos.getMapWidth() * 40 - 800) * -1;
+		if (y < (_mapInfos.getMapHeight() * 40 - 600) * -1)
+			y = (_mapInfos.getMapHeight() * 40 - 600) * -1;
+		_position = Vector2f(x, y);
+	}
+
 	Vector2f Camera::getPosition() const
 	{
 		return _position;
@@ -52,7 +67,7 @@ namespace Moo
 		}
 		if (hitbox.x1 - _lastHitbox.x1 > 0) // si direction negative axe x
 		{
-			if (hitboxTmp.x1 > posCamera.x + 150 && _position.x + (_lastHitbox.x1 - hitbox.x1) > (float)((_mapInfos.getMapWidth() * 40 - 800) * -1))
+			if (hitboxTmp.x1 > posCamera.x + 150 && _position.x + (_lastHitbox.x1 - hitbox.x1) > (_mapInfos.getMapWidth() * 40 - 800) * -1)
 				_position.x += (_lastHitbox.x1 - hitbox.x1);
 		}
 		else
@@ -63,7 +78,7 @@ namespace Moo
 			}
 		if (hitbox.y1 - _lastHitbox.y1 > 0) // si direction negative axe y
 		{
-			if (hitboxTmp.y1 > posCamera.y + 400 && _position.y + (_lastHitbox.y1 - hitbox.y1) >(float)((_mapInfos.getMapHeight() * 40 - 600) * -1))
+			if (hitboxTmp.y1 > posCamera.y + 400 && _position.y + (_lastHitbox.y1 - hitbox.y1) > (_mapInfos.getMapHeight() * 40 - 600) * -1)
 				_position.y += (_lastHitbox.y1 - hitbox.y1);
 		}
 		else
