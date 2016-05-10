@@ -14,6 +14,8 @@
 #define MAP_COORD_X						"coordx"
 #define MAP_COORD_Y						"coordy"
 #define MAP_COLLIDABLE_TILE				"collidable"
+#define MAP_OTHER_TILE_LIST				"otherTileList"
+#define MAP_PROPERTIES					"properties"
 
 class MapInfos
 {
@@ -28,6 +30,7 @@ private:
 	// std::string -> "0" or "1" or "2" ... 0 being the first sprite of the spritesheet, 1 the second etc ...
 	std::list< std::pair< std::string,std::list<Tile> > > mapTileList;
 	std::list<Tile>	mapHeatZonesList;
+	std::list<Tile> otherTileList;
 	std::list<Tile>	isNotCollidable;
 
 public:
@@ -57,4 +60,7 @@ public:
 
 	void setHeatZonesTileList(std::list<Tile>);
 	std::list<Tile> getHeatZonesTileList() const;
+
+	void setOtherTileList(std::list<Tile>);
+	std::list<Tile> getOtherTileList() const;
 };

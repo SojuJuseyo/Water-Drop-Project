@@ -27,6 +27,8 @@ void MapInfos::displayMapInfos()
 		for (std::list<Tile>::iterator it2 = tileList.begin(); it2 != tileList.end(); it2++)
 		{
 			std::cout << "Tile in [" << (*it2).getPosX() << ", " << (*it2).getPosY() << "]" << std::endl;
+			TileProperties *properties = (*it2).getProperties();
+			std::cout << properties->getText() << std::endl;
 		}
 	}
 }
@@ -103,4 +105,14 @@ void MapInfos::setHeatZonesTileList(std::list<Tile> _mapHeatZonesList)
 std::list<Tile> MapInfos::getHeatZonesTileList() const
 {
 	return (this->mapHeatZonesList);
+}
+
+void MapInfos::setOtherTileList(std::list<Tile> _otherTileList)
+{
+	this->otherTileList = _otherTileList;
+}
+
+std::list<Tile> MapInfos::getOtherTileList() const
+{
+	return (this->otherTileList);
 }

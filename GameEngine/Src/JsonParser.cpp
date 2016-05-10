@@ -37,7 +37,7 @@ namespace Moo
 	void	JsonParser::defineFileFieldNames()
 	{
 		if (this->_fileType == FileType::MAP)
-			_fieldNames = { MAP_NAME_ATTRIBUTE, MAP_SIZE_ATTRIBUTE, MAP_TILE_LIST_ATTRIBUTE, MAP_AUDIO_ATTRIBUTE, MAP_HEATZONE_LIST_ATTRIBUTE };
+			_fieldNames = { MAP_NAME_ATTRIBUTE, MAP_SIZE_ATTRIBUTE, MAP_TILE_LIST_ATTRIBUTE, MAP_AUDIO_ATTRIBUTE, MAP_HEATZONE_LIST_ATTRIBUTE, MAP_OTHER_TILE_LIST };
 		else if (this->_fileType == FileType::SETTINGS)
 			_fieldNames = { SETTINGS_RESOLUTION, SETTINGS_KEYS_MAPPING, SETTINGS_VOLUME, SETTINGS_FULLSCREEN, SETTINGS_FPS };
 	}
@@ -80,6 +80,18 @@ namespace Moo
 				else
 					newTile.setIsCollidable(false);
 
+				Json::Value properties = itrValue[MAP_PROPERTIES];
+
+				if (properties.getMemberNames().size() != 0)
+				{
+					TileProperties *newTileProperties = new TileProperties();
+					newTileProperties->setText(properties["text"].asString());
+					newTileProperties->setX2(properties["x2"].asInt());
+					newTileProperties->setY2(properties["y2"].asInt());
+
+					newTile.setProperties(newTileProperties);
+				}
+
 				selectedSpriteTileList.push_back(newTile);
 			}
 
@@ -99,9 +111,47 @@ namespace Moo
 			newTile.setPosX(itrValue[MAP_COORD_X].asFloat());
 			newTile.setPosY(itrValue[MAP_COORD_Y].asFloat());
 
+			Json::Value properties = itrValue[MAP_PROPERTIES];
+
+			if (properties.getMemberNames().size() != 0)
+			{
+				TileProperties *newTileProperties = new TileProperties();
+				newTileProperties->setText(properties["text"].asString());
+				newTileProperties->setX2(properties["x2"].asInt());
+				newTileProperties->setY2(properties["y2"].asInt());
+
+				newTile.setProperties(newTileProperties);
+			}
+
 			heatZoneTileList.push_back(newTile);
 		}
 		map.setHeatZonesTileList(heatZoneTileList);
+
+		Json::Value		otherTilesListObject = _fileContent[MAP_OTHER_TILE_LIST];
+		std::list<Tile> otherTileList;
+		for (Json::ValueIterator itr = otherTilesListObject.begin(); itr != otherTilesListObject.end(); itr++)
+		{
+			Tile newTile;
+			Json::Value itrValue = (*itr);
+
+			newTile.setPosX(itrValue[MAP_COORD_X].asFloat());
+			newTile.setPosY(itrValue[MAP_COORD_Y].asFloat());
+
+			Json::Value properties = itrValue[MAP_PROPERTIES];
+
+			if (properties.getMemberNames().size() != 0)
+			{
+				TileProperties *newTileProperties = new TileProperties();
+				newTileProperties->setText(properties["text"].asString());
+				newTileProperties->setX2(properties["x2"].asInt());
+				newTileProperties->setY2(properties["y2"].asInt());
+
+				newTile.setProperties(newTileProperties);
+			}
+
+			otherTileList.push_back(newTile);
+		}
+		map.setOtherTileList(otherTileList);
 
 		std::cout << "Map successfully loaded." << std::endl;
 

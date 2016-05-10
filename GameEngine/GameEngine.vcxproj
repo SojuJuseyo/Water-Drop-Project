@@ -187,6 +187,7 @@
     <ClInclude Include="Includes\StaticEntity.h" />
     <ClInclude Include="Includes\Texture.h" />
     <ClInclude Include="Includes\Tile.h" />
+    <ClInclude Include="Includes\TileProperties.h" />
     <ClInclude Include="Includes\Timer.h" />
     <ClInclude Include="Includes\Transformable.h" />
     <ClInclude Include="Includes\Vector2f.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="Src\StaticEntity.cpp" />
     <ClCompile Include="Src\Texture.cpp" />
     <ClCompile Include="Src\Tile.cpp" />
+    <ClCompile Include="Src\TileProperties.cpp" />
     <ClCompile Include="Src\Timer.cpp" />
     <ClCompile Include="Src\Transformable.cpp" />
     <ClCompile Include="Src\Vector2f.cpp" />
