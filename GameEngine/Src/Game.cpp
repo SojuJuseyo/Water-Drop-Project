@@ -46,7 +46,7 @@ namespace Moo
 		{
 			if (scene.sceneType == _currentScene->sceneType && (int)_currentScene->sceneType >= (int)LEVEL1)
 			{
-				((LevelScene *)(scene.scene))->resetDynamycEntities();
+				((LevelScene *)(scene.scene))->clean();
 				d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(scene.scene)->getCamera().getPosition());
 				break;
 			}
