@@ -44,9 +44,9 @@ namespace Moo
 	{
 		for (auto &scene : _listOfScenes)
 		{
-			if (scene.sceneType == _currentScene->sceneType)
+			if (scene.sceneType == _currentScene->sceneType && (int)_currentScene->sceneType >= (int)LEVEL1)
 			{
-				scene.scene->init(_window, _textures);
+				((LevelScene *)(scene.scene))->resetDynamycEntities();
 				break;
 			}
 		}

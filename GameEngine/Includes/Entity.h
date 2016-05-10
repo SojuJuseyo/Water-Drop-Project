@@ -58,9 +58,13 @@ namespace Moo
 		bool				isCollidable() const;
 		HitZone				collisionAABB(Entity *entity);
 
+		bool				getIsActivated() const;
+		void				setIsActivated(bool);
+
 	protected:
 		Hitbox				_hitbox;
 		bool				_isCollidable;
 		EntityType			_type;
+		bool				_isActivated;
 	};
 }
