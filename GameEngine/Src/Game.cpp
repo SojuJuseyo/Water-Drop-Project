@@ -44,9 +44,10 @@ namespace Moo
 	{
 		for (auto &scene : _listOfScenes)
 		{
-			if (scene.sceneType == _currentScene->sceneType)
+			if (scene.sceneType == _currentScene->sceneType && (int)_currentScene->sceneType >= (int)LEVEL1)
 			{
-				scene.scene->init(_window, _textures);
+				((LevelScene *)(scene.scene))->clean();
+				d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(scene.scene)->getCamera().getInfoMap());
 				d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(scene.scene)->getCamera().getPosition());
 				break;
 			}
@@ -92,8 +93,13 @@ namespace Moo
 	// call de l'exit pour stoper la game loop
 	void			Game::exit()
 	{
+	
 		_isGameRunning = false;
 	}
+
+
+
+
 
 	// a appeller quand on veut passer d'une scene a l'autre.
 	void			Game::runScene(e_scene type, bool isContinue)
@@ -112,6 +118,7 @@ namespace Moo
 		if ((int)type >= (int)LEVEL1) {
 			if (!isContinue)
 				cleanCurrentScene();
+			d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getInfoMap());
 			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
 			_currentScene->prevScene = getSceneByType(Game::PAUSE_MENU);
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
