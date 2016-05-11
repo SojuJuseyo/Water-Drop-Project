@@ -65,10 +65,10 @@ namespace Moo
 
 	void	LevelScene::loadFromSpriteSheet()
 	{
-		_spriteSheet["Block"] = Moo::Vector2f(4, 0);
-		_spriteSheet["Platform"] = Moo::Vector2f(0, 0);
+		_spriteSheet["Block"] = Moo::Vector2f(0, 0);
+		_spriteSheet["Platform"] = Moo::Vector2f(4, 0);
 		_spriteSheet["Ground"] = Moo::Vector2f(1, 0);
-		_spriteSheet["Exit"] = Moo::Vector2f(5, 0);
+		_spriteSheet["Exit"] = Moo::Vector2f(6, 0);
 	}
 
 	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY, bool isHeatZone, bool isCollidable)
