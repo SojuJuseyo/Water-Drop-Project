@@ -29,6 +29,8 @@ namespace Moo
 			LEVEL1,
 			LEVEL2,
 			LEVEL3,
+			LEVEL4,
+			LEVEL5,
 			NUMBER_OF_SCENE
 		};
 		struct s_scene
