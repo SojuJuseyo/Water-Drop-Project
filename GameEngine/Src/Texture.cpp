@@ -5,8 +5,7 @@ namespace Moo
 	Texture::Texture() :
 		solidColorVS(0), solidColorPS(0),
 		inputLayout(0),
-		colorMap(0), colorMapSampler(0),
-		mvpCB(0), alphaBlendState(0)
+		colorMap(0), colorMapSampler(0), alphaBlendState(0)
 	{
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
@@ -32,6 +31,7 @@ namespace Moo
 		D3D11_INPUT_ELEMENT_DESC solidColorLayout[] =
 		{
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 28, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
 
@@ -73,14 +73,6 @@ namespace Moo
 		texture2D->GetDesc(&textureDesc);
 		_textureWidth = static_cast<float>(textureDesc.Width);
 		_textureHeight = static_cast<float>(textureDesc.Height);
-
-		D3D11_BUFFER_DESC constDesc;
-		ZeroMemory(&constDesc, sizeof(constDesc));
-		constDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		constDesc.ByteWidth = sizeof(XMMATRIX);
-		constDesc.Usage = D3D11_USAGE_DEFAULT;
-
-		_dev->CreateBuffer(&constDesc, 0, mvpCB.GetAddressOf());
 
 		ID3D11Resource* colorTex;
 
@@ -156,11 +148,6 @@ namespace Moo
 		return colorMap.Get();
 	}
 
-	ID3D11Buffer *Texture::getContentBuffer()
-	{
-		return mvpCB.Get();
-	}
-
 	float Texture::getWidth()
 	{
 		return _textureWidth;
@@ -176,7 +163,6 @@ namespace Moo
 		solidColorVS.Reset();
 		solidColorPS.Reset();
 		inputLayout.Reset();
-		mvpCB.Reset();
 		colorMapSampler.Reset();
 		alphaBlendState.Reset();
 		colorMap.Reset();

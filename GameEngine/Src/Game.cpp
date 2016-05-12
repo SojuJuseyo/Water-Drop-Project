@@ -75,7 +75,7 @@ namespace Moo
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
-		createScene(LEVEL1, new LevelScene("Maps/Movements.json"));
+		createScene(LEVEL1, new LevelScene("Maps/theBigOne.json"));
 		createScene(LEVEL2, new LevelScene("Maps/Jump.json"));
 		createScene(LEVEL3, new LevelScene("Maps/Shoot.json"));
 		createScene(LEVEL4, new LevelScene("Maps/Reset.json"));

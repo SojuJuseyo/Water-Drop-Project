@@ -264,8 +264,8 @@ namespace Moo
 		if (Moo::Keyboard::isDown(Moo::Keyboard::R))
 			Moo::Game::getInstance().cleanCurrentScene();
 
-		//if (Moo::Keyboard::isDown(Moo::Keyboard::D))
-		//	std::cout << Moo::Fps::getInstance().getFrameTime() / 1.0f << std::endl;
+		if (Moo::Keyboard::isDown(Moo::Keyboard::D))
+			std::cout << "fps:" << 1.0f / Moo::Fps::getInstance().getFrameTime() << std::endl;
 
 		//Cheats
 		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))
