@@ -30,6 +30,7 @@ namespace Moo
 		Camera	getCamera();
 		bool	init(std::shared_ptr<Window> window, std::map<std::string, Texture>);
 		void	inputHandling();
+		bool	isVisible(Entity entity, float range);
 		void	displayHitboxesAndSprites();
 		void	applyGravityAndCollisions();
 		void	exitReached();

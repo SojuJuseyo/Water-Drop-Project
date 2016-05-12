@@ -282,8 +282,8 @@ namespace Moo
 		if (Moo::Keyboard::isDown(Moo::Keyboard::R))
 			Moo::Game::getInstance().cleanCurrentScene();
 
-		//if (Moo::Keyboard::isDown(Moo::Keyboard::D))
-		//	std::cout << Moo::Fps::getInstance().getFrameTime() / 1.0f << std::endl;
+		if (Moo::Keyboard::isDown(Moo::Keyboard::D))
+			std::cout << "fps:" << 1.0f / Moo::Fps::getInstance().getFrameTime() << std::endl;
 
 		//Cheats
 		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))
@@ -369,6 +369,19 @@ namespace Moo
 		}
 	}
 
+	bool	LevelScene::isVisible(Entity entity, float range)
+	{
+		if (entity.getHitbox().x1 < (_player->getHitbox().x1 - range))
+			return false;
+		if (entity.getHitbox().x2 > (_player->getHitbox().x2 + range))
+			return false;
+		if (entity.getHitbox().y1 > (_player->getHitbox().y1 + range))
+			return false;
+		if (entity.getHitbox().y2 < (_player->getHitbox().y2 - range))
+			return false;
+		return true;
+	}
+
 	void	LevelScene::displayHitboxesAndSprites()
 	{
 		_window->clear();
@@ -381,8 +394,9 @@ namespace Moo
 		//Draw static entities and their hitboxes
 		for (auto entity : _staticEntities)
 		{
-			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)// && entity->isCollidable() == true)
-				_window->draw(entity->getSprite());
+			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)// && entity->isCollidable() == true
+				if (isVisible(*entity.get(), 800))
+					_window->draw(entity->getSprite());
 			//_window->draw(entity->getHitboxSprite());
 		}
 
@@ -391,10 +405,12 @@ namespace Moo
 		{
 			if (entity->getIsActivated() == true)
 			{
-				_window->draw(entity->getSprite());
-				//_window->draw(entity->getHitboxSprite());
-				if (entity->getEntityType() == EntityType::ENEMY)
-					entity->getSprite()->rotate(1);
+				if (isVisible(*entity.get(), 800)) {
+					_window->draw(entity->getSprite());
+					//_window->draw(entity->getHitboxSprite());
+					if (entity->getEntityType() == EntityType::ENEMY)
+						entity->getSprite()->rotate(1);
+				}
 			}
 		}
 	}
@@ -445,7 +461,7 @@ namespace Moo
 		
 		for (auto dynamicEntity : _dynamicEntities)
 		{
-			if (dynamicEntity->getIsActivated() == true)
+			if (dynamicEntity->getIsActivated() == true && isVisible(*dynamicEntity.get(), 800))
 			{
 				decal = Vector2f(0, 0);
 
@@ -472,7 +488,7 @@ namespace Moo
 
 				for (auto staticEntity : _staticEntities)
 				{
-					if (staticEntity->isCollidable() == true
+					if (isVisible(*staticEntity.get(), 800) && staticEntity->isCollidable() == true
 						&& (hitZone = dynamicEntity->collisionAABB(staticEntity.get())) != HitZone::NONE)
 					{
 						//If player collides with an Exit
@@ -547,7 +563,7 @@ namespace Moo
 
 				for (auto secondDynamicEntity : _dynamicEntities)
 				{
-					if (secondDynamicEntity->getIsActivated() == true)
+					if (secondDynamicEntity->getIsActivated() == true && isVisible(*secondDynamicEntity.get(), 800))
 					{
 						if (!(dynamicEntity->getEntityType() == EntityType::BULLET && secondDynamicEntity->getEntityType() == EntityType::BULLET)
 							&& secondDynamicEntity.get() != dynamicEntity.get()
