@@ -53,6 +53,7 @@ namespace Moo
 		this->_hitboxSprite->setPosition(_oldHitboxSpritePosition);
 		this->_hitboxSprite->setScale(_oldHitboxSpriteScale);
 		this->_isActivated = true;
+		this->_godMode = false;
 		this->resetHitbox();
 	}
 
