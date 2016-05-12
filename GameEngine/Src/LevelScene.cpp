@@ -351,6 +351,19 @@ namespace Moo
 		}
 	}
 
+	bool	LevelScene::isVisible(Entity entity, float range)
+	{
+		if (entity.getHitbox().x1 < (_player->getHitbox().x1 - range))
+			return false;
+		if (entity.getHitbox().x2 > (_player->getHitbox().x2 + range))
+			return false;
+		if (entity.getHitbox().y1 > (_player->getHitbox().y1 + range))
+			return false;
+		if (entity.getHitbox().y2 < (_player->getHitbox().y2 - range))
+			return false;
+		return true;
+	}
+
 	void	LevelScene::displayHitboxesAndSprites()
 	{
 		_window->clear();
@@ -363,8 +376,9 @@ namespace Moo
 		//Draw static entities and their hitboxes
 		for (auto entity : _staticEntities)
 		{
-			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)// && entity->isCollidable() == true)
-				_window->draw(entity->getSprite());
+			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)// && entity->isCollidable() == true
+				if (isVisible(*entity.get(), 800))
+					_window->draw(entity->getSprite());
 			//_window->draw(entity->getHitboxSprite());
 		}
 
@@ -373,10 +387,12 @@ namespace Moo
 		{
 			if (entity->getIsActivated() == true)
 			{
-				_window->draw(entity->getSprite());
-				//_window->draw(entity->getHitboxSprite());
-				if (entity->getEntityType() == EntityType::ENEMY)
-					entity->getSprite()->rotate(1);
+				if (isVisible(*entity.get(), 800)) {
+					_window->draw(entity->getSprite());
+					//_window->draw(entity->getHitboxSprite());
+					if (entity->getEntityType() == EntityType::ENEMY)
+						entity->getSprite()->rotate(1);
+				}
 			}
 		}
 	}

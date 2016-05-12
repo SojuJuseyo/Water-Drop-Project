@@ -76,10 +76,10 @@ namespace Moo
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
 		createScene(LEVEL1, new LevelScene("Maps/theBigOne.json"));
-		createScene(LEVEL2, new LevelScene("Maps/Jump.json"));
-		createScene(LEVEL3, new LevelScene("Maps/Shoot.json"));
-		createScene(LEVEL4, new LevelScene("Maps/Reset.json"));
-		createScene(LEVEL5, new LevelScene("Maps/FinalTest.json"));
+		//createScene(LEVEL2, new LevelScene("Maps/Jump.json"));
+		//createScene(LEVEL3, new LevelScene("Maps/Shoot.json"));
+		//createScene(LEVEL4, new LevelScene("Maps/Reset.json"));
+		//createScene(LEVEL5, new LevelScene("Maps/FinalTest.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
 		_isGameRunning = true;
