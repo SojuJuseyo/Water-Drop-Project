@@ -22,6 +22,7 @@ namespace Moo
 
 		std::string	getEntityTypeName(EntityType);
 		bool	runUpdate();
+		void	clearEntityType(EntityType, bool);
 		void	clean();
 		void	getEntitiesFromMap(std::shared_ptr<MapInfos> map);
 		void	fillStaticEntitiesList(EntityType, float, float, bool, bool);
