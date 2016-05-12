@@ -440,7 +440,7 @@ namespace Moo
 
 		for (auto dynEntIt = _dynamicEntities.begin(); dynEntIt != _dynamicEntities.end();)
 		{
-			if ((*dynEntIt)->getIsActivated() == true)
+			if ((*dynEntIt)->getIsActivated() == true && isVisible(*(*dynEntIt).get(), 800))
 			{
 				decal = Vector2f(0, 0);
 
@@ -468,7 +468,7 @@ namespace Moo
 
 				for (auto statEntIt = _staticEntities.begin(); statEntIt != _staticEntities.end(); ++statEntIt)
 				{
-					if ((*statEntIt)->isCollidable() == true
+					if (isVisible(*(*statEntIt).get(), 800) && (*statEntIt)->isCollidable() == true
 						&& (hitZone = (*dynEntIt)->collisionAABB((*statEntIt).get())) != HitZone::NONE)
 					{
 						//If player collides with an Exit
@@ -544,7 +544,7 @@ namespace Moo
 					}
 					for (auto SecondDynEntIt = _dynamicEntities.begin(); SecondDynEntIt != _dynamicEntities.end(); ++SecondDynEntIt)
 					{
-						if ((*SecondDynEntIt)->getIsActivated() == true)
+						if ((*SecondDynEntIt)->getIsActivated() == true && isVisible(*(*SecondDynEntIt).get(), 800))
 						{
 							if (!((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() == EntityType::BULLET)
 								&& (*SecondDynEntIt).get() != (*dynEntIt).get()
