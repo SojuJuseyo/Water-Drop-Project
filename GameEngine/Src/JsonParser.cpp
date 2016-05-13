@@ -31,7 +31,7 @@ namespace Moo
 
 		// Check that the field names of this type of file are present
 		if (checkFieldNamesExistence() == false)
-			throw std::string("File corrupted. All the required fields are not present. Please correct the file or recreate it.");
+			throw std::string("[" + _fileContent[MAP_NAME_ATTRIBUTE].asString() + "] File corrupted. All the required fields are not present. Please correct the file or recreate it.");
 	}
 
 	void	JsonParser::defineFileFieldNames()
@@ -167,7 +167,7 @@ namespace Moo
 		map.setOtherTileList(otherTileList);
 
 		std::cout << "Map successfully loaded." << std::endl;
-		map.displayMapInfos();
+		//map.displayMapInfos();
 		return (map);
 	}
 

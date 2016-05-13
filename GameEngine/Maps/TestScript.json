@@ -2,6 +2,7 @@
   "name": "TestScript",
   "size": "20/20",
   "audio": null,
+  "background": null,
   "tileList": {
     "0": [
       {
@@ -503,7 +504,9 @@
         "properties": {
           "text": "",
           "x2": 4,
-          "y2": 7
+          "y2": 7,
+          "size": 0,
+          "orientation": 0
         }
       },
       {
@@ -513,7 +516,9 @@
         "properties": {
           "text": "",
           "x2": 12,
-          "y2": 4
+          "y2": 4,
+          "size": 0,
+          "orientation": 0
         }
       },
       {
@@ -523,7 +528,9 @@
         "properties": {
           "text": "",
           "x2": 7,
-          "y2": 6
+          "y2": 6,
+          "size": 0,
+          "orientation": 0
         }
       },
       {
@@ -533,7 +540,9 @@
         "properties": {
           "text": "",
           "x2": 15,
-          "y2": 3
+          "y2": 3,
+          "size": 0,
+          "orientation": 0
         }
       }
     ],

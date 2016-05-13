@@ -2,6 +2,7 @@
   "name": "Shoot",
   "size": "25/25",
   "audio": null,
+  "background": null,
   "tileList": {
     "0": [
       {
