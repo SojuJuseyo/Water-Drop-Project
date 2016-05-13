@@ -150,10 +150,12 @@
     <ClInclude Include="Includes\Settings.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\GameManagmentHeader.h" >
-	      <Filter>Includes</Filter>
+    <ClInclude Include="Includes\GameManagmentHeader.h">
+      <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\TileProperties.h" />
+    <ClInclude Include="Includes\TileProperties.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp">

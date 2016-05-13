@@ -27,8 +27,8 @@ void MapInfos::displayMapInfos()
 		for (std::list<Tile>::iterator it2 = tileList.begin(); it2 != tileList.end(); it2++)
 		{
 			std::cout << "Tile in [" << (*it2).getPosX() << ", " << (*it2).getPosY() << "]" << std::endl;
-			TileProperties *properties = (*it2).getProperties();
-			std::cout << properties->getText() << std::endl;
+			TileProperties properties = (*it2).getProperties();
+			std::cout << properties.getText() << std::endl;
 		}
 	}
 }

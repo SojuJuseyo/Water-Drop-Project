@@ -51,9 +51,11 @@ namespace Moo
 		virtual ~Entity() {}
 
 		void setHitbox(float, float, float, float);
+		void setHitboxLastPos(float, float, float, float);
 		void setCollision(bool);
 
 		Hitbox				getHitbox() const;
+		Hitbox				getHitboxLastPos() const;
 		EntityType			getEntityType() const;
 		bool				isCollidable() const;
 		HitZone				collisionAABB(Entity *entity);
@@ -61,10 +63,15 @@ namespace Moo
 		bool				getIsActivated() const;
 		void				setIsActivated(bool);
 
+		bool				getIsScripted() const;
+		void				setIsScripted(bool);
+
 	protected:
 		Hitbox				_hitbox;
+		Hitbox				_hitboxLastPos;
 		bool				_isCollidable;
 		EntityType			_type;
 		bool				_isActivated;
+		bool				_isScripted;
 	};
 }

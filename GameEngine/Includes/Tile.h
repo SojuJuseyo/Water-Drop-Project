@@ -13,7 +13,7 @@ private:
 	float			_posY;
 	bool			_isHeatZone;
 	bool			_isCollidable;
-	TileProperties	*_properties;
+	TileProperties	_properties;
 
 public:
 
@@ -33,6 +33,6 @@ public:
 	void	setIsCollidable(bool);
 	bool	getIsCollidable() const;
 
-	void	setProperties(TileProperties *);
-	TileProperties *getProperties() const;
+	void	setProperties(TileProperties);
+	TileProperties getProperties() const;
 };

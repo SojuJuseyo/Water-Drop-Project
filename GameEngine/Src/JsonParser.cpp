@@ -82,15 +82,17 @@ namespace Moo
 
 				Json::Value properties = itrValue[MAP_PROPERTIES];
 
+				TileProperties newTileProperties;
 				if (properties.getMemberNames().size() != 0)
 				{
-					TileProperties *newTileProperties = new TileProperties();
-					newTileProperties->setText(properties["text"].asString());
-					newTileProperties->setX2(properties["x2"].asInt());
-					newTileProperties->setY2(properties["y2"].asInt());
-
-					newTile.setProperties(newTileProperties);
+					newTileProperties.setText(properties["text"].asString());
+					newTileProperties.setX2(properties["x2"].asInt());
+					newTileProperties.setY2(properties["y2"].asInt());
+					newTileProperties.setIsSet(true);
 				}
+				else
+					newTileProperties.setIsSet(false);
+				newTile.setProperties(newTileProperties);
 
 				selectedSpriteTileList.push_back(newTile);
 			}
@@ -113,15 +115,17 @@ namespace Moo
 
 			Json::Value properties = itrValue[MAP_PROPERTIES];
 
+			TileProperties newTileProperties;
 			if (properties.getMemberNames().size() != 0)
 			{
-				TileProperties *newTileProperties = new TileProperties();
-				newTileProperties->setText(properties["text"].asString());
-				newTileProperties->setX2(properties["x2"].asInt());
-				newTileProperties->setY2(properties["y2"].asInt());
-
-				newTile.setProperties(newTileProperties);
+				newTileProperties.setText(properties["text"].asString());
+				newTileProperties.setX2(properties["x2"].asInt());
+				newTileProperties.setY2(properties["y2"].asInt());
+				newTileProperties.setIsSet(true);
 			}
+			else
+				newTileProperties.setIsSet(false);
+			newTile.setProperties(newTileProperties);
 
 			heatZoneTileList.push_back(newTile);
 		}
@@ -139,15 +143,17 @@ namespace Moo
 
 			Json::Value properties = itrValue[MAP_PROPERTIES];
 
+			TileProperties newTileProperties;
 			if (properties.getMemberNames().size() != 0)
 			{
-				TileProperties *newTileProperties = new TileProperties();
-				newTileProperties->setText(properties["text"].asString());
-				newTileProperties->setX2(properties["x2"].asInt());
-				newTileProperties->setY2(properties["y2"].asInt());
-
-				newTile.setProperties(newTileProperties);
+				newTileProperties.setText(properties["text"].asString());
+				newTileProperties.setX2(properties["x2"].asInt());
+				newTileProperties.setY2(properties["y2"].asInt());
+				newTileProperties.setIsSet(true);
 			}
+			else
+				newTileProperties.setIsSet(false);
+			newTile.setProperties(newTileProperties);
 
 			otherTileList.push_back(newTile);
 		}

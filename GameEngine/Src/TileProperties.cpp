@@ -43,3 +43,13 @@ int				TileProperties::getY2() const
 {
 	return (_y2);
 }
+
+void			TileProperties::setIsSet(bool isSet)
+{
+	this->_isSet = isSet;
+}
+
+bool			TileProperties::getIsSet() const
+{
+	return _isSet;
+}
