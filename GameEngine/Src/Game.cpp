@@ -67,12 +67,12 @@ namespace Moo
 		createScene(CONTROLS_MENU, new ControleScene());
 		createScene(WIN, new WinScene());
 		createScene(LEVEL1, new LevelScene("Maps/Movements.json"));
-		createScene(LEVEL2, new LevelScene("Maps/Shoot.json"));
-		createScene(LEVEL3, new LevelScene("Maps/TheBreach.json"));
-		createScene(LEVEL4, new LevelScene("Maps/Raining.json"));
-		createScene(LEVEL5, new LevelScene("Maps/Yamakasi.json"));
-		createScene(LEVEL6, new LevelScene("Maps/TempleRun.json"));
-		createScene(LEVEL7, new LevelScene("Maps/TheElevator.json"));
+		//createScene(LEVEL2, new LevelScene("Maps/Shoot.json"));
+		//createScene(LEVEL3, new LevelScene("Maps/TheBreach.json"));
+		//createScene(LEVEL4, new LevelScene("Maps/Raining.json"));
+		//createScene(LEVEL5, new LevelScene("Maps/Yamakasi.json"));
+		//createScene(LEVEL6, new LevelScene("Maps/TempleRun.json"));
+		//createScene(LEVEL7, new LevelScene("Maps/TheElevator.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
 		_isGameRunning = true;

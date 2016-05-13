@@ -29,12 +29,12 @@ namespace Moo
 			CONTROLS_MENU,
 			WIN,
 			LEVEL1,
-			LEVEL2,
-			LEVEL3,
-			LEVEL4,
-			LEVEL5,
-			LEVEL6,
-			LEVEL7,
+			//LEVEL2,
+			//LEVEL3,
+			//LEVEL4,
+			//LEVEL5,
+			//LEVEL6,
+			//LEVEL7,
 			NUMBER_OF_SCENE
 		}; //note : les enum declares DOIVENT etre utilises dans les scenes declarees dans Game.cpp && les enum des niveau de jeu DOIVENT etre cites en dernier, precedant le dernier "NUMBER_OF_SCENE"
 		struct s_scene
