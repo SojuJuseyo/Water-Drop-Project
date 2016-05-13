@@ -1,15 +1,6 @@
 #include "GameManagmentHeader.h"
 #include "log.h"
 
-/*
-** TODO :
-
-	- prevoir l'affichage du loading screen avant CHAQUE runScene
-	- prevoir la possibilite d'un ecran de victoire si la joueur arrive au bout des niveaux de jeu
-	- rajouter le sleep au load de chaque niveau de jeu (car si le joueur a spam une touche ca queu chelou quand le niveau a fini de load) (OU : trouver une solution alternative a ca)
-
-*/
-
 namespace Moo
 {
 	Game::Game()
@@ -59,9 +50,8 @@ namespace Moo
 	{
 		for (int index = 1; index < (int)_listOfScenes.size(); ++index)
 		{
-			if (_listOfScenes[index].scene != nullptr) {
+			if (_listOfScenes[index].scene != nullptr)
 				_listOfScenes[index].scene->init(_window, _textures);
-			}
 		}
 		Moo::d3d::getInstance().getCamera()->reset();
 	}
@@ -75,33 +65,29 @@ namespace Moo
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
-		createScene(LEVEL1, new LevelScene("Maps/TheBreach.json"));
-		createScene(LEVEL2, new LevelScene("Maps/Raining.json"));
-		createScene(LEVEL3, new LevelScene("Maps/Yamakasi.json"));
-		createScene(LEVEL4, new LevelScene("Maps/TempleRun.json"));
-		createScene(LEVEL5, new LevelScene("Maps/TheElevator.json"));
+		createScene(WIN, new WinScene());
+		createScene(LEVEL1, new LevelScene("Maps/Movements.json"));
+		createScene(LEVEL2, new LevelScene("Maps/Shoot.json"));
+		createScene(LEVEL3, new LevelScene("Maps/TheBreach.json"));
+		createScene(LEVEL4, new LevelScene("Maps/Raining.json"));
+		createScene(LEVEL5, new LevelScene("Maps/Yamakasi.json"));
+		createScene(LEVEL6, new LevelScene("Maps/TempleRun.json"));
+		createScene(LEVEL7, new LevelScene("Maps/TheElevator.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
 		_isGameRunning = true;
 		while (_isGameRunning) {
 			update();
-			// checkons ca :
-			if (!theUsedWindow->isOpen()) {
+			if (!theUsedWindow->isOpen())
 				exit();
-			}
 		}
 	}
 
 	// call de l'exit pour stoper la game loop
 	void			Game::exit()
 	{
-	
 		_isGameRunning = false;
 	}
-
-
-
-
 
 	// a appeller quand on veut passer d'une scene a l'autre.
 	void			Game::runScene(e_scene type, bool isContinue)
@@ -109,14 +95,11 @@ namespace Moo
 		std::cout << "RUN SCENE " << type << " NUMBER OF SCENE : " << _listOfScenes.size() << std::endl;
 		s_scene *tmpSceneForPrev = _currentScene;
 		s_scene *tmpScene = getSceneByType(type);
-		if (tmpScene != nullptr) {
+		if (tmpScene != nullptr)
 			_currentScene = tmpScene;
-		}
-		else {
+		else
 			return;
-		}
 		Moo::d3d::getInstance().getCamera()->reset();
-		_currentScene->prevScene = tmpSceneForPrev;
 		if ((int)type >= (int)LEVEL1) {
 			if (!isContinue)
 				cleanCurrentScene();
@@ -126,30 +109,32 @@ namespace Moo
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
 				((LevelScene*)_currentScene->scene)->themeChan->setPaused(false);
 		}
-		if (type == MAIN_MENU) {
+		if ((type == PAUSE_MENU && (int)(tmpSceneForPrev->sceneType) >= (int)LEVEL1) || type == CONTROLS_MENU)
+			_currentScene->prevScene = tmpSceneForPrev;
+		if (type == MAIN_MENU)
 			_currentScene->prevScene = nullptr;
-		}
 	}
 
 	// retour en arriere sert a pauser le jeu, et revenir en arriere dans les menu principaux
 	void			Game::backToPrevScene()
 	{
-		if (_currentScene != nullptr && _currentScene->prevScene != nullptr) {
+		if (_currentScene != nullptr && _currentScene->prevScene != nullptr)
 			runScene(_currentScene->prevScene->sceneType, true);
-		}
+		else if (_currentScene != nullptr && _currentScene->sceneType == WIN)
+			runScene(MAIN_MENU, false);
 	}
 
 	// charge la scene de jeu suivant
 	void			Game::goToNextScene()
 	{
 		if (_currentScene != nullptr && (int)_currentScene->sceneType >= (int)LEVEL1) {
-			if ((int)_currentScene->sceneType < (int)NUMBER_OF_SCENE - 1) {
+			if ((int)_currentScene->sceneType < (int)NUMBER_OF_SCENE - 1)
 				runScene((e_scene)((int)_currentScene->sceneType + 1), false);
-			}
-			else {
-				runScene(MAIN_MENU, false);
-			}
+			else
+				runScene(WIN, false);
 		}
+		else if (_currentScene != nullptr && _currentScene->sceneType == WIN)
+			runScene(MAIN_MENU, false);
 	}
 
 	std::shared_ptr<SoundSystem> Game::getSoundSystem()
@@ -162,12 +147,10 @@ namespace Moo
 	{
 		//std::cout << "fps:" << (1.0f / Moo::Fps::getInstance().getFrameTime()) << std::endl;
 		if (_currentScene != nullptr && _currentScene->scene != nullptr) {
-			if (Moo::Keyboard::isDown(Moo::Keyboard::Escape)) {
+			if (Moo::Keyboard::isDown(Moo::Keyboard::Escape))
 				backToPrevScene();
-			}
-			if (!_currentScene->scene->runUpdate()) {
+			if (!_currentScene->scene->runUpdate())
 				exit();
-			}
 		}
 		return false;
 	}
@@ -186,9 +169,8 @@ namespace Moo
 	Game::s_scene*		Game::getSceneByType(e_scene sceneType)
 	{
 		for (auto &scene : _listOfScenes) {
-			if (scene.sceneType == sceneType) {
+			if (scene.sceneType == sceneType)
 				return &scene;
-			}
 		}
 		return nullptr;
 	}

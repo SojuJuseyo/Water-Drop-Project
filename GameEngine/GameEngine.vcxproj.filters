@@ -150,11 +150,14 @@
     <ClInclude Include="Includes\Settings.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\GameManagmentHeader.h">
+    <ClInclude Include="Includes\WinScene.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\TileProperties.h">
+    <ClInclude Include="Includes\GameManagmentHeader.h">
       <Filter>Includes</Filter>
+	</ClInclude>
+    <ClInclude Include="Includes\TileProperties.h">
+	   <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="Src\Settings.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\WinScene.cpp">
+		<Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\TileProperties.cpp">
       <Filter>Src</Filter>
