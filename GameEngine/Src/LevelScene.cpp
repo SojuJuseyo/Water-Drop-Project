@@ -369,15 +369,15 @@ namespace Moo
 		}
 	}
 
-	bool	LevelScene::isVisible(Entity entity, float range)
+	bool	LevelScene::isVisible(Entity baseEntity, Entity checkedEntity, float range)
 	{
-		if (entity.getHitbox().x1 < (_player->getHitbox().x1 - range))
+		if (checkedEntity.getHitbox().x1 < (baseEntity.getHitbox().x1 - range))
 			return false;
-		if (entity.getHitbox().x2 > (_player->getHitbox().x2 + range))
+		if (checkedEntity.getHitbox().x2 > (baseEntity.getHitbox().x2 + range))
 			return false;
-		if (entity.getHitbox().y1 > (_player->getHitbox().y1 + range))
+		if (checkedEntity.getHitbox().y1 > (baseEntity.getHitbox().y1 + range))
 			return false;
-		if (entity.getHitbox().y2 < (_player->getHitbox().y2 - range))
+		if (checkedEntity.getHitbox().y2 < (baseEntity.getHitbox().y2 - range))
 			return false;
 		return true;
 	}
@@ -395,7 +395,7 @@ namespace Moo
 		for (auto entity : _staticEntities)
 		{
 			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)// && entity->isCollidable() == true
-				if (isVisible(*entity.get(), 800))
+				if (isVisible(*_player, *entity.get(), 800))
 					_window->draw(entity->getSprite());
 			//_window->draw(entity->getHitboxSprite());
 		}
@@ -405,7 +405,7 @@ namespace Moo
 		{
 			if (entity->getIsActivated() == true)
 			{
-				if (isVisible(*entity.get(), 800)) {
+				if (isVisible(*_player, *entity.get(), 800)) {
 					_window->draw(entity->getSprite());
 					//_window->draw(entity->getHitboxSprite());
 					if (entity->getEntityType() == EntityType::ENEMY)
@@ -461,7 +461,9 @@ namespace Moo
 		
 		for (auto dynamicEntity : _dynamicEntities)
 		{
-			if (dynamicEntity->getIsActivated() == true && isVisible(*dynamicEntity.get(), 800))
+			if (dynamicEntity->getIsActivated() == true
+				&& (dynamicEntity->getEntityType() == EntityType::BULLET
+					|| isVisible(*_player, *dynamicEntity.get(), 800)))
 			{
 				decal = Vector2f(0, 0);
 
@@ -488,7 +490,7 @@ namespace Moo
 
 				for (auto staticEntity : _staticEntities)
 				{
-					if (isVisible(*staticEntity.get(), 800) && staticEntity->isCollidable() == true
+					if (isVisible(*dynamicEntity.get(), *staticEntity.get(), 100) && staticEntity->isCollidable() == true
 						&& (hitZone = dynamicEntity->collisionAABB(staticEntity.get())) != HitZone::NONE)
 					{
 						//If player collides with an Exit
@@ -563,7 +565,8 @@ namespace Moo
 
 				for (auto secondDynamicEntity : _dynamicEntities)
 				{
-					if (secondDynamicEntity->getIsActivated() == true && isVisible(*secondDynamicEntity.get(), 800))
+					if (secondDynamicEntity->getIsActivated() == true
+						&& isVisible(*dynamicEntity.get(), *secondDynamicEntity.get(), 200))
 					{
 						if (!(dynamicEntity->getEntityType() == EntityType::BULLET && secondDynamicEntity->getEntityType() == EntityType::BULLET)
 							&& secondDynamicEntity.get() != dynamicEntity.get()

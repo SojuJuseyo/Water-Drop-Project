@@ -71,8 +71,8 @@ namespace Moo
 			else
 				this->setVelocity(Vector2f(STANDARD_VELOCITY_X, this->getVelocity().y));
 		}
-		else
-			std::cout << "Wait your velocity X is: " << this->getVelocity().x << std::endl;
+		/*else
+			std::cout << "Wait your velocity X is: " << this->getVelocity().x << std::endl;*/
 	}
 
 	bool	Character::jump(bool forced)
