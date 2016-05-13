@@ -25,10 +25,10 @@ namespace Moo
 			x = 0;
 		if (y < 0)
 			y = 0;
-		if (x > (_mapInfos->getMapWidth() * 40 - 800))
-			x = (_mapInfos->getMapWidth() * 40 - 800);
-		if (y > (_mapInfos->getMapHeight() * 40 - 600))
-			y = (_mapInfos->getMapHeight() * 40 - 600);
+		if (x > (_mapInfos->getMapWidth() * 48 - 800))
+			x = (_mapInfos->getMapWidth() * 48 - 800);
+		if (y > (_mapInfos->getMapHeight() * 48 - 600))
+			y = (_mapInfos->getMapHeight() * 48 - 600);
 		_position = Vector2f(x * -1, y * -1);
 	}
 
@@ -63,7 +63,7 @@ namespace Moo
 		}
 		if (hitbox.x1 - _lastHitbox.x1 > 0) // si direction positive axe x
 		{
-			if (hitbox.x1 > posCamera.x + 400 && posCamera.x + (hitbox.x1 - _lastHitbox.x1) < (_mapInfos->getMapWidth() * 40 - 800))
+			if (hitbox.x1 > posCamera.x + 400 && posCamera.x + (hitbox.x1 - _lastHitbox.x1) < (_mapInfos->getMapWidth() * 48 - 800))
 				_position.x += (_lastHitbox.x1 - hitbox.x1);
 		}
 		else
@@ -74,7 +74,7 @@ namespace Moo
 			}
 		if (hitbox.y1 - _lastHitbox.y1 > 0) // si direction negative axe y
 		{
-			if (hitbox.y1 > posCamera.y + 300 && posCamera.y + (hitbox.y1 - _lastHitbox.y1) < (_mapInfos->getMapHeight() * 40 - 600))
+			if (hitbox.y1 > posCamera.y + 300 && posCamera.y + (hitbox.y1 - _lastHitbox.y1) < (_mapInfos->getMapHeight() * 48 - 600))
 				_position.y += (_lastHitbox.y1 - hitbox.y1);
 		}
 		else

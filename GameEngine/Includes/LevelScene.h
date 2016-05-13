@@ -25,7 +25,7 @@ namespace Moo
 		void	clearEntityType(EntityType, bool);
 		void	clean();
 		void	getEntitiesFromMap(std::shared_ptr<MapInfos> map);
-		void	fillStaticEntitiesList(EntityType, float, float, bool, bool);
+		void	fillStaticEntitiesList(EntityType, Tile, bool);
 		void	fillDynamicEntitiesList(int, EntityType, float, float, float, float, float, float, bool, Direction);
 		Camera	getCamera();
 		bool	init(std::shared_ptr<Window> window, std::map<std::string, Texture>);
@@ -36,6 +36,7 @@ namespace Moo
 		void	exitReached();
 		void	loadFromSpriteSheet();
 		void	playerDead();
+		void	updateScripts();
 		FMOD::Channel					*themeChan;
 
 	private:

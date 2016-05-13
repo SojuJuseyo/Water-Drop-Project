@@ -89,13 +89,23 @@ namespace Moo
 		_spriteSheet["Exit"] = Moo::Vector2f(6, 0);
 	}
 
-	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY, bool isHeatZone, bool isCollidable)
+	void	LevelScene::fillStaticEntitiesList(EntityType type, Tile tile, bool isHeatZone)
 	{
-		auto sprite = std::make_shared<Moo::Sprite>(40.f, 40.f, posX * 40, posY * 40);
+		auto sprite = std::make_shared<Moo::Sprite>(48.f, 48.f, tile.getPosX() * 48, tile.getPosY() * 48);
 		sprite->loadTexture(&_textures.get()->at("Tileset"));
 
 		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(16, 16));
-		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, isCollidable);
+		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, tile.getIsCollidable());
+		if (tile.getProperties().getIsSet() == true)
+		{
+			staticEntity->setHitboxLastPos(
+				(float)tile.getProperties().getX2() * 48,
+				(float)tile.getProperties().getY2() * 48 + sprite->getHeight(),
+				(float)tile.getProperties().getX2() * 48 + sprite->getWidth(),
+				(float)tile.getProperties().getY2() * 48);
+			staticEntity->setHitboxFirstPos(staticEntity->getHitbox());
+			staticEntity->setIsScripted(true);
+		}
 		_staticEntities.push_back(staticEntity);
 	}
 
@@ -137,19 +147,19 @@ namespace Moo
 
 		//platforms
 		for (auto platformTile : platformTiles)
-			fillStaticEntitiesList(EntityType::PLATFORM, platformTile.getPosX(), platformTile.getPosY(), false, platformTile.getIsCollidable());
+			fillStaticEntitiesList(EntityType::PLATFORM, platformTile, false);
 
 		//bloc
 		for (auto blockTile : blockTiles)
-			fillStaticEntitiesList(EntityType::BLOCK, blockTile.getPosX(), blockTile.getPosY(), false, blockTile.getIsCollidable());
+			fillStaticEntitiesList(EntityType::BLOCK, blockTile, false);
 
 		//bottom
 		for (auto bottomTile : bottomTiles)
-			fillStaticEntitiesList(EntityType::GROUND, bottomTile.getPosX(), bottomTile.getPosY(), false, bottomTile.getIsCollidable());
+			fillStaticEntitiesList(EntityType::GROUND, bottomTile, false);
 
 		//exit
 		for (auto exitTile : exitTiles)
-			fillStaticEntitiesList(EntityType::EXIT, exitTile.getPosX(), exitTile.getPosY(), false, exitTile.getIsCollidable());
+			fillStaticEntitiesList(EntityType::EXIT, exitTile, false);
 
 		//set if static entities are heat zones
 		for (auto heatZoneTile : heatZonesTiles)
@@ -162,7 +172,7 @@ namespace Moo
 					staticEntity->setIsHeatZone(true);
 				}
 			if (_wasInList == false)
-				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, true);
+				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile, true);
 		}
 
 		//Enemies specs
@@ -449,6 +459,80 @@ namespace Moo
 		Game::getInstance().cleanCurrentScene();
 	}
 
+	void	LevelScene::updateScripts()
+	{
+		for (auto staticEntity : _staticEntities)
+			if (staticEntity->getIsScripted() == true)
+			{
+				if (staticEntity->getScriptDirection() == ScriptDirection::STILL)
+				{
+					if (staticEntity->getHitbox().x1 > staticEntity->getHitboxLastPos().x1)
+						staticEntity->setScriptDirection(ScriptDirection::GOING_LEFT);
+					else if (staticEntity->getHitbox().x1 < staticEntity->getHitboxLastPos().x1)
+						staticEntity->setScriptDirection(ScriptDirection::GOING_RIGHT);
+					else if (staticEntity->getHitbox().y1 > staticEntity->getHitboxLastPos().y1)
+						staticEntity->setScriptDirection(ScriptDirection::GOING_BOTTOM);
+					else if (staticEntity->getHitbox().y1 < staticEntity->getHitboxLastPos().y1)
+						staticEntity->setScriptDirection(ScriptDirection::GOING_TOP);
+				}
+				else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_LEFT)
+				{
+					if ((staticEntity->getHitboxLastPos().x1 > staticEntity->getHitboxFirstPos().x1
+						&& staticEntity->getHitbox().x1 <= staticEntity->getHitboxFirstPos().x1)
+						|| (staticEntity->getHitboxLastPos().x1 < staticEntity->getHitboxFirstPos().x1
+							&& staticEntity->getHitbox().x1 <= staticEntity->getHitboxLastPos().x1))
+						staticEntity->setScriptDirection(ScriptDirection::GOING_RIGHT);
+				}
+				else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_RIGHT)
+				{
+					if ((staticEntity->getHitboxLastPos().x1 > staticEntity->getHitboxFirstPos().x1
+						&& staticEntity->getHitbox().x1 >= staticEntity->getHitboxLastPos().x1)
+						|| (staticEntity->getHitboxLastPos().x1 < staticEntity->getHitboxFirstPos().x1
+							&& staticEntity->getHitbox().x1 >= staticEntity->getHitboxFirstPos().x1))
+						staticEntity->setScriptDirection(ScriptDirection::GOING_LEFT);
+				}
+				else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_BOTTOM)
+				{
+					if ((staticEntity->getHitboxLastPos().y1 > staticEntity->getHitboxFirstPos().y1
+						&& staticEntity->getHitbox().y1 <= staticEntity->getHitboxFirstPos().y1)
+						|| (staticEntity->getHitboxLastPos().y1 < staticEntity->getHitboxFirstPos().y1
+							&& staticEntity->getHitbox().y1 <= staticEntity->getHitboxLastPos().y1))
+						staticEntity->setScriptDirection(ScriptDirection::GOING_TOP);
+				}
+				else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_TOP)
+				{
+					if ((staticEntity->getHitboxLastPos().y1 > staticEntity->getHitboxFirstPos().y1
+						&& staticEntity->getHitbox().y1 >= staticEntity->getHitboxLastPos().y1)
+						|| (staticEntity->getHitboxLastPos().y1 < staticEntity->getHitboxFirstPos().y1
+							&& staticEntity->getHitbox().y1 >= staticEntity->getHitboxFirstPos().y1))
+						staticEntity->setScriptDirection(ScriptDirection::GOING_BOTTOM);
+				}
+
+				if (staticEntity->getScriptDirection() == ScriptDirection::GOING_LEFT)
+					staticEntity->getSprite()->move(Vector2f(-1, 0));
+				else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_RIGHT)
+					staticEntity->getSprite()->move(Vector2f(1, 0));
+				else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_BOTTOM)
+					staticEntity->getSprite()->move(Vector2f(0, -1));
+				else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_TOP)
+					staticEntity->getSprite()->move(Vector2f(0, 1));
+				staticEntity->resetHitbox();
+
+				//std::cout << "y1: " << staticEntity->getHitbox().y1 << " && lastposY1:" << staticEntity->getHitboxLastPos().y1 << " && going ";
+				//if (staticEntity->getScriptDirection() == ScriptDirection::GOING_LEFT)
+				//	std::cout << "left";
+				//else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_RIGHT)
+				//	std::cout << "right";
+				//else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_BOTTOM)
+				//	std::cout << "bottom";
+				//else if (staticEntity->getScriptDirection() == ScriptDirection::GOING_TOP)
+				//	std::cout << "top";
+				//else
+				//	std::cout << "still";
+				//std::cout << std::endl;
+			}
+	}
+
 	void	LevelScene::applyGravityAndCollisions()
 	{
 		//Init collison & gravity loop values
@@ -622,6 +706,9 @@ namespace Moo
 		std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
 		if (elapsed_time_start.count() > 0.75)
 			inputHandling();
+
+		//Applying scripts
+		updateScripts();
 
 		//Applying gravity to dynamic entities and checking all collisions
 		applyGravityAndCollisions();

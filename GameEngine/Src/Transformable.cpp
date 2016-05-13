@@ -60,8 +60,8 @@ namespace Moo
 	}
 	void Transformable::move(const Vector2f & offset)
 	{
-		_position.x = offset.x;
-		_position.y = offset.y;
+		_position.x += offset.x;
+		_position.y += offset.y;
 	}
 	void Transformable::rotate(float angle)
 	{

@@ -7,6 +7,7 @@ namespace Moo
 	{
 		_isActivated = true;
 		_isScripted = false;
+		_scriptDirection = ScriptDirection::STILL;
 	}
 
 	void Entity::setCollision(bool collision)
@@ -30,6 +31,11 @@ namespace Moo
 		_hitboxLastPos.y2 = y2;
 	}
 
+	void Entity::setHitboxFirstPos(Hitbox hitbox)
+	{
+		_hitboxFirstPos = hitbox;
+	}
+
 	EntityType Entity::getEntityType() const
 	{
 		return _type;
@@ -48,6 +54,11 @@ namespace Moo
 	Hitbox Entity::getHitboxLastPos() const
 	{
 		return _hitboxLastPos;
+	}
+
+	Hitbox Entity::getHitboxFirstPos() const
+	{
+		return _hitboxFirstPos;
 	}
 
 	HitZone Entity::collisionAABB(Entity *entity)
@@ -108,5 +119,15 @@ namespace Moo
 	void				Entity::setIsScripted(bool isScripted)
 	{
 		this->_isScripted = isScripted;
+	}
+
+	ScriptDirection		Entity::getScriptDirection() const
+	{
+		return _scriptDirection;
+	}
+
+	void				Entity::setScriptDirection(ScriptDirection scriptDirection)
+	{
+		this->_scriptDirection = scriptDirection;
 	}
 }

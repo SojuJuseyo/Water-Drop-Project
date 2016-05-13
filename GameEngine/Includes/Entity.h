@@ -19,6 +19,14 @@ enum Direction
 	RIGHT
 };
 
+enum ScriptDirection
+{
+	GOING_LEFT,
+	GOING_RIGHT,
+	GOING_BOTTOM,
+	GOING_TOP,
+	STILL
+};
 enum EntityType
 {
 	PLAYER,
@@ -52,10 +60,12 @@ namespace Moo
 
 		void setHitbox(float, float, float, float);
 		void setHitboxLastPos(float, float, float, float);
+		void setHitboxFirstPos(Hitbox);
 		void setCollision(bool);
 
 		Hitbox				getHitbox() const;
 		Hitbox				getHitboxLastPos() const;
+		Hitbox				getHitboxFirstPos() const;
 		EntityType			getEntityType() const;
 		bool				isCollidable() const;
 		HitZone				collisionAABB(Entity *entity);
@@ -66,12 +76,17 @@ namespace Moo
 		bool				getIsScripted() const;
 		void				setIsScripted(bool);
 
+		ScriptDirection		getScriptDirection() const;
+		void				setScriptDirection(ScriptDirection);
+
 	protected:
 		Hitbox				_hitbox;
 		Hitbox				_hitboxLastPos;
+		Hitbox				_hitboxFirstPos;
 		bool				_isCollidable;
 		EntityType			_type;
 		bool				_isActivated;
 		bool				_isScripted;
+		ScriptDirection		_scriptDirection;
 	};
 }
