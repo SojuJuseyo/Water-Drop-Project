@@ -29,6 +29,8 @@ void MapInfos::displayMapInfos()
 			std::cout << "Tile in [" << (*it2).getPosX() << ", " << (*it2).getPosY() << "]" << std::endl;
 			TileProperties properties = (*it2).getProperties();
 			std::cout << properties.getText() << std::endl;
+			std::cout << properties.getSize() << std::endl;
+			std::cout << (int)properties.getOrientation() << std::endl;
 		}
 	}
 }
@@ -85,6 +87,16 @@ void MapInfos::setMapAudioFile(std::string _filePath)
 std::string MapInfos::getMapAudioFile() const
 {
 	return (this->mapAudioFile);
+}
+
+void MapInfos::setMapBackgroundFile(std::string _filePath)
+{
+	this->mapBackgroundFile = _filePath;
+}
+
+std::string MapInfos::getMapBackgroundFile() const
+{
+	return (this->mapBackgroundFile);
 }
 
 void MapInfos::setMapTileList(std::list< std::pair< std::string, std::list<Tile> > > _mapTileList)
