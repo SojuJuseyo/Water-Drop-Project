@@ -193,6 +193,7 @@
     <ClInclude Include="Includes\Vector2f.h" />
     <ClInclude Include="Includes\Window.h" />
     <ClInclude Include="Includes\WindowSettings.h" />
+    <ClInclude Include="Includes\WinScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="Src\Vector2f.cpp" />
     <ClCompile Include="Src\Window.cpp" />
     <ClCompile Include="Src\WindowSettings.cpp" />
+    <ClCompile Include="Src\WinScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Ressources\Graphics\background.dds" />
