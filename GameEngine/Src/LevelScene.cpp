@@ -25,30 +25,68 @@ namespace Moo
 		return 	_entityTypeName[type];
 	}
 
+	void	LevelScene::clearEntityType(EntityType type, bool activatedMustBeFalse)
+	{
+		for (auto dynEntIt = _dynamicEntities.begin(); dynEntIt != _dynamicEntities.end();)
+			if ((*dynEntIt)->getEntityType() == type
+			&& (activatedMustBeFalse == false
+			|| (activatedMustBeFalse == true && (*dynEntIt)->getIsActivated() == false)))
+				dynEntIt = _dynamicEntities.erase(dynEntIt);
+			else
+				++dynEntIt;
+	}
+
 	void	LevelScene::clean()
 	{
-		std::cout << "Clearing entities lists" << std::endl;
-		for (auto statEnt : _staticEntities)
-			statEnt.reset();
-		_staticEntities.clear();
-		std::cout << "Static entities list is cleared, size: " << _staticEntities.size() << std::endl;
-		for (auto dynEnt : _dynamicEntities)
-			dynEnt.reset();
-		_dynamicEntities.clear();
-		std::cout << "Dynamic entities list is cleared, size: " << _dynamicEntities.size() << std::endl;
-		_player.reset();
+		std::cout << "---------- Reseting level ----------" << std::endl << std::endl;
+
+		bool needToClearBullets = false;
+		//Reset all characters
+		for (auto dynamicEntity : _dynamicEntities)
+			if (dynamicEntity->getEntityType() != EntityType::BULLET)
+				(std::static_pointer_cast<Moo::Character>(dynamicEntity))->reset();
+			else if (needToClearBullets == false)
+				needToClearBullets = true;
+
+		//If there are any bullets in the list, delete them
+		if (needToClearBullets == true)
+			clearEntityType(EntityType::BULLET, false);
+
+		//Sound
+		_soundSystem = Game::getInstance().getSoundSystem();
+		if (themeChan == nullptr)
+		{
+			if (_soundSystem->addSound(_map->getMapAudioFile().c_str(), "custom") == false)
+			{
+				std::cout << _map->getMapAudioFile() << std::endl;
+				std::cout << "music failed" << std::endl;
+				themeChan = nullptr;
+			}
+			themeChan = _soundSystem->playSound("custom", true);
+		}
+		if (themeChan != nullptr)
+			themeChan->setPaused(true);
+
+		//Various variables
+		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
+		_player->setTimers();
+		_startTime = std::chrono::system_clock::now();
+		_canTemporarilyJump = _startTime;
+		_lastJump = _startTime;
 		_triedJump = false;
 		_exitReached = false;
 		_playerDead = false;
-		std::cout << "Level scene is cleared" << std::endl;
+		_camera.resetToPlayer(_player->getHitbox());
+
+		std::cout << std::endl << "---------- Level reseted ----------" << std::endl;
 	}
 
 	void	LevelScene::loadFromSpriteSheet()
 	{
-		_spriteSheet["Block"] = Moo::Vector2f(4, 0);
-		_spriteSheet["Platform"] = Moo::Vector2f(0, 0);
+		_spriteSheet["Block"] = Moo::Vector2f(0, 0);
+		_spriteSheet["Platform"] = Moo::Vector2f(4, 0);
 		_spriteSheet["Ground"] = Moo::Vector2f(1, 0);
-		_spriteSheet["Exit"] = Moo::Vector2f(5, 0);
+		_spriteSheet["Exit"] = Moo::Vector2f(6, 0);
 	}
 
 	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY, bool isHeatZone, bool isCollidable)
@@ -90,45 +128,43 @@ namespace Moo
 		std::list<Tile> enemyTiles = map->getTilesFromSprite("3");
 		std::list<Tile> playerTiles = map->getTilesFromSprite("5");
 
-		if (_staticEntities.empty())
+		//All the data contained in the map - static
+		std::list<Tile> blockTiles = map->getTilesFromSprite("0");
+		std::list<Tile> bottomTiles = map->getTilesFromSprite("1");
+		std::list<Tile> platformTiles = map->getTilesFromSprite("4");
+		std::list<Tile> exitTiles = map->getTilesFromSprite("6");
+		std::list<Tile> heatZonesTiles = map->getHeatZonesTileList();
+
+		//platforms
+		for (auto platformTile : platformTiles)
+			fillStaticEntitiesList(EntityType::PLATFORM, platformTile.getPosX(), platformTile.getPosY(), false, platformTile.getIsCollidable());
+
+		//bloc
+		for (auto blockTile : blockTiles)
+			fillStaticEntitiesList(EntityType::BLOCK, blockTile.getPosX(), blockTile.getPosY(), false, blockTile.getIsCollidable());
+
+		//bottom
+		for (auto bottomTile : bottomTiles)
+			fillStaticEntitiesList(EntityType::GROUND, bottomTile.getPosX(), bottomTile.getPosY(), false, bottomTile.getIsCollidable());
+
+		//exit
+		for (auto exitTile : exitTiles)
+			fillStaticEntitiesList(EntityType::EXIT, exitTile.getPosX(), exitTile.getPosY(), false, exitTile.getIsCollidable());
+
+		//set if static entities are heat zones
+		for (auto heatZoneTile : heatZonesTiles)
 		{
-			//All the data contained in the map - static
-			std::list<Tile> blockTiles = map->getTilesFromSprite("0");
-			std::list<Tile> bottomTiles = map->getTilesFromSprite("1");
-			std::list<Tile> platformTiles = map->getTilesFromSprite("4");
-			std::list<Tile> exitTiles = map->getTilesFromSprite("6");
-			std::list<Tile> heatZonesTiles = map->getHeatZonesTileList();
-
-			//platforms
-			for (auto platformTile : platformTiles)
-				fillStaticEntitiesList(EntityType::PLATFORM, platformTile.getPosX(), platformTile.getPosY(), false, platformTile.getIsCollidable());
-
-			//bloc
-			for (auto blockTile : blockTiles)
-				fillStaticEntitiesList(EntityType::BLOCK, blockTile.getPosX(), blockTile.getPosY(), false, blockTile.getIsCollidable());
-
-			//bottom
-			for (auto bottomTile : bottomTiles)
-				fillStaticEntitiesList(EntityType::GROUND, bottomTile.getPosX(), bottomTile.getPosY(), false, bottomTile.getIsCollidable());
-
-			//exit
-			for (auto exitTile : exitTiles)
-				fillStaticEntitiesList(EntityType::EXIT, exitTile.getPosX(), exitTile.getPosY(), false, exitTile.getIsCollidable());
-
-			//set if static entities are heat zones
-			for (auto heatZoneTile : heatZonesTiles)
-			{
-				bool _wasInList = false;
-				for (auto staticEntity : _staticEntities)
-					if (staticEntity->getSprite()->getX() == heatZoneTile.getPosX() && staticEntity->getSprite()->getY() == heatZoneTile.getPosY())
-					{
-						_wasInList = true;
-						staticEntity->setIsHeatZone(true);
-					}
-				if (_wasInList == false)
-					fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, true);
-			}
+			bool _wasInList = false;
+			for (auto staticEntity : _staticEntities)
+				if (staticEntity->getSprite()->getX() == heatZoneTile.getPosX() && staticEntity->getSprite()->getY() == heatZoneTile.getPosY())
+				{
+					_wasInList = true;
+					staticEntity->setIsHeatZone(true);
+				}
+			if (_wasInList == false)
+				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, true);
 		}
+
 		//Enemies specs
 		float enemiesHeight = 40;
 		float enemiesWidth = 40;
@@ -160,12 +196,12 @@ namespace Moo
 
 	bool	LevelScene::init(std::shared_ptr<Window> window, std::map<std::string, Texture> textures)
 	{
-		std::cout << "Starting init" << std::endl;
-		this->clean();
+		std::cout << "---------- Starting init ----------" << std::endl << std::endl;
 		_window = window;
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
 		//We get the map
-		if (_map == nullptr) {
+		if (_map == nullptr)
+		{
 			JsonParser fileParser = JsonParser(_pathMapFile);
 
 			fileParser.parseFile(FileType::MAP);
@@ -185,8 +221,8 @@ namespace Moo
 
 		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
 
-		Moo::d3d::getInstance().getCamera()->setInfoMap(_map);
-		_camera.update(_player->getHitbox());
+		_camera.setInfoMap(_map);
+		_camera.resetToPlayer(_player->getHitbox());
 		_lose = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
 		_lose->loadTexture(&_textures.get()->at("Lose"));
 
@@ -214,8 +250,11 @@ namespace Moo
 		_startTime = std::chrono::system_clock::now();
 		_canTemporarilyJump = _startTime;
 		_lastJump = _startTime;
+		_triedJump = false;
+		_exitReached = false;
+		_playerDead = false;
 
-		std::cout << "Init successful" << std::endl;
+		std::cout << std::endl << "---------- Init successful ----------" << std::endl;
 
 		return (true);
 	}
@@ -243,8 +282,8 @@ namespace Moo
 		if (Moo::Keyboard::isDown(Moo::Keyboard::R))
 			Moo::Game::getInstance().cleanCurrentScene();
 
-		//if (Moo::Keyboard::isDown(Moo::Keyboard::D))
-		//	std::cout << Moo::Fps::getInstance().getFrameTime() / 1.0f << std::endl;
+		if (Moo::Keyboard::isDown(Moo::Keyboard::D))
+			std::cout << "fps:" << 1.0f / Moo::Fps::getInstance().getFrameTime() << std::endl;
 
 		//Cheats
 		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))
@@ -330,6 +369,19 @@ namespace Moo
 		}
 	}
 
+	bool	LevelScene::isVisible(Entity baseEntity, Entity checkedEntity, float range)
+	{
+		if (checkedEntity.getHitbox().x1 < (baseEntity.getHitbox().x1 - range))
+			return false;
+		if (checkedEntity.getHitbox().x2 > (baseEntity.getHitbox().x2 + range))
+			return false;
+		if (checkedEntity.getHitbox().y1 > (baseEntity.getHitbox().y1 + range))
+			return false;
+		if (checkedEntity.getHitbox().y2 < (baseEntity.getHitbox().y2 - range))
+			return false;
+		return true;
+	}
+
 	void	LevelScene::displayHitboxesAndSprites()
 	{
 		_window->clear();
@@ -342,18 +394,24 @@ namespace Moo
 		//Draw static entities and their hitboxes
 		for (auto entity : _staticEntities)
 		{
-			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)// && entity->isCollidable() == true)
-				_window->draw(entity->getSprite());
+			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)// && entity->isCollidable() == true
+				if (isVisible(*_player, *entity.get(), 800))
+					_window->draw(entity->getSprite());
 			//_window->draw(entity->getHitboxSprite());
 		}
 
 		//Draw dynamic entities and their hitboxes
 		for (auto entity : _dynamicEntities)
 		{
-			_window->draw(entity->getSprite());
-			//_window->draw(entity->getHitboxSprite());
-			if (entity->getEntityType() == EntityType::ENEMY)
-				entity->getSprite()->rotate(1);
+			if (entity->getIsActivated() == true)
+			{
+				if (isVisible(*_player, *entity.get(), 800)) {
+					_window->draw(entity->getSprite());
+					//_window->draw(entity->getHitboxSprite());
+					if (entity->getEntityType() == EntityType::ENEMY)
+						entity->getSprite()->rotate(1);
+				}
+			}
 		}
 	}
 
@@ -371,8 +429,6 @@ namespace Moo
 		_window->display();
 		Sleep(3000);
 		chan->stop();
-		_camera.reset();
-		Moo::d3d::getInstance().getCamera()->reset();
 		Game::getInstance().goToNextScene();
 	}
 
@@ -390,8 +446,6 @@ namespace Moo
 		_window->display();
 		Sleep(3000);
 		chan->stop();
-		_camera.reset();
-		Moo::d3d::getInstance().getCamera()->reset();
 		Game::getInstance().cleanCurrentScene();
 	}
 
@@ -399,151 +453,156 @@ namespace Moo
 	{
 		//Init collison & gravity loop values
 		HitZone hitZone;
-		bool deletedDynEnt, isInHeatZone;
+		bool isInHeatZone;
 		Vector2f decal(0, 0);
 
-		for (auto dynEntIt = _dynamicEntities.begin(); dynEntIt != _dynamicEntities.end();)
+		//Deleting desactivated bullets
+		clearEntityType(EntityType::BULLET, true);
+		
+		for (auto dynamicEntity : _dynamicEntities)
 		{
-			decal = Vector2f(0, 0);
-
-			if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1.f)
-				_player->checkEvaporation();
-
-			(*dynEntIt)->setGravity(true);
-
-			if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
+			if (dynamicEntity->getIsActivated() == true
+				&& (dynamicEntity->getEntityType() == EntityType::BULLET
+					|| isVisible(*_player, *dynamicEntity.get(), 800)))
 			{
-				if ((*dynEntIt)->getDirection() == Direction::RIGHT)
-					(*dynEntIt)->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, (*dynEntIt)->getVelocity().y));
-				else
-					(*dynEntIt)->setVelocity(Vector2f(-STANDARD_VELOCITY_X * 2, (*dynEntIt)->getVelocity().y));
-			}
+				decal = Vector2f(0, 0);
 
-			if ((*dynEntIt)->getGravity() == true)
-			{
-				(std::static_pointer_cast<Moo::Character>((*dynEntIt)))->update();
-				(*dynEntIt)->resetHitbox();
-			}
+				if (dynamicEntity->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1.f)
+					_player->checkEvaporation();
 
-			deletedDynEnt = false;
-			isInHeatZone = false;
+				dynamicEntity->setGravity(true);
 
-			for (auto statEntIt = _staticEntities.begin(); statEntIt != _staticEntities.end(); ++statEntIt)
-			{
-				if ((*statEntIt)->isCollidable() == true
-				 && (hitZone = (*dynEntIt)->collisionAABB((*statEntIt).get())) != HitZone::NONE)
+				if (dynamicEntity->getEntityType() == EntityType::BULLET)
 				{
-					//If player collides with an Exit
-					if ((*dynEntIt)->getEntityType() == EntityType::PLAYER && (*statEntIt)->getEntityType() == EntityType::EXIT)
-					{
-						_exitReached = true;
-						break;
-					}
-					//If player is in a heatzone
-					else if ((*statEntIt)->getEntityType() == EntityType::BLANK_HEAT_ZONE)
-					{
-						isInHeatZone = true;
-					}
-					//If we collide with a wall/platform/bottom
-					else if ((*dynEntIt)->getEntityType() == EntityType::PLAYER || ((*dynEntIt)->getEntityType() == EntityType::ENEMY))
-					{
-						if (hitZone == HitZone::RIGHT_SIDE)
-							decal.x = (*statEntIt)->getHitbox().x1 - (*dynEntIt)->getHitbox().x2;
-						else if (hitZone == HitZone::LEFT_SIDE)
-							decal.x = (*statEntIt)->getHitbox().x2 - (*dynEntIt)->getHitbox().x1;
-						else if (hitZone == HitZone::TOP)
-						{
-							decal.y = (*statEntIt)->getHitbox().y2 - (*dynEntIt)->getHitbox().y1;
-							(*dynEntIt)->setVelocity(Vector2f((*dynEntIt)->getVelocity().x, -1));
-						}
-						else if (hitZone == HitZone::BOTTOM)
-						{
-							decal.y = (*statEntIt)->getHitbox().y1 - (*dynEntIt)->getHitbox().y2;
-							(*dynEntIt)->resetPos();
-							(*dynEntIt)->setGravity(false);
-						}
-					}
-					else if ((*dynEntIt)->getEntityType() == EntityType::BULLET)
-					{
-						std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType())
-							<< " after its collision with " << getEntityTypeName((*statEntIt)->getEntityType()) << std::endl;
-						dynEntIt = _dynamicEntities.erase(dynEntIt);
-						deletedDynEnt = true;
-						break;
-					}
-					if (isInHeatZone == false && (*statEntIt)->getIsHeatZone() == true)
-						isInHeatZone = true;
+					if (dynamicEntity->getDirection() == Direction::RIGHT)
+						dynamicEntity->setVelocity(Vector2f(STANDARD_VELOCITY_X * 2, dynamicEntity->getVelocity().y));
+					else
+						dynamicEntity->setVelocity(Vector2f(-STANDARD_VELOCITY_X * 2, dynamicEntity->getVelocity().y));
 				}
-			}
 
-			if (deletedDynEnt == false && _exitReached == false)
-			{
-				if (decal.y != 0)
-					(*dynEntIt)->getSprite()->setY((*dynEntIt)->getSprite()->getY() + decal.y);
-				if (decal.x != 0)
+				if (dynamicEntity->getGravity() == true)
 				{
-					if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
-						_canTemporarilyJump = std::chrono::system_clock::now();
-					(*dynEntIt)->getSprite()->setX((*dynEntIt)->getSprite()->getX() + decal.x);
+					(std::static_pointer_cast<Moo::Character>(dynamicEntity))->update();
+					dynamicEntity->resetHitbox();
 				}
-				(*dynEntIt)->resetHitbox();
-				if (isInHeatZone == true && std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() != true)
+
+				isInHeatZone = false;
+
+				for (auto staticEntity : _staticEntities)
 				{
-					if ((*dynEntIt)->getHealth() < 0.5f || ((*dynEntIt)->getEntityType() == EntityType::BULLET && (*dynEntIt)->getHealth() < 0.975f))
+					if (isVisible(*dynamicEntity.get(), *staticEntity.get(), 100) && staticEntity->isCollidable() == true
+						&& (hitZone = dynamicEntity->collisionAABB(staticEntity.get())) != HitZone::NONE)
 					{
-						std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType()) << " because of heat zone evaporation" << std::endl;
-						if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
-							_playerDead = true;
-						else
+						//If player collides with an Exit
+						if (dynamicEntity->getEntityType() == EntityType::PLAYER && staticEntity->getEntityType() == EntityType::EXIT)
 						{
-							dynEntIt = _dynamicEntities.erase(dynEntIt);
-							deletedDynEnt = true;
-						}
-						break;
-					}
-					(*dynEntIt)->evaporateHeatZone();
-				}
-				for (auto SecondDynEntIt = _dynamicEntities.begin(); SecondDynEntIt != _dynamicEntities.end(); ++SecondDynEntIt)
-				{
-					if (!((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() == EntityType::BULLET)
-						&& (*SecondDynEntIt).get() != (*dynEntIt).get()
-						&& ((hitZone = (*dynEntIt)->collisionAABB((*SecondDynEntIt).get())) != HitZone::NONE))
-					{
-						//If we collide with an enemy : Absorb him
-						//std::cout << "Collision between " << getEntityTypeName((*dynEntIt)->getEntityType()) << " and " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
-						if ((((*dynEntIt)->getEntityType() != EntityType::BULLET
-							&& (*dynEntIt)->getHealth() <= (*SecondDynEntIt)->getHealth()
-							&& std::static_pointer_cast<Moo::Character>(*dynEntIt)->isGodMode() != true)
-							|| std::static_pointer_cast<Moo::Character>(*SecondDynEntIt)->isGodMode() == true)
-							|| ((*dynEntIt)->getEntityType() == EntityType::BULLET && (*SecondDynEntIt)->getEntityType() != EntityType::PLAYER))
-						{
-							if ((*dynEntIt)->getEntityType() != EntityType::BULLET && (*SecondDynEntIt)->getEntityType() == EntityType::PLAYER)
-								_soundSystem->playSound("powerup", false);
-
-							(*SecondDynEntIt)->changeHealth((*dynEntIt)->getHealth() * 33 / 100);
-
-							if ((*dynEntIt)->getEntityType() != (*SecondDynEntIt)->getEntityType())
-							{
-								std::cout << "Deleting " << getEntityTypeName((*dynEntIt)->getEntityType())
-									<< " after its collision with " << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << std::endl;
-								std::cout << getEntityTypeName((*SecondDynEntIt)->getEntityType()) << " health is now: " << (*SecondDynEntIt)->getHealth() << std::endl;
-							}
-
-							if ((*dynEntIt)->getEntityType() == EntityType::PLAYER)
-								_playerDead = true;
-							else
-							{
-								dynEntIt = _dynamicEntities.erase(dynEntIt);
-								deletedDynEnt = true;
-							}
+							_exitReached = true;
 							break;
 						}
+						//If player is in a heatzone
+						else if (staticEntity->getEntityType() == EntityType::BLANK_HEAT_ZONE)
+							isInHeatZone = true;
+						//If we collide with a wall/platform/bottom
+						else if (dynamicEntity->getEntityType() == EntityType::PLAYER || (dynamicEntity->getEntityType() == EntityType::ENEMY))
+						{
+							if (hitZone == HitZone::RIGHT_SIDE)
+								decal.x = staticEntity->getHitbox().x1 - dynamicEntity->getHitbox().x2;
+							else if (hitZone == HitZone::LEFT_SIDE)
+								decal.x = staticEntity->getHitbox().x2 - dynamicEntity->getHitbox().x1;
+							else if (hitZone == HitZone::TOP)
+							{
+								decal.y = staticEntity->getHitbox().y2 - dynamicEntity->getHitbox().y1;
+								dynamicEntity->setVelocity(Vector2f(dynamicEntity->getVelocity().x, -1));
+							}
+							else if (hitZone == HitZone::BOTTOM)
+							{
+								decal.y = staticEntity->getHitbox().y1 - dynamicEntity->getHitbox().y2;
+								dynamicEntity->resetPos();
+								dynamicEntity->setGravity(false);
+							}
+						}
+						else if (dynamicEntity->getEntityType() == EntityType::BULLET)
+						{
+							std::cout << "Deleting " << getEntityTypeName(dynamicEntity->getEntityType())
+								<< " after its collision with " << getEntityTypeName(staticEntity->getEntityType()) << std::endl;
+							dynamicEntity->setIsActivated(false);
+							break;
+						}
+						if (isInHeatZone == false && staticEntity->getIsHeatZone() == true)
+							isInHeatZone = true;
+					}
+				}
+
+				if (dynamicEntity->getIsActivated() == false || _exitReached == true)
+					break;
+				
+				if (decal.y != 0)
+					dynamicEntity->getSprite()->setY(dynamicEntity->getSprite()->getY() + decal.y);
+				if (decal.x != 0)
+				{
+					if (dynamicEntity->getEntityType() == EntityType::PLAYER)
+						_canTemporarilyJump = std::chrono::system_clock::now();
+					dynamicEntity->getSprite()->setX(dynamicEntity->getSprite()->getX() + decal.x);
+				}
+
+				dynamicEntity->resetHitbox();
+
+				if (isInHeatZone == true
+					&& (dynamicEntity->getEntityType() == EntityType::BULLET
+						|| std::static_pointer_cast<Moo::Character>(dynamicEntity)->isGodMode() != true))
+				{
+					if (dynamicEntity->getHealth() < 0.5f || (dynamicEntity->getEntityType() == EntityType::BULLET && dynamicEntity->getHealth() < 0.975f))
+					{
+						std::cout << "Deleting " << getEntityTypeName(dynamicEntity->getEntityType()) << " because of heat zone evaporation" << std::endl;
+						if (dynamicEntity->getEntityType() == EntityType::PLAYER)
+							_playerDead = true;
+						else
+							dynamicEntity->setIsActivated(false);
+						break;
+					}
+					dynamicEntity->evaporateHeatZone();
+				}
+
+				for (auto secondDynamicEntity : _dynamicEntities)
+				{
+					if (secondDynamicEntity->getIsActivated() == true
+						&& isVisible(*dynamicEntity.get(), *secondDynamicEntity.get(), 200))
+					{
+						if (!(dynamicEntity->getEntityType() == EntityType::BULLET && secondDynamicEntity->getEntityType() == EntityType::BULLET)
+							&& secondDynamicEntity.get() != dynamicEntity.get()
+							&& ((hitZone = dynamicEntity->collisionAABB(secondDynamicEntity.get())) != HitZone::NONE))
+						{
+							//If we collide with an enemy : Absorb him
+							//std::cout << "Collision between " << getEntityTypeName(dynamicEntity->getEntityType()) << " and " << getEntityTypeName(secondDynamicEntity->getEntityType()) << std::endl;
+							if ((dynamicEntity->getEntityType() != EntityType::BULLET
+								&& ((dynamicEntity->getHealth() <= secondDynamicEntity->getHealth()
+								&& std::static_pointer_cast<Moo::Character>(dynamicEntity)->isGodMode() != true)
+								|| (secondDynamicEntity->getEntityType() == EntityType::PLAYER && std::static_pointer_cast<Moo::Character>(secondDynamicEntity)->isGodMode() == true)))
+								|| (dynamicEntity->getEntityType() == EntityType::BULLET && secondDynamicEntity->getEntityType() != EntityType::PLAYER))
+							{
+								if (dynamicEntity->getEntityType() != EntityType::BULLET && secondDynamicEntity->getEntityType() == EntityType::PLAYER)
+									_soundSystem->playSound("powerup", false);
+
+								secondDynamicEntity->changeHealth(dynamicEntity->getHealth() * 33 / 100);
+
+								if (dynamicEntity->getEntityType() != secondDynamicEntity->getEntityType())
+								{
+									std::cout << "Deleting " << getEntityTypeName(dynamicEntity->getEntityType())
+										<< " after its collision with " << getEntityTypeName(secondDynamicEntity->getEntityType()) << std::endl;
+									std::cout << getEntityTypeName(secondDynamicEntity->getEntityType()) << " health is now: " << secondDynamicEntity->getHealth() << std::endl;
+								}
+
+								if (dynamicEntity->getEntityType() == EntityType::PLAYER)
+									_playerDead = true;
+								else
+									dynamicEntity->setIsActivated(false);
+								break;
+							}
+						}
 					}
 				}
 			}
-			if (deletedDynEnt == false)
-				++dynEntIt;
-			else if (_playerDead == true || _exitReached == true)
+			if (_playerDead == true)
 				break;
 		}
 		if (_playerDead == true)

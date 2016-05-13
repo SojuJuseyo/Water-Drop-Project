@@ -22,6 +22,7 @@ namespace Moo
 
 		std::string	getEntityTypeName(EntityType);
 		bool	runUpdate();
+		void	clearEntityType(EntityType, bool);
 		void	clean();
 		void	getEntitiesFromMap(std::shared_ptr<MapInfos> map);
 		void	fillStaticEntitiesList(EntityType, float, float, bool, bool);
@@ -29,6 +30,7 @@ namespace Moo
 		Camera	getCamera();
 		bool	init(std::shared_ptr<Window> window, std::map<std::string, Texture>);
 		void	inputHandling();
+		bool	isVisible(Entity, Entity, float);
 		void	displayHitboxesAndSprites();
 		void	applyGravityAndCollisions();
 		void	exitReached();

@@ -10,6 +10,7 @@ namespace Moo
 		Transformable();
 		virtual ~Transformable();
 
+		virtual void transform() = 0;
 		void setPosition(float x, float y);
 		void setPosition(const Vector2f& position);
 		void setRotation(float angle);
@@ -31,7 +32,7 @@ namespace Moo
 		float getX() const;
 		float getY() const;
 
-	private:
+	protected:
 		Vector2f _position;
 		Vector2f _scale;
 		Vector2f _origin;

@@ -17,8 +17,8 @@ namespace Moo
 
 		//background
 		_sprites["Background"] = std::make_shared<Moo::Sprite>(1280.f, 1080.f, 0.f, 0.f);
-		_sprites["Background"]->setScale(Vector2f(0.65f, 0.56f));
 		_sprites["Background"]->loadTexture(&_textures.get()->at("Background_Menu"));
+		_sprites["Background"]->setScale(Vector2f(0.65f, 0.56f));
 
 		//Buttons attributes
 		float spaceBetweenButtons = 10;

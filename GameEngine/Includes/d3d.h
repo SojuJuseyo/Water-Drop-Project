@@ -56,37 +56,40 @@ namespace Moo
 		void d3d::init(HWND hWnd, Vector2f screenSize)
 		{
 			D3D_FEATURE_LEVEL levels[] = {
-				D3D_FEATURE_LEVEL_10_0,
-				D3D_FEATURE_LEVEL_10_1,
+				D3D_FEATURE_LEVEL_11_1,
 				D3D_FEATURE_LEVEL_11_0,
-				D3D_FEATURE_LEVEL_11_1
+				D3D_FEATURE_LEVEL_10_1,
+				D3D_FEATURE_LEVEL_10_0
 			};
 
 			UINT deviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
-			//deviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-
-			DXGI_SWAP_CHAIN_DESC desc;
-
-			ZeroMemory(&desc, sizeof(DXGI_SWAP_CHAIN_DESC));
+			deviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 			_screenSize = screenSize;
 
-			desc.BufferCount = 1;
-			desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-			desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-			desc.OutputWindow = hWnd;
-			desc.SampleDesc.Count = 4;
-			desc.Windowed = TRUE;
-			desc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+			DXGI_SWAP_CHAIN_DESC sd;
+			ZeroMemory(&sd, sizeof(sd));
+			sd.BufferCount = 1;
+			sd.BufferDesc.Width = (UINT)_screenSize.x;
+			sd.BufferDesc.Height = (UINT)_screenSize.y;
+			sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			sd.BufferDesc.RefreshRate.Numerator = 0;
+			sd.BufferDesc.RefreshRate.Denominator = 1;
+			sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+			sd.OutputWindow = hWnd;
+			sd.SampleDesc.Count = 1;
+			sd.SampleDesc.Quality = 0;
+			sd.Windowed = TRUE;
+			sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 			HRESULT hresult = D3D11CreateDeviceAndSwapChain(
 				nullptr,
-				D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
+				D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_WARP,
 				nullptr,
 				deviceFlags,
 				levels,
 				ARRAYSIZE(levels),
 				D3D11_SDK_VERSION,
-				&desc,
+				&sd,
 				_swapchain.GetAddressOf(),
 				_dev.GetAddressOf(),
 				&_featureLevel,
@@ -167,7 +170,7 @@ namespace Moo
 
 		void d3d::display()
 		{
-			_swapchain->Present(0, 0);
+			_swapchain->Present(1, 0);
 		}
 
 		void d3d::setFullScreenState(bool state)

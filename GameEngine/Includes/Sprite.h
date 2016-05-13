@@ -35,6 +35,7 @@ namespace Moo
 
 		void loadTexture(Texture *);
 		void setResourceData();
+		void transform();
 		void setRectFromSpriteSheet(Vector2f pos, Vector2f size);
 		void draw();
 		float getWidth();
@@ -49,10 +50,11 @@ namespace Moo
 		ComPtr<ID3D11Device> _dev;
 		ComPtr<ID3D11DeviceContext> _devcon;
 		ComPtr<ID3D11Buffer> _vertexBuffer;
+		ComPtr<ID3D11Buffer> _constantBuffer;
 		XMMATRIX _vpMatrix;
+		VERTEX *_rect;
 
 		D3D11_SUBRESOURCE_DATA _resourceData;
-		VERTEX *_rect;
 
 		Timer *_timer;
 		bool _isAnimated;

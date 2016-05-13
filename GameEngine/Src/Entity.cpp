@@ -5,6 +5,7 @@ namespace Moo
 {
 	Entity::Entity()
 	{
+		_isActivated = true;
 	}
 
 	void Entity::setCollision(bool collision)
@@ -73,5 +74,15 @@ namespace Moo
 
 		//We didn't find any collision
 		return (HitZone::NONE);
+	}
+
+	bool				Entity::getIsActivated() const
+	{
+		return _isActivated;
+	}
+
+	void				Entity::setIsActivated(bool isActivated)
+	{
+		this->_isActivated = isActivated;
 	}
 }

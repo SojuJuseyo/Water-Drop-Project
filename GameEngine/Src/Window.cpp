@@ -108,7 +108,6 @@ namespace Moo
 	{
 		float color[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
 		d3d::getInstance().clearWindow(color);
-		_devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
 	void	Window::draw(Drawable *drawable)

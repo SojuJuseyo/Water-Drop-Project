@@ -20,10 +20,41 @@ namespace Moo
 		this->setMass(mass);
 		this->setGravity(hasGravity);
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
+
+		//Save variables
+		_oldVelocity = this->_velocity;
+		_oldMass = this->_mass;
+		_oldHealth = this->_health;
+		_oldAcceleration = this->_acceleration;
+		_oldHasGravity = this->_hasGravity;
+		_oldDirection = this->_direction;
+		_oldHitbox = this->_hitbox;
+		_oldSpritePosition = this->_sprite->getPosition();
+		_oldSpriteScale = this->_sprite->getScale();
+		_oldHitboxSpritePosition = this->_hitboxSprite->getPosition();
+		_oldHitboxSpriteScale = this->_hitboxSprite->getScale();
 	}
 
 	Character::~Character()
 	{
+	}
+
+	void		Character::reset()
+	{
+		this->_velocity = _oldVelocity;
+		this->_mass = _oldMass;
+		this->_health = _oldHealth;
+		this->_acceleration = _oldAcceleration;
+		this->_hasGravity = _oldHasGravity;
+		this->_direction = _oldDirection;
+		this->_hitbox = _oldHitbox;
+		this->_sprite->setPosition(_oldSpritePosition);
+		this->_sprite->setScale(_oldSpriteScale);
+		this->_hitboxSprite->setPosition(_oldHitboxSpritePosition);
+		this->_hitboxSprite->setScale(_oldHitboxSpriteScale);
+		this->_isActivated = true;
+		this->_godMode = false;
+		this->resetHitbox();
 	}
 
 	HitZone		Character::collisionAABB(Entity *entity)
@@ -40,8 +71,8 @@ namespace Moo
 			else
 				this->setVelocity(Vector2f(STANDARD_VELOCITY_X, this->getVelocity().y));
 		}
-		else
-			std::cout << "Wait your velocity X is: " << this->getVelocity().x << std::endl;
+		/*else
+			std::cout << "Wait your velocity X is: " << this->getVelocity().x << std::endl;*/
 	}
 
 	bool	Character::jump(bool forced)

@@ -39,7 +39,6 @@ namespace Moo
 		ComPtr<ID3D11PixelShader> solidColorPS;
 
 		ComPtr<ID3D11InputLayout> inputLayout;
-		ComPtr<ID3D11Buffer> mvpCB;
 		ComPtr<ID3D11SamplerState> colorMapSampler;
 		ComPtr<ID3D11BlendState> alphaBlendState;
 		ComPtr<ID3D11ShaderResourceView> colorMap;

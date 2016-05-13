@@ -14,8 +14,10 @@ namespace Moo
 		~Camera();
 		Vector2f getPosition() const;
 		void setPosition(const Vector2f &);
+		std::shared_ptr<MapInfos> getInfoMap();
 		void setInfoMap(std::shared_ptr<MapInfos>);
 		void reset();
+		void resetToPlayer(Hitbox);
 		void update(Hitbox);
 		void move(const Vector2f &);
 	private:
