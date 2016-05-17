@@ -189,4 +189,31 @@ namespace Moo
 			}
 		}
 	}
+
+	void readMapFiles()
+	{
+		WIN32_FIND_DATA search_data;
+
+		memset(&search_data, 0, sizeof(WIN32_FIND_DATA));
+
+		HANDLE handle = FindFirstFile("c:\\*", &search_data);
+
+		while (handle != INVALID_HANDLE_VALUE)
+		{
+			std::cout << "\n" << search_data.cFileName;
+
+			if (FindNextFile(handle, &search_data) == FALSE)
+				break;
+		}
+
+		//Close the handle after use or memory/resource leak
+		FindClose(handle);
+	}
+
+	string ExePath() {
+		char buffer[MAX_PATH];
+		GetModuleFileName(NULL, buffer, MAX_PATH);
+		string::size_type pos = string(buffer).find_last_of("\\/");
+		return string(buffer).substr(0, pos);
+	}
 }
