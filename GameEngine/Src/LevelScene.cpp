@@ -222,8 +222,9 @@ namespace Moo
 		std::cout << "---------- Starting init ----------" << std::endl << std::endl;
 		_window = window;
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
-		_font.loadFromFile("Font.dds");
-		_fps = Text(std::to_string((int)(_window->getFps())), 10.f, 50.f, 50.f, _font);
+		//_font = std::make_shared<Font>();
+		//_font->loadFromFile("Font.dds");
+		//_fps = std::make_shared<Text>(std::to_string((int)(_window->getFps())), 10.f, 50.f, 50.f, _font);
 		//We get the map
 		if (_map == nullptr)
 		{
@@ -439,7 +440,7 @@ namespace Moo
 				}
 			}
 		}
-		_fps.draw(*_window.get());
+		//_fps->draw(*_window.get());
 	}
 
 	void	LevelScene::exitReached()
@@ -738,9 +739,9 @@ namespace Moo
 		if (themeChan != nullptr)
 		themeChan->setPaused(false);
 		*/
-		_fps.setText(std::to_string((int)(_window->getFps())));
+		//_fps->setText(std::to_string((int)(_window->getFps())));
 
-		//Getting the inputs of the player
+		//Gtting the inputs of the player
 		std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
 		if (elapsed_time_start.count() > 0.75)
 			inputHandling();

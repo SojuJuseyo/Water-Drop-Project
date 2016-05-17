@@ -198,7 +198,6 @@
     <ClInclude Include="Includes\WinScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Videos\Font.cpp" />
     <ClCompile Include="Src\Bullet.cpp" />
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="Src\Character.cpp" />
@@ -207,6 +206,7 @@
     <ClCompile Include="Src\Drawable.cpp" />
     <ClCompile Include="Src\DynamicEntity.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
+    <ClCompile Include="Src\Font.cpp" />
     <ClCompile Include="Src\Fps.cpp" />
     <ClCompile Include="Src\Game.cpp" />
     <ClCompile Include="Src\jsoncpp.cpp" />
