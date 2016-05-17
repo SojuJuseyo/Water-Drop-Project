@@ -222,6 +222,8 @@ namespace Moo
 		std::cout << "---------- Starting init ----------" << std::endl << std::endl;
 		_window = window;
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
+		_font.loadFromFile("Font.dds");
+		_fps = Text(std::to_string((int)(_window->getFps())), 10.f, 50.f, 50.f, _font);
 		//We get the map
 		if (_map == nullptr)
 		{
@@ -437,6 +439,7 @@ namespace Moo
 				}
 			}
 		}
+		_fps.draw(*_window.get());
 	}
 
 	void	LevelScene::exitReached()
@@ -448,28 +451,24 @@ namespace Moo
 			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
-		FMOD::Channel *chan = _soundSystem->playSound("victory", false);
 		_window->draw(_win.get());
 		_window->display();
-		Sleep(3000);
-		chan->stop();
+		_soundSystem->playSoundTilEnd("victory");
 		Game::getInstance().goToNextScene();
 	}
 
 	void	LevelScene::playerDead()
 	{
 		_lose->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
-			(Moo::d3d::getInstance().getScreenSize().x / 2 - 250)),
+			(Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
 			((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
 				(Moo::d3d::getInstance().getScreenSize().y / 2))
 			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
-		FMOD::Channel *chan = _soundSystem->playSound("defeat", false);
 		_window->draw(_lose.get());
 		_window->display();
-		Sleep(3000);
-		chan->stop();
+		_soundSystem->playSoundTilEnd("defeat");
 		Game::getInstance().cleanCurrentScene();
 	}
 
@@ -719,8 +718,7 @@ namespace Moo
 
 								if (dynamicEntity->getEntityType() == EntityType::PLAYER)
 									_playerDead = true;
-								else
-									dynamicEntity->setIsActivated(false);
+								dynamicEntity->setIsActivated(false);
 								break;
 							}
 						}
@@ -730,8 +728,6 @@ namespace Moo
 			if (_playerDead == true)
 				break;
 		}
-		if (_playerDead == true)
-			this->playerDead();
 		if (_exitReached == true)
 			this->exitReached();
 	}
@@ -742,6 +738,7 @@ namespace Moo
 		if (themeChan != nullptr)
 		themeChan->setPaused(false);
 		*/
+		_fps.setText(std::to_string((int)(_window->getFps())));
 
 		//Getting the inputs of the player
 		std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
@@ -753,7 +750,7 @@ namespace Moo
 
 		//Applying gravity to dynamic entities and checking all collisions
 		applyGravityAndCollisions();
-
+		
 		//Reseting the positon of the camera
 		Moo::d3d::getInstance().getCamera()->update(_player->getHitbox());
 		_camera = *Moo::d3d::getInstance().getCamera();
@@ -768,6 +765,10 @@ namespace Moo
 		if (themeChan != nullptr)
 		themeChan->setPaused(true);
 		*/
+
+		if (_playerDead == true)
+			this->playerDead();
+
 		return true;
 	}
 }
