@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Texture.h"
-#include "Window.h"
 #include "SpriteRect.h"
 #include "Sprite.h"
 #include "Font.h"
@@ -11,16 +10,16 @@ namespace Moo
 	class Text
 	{
 	public:
-		Text() {}
-		Text(const std::string &text, float size, float x, float y, Font);
+		Text(float size, float x, float y, std::shared_ptr<Font>);
 		~Text();
-		void setText(const std::string &text);
-		void draw(Moo::Window& window);
+		void setValue(int value);
+		Moo::Sprite	*getSprite();
+		Moo::Sprite *getSprite2();
 
 	private:
 		std::map<std::string, Moo::Vector2f> _spriteSheet;
-		float	_size, _x, _y;
-		Font _font;
-		std::vector<std::shared_ptr<Moo::Sprite>> _text;
+		float	_size;
+		std::shared_ptr<Font> _font;
+		std::shared_ptr<Moo::Sprite> _sprite, _sprite2;
 	};
 }

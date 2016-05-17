@@ -2,13 +2,16 @@
 
 namespace Moo
 {
-	Text::Text(const std::string &text, float size, float x, float y, Font font)
+	Text::Text(float size, float x, float y, std::shared_ptr<Font> font)
 	{
 		_size = size;
 		_font = font;
-		_x = x;
-		_y = y;
-		setText(text);
+		_sprite = std::make_shared<Sprite>(_size * 20.f, _size * 10.f, x, y);
+		_sprite2 = std::make_shared<Sprite>(_size * 20.f, _size * 10.f, x + (_size * 20.f), y);
+		_sprite->loadTexture(_font->getFont().get());
+		_sprite2->loadTexture(_font->getFont().get());
+		_sprite->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(10.f, 20.f));
+		_sprite2->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(10.f, 20.f));
 	}
 
 	Text::~Text()
@@ -18,20 +21,18 @@ namespace Moo
 
 	void	Text::setText(const std::string &text)
 	{
-		_text.clear();
-		int i = -1;
-		for (auto c : text) {
-			auto sprite = Moo::Sprite(_size * 10.f, _size * 20.f, _x + ((_size * 10.f) * ++i), _y);
-			sprite.loadTexture(_font.getFont().get());
-			sprite.setRectFromSpriteSheet(_font.getLetters().at(c), Moo::Vector2f(10.f, 20.f));
-			_text.push_back(std::make_shared<Moo::Sprite>(sprite));
+		if (value > 0 && value < 99) {
+			_sprite->setRectFromSpriteSheet(_font->getLetters().at((value / 10) + '0'), Moo::Vector2f(10.f, 20.f));
+			_sprite2->setRectFromSpriteSheet(_font->getLetters().at((value % 10) + '0'), Moo::Vector2f(10.f, 20.f));
 		}
 	}
 
-	void	Text::draw(Moo::Window &window)
+	Moo::Sprite	*Text::getSprite()
 	{
-		for (auto letter : _text) {
-			window.draw(letter.get());
-		}
+		return _sprite.get();
+	}
+	Moo::Sprite	*Text::getSprite2()
+	{
+		return _sprite2.get();
 	}
 }
