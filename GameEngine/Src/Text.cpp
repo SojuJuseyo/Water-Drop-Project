@@ -14,21 +14,25 @@ namespace Moo
 
 	Text::~Text()
 	{
-
+		_text.clear();
+		_letters.clear();
 	}
 
 	void	Text::setText(const std::string &text)
 	{
-		for (auto c : _text) {
-			auto letter = std::make_shared<Sprite>(_size * 20.f, _size * 10.f, _x + (_size * 20.f), _y);
-			letter->loadTexture(_font->getFont().get());
-			_letters.push_back(letter);
+		_text.clear();
+		int i = 0;
+		for (auto c : text) {
+			auto sprite = Moo::Sprite(_size * 16.f, _size * 16.f, _x + ((_size * 16.f) * i++), _y);
+			sprite.loadTexture(_font->getFont().get());
+			sprite.setRectFromSpriteSheet(_font->getLetters().at(c), Moo::Vector2f(63.9f, 64.f));
+			_letters.push_back(sprite);
 		}
 	}
 
 	void	Text::draw(Window &window)
 	{
 		for (auto letter : _letters)
-			window.draw(letter.get());
+			window.draw(&letter);
 	}
 }

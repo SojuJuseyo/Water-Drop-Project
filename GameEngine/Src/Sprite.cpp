@@ -32,11 +32,6 @@ namespace Moo
 		_currentFrame = 0;
 	}
 
-	Sprite::Sprite(Sprite & sprite)
-	{
-		*this = sprite;
-	}
-
 	Sprite::~Sprite()
 	{
 	}
