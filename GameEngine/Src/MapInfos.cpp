@@ -30,7 +30,7 @@ void MapInfos::displayMapInfos()
 			TileProperties properties = (*it2).getProperties();
 			std::cout << properties.getText() << std::endl;
 			std::cout << properties.getSize() << std::endl;
-			std::cout << (int)properties.getOrientation() << std::endl;
+			std::cout << (int)properties.getDirection() << std::endl;
 		}
 	}
 }

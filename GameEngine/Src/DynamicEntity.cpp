@@ -4,6 +4,8 @@ namespace Moo
 {
 	DynamicEntity::DynamicEntity()
 	{
+		_sprite.reset();
+		_hitboxSprite.reset();
 	}
 
 	Vector2f DynamicEntity::getVelocity() const

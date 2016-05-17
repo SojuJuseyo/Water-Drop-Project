@@ -155,9 +155,15 @@
     </ClInclude>
     <ClInclude Include="Includes\GameManagmentHeader.h">
       <Filter>Includes</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Includes\TileProperties.h">
-	   <Filter>Includes</Filter>
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\Font.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\Text.h">
+      <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -258,9 +264,15 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\WinScene.cpp">
-		<Filter>Src</Filter>
+      <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\TileProperties.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Videos\Font.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Text.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

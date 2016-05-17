@@ -17,6 +17,8 @@ namespace Moo
 
 	StaticEntity::~StaticEntity()
 	{
+		_sprite.reset();
+		_hitboxSprite.reset();
 	}
 
 	Sprite	*StaticEntity::getSprite() const

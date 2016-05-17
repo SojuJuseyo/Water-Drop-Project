@@ -2,12 +2,7 @@
 
 #include <iostream>
 #include <string>
-
-enum class Orientation
-{
-	RIGHT,
-	LEFT
-};
+#include "Entity.h"
 
 class TileProperties
 {
@@ -18,7 +13,7 @@ private:
 	int			_x2;
 	int			_y2;
 	int			_size;
-	Orientation	_orientation;
+	Direction	_orientation;
 	bool		_isSet;
 
 public:
@@ -39,8 +34,8 @@ public:
 	void	setSize(int);
 	int		getSize() const;
 
-	void	setOrientation(Orientation);
-	Orientation getOrientation() const;
+	void	setDirection(Direction);
+	Direction getDirection() const;
 
 	void	setIsSet(bool);
 	bool	getIsSet() const;
