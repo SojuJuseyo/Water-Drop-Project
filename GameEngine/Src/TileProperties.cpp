@@ -44,6 +44,26 @@ int				TileProperties::getY2() const
 	return (_y2);
 }
 
+void			TileProperties::setSize(int size)
+{
+	_size = size;
+}
+
+int				TileProperties::getSize() const
+{
+	return (_size);
+}
+
+void			TileProperties::setDirection(Direction orientation)
+{
+	_orientation = orientation;
+}
+
+Direction		TileProperties::getDirection() const
+{
+	return (_orientation);
+}
+
 void			TileProperties::setIsSet(bool isSet)
 {
 	this->_isSet = isSet;

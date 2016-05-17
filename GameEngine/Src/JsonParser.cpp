@@ -31,13 +31,13 @@ namespace Moo
 
 		// Check that the field names of this type of file are present
 		if (checkFieldNamesExistence() == false)
-			throw std::string("File corrupted. All the required fields are not present. Please correct the file or recreate it.");
+			throw std::string("[" + _fileContent[MAP_NAME_ATTRIBUTE].asString() + "] File corrupted. All the required fields are not present. Please correct the file or recreate it.");
 	}
 
 	void	JsonParser::defineFileFieldNames()
 	{
 		if (this->_fileType == FileType::MAP)
-			_fieldNames = { MAP_NAME_ATTRIBUTE, MAP_SIZE_ATTRIBUTE, MAP_TILE_LIST_ATTRIBUTE, MAP_AUDIO_ATTRIBUTE, MAP_HEATZONE_LIST_ATTRIBUTE, MAP_OTHER_TILE_LIST };
+			_fieldNames = { MAP_NAME_ATTRIBUTE, MAP_SIZE_ATTRIBUTE, MAP_TILE_LIST_ATTRIBUTE, MAP_AUDIO_ATTRIBUTE, MAP_BACKGROUND_ATTRIBUTE, MAP_HEATZONE_LIST_ATTRIBUTE, MAP_OTHER_TILE_LIST };
 		else if (this->_fileType == FileType::SETTINGS)
 			_fieldNames = { SETTINGS_RESOLUTION, SETTINGS_KEYS_MAPPING, SETTINGS_VOLUME, SETTINGS_FULLSCREEN, SETTINGS_FPS };
 	}
@@ -53,6 +53,7 @@ namespace Moo
 		parseMapSize(_fileContent[MAP_SIZE_ATTRIBUTE].asString(), map);
 
 		map.setMapAudioFile(_fileContent[MAP_AUDIO_ATTRIBUTE].asString());
+		map.setMapBackgroundFile(_fileContent[MAP_BACKGROUND_ATTRIBUTE].asString());
 
 		tileListObject = _fileContent[MAP_TILE_LIST_ATTRIBUTE];
 		// Get a vector of sprites used
@@ -88,6 +89,8 @@ namespace Moo
 					newTileProperties.setText(properties["text"].asString());
 					newTileProperties.setX2(properties["x2"].asInt());
 					newTileProperties.setY2(properties["y2"].asInt());
+					newTileProperties.setSize(properties["size"].asInt());
+					newTileProperties.setDirection((Direction)properties["orientation"].asInt());
 					newTileProperties.setIsSet(true);
 				}
 				else
@@ -121,6 +124,8 @@ namespace Moo
 				newTileProperties.setText(properties["text"].asString());
 				newTileProperties.setX2(properties["x2"].asInt());
 				newTileProperties.setY2(properties["y2"].asInt());
+				newTileProperties.setSize(properties["size"].asInt());
+				newTileProperties.setDirection((Direction)properties["orientation"].asInt());
 				newTileProperties.setIsSet(true);
 			}
 			else
@@ -149,6 +154,8 @@ namespace Moo
 				newTileProperties.setText(properties["text"].asString());
 				newTileProperties.setX2(properties["x2"].asInt());
 				newTileProperties.setY2(properties["y2"].asInt());
+				newTileProperties.setSize(properties["size"].asInt());
+				newTileProperties.setDirection((Direction)properties["orientation"].asInt());
 				newTileProperties.setIsSet(true);
 			}
 			else
@@ -160,7 +167,7 @@ namespace Moo
 		map.setOtherTileList(otherTileList);
 
 		std::cout << "Map successfully loaded." << std::endl;
-
+		//map.displayMapInfos();
 		return (map);
 	}
 

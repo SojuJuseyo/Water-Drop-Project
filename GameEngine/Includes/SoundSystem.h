@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <fmod_errors.h>
+#include <windows.h>
 
 #include "Exceptions.h"
 
@@ -27,6 +28,8 @@ public:
 	void initAllSounds();
 	void releaseAllSounds();
 	FMOD::Channel *playSound(std::string soundName, bool loop);
+	void playSoundTilEnd(std::string soundName);
+
 };
 
 

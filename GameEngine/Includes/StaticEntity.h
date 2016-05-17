@@ -17,6 +17,7 @@ namespace Moo
 
 		bool			getIsHeatZone() const;
 		void			setIsHeatZone(bool);
+		Hitbox			resetHitbox();
 
 	private:
 		std::shared_ptr<Sprite>			_sprite;

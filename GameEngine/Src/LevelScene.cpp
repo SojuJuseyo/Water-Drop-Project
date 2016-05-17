@@ -89,31 +89,53 @@ namespace Moo
 		_spriteSheet["Exit"] = Moo::Vector2f(6, 0);
 	}
 
-	void	LevelScene::fillStaticEntitiesList(EntityType type, float posX, float posY, bool isHeatZone, bool isCollidable)
+	void	LevelScene::fillStaticEntitiesList(EntityType type, Tile tile, bool isHeatZone)
 	{
-		auto sprite = std::make_shared<Moo::Sprite>(40.f, 40.f, posX * 40, posY * 40);
+		float	blockSize = 48;
+		auto sprite = std::make_shared<Moo::Sprite>(blockSize, blockSize, tile.getPosX() * blockSize, tile.getPosY() * blockSize);
 		sprite->loadTexture(&_textures.get()->at("Tileset"));
 
 		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(16, 16));
-		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, isCollidable);
+		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, tile.getIsCollidable());
+		if (tile.getProperties().getIsSet() == true)
+		{
+			staticEntity->setHitboxLastPos(
+				(float)tile.getProperties().getX2() * blockSize,
+				(float)tile.getProperties().getY2() * blockSize + sprite->getHeight(),
+				(float)tile.getProperties().getX2() * blockSize + sprite->getWidth(),
+				(float)tile.getProperties().getY2() * blockSize);
+			staticEntity->setHitboxFirstPos(staticEntity->getHitbox());
+			staticEntity->setIsScripted(true);
+		}
 		_staticEntities.push_back(staticEntity);
 	}
 
-	void	LevelScene::fillDynamicEntitiesList(int mult, EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter, Direction direction)
+	void	LevelScene::fillDynamicEntitiesList(int mult, EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter, Direction direction, TileProperties properties)
 	{
 		auto sprite = std::make_shared<Moo::Sprite>(width, height, posX * mult, posY * mult);
 
 		sprite->loadTexture(&_textures.get()->at(getEntityTypeName(type)));
-		if (type == EntityType::PLAYER) {
+		if (type == EntityType::PLAYER)
 			sprite->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
-		}
 		if (isCharacter == true)
 		{
 			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(0, 0), mass, sprite, true, health, type, direction);
 			if (type == EntityType::PLAYER)
 				_dynamicEntities.insert(_dynamicEntities.begin(), dynamicEntity);
 			else
+			{
+				if (properties.getIsSet() == true)
+				{
+					dynamicEntity->setHitboxLastPos(
+						(float)properties.getX2() * mult,
+						(float)properties.getY2() * mult + sprite->getHeight(),
+						(float)properties.getX2() * mult + sprite->getWidth(),
+						(float)properties.getY2() * mult);
+					dynamicEntity->setHitboxFirstPos(dynamicEntity->getHitbox());
+					dynamicEntity->setIsScripted(true);
+				}
 				_dynamicEntities.push_back(dynamicEntity);
+			}
 		}
 		else
 		{
@@ -137,19 +159,19 @@ namespace Moo
 
 		//platforms
 		for (auto platformTile : platformTiles)
-			fillStaticEntitiesList(EntityType::PLATFORM, platformTile.getPosX(), platformTile.getPosY(), false, platformTile.getIsCollidable());
+			fillStaticEntitiesList(EntityType::PLATFORM, platformTile, false);
 
 		//bloc
 		for (auto blockTile : blockTiles)
-			fillStaticEntitiesList(EntityType::BLOCK, blockTile.getPosX(), blockTile.getPosY(), false, blockTile.getIsCollidable());
+			fillStaticEntitiesList(EntityType::BLOCK, blockTile, false);
 
 		//bottom
 		for (auto bottomTile : bottomTiles)
-			fillStaticEntitiesList(EntityType::GROUND, bottomTile.getPosX(), bottomTile.getPosY(), false, bottomTile.getIsCollidable());
+			fillStaticEntitiesList(EntityType::GROUND, bottomTile, false);
 
 		//exit
 		for (auto exitTile : exitTiles)
-			fillStaticEntitiesList(EntityType::EXIT, exitTile.getPosX(), exitTile.getPosY(), false, exitTile.getIsCollidable());
+			fillStaticEntitiesList(EntityType::EXIT, exitTile, false);
 
 		//set if static entities are heat zones
 		for (auto heatZoneTile : heatZonesTiles)
@@ -162,7 +184,7 @@ namespace Moo
 					staticEntity->setIsHeatZone(true);
 				}
 			if (_wasInList == false)
-				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile.getPosX(), heatZoneTile.getPosY(), true, true);
+				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile, true);
 		}
 
 		//Enemies specs
@@ -171,22 +193,23 @@ namespace Moo
 		float enemiesHealth = 4.f;
 		float enemiesMass = 100;
 
-		//Enemies
-		for (auto enemyTile : enemyTiles)
-			fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), enemiesWidth, enemiesHeight, enemiesMass, enemiesHealth, true, Direction::RIGHT);
-
 		//Player specs
 		float playerHeight = 48.4f;
 		float playerWidth = 48.4f;
 		float playerHealth = 6.f;
 		float playerMass = 300;
 
-		if (playerTiles.size() > 0)
+		//Enemies
+		for (auto enemyTile : enemyTiles)
 		{
-			//Get the first element because there is only one player
-			std::list<Tile>::const_iterator playerIt = playerTiles.begin();
-			fillDynamicEntitiesList(40, EntityType::PLAYER, (*playerIt).getPosX(), (*playerIt).getPosY(), playerWidth, playerHeight, playerMass, 6.f, true, Direction::RIGHT);
+			if (enemyTile.getProperties().getSize() != 0)
+				fillDynamicEntitiesList(48, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), playerWidth, playerHeight, playerMass, playerHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
+			else
+				fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), enemiesWidth, enemiesHeight, enemiesMass, enemiesHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
 		}
+
+		Tile playerTile = playerTiles.front();
+		fillDynamicEntitiesList(48, EntityType::PLAYER, playerTile.getPosX(), playerTile.getPosY(), playerWidth, playerHeight, playerMass, playerHealth, true, playerTile.getProperties().getDirection(), playerTile.getProperties());
 	}
 
 	Camera	LevelScene::getCamera()
@@ -356,10 +379,11 @@ namespace Moo
 				else
 					startPosX = _player->getSprite()->getX();
 
+				TileProperties tmp;
 				fillDynamicEntitiesList(1, EntityType::BULLET,
 					startPosX,
 					_player->getSprite()->getY() + (_player->getSprite()->getHeight() / 2),
-					15.f, 15.f, 100.f, 1.f, false, _player->getDirection());
+					15.f, 15.f, 100.f, 1.f, false, _player->getDirection(), tmp);
 
 				// Check if cheat code is activated.
 				if (_player->isGodMode() == false)
@@ -452,6 +476,104 @@ namespace Moo
 		Game::getInstance().cleanCurrentScene();
 	}
 
+	static ScriptDirection getNewScriptDirection(ScriptDirection direction, Hitbox hitbox, Hitbox firstHitbox, Hitbox lastHitbox)
+	{
+		if (direction == ScriptDirection::STILL)
+		{
+			if (hitbox.x1 > lastHitbox.x1)
+				return (ScriptDirection::GOING_LEFT);
+			if (hitbox.x1 < lastHitbox.x1)
+				return (ScriptDirection::GOING_RIGHT);
+			if (hitbox.y1 > lastHitbox.y1)
+				return (ScriptDirection::GOING_BOTTOM);
+			if (hitbox.y1 < lastHitbox.y1)
+				return (ScriptDirection::GOING_TOP);
+		}
+
+		if (direction == ScriptDirection::GOING_LEFT
+		&& ((lastHitbox.x1 > firstHitbox.x1	&& hitbox.x1 <= firstHitbox.x1)
+		 || (lastHitbox.x1 < firstHitbox.x1 && hitbox.x1 <= lastHitbox.x1)))
+			return (ScriptDirection::GOING_RIGHT);
+
+		if (direction == ScriptDirection::GOING_RIGHT
+		&& ((lastHitbox.x1 > firstHitbox.x1	&& hitbox.x1 >= lastHitbox.x1)
+		 || (lastHitbox.x1 < firstHitbox.x1 && hitbox.x1 >= firstHitbox.x1)))
+			return (ScriptDirection::GOING_LEFT);
+
+		if (direction == ScriptDirection::GOING_BOTTOM
+		&& ((lastHitbox.y1 > firstHitbox.y1	&& hitbox.y1 <= firstHitbox.y1)
+		 || (lastHitbox.y1 < firstHitbox.y1 && hitbox.y1 <= lastHitbox.y1)))
+			return (ScriptDirection::GOING_TOP);
+
+		if (direction == ScriptDirection::GOING_TOP
+		&& ((lastHitbox.y1 > firstHitbox.y1	&& hitbox.y1 >= lastHitbox.y1)
+		 || (lastHitbox.y1 < firstHitbox.y1 && hitbox.y1 >= firstHitbox.y1)))
+			return (ScriptDirection::GOING_BOTTOM);
+
+		return (direction);
+	}
+
+	void	LevelScene::updateScriptsStatic()
+	{
+		for (auto staticEntity : _staticEntities)
+			if (staticEntity->getIsScripted() == true)
+			{
+				ScriptDirection actualDirection = staticEntity->getScriptDirection();
+				ScriptDirection newDirection = getNewScriptDirection(actualDirection,
+																	 staticEntity->getHitbox(),
+																	 staticEntity->getHitboxFirstPos(),
+																	 staticEntity->getHitboxLastPos());
+
+				if (actualDirection != newDirection)
+					staticEntity->setScriptDirection(newDirection);
+
+				if (newDirection == ScriptDirection::GOING_LEFT)
+					staticEntity->getSprite()->move(Vector2f(-1, 0));
+				else if (newDirection == ScriptDirection::GOING_RIGHT)
+					staticEntity->getSprite()->move(Vector2f(1, 0));
+				else if (newDirection == ScriptDirection::GOING_BOTTOM)
+					staticEntity->getSprite()->move(Vector2f(0, -1));
+				else if (newDirection == ScriptDirection::GOING_TOP)
+					staticEntity->getSprite()->move(Vector2f(0, 1));
+				staticEntity->resetHitbox();
+
+				//std::cout << "y1: " << staticEntity->getHitbox().y1 << " && lastposY1:" << staticEntity->getHitboxLastPos().y1 << " && going ";
+				//if (newDirection == ScriptDirection::GOING_LEFT)
+				//	std::cout << "left";
+				//else if (newDirection == ScriptDirection::GOING_RIGHT)
+				//	std::cout << "right";
+				//else if (newDirection == ScriptDirection::GOING_BOTTOM)
+				//	std::cout << "bottom";
+				//else if (newDirection == ScriptDirection::GOING_TOP)
+				//	std::cout << "top";
+				//else
+				//	std::cout << "still";
+				//std::cout << std::endl;
+			}
+	}
+
+	Vector2f	LevelScene::updateScriptDynamic(std::shared_ptr<DynamicEntity> entity, Vector2f decal)
+	{
+		ScriptDirection actualDirection = entity->getScriptDirection();
+		ScriptDirection newDirection = getNewScriptDirection(actualDirection,
+															 entity->getHitbox(),
+															 entity->getHitboxFirstPos(),
+															 entity->getHitboxLastPos());
+
+		if (actualDirection != newDirection)
+			entity->setScriptDirection(newDirection);
+
+		if (newDirection == ScriptDirection::GOING_LEFT)
+			decal.x -= 1;
+		else if (newDirection == ScriptDirection::GOING_RIGHT)
+			decal.x += 1;
+		else if (newDirection == ScriptDirection::GOING_BOTTOM)
+			decal.y -= 1;
+		else if (newDirection == ScriptDirection::GOING_TOP)
+			decal.y += 1;
+		return (decal);
+	}
+
 	void	LevelScene::applyGravityAndCollisions()
 	{
 		//Init collison & gravity loop values
@@ -468,7 +590,10 @@ namespace Moo
 				&& (dynamicEntity->getEntityType() == EntityType::BULLET
 					|| isVisible(*_player, *dynamicEntity.get(), 800)))
 			{
-				decal = Vector2f(0, 0);
+				if (dynamicEntity->getIsScripted() == true)
+					decal = updateScriptDynamic(dynamicEntity, Vector2f(0, 0));
+				else
+					decal = Vector2f(0, 0);
 
 				if (dynamicEntity->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1.f)
 					_player->checkEvaporation();
@@ -626,6 +751,9 @@ namespace Moo
 		std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
 		if (elapsed_time_start.count() > 0.75)
 			inputHandling();
+
+		//Applying scripts
+		updateScriptsStatic();
 
 		//Applying gravity to dynamic entities and checking all collisions
 		applyGravityAndCollisions();

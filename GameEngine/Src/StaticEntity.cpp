@@ -40,4 +40,15 @@ namespace Moo
 	{
 		this->_isHeatZone = isHeatZone;
 	}
+
+	Hitbox StaticEntity::resetHitbox()
+	{
+		_hitbox.x1 = this->_sprite->getX();
+		_hitbox.y1 = this->_sprite->getY() + this->_sprite->getHeight();
+
+		_hitbox.x2 = this->_sprite->getX() + this->_sprite->getWidth();
+		_hitbox.y2 = this->_sprite->getY();
+
+		return _hitbox;
+	}
 }

@@ -2,6 +2,7 @@
   "name": "The Breach",
   "size": "50/50",
   "audio": null,
+  "background": null,
   "tileList": {
     "0": [
       {
