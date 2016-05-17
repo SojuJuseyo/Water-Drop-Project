@@ -94,6 +94,32 @@ FMOD::Channel *SoundSystem::playSound(std::string soundName, bool loop = false)
 	return channel;
 }
 
+void SoundSystem::playSoundTilEnd(std::string soundName)
+{
+	unsigned int length;
+	SoundClass pSound = soundMap[soundName];
+
+
+	if ((pSound) == nullptr) {
+		//throw Moo::Exception("Attempted to play an unknown sound.");
+		return ;
+	}
+
+	pSound->getLength(&length, FMOD_TIMEUNIT_MS);
+
+	pSound->setMode(FMOD_LOOP_OFF);
+
+	FMOD::Channel *channel;
+
+	FMOD_RESULT res = m_pSystem->playSound(pSound, 0, false, &channel);
+	if (res != FMOD_OK) {
+		throw Moo::Exception("Play " + soundName + "sound failed, " + std::string(FMOD_ErrorString(res)));
+		return ;
+	}
+	//std::cout << "sound length : " << length << std::endl;
+	Sleep(length);
+}
+
 void SoundSystem::releaseAllSounds()
 {
 	for (auto sound : soundMap) {
