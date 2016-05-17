@@ -190,7 +190,7 @@ namespace Moo
 		}
 	}
 
-	void readMapFiles()
+	void Game::readMapFiles()
 	{
 		WIN32_FIND_DATA search_data;
 
@@ -210,10 +210,11 @@ namespace Moo
 		FindClose(handle);
 	}
 
-	string ExePath() {
+	std::string Game::ExePath()
+	{
 		char buffer[MAX_PATH];
 		GetModuleFileName(NULL, buffer, MAX_PATH);
-		string::size_type pos = string(buffer).find_last_of("\\/");
-		return string(buffer).substr(0, pos);
+		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+		return std::string(buffer).substr(0, pos);
 	}
 }
