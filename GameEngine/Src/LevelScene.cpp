@@ -202,7 +202,7 @@ namespace Moo
 		//Enemies
 		for (auto enemyTile : enemyTiles)
 		{
-			if (enemyTile.getProperties().getSize() != 0)
+			if (enemyTile.getProperties().getSize() != 40)
 				fillDynamicEntitiesList(48, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), playerWidth, playerHeight, playerMass, playerHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
 			else
 				fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), enemiesWidth, enemiesHeight, enemiesMass, enemiesHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
