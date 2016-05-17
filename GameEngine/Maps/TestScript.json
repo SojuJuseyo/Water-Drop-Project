@@ -1,8 +1,8 @@
 {
   "name": "TestScript",
   "size": "20/20",
-  "audio": null,
-  "background": null,
+  "audio": "null",
+  "background": "null",
   "tileList": {
     "0": [
       {
@@ -467,33 +467,63 @@
     "3": [
       {
         "collidable": true,
+        "coordx": 6,
+        "coordy": 1,
+        "properties": {
+          "text": "",
+          "x2": 15,
+          "y2": 1,
+          "size": 50,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
         "coordx": 4,
         "coordy": 16,
-        "properties": null
+        "properties": {
+          "text": "",
+          "x2": 4,
+          "y2": 16,
+          "size": 0,
+          "orientation": 0
+        }
       },
       {
         "collidable": true,
         "coordx": 7,
         "coordy": 16,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 10,
-        "coordy": 16,
-        "properties": null
+        "properties": {
+          "text": "",
+          "x2": 7,
+          "y2": 16,
+          "size": 0,
+          "orientation": 0
+        }
       },
       {
         "collidable": true,
         "coordx": 13,
         "coordy": 16,
-        "properties": null
+        "properties": {
+          "text": "",
+          "x2": 13,
+          "y2": 16,
+          "size": 0,
+          "orientation": 0
+        }
       },
       {
         "collidable": true,
         "coordx": 16,
         "coordy": 16,
-        "properties": null
+        "properties": {
+          "text": "",
+          "x2": 16,
+          "y2": 16,
+          "size": 0,
+          "orientation": 0
+        }
       }
     ],
     "4": [

@@ -3,6 +3,9 @@
 
 SoundSystem::SoundSystem()
 {
+	// FMOD default value
+	_volume = 0.1f;
+
 	FMOD_RESULT res;
 	res = FMOD::System_Create(&m_pSystem);
 	if (res != FMOD_OK) {
@@ -91,7 +94,34 @@ FMOD::Channel *SoundSystem::playSound(std::string soundName, bool loop = false)
 		throw Moo::Exception("Play " + soundName + "sound failed, " + std::string(FMOD_ErrorString(res)));
 		return nullptr;
 	}
+	channel->setVolume(_volume);
 	return channel;
+}
+
+void SoundSystem::playSoundTilEnd(std::string soundName)
+{
+	unsigned int length;
+	SoundClass pSound = soundMap[soundName];
+
+
+	if ((pSound) == nullptr) {
+		//throw Moo::Exception("Attempted to play an unknown sound.");
+		return ;
+	}
+
+	pSound->getLength(&length, FMOD_TIMEUNIT_MS);
+
+	pSound->setMode(FMOD_LOOP_OFF);
+
+	FMOD::Channel *channel;
+	FMOD_RESULT res = m_pSystem->playSound(pSound, 0, false, &channel);
+	if (res != FMOD_OK) {
+		throw Moo::Exception("Play " + soundName + "sound failed, " + std::string(FMOD_ErrorString(res)));
+		return ;
+	}
+	channel->setVolume(_volume);
+	//std::cout << "sound length : " << length << std::endl;
+	Sleep(length);
 }
 
 void SoundSystem::releaseAllSounds()
@@ -109,4 +139,14 @@ void SoundSystem::releaseSound(std::string soundName)
 	if (res != FMOD_OK) {
 		std::cerr << "Release " << soundName << "sound failed, " << FMOD_ErrorString(res) << std::endl;;
 	}
+}
+
+float SoundSystem::getVolume()
+{
+	return _volume;
+}
+
+void SoundSystem::setVolume(float volume)
+{
+	_volume = volume;
 }

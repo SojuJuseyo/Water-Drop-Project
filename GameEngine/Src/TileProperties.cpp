@@ -54,12 +54,12 @@ int				TileProperties::getSize() const
 	return (_size);
 }
 
-void			TileProperties::setOrientation(Orientation orientation)
+void			TileProperties::setDirection(Direction orientation)
 {
 	_orientation = orientation;
 }
 
-Orientation		TileProperties::getOrientation() const
+Direction		TileProperties::getDirection() const
 {
 	return (_orientation);
 }

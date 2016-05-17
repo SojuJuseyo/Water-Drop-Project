@@ -166,6 +166,7 @@
     <ClInclude Include="Includes\DynamicEntity.h" />
     <ClInclude Include="Includes\Entity.h" />
     <ClInclude Include="Includes\Exceptions.h" />
+    <ClInclude Include="Includes\Font.h" />
     <ClInclude Include="Includes\Fps.h" />
     <ClInclude Include="Includes\Game.h" />
     <ClInclude Include="Includes\GameManagmentHeader.h" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Includes\SoundSystem.h" />
     <ClInclude Include="Includes\Sprite.h" />
     <ClInclude Include="Includes\StaticEntity.h" />
+    <ClInclude Include="Includes\Text.h" />
     <ClInclude Include="Includes\Texture.h" />
     <ClInclude Include="Includes\Tile.h" />
     <ClInclude Include="Includes\TileProperties.h" />
@@ -204,6 +206,7 @@
     <ClCompile Include="Src\Drawable.cpp" />
     <ClCompile Include="Src\DynamicEntity.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
+    <ClCompile Include="Src\Font.cpp" />
     <ClCompile Include="Src\Fps.cpp" />
     <ClCompile Include="Src\Game.cpp" />
     <ClCompile Include="Src\jsoncpp.cpp" />
@@ -221,6 +224,7 @@
     <ClCompile Include="Src\SoundSystem.cpp" />
     <ClCompile Include="Src\Sprite.cpp" />
     <ClCompile Include="Src\StaticEntity.cpp" />
+    <ClCompile Include="Src\Text.cpp" />
     <ClCompile Include="Src\Texture.cpp" />
     <ClCompile Include="Src\Tile.cpp" />
     <ClCompile Include="Src\TileProperties.cpp" />
