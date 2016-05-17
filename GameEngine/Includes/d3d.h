@@ -63,7 +63,7 @@ namespace Moo
 			};
 
 			UINT deviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
-			deviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+			//deviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 			_screenSize = screenSize;
 
 			DXGI_SWAP_CHAIN_DESC sd;

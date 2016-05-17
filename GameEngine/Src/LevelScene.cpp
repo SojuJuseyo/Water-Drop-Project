@@ -255,6 +255,9 @@ namespace Moo
 		_win = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
 		_win->loadTexture(&_textures.get()->at("Win"));
 
+		_hud = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f);
+		_hud->loadTexture(&_textures.get()->at("Interface"));
+
 
 		//init sound system
 		_soundSystem = Game::getInstance().getSoundSystem();
@@ -758,6 +761,8 @@ namespace Moo
 
 		//Display the game elements
 		displayHitboxesAndSprites();
+
+		_window->inCameradraw(_hud.get());
 
 		//Drawing all that is inside the window
 		_window->display();

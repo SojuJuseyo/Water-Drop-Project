@@ -48,11 +48,12 @@ namespace Moo
 		std::shared_ptr<Moo::Font> _font;
 		std::shared_ptr<Moo::Text> _fps;
 
+
 		std::shared_ptr<MapInfos>							_map;
 		std::shared_ptr<std::map<std::string, Texture>>		_textures;
 		std::map<std::string, Moo::Vector2f>				_spriteSheet;
 		std::shared_ptr<Moo::Character>						_player;
-		std::shared_ptr<Moo::Sprite>						_background, _lose, _win;
+		std::shared_ptr<Moo::Sprite>						_background, _lose, _win, _hud;
 		std::shared_ptr<Window>								_window;
 		std::shared_ptr<SoundSystem>						_soundSystem;
 		Moo::Camera											_camera;

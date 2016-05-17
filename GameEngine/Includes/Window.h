@@ -29,6 +29,7 @@ namespace Moo
 		void destroy();
 		void clear();
 		void draw(Drawable * drawable);
+		void inCameradraw(Sprite *sprite);
 		void display();
 		void setFpsLimit(float limit);
 		float getFps();
