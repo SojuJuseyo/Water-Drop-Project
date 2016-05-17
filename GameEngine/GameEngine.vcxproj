@@ -206,6 +206,7 @@
     <ClCompile Include="Src\DynamicEntity.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
     <ClCompile Include="Src\FailScene.cpp" />
+    <ClCompile Include="Src\Font.cpp" />
     <ClCompile Include="Src\Fps.cpp" />
     <ClCompile Include="Src\Game.cpp" />
     <ClCompile Include="Src\jsoncpp.cpp" />

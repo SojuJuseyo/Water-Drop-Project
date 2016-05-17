@@ -4,22 +4,25 @@
 #include "SpriteRect.h"
 #include "Sprite.h"
 #include "Font.h"
+#include "Window.h"
 
 namespace Moo
 {
 	class Text
 	{
 	public:
-		Text(float size, float x, float y, std::shared_ptr<Font>);
+		Text() {}
+		Text(const std::string &text, float size, float x, float y, std::shared_ptr<Font>);
 		~Text();
-		void setValue(int value);
-		Moo::Sprite	*getSprite();
-		Moo::Sprite *getSprite2();
+		void setText(const std::string &text);
+		void draw(Window &);
 
 	private:
 		std::map<std::string, Moo::Vector2f> _spriteSheet;
 		float	_size;
+		float _x, _y;
+		std::string _text;
 		std::shared_ptr<Font> _font;
-		std::shared_ptr<Moo::Sprite> _sprite, _sprite2;
+		std::vector<std::shared_ptr<Moo::Sprite>> _letters;
 	};
 }
