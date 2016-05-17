@@ -75,6 +75,7 @@ namespace Moo
 		//createScene(LEVEL7, new LevelScene("Maps/TheElevator.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
+		readMapFiles();
 		_isGameRunning = true;
 		while (_isGameRunning) {
 			update();
@@ -192,21 +193,18 @@ namespace Moo
 
 	void Game::readMapFiles()
 	{
+		std::cout << "readMapFiles called" << std::endl;
 		WIN32_FIND_DATA search_data;
-
 		memset(&search_data, 0, sizeof(WIN32_FIND_DATA));
-
-		HANDLE handle = FindFirstFile("c:\\*", &search_data);
-
+		HANDLE handle = FindFirstFile(ExePath().c_str(), &search_data);
+		if (handle == INVALID_HANDLE_VALUE)
+			std::cout << "error" << std::endl;
 		while (handle != INVALID_HANDLE_VALUE)
 		{
-			std::cout << "\n" << search_data.cFileName;
-
+			std::cout << "file read : " << search_data.cFileName << std::endl;
 			if (FindNextFile(handle, &search_data) == FALSE)
 				break;
 		}
-
-		//Close the handle after use or memory/resource leak
 		FindClose(handle);
 	}
 
@@ -215,6 +213,8 @@ namespace Moo
 		char buffer[MAX_PATH];
 		GetModuleFileName(NULL, buffer, MAX_PATH);
 		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-		return std::string(buffer).substr(0, pos);
+		std::string path = std::string(buffer).substr(0, pos);// +"\\..\\..\\GameEngine\\Maps\\";
+		std::cout << "PATH : " << path << std::endl;
+		return path;
 	}
 }
