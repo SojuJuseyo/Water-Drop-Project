@@ -90,7 +90,7 @@ namespace Moo
 					newTileProperties.setX2(properties["x2"].asInt());
 					newTileProperties.setY2(properties["y2"].asInt());
 					newTileProperties.setSize(properties["size"].asInt());
-					newTileProperties.setOrientation((Orientation)properties["orientation"].asInt());
+					newTileProperties.setDirection((Direction)properties["orientation"].asInt());
 					newTileProperties.setIsSet(true);
 				}
 				else
@@ -125,7 +125,7 @@ namespace Moo
 				newTileProperties.setX2(properties["x2"].asInt());
 				newTileProperties.setY2(properties["y2"].asInt());
 				newTileProperties.setSize(properties["size"].asInt());
-				newTileProperties.setOrientation((Orientation)properties["orientation"].asInt());
+				newTileProperties.setDirection((Direction)properties["orientation"].asInt());
 				newTileProperties.setIsSet(true);
 			}
 			else
@@ -155,7 +155,7 @@ namespace Moo
 				newTileProperties.setX2(properties["x2"].asInt());
 				newTileProperties.setY2(properties["y2"].asInt());
 				newTileProperties.setSize(properties["size"].asInt());
-				newTileProperties.setOrientation((Orientation)properties["orientation"].asInt());
+				newTileProperties.setDirection((Direction)properties["orientation"].asInt());
 				newTileProperties.setIsSet(true);
 			}
 			else
