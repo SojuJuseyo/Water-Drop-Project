@@ -471,9 +471,9 @@
         "coordy": 1,
         "properties": {
           "text": "",
-          "x2": 15,
+          "x2": 13,
           "y2": 1,
-          "size": 50,
+          "size": 48,
           "orientation": 0
         }
       },
@@ -482,10 +482,10 @@
         "coordx": 4,
         "coordy": 16,
         "properties": {
-          "text": "",
+          "text": null,
           "x2": 4,
           "y2": 16,
-          "size": 0,
+          "size": 40,
           "orientation": 0
         }
       },
@@ -494,10 +494,22 @@
         "coordx": 7,
         "coordy": 16,
         "properties": {
-          "text": "",
+          "text": null,
           "x2": 7,
           "y2": 16,
-          "size": 0,
+          "size": 40,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 10,
+        "coordy": 16,
+        "properties": {
+          "text": null,
+          "x2": 10,
+          "y2": 16,
+          "size": 40,
           "orientation": 0
         }
       },
@@ -506,10 +518,10 @@
         "coordx": 13,
         "coordy": 16,
         "properties": {
-          "text": "",
+          "text": null,
           "x2": 13,
           "y2": 16,
-          "size": 0,
+          "size": 40,
           "orientation": 0
         }
       },
@@ -518,10 +530,10 @@
         "coordx": 16,
         "coordy": 16,
         "properties": {
-          "text": "",
+          "text": null,
           "x2": 16,
           "y2": 16,
-          "size": 0,
+          "size": 40,
           "orientation": 0
         }
       }

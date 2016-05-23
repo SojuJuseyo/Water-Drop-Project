@@ -202,6 +202,7 @@ namespace Moo
 		//Enemies
 		for (auto enemyTile : enemyTiles)
 		{
+			std::cout << "Size: " << enemyTile.getProperties().getSize() << std::endl;
 			if (enemyTile.getProperties().getSize() != 40)
 				fillDynamicEntitiesList(48, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), playerWidth, playerHeight, playerMass, playerHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
 			else
@@ -489,6 +490,9 @@ namespace Moo
 				return (ScriptDirection::GOING_BOTTOM);
 			if (hitbox.y1 < lastHitbox.y1)
 				return (ScriptDirection::GOING_TOP);
+			if (hitbox.x1 == lastHitbox.x1 && hitbox.y1 == lastHitbox.y1
+			&&	hitbox.x2 == lastHitbox.x2 && hitbox.y2 == lastHitbox.y2)
+				return (ScriptDirection::STILL);
 		}
 
 		if (direction == ScriptDirection::GOING_LEFT
@@ -572,6 +576,8 @@ namespace Moo
 			decal.y -= 1;
 		else if (newDirection == ScriptDirection::GOING_TOP)
 			decal.y += 1;
+		else if (actualDirection == ScriptDirection::STILL)
+			entity->setIsScripted(false);
 		return (decal);
 	}
 
