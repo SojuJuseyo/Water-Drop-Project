@@ -117,6 +117,8 @@ namespace Moo
 		sprite->loadTexture(&_textures.get()->at(getEntityTypeName(type)));
 		if (type == EntityType::PLAYER)
 			sprite->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
+		if (type == EntityType::ENEMY)
+			sprite->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(36, 42));
 		if (isCharacter == true)
 		{
 			auto dynamicEntity = std::make_shared<Moo::Character>(Moo::Vector2f(0, 0), mass, sprite, true, health, type, direction);
