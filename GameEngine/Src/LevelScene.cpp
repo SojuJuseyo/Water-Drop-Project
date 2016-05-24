@@ -476,6 +476,8 @@ namespace Moo
 		_window->display();
 		_soundSystem->playSoundTilEnd("defeat");
 		Game::getInstance().cleanCurrentScene();
+		if (themeChan != nullptr)
+			themeChan->setPaused(false);
 	}
 
 	static ScriptDirection getNewScriptDirection(ScriptDirection direction, Hitbox hitbox, Hitbox firstHitbox, Hitbox lastHitbox)
