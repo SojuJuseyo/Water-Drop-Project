@@ -746,10 +746,10 @@
         "coordx": 5,
         "coordy": 1,
         "properties": {
-          "text": "",
+          "text": null,
           "x2": 5,
           "y2": 1,
-          "size": 30,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -761,7 +761,7 @@
           "text": null,
           "x2": 7,
           "y2": 1,
-          "size": 48,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -773,7 +773,7 @@
           "text": null,
           "x2": 9,
           "y2": 1,
-          "size": 48,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -785,7 +785,7 @@
           "text": null,
           "x2": 11,
           "y2": 1,
-          "size": 48,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -794,10 +794,10 @@
         "coordx": 19,
         "coordy": 3,
         "properties": {
-          "text": "",
+          "text": null,
           "x2": 19,
           "y2": 3,
-          "size": 60,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -806,10 +806,10 @@
         "coordx": 5,
         "coordy": 4,
         "properties": {
-          "text": "",
+          "text": null,
           "x2": 5,
           "y2": 4,
-          "size": 30,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -818,10 +818,10 @@
         "coordx": 16,
         "coordy": 5,
         "properties": {
-          "text": "",
+          "text": null,
           "x2": 16,
           "y2": 5,
-          "size": 256,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -833,7 +833,7 @@
           "text": null,
           "x2": 7,
           "y2": 6,
-          "size": 48,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -845,7 +845,7 @@
           "text": null,
           "x2": 9,
           "y2": 8,
-          "size": 48,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -857,7 +857,7 @@
           "text": null,
           "x2": 11,
           "y2": 10,
-          "size": 48,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -869,7 +869,7 @@
           "text": null,
           "x2": 13,
           "y2": 10,
-          "size": 48,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -881,7 +881,7 @@
           "text": null,
           "x2": 15,
           "y2": 10,
-          "size": 48,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -893,7 +893,7 @@
           "text": null,
           "x2": 17,
           "y2": 10,
-          "size": 48,
+          "size": 4,
           "orientation": 0
         }
       }
