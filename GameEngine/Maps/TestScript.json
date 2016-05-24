@@ -473,7 +473,7 @@
           "text": "",
           "x2": 13,
           "y2": 1,
-          "size": 48,
+          "size": 6,
           "orientation": 0
         }
       },
@@ -485,7 +485,7 @@
           "text": null,
           "x2": 4,
           "y2": 16,
-          "size": 40,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -497,7 +497,7 @@
           "text": null,
           "x2": 7,
           "y2": 16,
-          "size": 40,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -509,7 +509,7 @@
           "text": null,
           "x2": 10,
           "y2": 16,
-          "size": 40,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -521,7 +521,7 @@
           "text": null,
           "x2": 13,
           "y2": 16,
-          "size": 40,
+          "size": 4,
           "orientation": 0
         }
       },
@@ -533,7 +533,7 @@
           "text": null,
           "x2": 16,
           "y2": 16,
-          "size": 40,
+          "size": 4,
           "orientation": 0
         }
       }
