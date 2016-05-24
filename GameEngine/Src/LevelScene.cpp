@@ -153,8 +153,8 @@ namespace Moo
 		float multiplier = enemyTile.getProperties().getSize() / characterHealth;
 		float enemyHeight = 42.f * multiplier;
 		float enemyWidth = 36.f * multiplier;
-		float enemyMass = 200 * multiplier;
-		fillDynamicEntitiesList(EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), enemyWidth, enemyHeight, enemyMass, enemyTile.getProperties().getSize(), true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
+		float enemyMass = 200.f * multiplier;
+		fillDynamicEntitiesList(EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), enemyWidth, enemyHeight, enemyMass, (float)enemyTile.getProperties().getSize(), true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
 	}
 
 	void	LevelScene::getEntitiesFromMap(std::shared_ptr<MapInfos> map)
@@ -238,7 +238,8 @@ namespace Moo
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
 		_font = std::make_shared<Font>();
 		_font->loadFromFile("font.dds");
-		_fps = std::make_shared<Text>("Ceci est un test TEST 65", 2.f, 150.f, 50.f, _font); // text;size;position.x;position.y;font
+		_fps = std::make_shared<Text>("FPS XX", 2.f, 10.f, WINDOW_HEIGHT - 50.f, _font); // text;size;position.x;position.y;font
+
 		//We get the map
 		if (_map == nullptr)
 		{
@@ -438,7 +439,7 @@ namespace Moo
 		//Draw static entities and their hitboxes
 		for (auto entity : _staticEntities)
 		{
-			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)// && entity->isCollidable() == true
+			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)
 				if (isVisible(*_player, *entity.get(), 800))
 					_window->draw(entity->getSprite());
 			//_window->draw(entity->getHitboxSprite());
@@ -446,25 +447,23 @@ namespace Moo
 
 		//Draw dynamic entities and their hitboxes
 		for (auto entity : _dynamicEntities)
-		{
 			if (entity->getIsActivated() == true)
-			{
-				if (isVisible(*_player, *entity.get(), 800)) {
-					if (entity->getEntityType() == EntityType::ENEMY) {
-						entity->getSprite()->rotate(1);
-						if (_player->getHealth() > entity->getHealth() || _player->isGodMode()) {
+				if (isVisible(*_player, *entity.get(), 800))
+				{
+					if (entity->getEntityType() == EntityType::ENEMY)
+					{
+						if (entity->getIsScripted() == false)
+							entity->getSprite()->rotate(1);
+						if (_player->getHealth() > entity->getHealth() || _player->isGodMode())
 							entity->getSprite()->setRectFromSpriteSheet(Vector2f((float)entity->getDirection(), 1), Vector2f(36, 42));
-						}
-						else {
+						else
 							entity->getSprite()->setRectFromSpriteSheet(Vector2f((float)entity->getDirection(), 0), Vector2f(36, 42));
-						}
 					}
 					_window->draw(entity->getSprite());
 					//_window->draw(entity->getHitboxSprite());
 				}
-			}
-		}
-		//_fps->setText(std::to_string((int)(_window->getFps())));
+
+		//_fps->setText("FPS " + std::to_string((int)(_window->getFps())));
 		//_fps->draw(*_window.get());
 	}
 
@@ -591,9 +590,17 @@ namespace Moo
 			entity->setScriptDirection(newDirection);
 
 		if (newDirection == ScriptDirection::GOING_LEFT)
+		{
 			decal.x -= 1;
+			if (entity->getDirection() != Direction::LEFT)
+				entity->setDirection(Direction::LEFT);
+		}
 		else if (newDirection == ScriptDirection::GOING_RIGHT)
+		{
 			decal.x += 1;
+			if (entity->getDirection() != Direction::RIGHT)
+				entity->setDirection(Direction::RIGHT);
+		}
 		else if (newDirection == ScriptDirection::GOING_BOTTOM)
 			decal.y -= 1;
 		else if (newDirection == ScriptDirection::GOING_TOP)
