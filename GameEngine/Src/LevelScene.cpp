@@ -91,8 +91,7 @@ namespace Moo
 
 	void	LevelScene::fillStaticEntitiesList(EntityType type, Tile tile, bool isHeatZone)
 	{
-		float	blockSize = 48;
-		auto sprite = std::make_shared<Moo::Sprite>(blockSize, blockSize, tile.getPosX() * blockSize, tile.getPosY() * blockSize);
+		auto sprite = std::make_shared<Moo::Sprite>(BLOCK_SIZE, BLOCK_SIZE, tile.getPosX() * BLOCK_SIZE, tile.getPosY() * BLOCK_SIZE);
 		sprite->loadTexture(&_textures.get()->at("Tileset"));
 
 		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(16.f, 16.f));
@@ -100,19 +99,22 @@ namespace Moo
 		if (tile.getProperties().getIsSet() == true)
 		{
 			staticEntity->setHitboxLastPos(
-				(float)tile.getProperties().getX2() * blockSize,
-				(float)tile.getProperties().getY2() * blockSize + sprite->getHeight(),
-				(float)tile.getProperties().getX2() * blockSize + sprite->getWidth(),
-				(float)tile.getProperties().getY2() * blockSize);
+				(float)tile.getProperties().getX2() * BLOCK_SIZE,
+				(float)tile.getProperties().getY2() * BLOCK_SIZE + sprite->getHeight(),
+				(float)tile.getProperties().getX2() * BLOCK_SIZE + sprite->getWidth(),
+				(float)tile.getProperties().getY2() * BLOCK_SIZE);
 			staticEntity->setHitboxFirstPos(staticEntity->getHitbox());
 			staticEntity->setIsScripted(true);
 		}
 		_staticEntities.push_back(staticEntity);
 	}
 
-	void	LevelScene::fillDynamicEntitiesList(int mult, EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter, Direction direction, TileProperties properties)
+	void	LevelScene::fillDynamicEntitiesList(EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter, Direction direction, TileProperties properties)
 	{
-		auto sprite = std::make_shared<Moo::Sprite>(width, height, posX * mult, posY * mult);
+		float entitySize = BLOCK_SIZE;
+		if (type == EntityType::BULLET)
+			entitySize = 1;
+		auto sprite = std::make_shared<Moo::Sprite>(width, height, posX * entitySize, posY * entitySize);
 
 		sprite->loadTexture(&_textures.get()->at(getEntityTypeName(type)));
 		if (type == EntityType::PLAYER)
@@ -129,10 +131,10 @@ namespace Moo
 				if (properties.getIsSet() == true)
 				{
 					dynamicEntity->setHitboxLastPos(
-						(float)properties.getX2() * mult,
-						(float)properties.getY2() * mult + sprite->getHeight(),
-						(float)properties.getX2() * mult + sprite->getWidth(),
-						(float)properties.getY2() * mult);
+						(float)properties.getX2() * entitySize,
+						(float)properties.getY2() * entitySize + sprite->getHeight(),
+						(float)properties.getX2() * entitySize + sprite->getWidth(),
+						(float)properties.getY2() * entitySize);
 					dynamicEntity->setHitboxFirstPos(dynamicEntity->getHitbox());
 					dynamicEntity->setIsScripted(true);
 				}
@@ -144,6 +146,15 @@ namespace Moo
 			auto dynamicEntity = std::make_shared<Moo::Bullet>(sprite, mass, health, direction);
 			_dynamicEntities.push_back(dynamicEntity);
 		}
+	}
+
+	void	LevelScene::createEnemy(Tile enemyTile, float characterHealth)
+	{
+		float multiplier = enemyTile.getProperties().getSize() / characterHealth;
+		float enemyHeight = 42.f * multiplier;
+		float enemyWidth = 36.f * multiplier;
+		float enemyMass = 200 * multiplier;
+		fillDynamicEntitiesList(EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), enemyWidth, enemyHeight, enemyMass, enemyTile.getProperties().getSize(), true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
 	}
 
 	void	LevelScene::getEntitiesFromMap(std::shared_ptr<MapInfos> map)
@@ -189,30 +200,30 @@ namespace Moo
 				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile, true);
 		}
 
-		//Enemies specs
-		float enemiesHeight = 40;
-		float enemiesWidth = 40;
-		float enemiesHealth = 4.f;
-		float enemiesMass = 100;
+		//Character specs
+		float characterHeight = 42.f;
+		float characterWidth = 36.f;
+		float characterHealth = 4.f;
+		float characterMass = 200;
 
 		//Player specs
-		float playerHeight = 48.4f;
-		float playerWidth = 48.4f;
-		float playerHealth = 6.f;
-		float playerMass = 300;
+		float playerMultiplier = 1.5f;
 
 		//Enemies
 		for (auto enemyTile : enemyTiles)
 		{
-			std::cout << "Size: " << enemyTile.getProperties().getSize() << std::endl;
+			createEnemy(enemyTile, characterHealth);
+			/*std::cout << "Size: " << enemyTile.getProperties().getSize() << std::endl;
 			if (enemyTile.getProperties().getSize() != 40)
 				fillDynamicEntitiesList(48, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), playerWidth, playerHeight, playerMass, playerHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
 			else
-				fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), enemiesWidth, enemiesHeight, enemiesMass, enemiesHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
+				fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), characterWidth, characterHeight, characterMass, characterHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());*/
 		}
 
 		Tile playerTile = playerTiles.front();
-		fillDynamicEntitiesList(48, EntityType::PLAYER, playerTile.getPosX(), playerTile.getPosY(), playerWidth, playerHeight, playerMass, playerHealth, true, playerTile.getProperties().getDirection(), playerTile.getProperties());
+		fillDynamicEntitiesList(EntityType::PLAYER, playerTile.getPosX(), playerTile.getPosY(),
+								characterWidth * playerMultiplier, characterHeight * playerMultiplier, characterMass * playerMultiplier, characterHealth * playerMultiplier,
+								true, playerTile.getProperties().getDirection(), playerTile.getProperties());
 	}
 
 	Camera	LevelScene::getCamera()
@@ -387,7 +398,7 @@ namespace Moo
 					startPosX = _player->getSprite()->getX();
 
 				TileProperties tmp;
-				fillDynamicEntitiesList(1, EntityType::BULLET,
+				fillDynamicEntitiesList(EntityType::BULLET,
 					startPosX,
 					_player->getSprite()->getY() + (_player->getSprite()->getHeight() / 2),
 					15.f, 15.f, 100.f, 1.f, false, _player->getDirection(), tmp);
