@@ -2,6 +2,7 @@
   "name": "TempleRun",
   "size": "100/25",
   "audio": null,
+  "background": null,
   "tileList": {
     "0": [
       {

@@ -23,6 +23,6 @@ namespace Moo
 		float _x, _y;
 		std::string _text;
 		std::shared_ptr<Font> _font;
-		std::vector<std::shared_ptr<Moo::Sprite>> _letters;
+		std::vector<Sprite> _letters;
 	};
 }

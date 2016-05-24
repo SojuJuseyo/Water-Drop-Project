@@ -18,9 +18,9 @@ namespace Moo
 	__declspec(align(16)) class Sprite : public Drawable, public Transformable
 	{
 	public:
+		Sprite() {}
 		Sprite(float width, float height, float x, float y);
 		Sprite(float width, float height, float x, float y, float framesPerSecond, int rows, int columns);
-		Sprite(Sprite &sprite);
 		~Sprite();
 
 		void* operator new(size_t i)

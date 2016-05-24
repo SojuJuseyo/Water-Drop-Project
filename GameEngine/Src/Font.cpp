@@ -5,16 +5,15 @@ namespace Moo
 	Font::Font()
 	{
 		_font = std::make_shared<Texture>();
-		int i = -1;
-		for (char c : " !²#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[²]^_`abcdefghijklmnopqrstuvwxyz{|}~") {
-			_letters[c] = Moo::Vector2f(++i, 0);
+		float i = 0.f;
+		for (char c : "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz ") {
+				_letters[c] = Moo::Vector2f(i++, 0.f);
 		}
-
 	}
 
 	Font::~Font()
 	{
-		
+		_font.reset();
 	}
 
 	std::map<char, Moo::Vector2f> Font::getLetters()
