@@ -1,6 +1,12 @@
 #include "GameManagmentHeader.h"
 #include "log.h"
 
+#include <windows.h>
+#include <tchar.h> 
+#include <stdio.h>
+#include <strsafe.h>
+#pragma comment(lib, "User32.lib")
+
 namespace Moo
 {
 	Game::Game()
@@ -194,28 +200,55 @@ namespace Moo
 
 	void Game::readMapFiles()
 	{
-		std::cout << "readMapFiles called" << std::endl;
-		WIN32_FIND_DATA search_data;
-		memset(&search_data, 0, sizeof(WIN32_FIND_DATA));
-		HANDLE handle = FindFirstFile(ExePath().c_str(), &search_data);
-		if (handle == INVALID_HANDLE_VALUE)
-			std::cout << "error" << std::endl;
-		while (handle != INVALID_HANDLE_VALUE)
-		{
-			std::cout << "file read : " << search_data.cFileName << std::endl;
-			if (FindNextFile(handle, &search_data) == FALSE)
-				break;
+		WIN32_FIND_DATA ffd;
+		LARGE_INTEGER filesize;
+		TCHAR szDir[MAX_PATH];
+		size_t length_of_arg;
+		HANDLE hFind = INVALID_HANDLE_VALUE;
+		DWORD dwError = 0;
+		std::string path = GetMapFolder();
+		StringCchLength(path.c_str(), MAX_PATH, &length_of_arg);
+		StringCchCopy(szDir, MAX_PATH, path.c_str());
+		StringCchCat(szDir, MAX_PATH, TEXT("\\*"));
+		hFind = FindFirstFile(szDir, &ffd);
+		if (INVALID_HANDLE_VALUE == hFind)
+			return ;
+		do{
+			if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)){
+				filesize.LowPart = ffd.nFileSizeLow;
+				filesize.HighPart = ffd.nFileSizeHigh;
+				if (isFileNameOk(std::string(ffd.cFileName)))
+				{
+					std::cout << "mapfile : " << ffd.cFileName << std::endl;
+					// rajouter les maps dans la scene liste et tenter de les load avec levelscene manager si ca marche on les garde sinon on les vire
+					// il faut creer les enum en consequence
+				}
+			}
 		}
-		FindClose(handle);
+		while (FindNextFile(hFind, &ffd) != 0);
+		dwError = GetLastError();
+		if (dwError != ERROR_NO_MORE_FILES)
+			return;
+		FindClose(hFind);
+		return;
 	}
 
-	std::string Game::ExePath()
+	std::string Game::GetMapFolder()
 	{
 		char buffer[MAX_PATH];
 		GetModuleFileName(NULL, buffer, MAX_PATH);
 		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-		std::string path = std::string(buffer).substr(0, pos);// +"\\..\\..\\GameEngine\\Maps\\";
+		std::string path = std::string(buffer).substr(0, pos) +"\\..\\..\\GameEngine\\Maps\\";
 		std::cout << "PATH : " << path << std::endl;
 		return path;
+	}
+
+	bool Game::isFileNameOk(std::string fileName)
+	{
+		std::string fileType = ".json";
+		std::string enfFile = fileName.substr(fileName.size() - fileType.size(), fileType.size());
+		if (enfFile.compare(fileType) == 0)
+			return true;
+		return false;
 	}
 }
