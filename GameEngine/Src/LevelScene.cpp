@@ -439,15 +439,22 @@ namespace Moo
 			if (entity->getIsActivated() == true)
 			{
 				if (isVisible(*_player, *entity.get(), 800)) {
+					if (entity->getEntityType() == EntityType::ENEMY) {
+						entity->getSprite()->rotate(1);
+						if (_player->getHealth() > entity->getHealth() || _player->isGodMode()) {
+							entity->getSprite()->setRectFromSpriteSheet(Vector2f((float)entity->getDirection(), 1), Vector2f(36, 42));
+						}
+						else {
+							entity->getSprite()->setRectFromSpriteSheet(Vector2f((float)entity->getDirection(), 0), Vector2f(36, 42));
+						}
+					}
 					_window->draw(entity->getSprite());
 					//_window->draw(entity->getHitboxSprite());
-					if (entity->getEntityType() == EntityType::ENEMY)
-						entity->getSprite()->rotate(1);
 				}
 			}
 		}
 		//_fps->setText(std::to_string((int)(_window->getFps())));
-		_fps->draw(*_window.get());
+		//_fps->draw(*_window.get());
 	}
 
 	void	LevelScene::exitReached()
@@ -770,7 +777,7 @@ namespace Moo
 		//Display the game elements
 		displayHitboxesAndSprites();
 
-		_window->inCameradraw(_hud.get());
+		//_window->inCameradraw(_hud.get());
 
 		//Drawing all that is inside the window
 		_window->display();
