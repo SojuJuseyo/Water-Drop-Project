@@ -255,9 +255,11 @@ namespace Moo
 		_win = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
 		_win->loadTexture(&_textures.get()->at("Win"));
 
-		_hud = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f);
-		_hud->loadTexture(&_textures.get()->at("Interface"));
-
+		_hud = std::make_shared<Moo::Sprite>(48.f, 48.f, 650.f, 550.f);
+		_hud->loadTexture(&_textures.get()->at("Drop"));
+		std::ostringstream oss;
+		oss << _player->getHealth();
+		_life = std::make_shared<Text>(oss.str(), 2.f, 700.f, 550.f, _font);
 
 		//init sound system
 		_soundSystem = Game::getInstance().getSoundSystem();
@@ -444,7 +446,7 @@ namespace Moo
 			}
 		}
 		//_fps->setText(std::to_string((int)(_window->getFps())));
-		_fps->draw(*_window.get());
+		//_fps->draw();
 	}
 
 	void	LevelScene::exitReached()
@@ -763,6 +765,10 @@ namespace Moo
 		displayHitboxesAndSprites();
 
 		_window->inCameradraw(_hud.get());
+		std::ostringstream oss;
+		oss << static_cast<int>(_player->getHealth());
+		_life.get()->setText(oss.str());
+		_window->inCameradraw(_life.get());
 
 		//Drawing all that is inside the window
 		_window->display();

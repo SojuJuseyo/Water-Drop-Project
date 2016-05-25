@@ -18,6 +18,8 @@
 
 namespace Moo
 {
+	class Text;
+
 	class Window
 	{
 	public:
@@ -30,6 +32,7 @@ namespace Moo
 		void clear();
 		void draw(Drawable * drawable);
 		void inCameradraw(Sprite *sprite);
+		void inCameradraw(Text *text);
 		void display();
 		void setFpsLimit(float limit);
 		float getFps();

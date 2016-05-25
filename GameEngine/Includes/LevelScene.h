@@ -46,7 +46,7 @@ namespace Moo
 		std::vector<std::shared_ptr<Moo::DynamicEntity>>	_dynamicEntities;
 		std::map<EntityType, std::string>					_entityTypeName;
 		std::shared_ptr<Moo::Font> _font;
-		std::shared_ptr<Moo::Text> _fps;
+		std::shared_ptr<Moo::Text> _fps, _life;
 
 
 		std::shared_ptr<MapInfos>							_map;

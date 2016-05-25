@@ -117,10 +117,18 @@ namespace Moo
 
 	void	Window::inCameradraw(Sprite *sprite)
 	{
-		Vector2f savePos = Vector2f(sprite->getPosition().x, sprite->getPosition().y);
+		Vector2f savePos = sprite->getPosition();
 		sprite->setPosition(Moo::Vector2f(sprite->getPosition().x + (d3d::getInstance().getCamera()->getPosition().x * -1), sprite->getPosition().y + (d3d::getInstance().getCamera()->getPosition().y * -1)));
 		sprite->draw();
 		sprite->setPosition(savePos);
+	}
+
+	void	Window::inCameradraw(Text *text)
+	{
+		Vector2f savePos = text->getPosition();
+		text->setPosition(Moo::Vector2f(text->getPosition().x + (d3d::getInstance().getCamera()->getPosition().x * -1), text->getPosition().y + (d3d::getInstance().getCamera()->getPosition().y * -1)));
+		text->draw();
+		text->setPosition(savePos);
 	}
 
 	void	Window::display()
