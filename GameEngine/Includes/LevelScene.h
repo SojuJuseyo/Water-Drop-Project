@@ -13,6 +13,8 @@
 #include "Camera.h"
 #include "Text.h"
 
+#define BLOCK_SIZE	48.f
+
 namespace Moo
 {
 	class LevelScene : public Scene
@@ -25,9 +27,10 @@ namespace Moo
 		bool			runUpdate();
 		void			clearEntityType(EntityType, bool);
 		void			clean();
+		void			createEnemy(Tile, float);
 		void			getEntitiesFromMap(std::shared_ptr<MapInfos> map);
 		void			fillStaticEntitiesList(EntityType, Tile, bool);
-		void			fillDynamicEntitiesList(int, EntityType, float, float, float, float, float, float, bool, Direction, TileProperties);
+		void			fillDynamicEntitiesList(EntityType, float, float, float, float, float, float, bool, Direction, TileProperties);
 		Camera			getCamera();
 		bool			init(std::shared_ptr<Window> window, std::map<std::string, Texture>);
 		void			inputHandling();

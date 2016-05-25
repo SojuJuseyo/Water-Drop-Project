@@ -17,9 +17,9 @@ namespace Moo
 		_textures["Interface"].loadFromFile(GRAPHICS_PATH + std::string("interfaceTest.dds"));
 		_textures["Drop"].loadFromFile(GRAPHICS_PATH + std::string("drop_icon.dds"));
 		// Temp texture for the bullet
-		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("You_Lost_DDS.dds"));
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("You_Won_DDS.dds"));
+		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("bullet.dds"));
 	}
 
 	Game::~Game()
@@ -69,8 +69,8 @@ namespace Moo
 		createScene(CONTROLS_MENU, new ControleScene());
 		createScene(WIN, new WinScene());
 		createScene(LEVEL1, new LevelScene("Maps/TestScript.json"));
-		createScene(LEVEL2, new LevelScene("Maps/Shoot.json"));
-		createScene(LEVEL3, new LevelScene("Maps/TheBreach.json"));
+		createScene(LEVEL2, new LevelScene("Maps/TheBreach.json"));
+		createScene(LEVEL3, new LevelScene("Maps/Shoot.json"));
 		//createScene(LEVEL4, new LevelScene("Maps/Raining.json"));
 		//createScene(LEVEL5, new LevelScene("Maps/Yamakasi.json"));
 		//createScene(LEVEL6, new LevelScene("Maps/TempleRun.json"));

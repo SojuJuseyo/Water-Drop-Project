@@ -589,49 +589,61 @@
         "collidable": true,
         "coordx": 7,
         "coordy": 1,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 8,
-        "coordy": 1,
-        "properties": null
+        "properties": {
+          "text": "",
+          "x2": 7,
+          "y2": 1,
+          "size": 6,
+          "orientation": 0
+        }
       },
       {
         "collidable": true,
         "coordx": 9,
         "coordy": 1,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 10,
-        "coordy": 1,
-        "properties": null
+        "properties": {
+          "text": "",
+          "x2": 9,
+          "y2": 1,
+          "size": 2,
+          "orientation": 0
+        }
       },
       {
         "collidable": true,
         "coordx": 11,
         "coordy": 1,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 12,
-        "coordy": 1,
-        "properties": null
+        "properties": {
+          "text": null,
+          "x2": 11,
+          "y2": 1,
+          "size": 4,
+          "orientation": 0
+        }
       },
       {
         "collidable": true,
         "coordx": 13,
         "coordy": 1,
-        "properties": null
+        "properties": {
+          "text": null,
+          "x2": 13,
+          "y2": 1,
+          "size": 4,
+          "orientation": 0
+        }
       },
       {
         "collidable": true,
-        "coordx": 14,
+        "coordx": 15,
         "coordy": 1,
-        "properties": null
+        "properties": {
+          "text": "",
+          "x2": 15,
+          "y2": 1,
+          "size": 8,
+          "orientation": 0
+        }
       }
     ],
     "4": [

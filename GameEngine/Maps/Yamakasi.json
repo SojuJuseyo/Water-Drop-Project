@@ -2,6 +2,7 @@
   "name": "Yamakasi",
   "size": "50/25",
   "audio": null,
+  "background": null,
   "tileList": {
     "0": [
       {
@@ -4509,6 +4510,18 @@
         "coordx": 19,
         "coordy": 7,
         "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 23,
+        "coordy": 9,
+        "properties": {
+          "text": "",
+          "x2": 23,
+          "y2": 12,
+          "size": 48,
+          "orientation": 0
+        }
       },
       {
         "collidable": true,
