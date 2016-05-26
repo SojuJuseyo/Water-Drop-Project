@@ -21,6 +21,7 @@ namespace Moo
 	void	Text::setText(const std::string &text)
 	{
 		_text.clear();
+		_letters.clear();
 		int i = 0;
 		for (auto c : text) {
 			auto sprite = Moo::Sprite(_size * 16.f, _size * 16.f, _x + ((_size * 16.f) * i++), _y);
