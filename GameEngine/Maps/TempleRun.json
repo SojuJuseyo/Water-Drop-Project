@@ -5134,6 +5134,12 @@
         "coordx": 53,
         "coordy": 12,
         "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 50,
+        "coordy": 13,
+        "properties": null
       }
     ],
     "5": [
@@ -5369,12 +5375,6 @@
         "collidable": true,
         "coordx": 77,
         "coordy": 12,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 50,
-        "coordy": 13,
         "properties": null
       }
     ]
