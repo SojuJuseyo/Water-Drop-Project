@@ -66,7 +66,6 @@ namespace Moo
 
 		_rect[1].position = XMFLOAT3(widthSprite, -heightSprite, 1.0f);
 		_rect[1].texture = XMFLOAT2(offsetX * (x + 1), offsetY * (y + 1));
-
 		_rect[2].position = XMFLOAT3(-widthSprite, -heightSprite, 1.0f);
 		_rect[2].texture = XMFLOAT2(offsetX * x, offsetY * (y + 1));
 
@@ -78,6 +77,7 @@ namespace Moo
 
 		_rect[5].position = XMFLOAT3(widthSprite, heightSprite, 1.0f);
 		_rect[5].texture = XMFLOAT2(offsetX * (x + 1), offsetY * y);
+
 		this->setResourceData();
 	}
 

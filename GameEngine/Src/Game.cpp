@@ -21,6 +21,7 @@ namespace Moo
 		_textures["Tileset"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 		_textures["Interface"].loadFromFile(GRAPHICS_PATH + std::string("interfaceTest.dds"));
+		_textures["Drop"].loadFromFile(GRAPHICS_PATH + std::string("drop_icon.dds"));
 		// Temp texture for the bullet
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("You_Lost_DDS.dds"));
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("You_Won_DDS.dds"));
