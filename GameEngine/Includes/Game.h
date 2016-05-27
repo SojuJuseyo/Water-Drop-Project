@@ -62,6 +62,9 @@ namespace Moo
 		void							createScene(e_scene, Scene*);
 		void							displayLoadingScreen();
 		s_scene*						getSceneByType(e_scene sceneType);
+		void							readMapFiles();
+		std::string						GetMapFolder();
+		bool							isFileNameOk(std::string filename);
 
 		std::vector<s_scene>			_listOfScenes;
 		std::shared_ptr<Moo::Window>	_window;

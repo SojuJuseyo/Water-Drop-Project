@@ -1,6 +1,12 @@
 #include "GameManagmentHeader.h"
 #include "log.h"
 
+#include <windows.h>
+#include <tchar.h> 
+#include <stdio.h>
+#include <strsafe.h>
+#pragma comment(lib, "User32.lib")
+
 namespace Moo
 {
 	Game::Game()
@@ -77,6 +83,7 @@ namespace Moo
 		//createScene(LEVEL7, new LevelScene("Maps/TheElevator.json"));
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
+		readMapFiles();
 		_isGameRunning = true;
 		while (_isGameRunning) {
 			update();
@@ -151,7 +158,7 @@ namespace Moo
 		if (_currentScene != nullptr && _currentScene->scene != nullptr) {
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Escape))
 				backToPrevScene();
-			if (Moo::Keyboard::isDown(Moo::Keyboard::P) && (int)_currentScene->sceneType < (int)NUMBER_OF_SCENE)
+			if (Moo::Keyboard::isDown(Moo::Keyboard::P) && (int)_currentScene->sceneType >= (int)LEVEL1 && (int)_currentScene->sceneType < (int)NUMBER_OF_SCENE)
 				goToNextScene();
 			if (!_currentScene->scene->runUpdate())
 				exit();
@@ -192,5 +199,59 @@ namespace Moo
 				return;
 			}
 		}
+	}
+
+	void Game::readMapFiles()
+	{
+		WIN32_FIND_DATA ffd;
+		LARGE_INTEGER filesize;
+		TCHAR szDir[MAX_PATH];
+		size_t length_of_arg;
+		HANDLE hFind = INVALID_HANDLE_VALUE;
+		DWORD dwError = 0;
+		std::string path = GetMapFolder();
+		StringCchLength(path.c_str(), MAX_PATH, &length_of_arg);
+		StringCchCopy(szDir, MAX_PATH, path.c_str());
+		StringCchCat(szDir, MAX_PATH, TEXT("\\*"));
+		hFind = FindFirstFile(szDir, &ffd);
+		if (INVALID_HANDLE_VALUE == hFind)
+			return ;
+		do{
+			if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)){
+				filesize.LowPart = ffd.nFileSizeLow;
+				filesize.HighPart = ffd.nFileSizeHigh;
+				if (isFileNameOk(std::string(ffd.cFileName)))
+				{
+					std::cout << "mapfile : " << ffd.cFileName << std::endl;
+					// rajouter les maps dans la scene liste et tenter de les load avec levelscene manager si ca marche on les garde sinon on les vire
+					// il faut creer les enum en consequence
+				}
+			}
+		}
+		while (FindNextFile(hFind, &ffd) != 0);
+		dwError = GetLastError();
+		if (dwError != ERROR_NO_MORE_FILES)
+			return;
+		FindClose(hFind);
+		return;
+	}
+
+	std::string Game::GetMapFolder()
+	{
+		char buffer[MAX_PATH];
+		GetModuleFileName(NULL, buffer, MAX_PATH);
+		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+		std::string path = std::string(buffer).substr(0, pos) +"\\..\\..\\GameEngine\\Maps\\";
+		std::cout << "PATH : " << path << std::endl;
+		return path;
+	}
+
+	bool Game::isFileNameOk(std::string fileName)
+	{
+		std::string fileType = ".json";
+		std::string enfFile = fileName.substr(fileName.size() - fileType.size(), fileType.size());
+		if (enfFile.compare(fileType) == 0)
+			return true;
+		return false;
 	}
 }
