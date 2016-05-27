@@ -48,18 +48,18 @@ namespace Moo
 		if (_rect == nullptr) {
 			_rect = new VERTEX[6];
 		}
-		auto widthTexture = size.x;
-		auto heightTexture = size.y;
-		auto widthWholeTexture = _texture->getWidth();
-		auto heightWholeTexture = _texture->getHeight();
-		auto offsetX = widthTexture / widthWholeTexture;
-		auto offsetY = heightTexture / heightWholeTexture;
+		float widthTexture = size.x;
+		float heightTexture = size.y;
+		float widthWholeTexture = _texture->getWidth();
+		float heightWholeTexture = _texture->getHeight();
+		float offsetX = widthTexture / widthWholeTexture;
+		float offsetY = heightTexture / heightWholeTexture;
 
-		auto x = pos.x;
-		auto y = pos.y;
+		float x = pos.x;
+		float y = pos.y;
 
-		auto widthSprite = 0.5f;
-		auto heightSprite = 0.5f;
+		float widthSprite = 0.5f;
+		float heightSprite = 0.5f;
 
 		_rect[0].position = XMFLOAT3(widthSprite, heightSprite, 1.0f);
 		_rect[0].texture = XMFLOAT2(offsetX * (x + 1), offsetY * y);
@@ -125,7 +125,7 @@ namespace Moo
 
 		XMVECTOR axis = DirectX::XMVectorSet(0, 0, 0, 0);
 
-		XMMATRIX translation = DirectX::XMMatrixTranslation(getPosition().x + (_width * getScale().x / 2), getPosition().y + (_height * getScale().y / 2), 0.5f);
+		XMMATRIX translation = DirectX::XMMatrixTranslation(getPosition().x + (_width * getScale().x / 2), getPosition().y + (_height * getScale().y / 2), 1.f);
 
 		XMMATRIX rotationZ = XMMatrixRotationZ(DirectX::XMConvertToRadians(getRotation()));
 

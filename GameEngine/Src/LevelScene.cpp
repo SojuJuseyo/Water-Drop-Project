@@ -94,7 +94,7 @@ namespace Moo
 		auto sprite = std::make_shared<Moo::Sprite>(BLOCK_SIZE, BLOCK_SIZE, tile.getPosX() * BLOCK_SIZE, tile.getPosY() * BLOCK_SIZE);
 		sprite->loadTexture(&_textures.get()->at("Tileset"));
 
-		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(16.f, 16.f));
+		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(48.f, 48.f));
 		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, tile.getIsCollidable());
 		if (tile.getProperties().getIsSet() == true)
 		{
