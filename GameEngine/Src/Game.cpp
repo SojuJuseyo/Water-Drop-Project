@@ -158,7 +158,7 @@ namespace Moo
 		if (_currentScene != nullptr && _currentScene->scene != nullptr) {
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Escape))
 				backToPrevScene();
-			if (Moo::Keyboard::isDown(Moo::Keyboard::P) && (int)_currentScene->sceneType < (int)NUMBER_OF_SCENE)
+			if (Moo::Keyboard::isDown(Moo::Keyboard::P) && (int)_currentScene->sceneType >= (int)LEVEL1 && (int)_currentScene->sceneType < (int)NUMBER_OF_SCENE)
 				goToNextScene();
 			if (!_currentScene->scene->runUpdate())
 				exit();
