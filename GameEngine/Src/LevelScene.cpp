@@ -329,7 +329,7 @@ namespace Moo
 			Moo::Game::getInstance().cleanCurrentScene();
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::D))
-			std::cout << "fps:" << 1.0f / Moo::Fps::getInstance().getFrameTime() << std::endl;
+			std::cout << "fps:" << _window->getFps() << std::endl;
 
 		//Cheats
 		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))
@@ -464,8 +464,6 @@ namespace Moo
 					_window->draw(entity->getSprite());
 					//_window->draw(entity->getHitboxSprite());
 				}
-		//_fps->setText("FPS " + std::to_string((int)(_window->getFps())));
-		//_fps->draw(*_window.get());
 	}
 
 	void	LevelScene::exitReached()
@@ -745,8 +743,7 @@ namespace Moo
 								|| (secondDynamicEntity->getEntityType() == EntityType::PLAYER && std::static_pointer_cast<Moo::Character>(secondDynamicEntity)->isGodMode() == true)))
 								|| (dynamicEntity->getEntityType() == EntityType::BULLET && secondDynamicEntity->getEntityType() != EntityType::PLAYER))
 							{
-								if (dynamicEntity->getEntityType() != EntityType::BULLET && secondDynamicEntity->getEntityType() == EntityType::PLAYER)
-									_soundSystem->playSound("powerup", false);
+								_soundSystem->playSound("powerup", false);
 
 								secondDynamicEntity->changeHealth(dynamicEntity->getHealth() * 33 / 100);
 
@@ -773,17 +770,23 @@ namespace Moo
 			this->exitReached();
 	}
 
+	void	LevelScene::displayHudInfos()
+	{
+		_window->inCameradraw(_hud.get());
+
+		_life.get()->setText(std::to_string(static_cast<int>(_player->getHealth())));
+		_window->inCameradraw(_life.get());
+
+		_fps->setText("FPS " + std::to_string(_window->getFps()));
+		_window->inCameradraw(_fps.get());
+	}
+
 	bool	LevelScene::runUpdate()
 	{
-		/*
-		if (themeChan != nullptr)
-		themeChan->setPaused(false);
-		*/
-
-		//Gtting the inputs of the player
-		std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
-		if (elapsed_time_start.count() > 0.75)
-			inputHandling();
+		////Gtting the inputs of the player
+		//std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
+		//if (elapsed_time_start.count() > 0.75)
+		inputHandling();
 
 		//Applying scripts
 		updateScriptsStatic();
@@ -798,19 +801,11 @@ namespace Moo
 		//Display the game elements
 		displayHitboxesAndSprites();
 
-		_window->inCameradraw(_hud.get());
-		std::ostringstream oss;
-		oss << static_cast<int>(_player->getHealth());
-		_life.get()->setText(oss.str());
-		_window->inCameradraw(_life.get());
+		//Display the HUD elements
+		displayHudInfos();
 
 		//Drawing all that is inside the window
 		_window->display();
-
-		/*
-		if (themeChan != nullptr)
-		themeChan->setPaused(true);
-		*/
 
 		if (_playerDead == true)
 			this->playerDead();
