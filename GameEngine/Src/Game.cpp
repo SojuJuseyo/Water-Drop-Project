@@ -43,7 +43,7 @@ namespace Moo
 	{
 		for (auto &scene : _listOfScenes)
 		{
-			if (scene.sceneType == _currentScene->sceneType && (int)_currentScene->sceneType >= (int)LEVEL1)
+			if (scene.sceneType == _currentScene->sceneType && _currentScene->sceneType == LEVEL)
 			{
 				((LevelScene *)(scene.scene))->clean();
 				d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(scene.scene)->getCamera().getInfoMap());
@@ -59,7 +59,17 @@ namespace Moo
 		for (int index = 1; index < (int)_listOfScenes.size(); ++index)
 		{
 			if (_listOfScenes[index].scene != nullptr)
-				_listOfScenes[index].scene->init(_window, _textures);
+			{
+				try
+				{
+					_listOfScenes[index].scene->init(_window, _textures);
+				}
+				catch (Exception e)
+				{
+					// sus
+					std::cout << "INIT FAILED FOR SCENE INDEX : " << index << std::endl;
+				}
+			}
 		}
 		Moo::d3d::getInstance().getCamera()->reset();
 	}
@@ -74,16 +84,9 @@ namespace Moo
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
 		createScene(WIN, new WinScene());
-		createScene(LEVEL1, new LevelScene("Maps/TempleRun.json"));
-		createScene(LEVEL2, new LevelScene("Maps/TheBreach.json"));
-		createScene(LEVEL3, new LevelScene("Maps/Yamakasi.json"));
-		//createScene(LEVEL4, new LevelScene("Maps/Raining.json"));
-		//createScene(LEVEL5, new LevelScene("Maps/Yamakasi.json"));
-		//createScene(LEVEL6, new LevelScene("Maps/TempleRun.json"));
-		//createScene(LEVEL7, new LevelScene("Maps/TheElevator.json"));
+		readMapFiles();
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
-		readMapFiles();
 		_isGameRunning = true;
 		while (_isGameRunning) {
 			update();
@@ -109,7 +112,7 @@ namespace Moo
 		else
 			return;
 		Moo::d3d::getInstance().getCamera()->reset();
-		if ((int)type >= (int)LEVEL1) {
+		if ((int)type >= (int)LEVEL) {
 			if (!isContinue)
 				cleanCurrentScene();
 			d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getInfoMap());
@@ -118,7 +121,7 @@ namespace Moo
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
 				((LevelScene*)_currentScene->scene)->themeChan->setPaused(false);
 		}
-		if ((type == PAUSE_MENU && (int)(tmpSceneForPrev->sceneType) >= (int)LEVEL1) || type == CONTROLS_MENU)
+		if ((type == PAUSE_MENU && (int)(tmpSceneForPrev->sceneType) >= (int)LEVEL) || type == CONTROLS_MENU)
 			_currentScene->prevScene = tmpSceneForPrev;
 		if (type == MAIN_MENU)
 			_currentScene->prevScene = nullptr;
@@ -136,8 +139,8 @@ namespace Moo
 	// charge la scene de jeu suivant
 	void			Game::goToNextScene()
 	{
-		if (_currentScene != nullptr && (int)_currentScene->sceneType >= (int)LEVEL1) {
-			if ((int)_currentScene->sceneType < (int)NUMBER_OF_SCENE - 1)
+		if (_currentScene != nullptr && (int)_currentScene->sceneType >= (int)LEVEL) {
+			if (_listOfScenes.size()) // sus
 				runScene((e_scene)((int)_currentScene->sceneType + 1), false);
 			else
 				runScene(WIN, false);
@@ -158,7 +161,7 @@ namespace Moo
 		if (_currentScene != nullptr && _currentScene->scene != nullptr) {
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Escape))
 				backToPrevScene();
-			if (Moo::Keyboard::isDown(Moo::Keyboard::P) && (int)_currentScene->sceneType >= (int)LEVEL1 && (int)_currentScene->sceneType < (int)NUMBER_OF_SCENE)
+			if (Moo::Keyboard::isDown(Moo::Keyboard::P) && _currentScene->sceneType == LEVEL)
 				goToNextScene();
 			if (!_currentScene->scene->runUpdate())
 				exit();
@@ -223,9 +226,8 @@ namespace Moo
 				if (isFileNameOk(std::string(ffd.cFileName)))
 				{
 					std::cout << "mapfile : " << ffd.cFileName << std::endl;
-					// rajouter les maps dans la scene liste et tenter de les load avec levelscene manager si ca marche on les garde sinon on les vire
-					// il faut creer les enum en consequence
-					// slt sadsad
+					std::string mapFileName = std::string(ffd.cFileName);
+					createScene(LEVEL, new LevelScene("Maps/" + mapFileName));
 				}
 			}
 		}
