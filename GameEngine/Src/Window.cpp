@@ -5,7 +5,7 @@ namespace Moo
 	Window::Window(HINSTANCE hInstance, WindowSettings &config)
 	{
 		_config = config;
-		_fpsLimit = 60;
+		_fpsLimit = FPS_LIMIT;
 		initialize(hInstance);
 	}
 
@@ -64,8 +64,8 @@ namespace Moo
 
 	bool	Window::isOpen()
 	{
-		while (Fps::getInstance().getFrameTime() <= 1.0f / _fpsLimit) {
-			Fps::getInstance().update();
+		while (_fps.getFrameTime() <= 1.0f / _fpsLimit) {
+			_fps.update();
 		}
 		MSG msg;
 		ZeroMemory(&msg, sizeof(MSG));
@@ -134,7 +134,7 @@ namespace Moo
 	void	Window::display()
 	{
 		d3d::getInstance().display();
-		Fps::getInstance().reset(_fpsLimit);
+		_fps.reset(_fpsLimit);
 	}
 
 	void	Window::setFpsLimit(float limit)
@@ -144,6 +144,6 @@ namespace Moo
 
 	float	Window::getFps()
 	{
-		return 1.0f / Fps::getInstance().getFrameTime();
+		return 1.0f / _fps.getFrameTime();
 	}
 }

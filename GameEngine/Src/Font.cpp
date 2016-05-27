@@ -6,7 +6,7 @@ namespace Moo
 	{
 		_font = std::make_shared<Texture>();
 		float i = 0.f;
-		for (char c : "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz ") {
+		for (char c : "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvw.yz ") {
 				_letters[c] = Moo::Vector2f(i++, 0.f);
 		}
 	}

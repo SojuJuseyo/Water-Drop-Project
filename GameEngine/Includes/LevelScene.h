@@ -41,6 +41,7 @@ namespace Moo
 		void			loadFromSpriteSheet();
 		void			playerDead();
 		void			updateScriptsStatic();
+		void			displayHudInfos();
 		Vector2f		updateScriptDynamic(std::shared_ptr<DynamicEntity>, Vector2f);
 		FMOD::Channel	*themeChan;
 
