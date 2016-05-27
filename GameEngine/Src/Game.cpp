@@ -225,7 +225,7 @@ namespace Moo
 					std::cout << "mapfile : " << ffd.cFileName << std::endl;
 					// rajouter les maps dans la scene liste et tenter de les load avec levelscene manager si ca marche on les garde sinon on les vire
 					// il faut creer les enum en consequence
-					// slt
+					// slt sadsad
 				}
 			}
 		}
