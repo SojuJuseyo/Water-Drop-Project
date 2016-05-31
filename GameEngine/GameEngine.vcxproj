@@ -258,7 +258,11 @@
     <Media Include="Ressources\Sounds\Menu.wav" />
     <Media Include="Ressources\Sounds\powerup.wav" />
     <Media Include="Ressources\Sounds\shoot.wav" />
+    <Media Include="Ressources\Sounds\shoot2.wav" />
+    <Media Include="Ressources\Sounds\shoot3.wav" />
+    <Media Include="Ressources\Sounds\shoot4.wav" />
     <Media Include="Ressources\Sounds\Victory.wav" />
+    <Media Include="Ressources\Sounds\walljump.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

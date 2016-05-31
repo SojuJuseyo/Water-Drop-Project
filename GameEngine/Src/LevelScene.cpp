@@ -392,7 +392,7 @@ namespace Moo
 		{
 			if (_player->getHealth() > 2.f)
 			{
-				_soundSystem->playSound("shoot", false);
+				_soundSystem->playSoundRandom("shoot");
 
 				float startPosX;
 				if (_player->getDirection() == Direction::RIGHT)
