@@ -41,27 +41,37 @@ namespace Moo
 	// fait un clean sur la scene actuelle
 	void			Game::cleanCurrentScene()
 	{
-		for (auto &scene : _listOfScenes)
-		{
-			if (scene.sceneType == _currentScene->sceneType && (int)_currentScene->sceneType >= (int)LEVEL1)
-			{
-				((LevelScene *)(scene.scene))->clean();
-				d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(scene.scene)->getCamera().getInfoMap());
-				d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(scene.scene)->getCamera().getPosition());
-				break;
-			}
+		std::cout << "cleanCurrentScene called" << std::endl;
+		if (_currentScene != nullptr && _currentScene->sceneType == LEVEL) {
+			_currentScene->scene->clean();
+			d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getInfoMap());
+			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
 		}
 	}
 
 	// fait un init sur toute les scenes (sauf la scene du loading screen) et reset la camera generale
 	void			Game::resetAllScenes()
 	{
+		std::cout << "resetAllScenes called" << std::endl;
 		for (int index = 1; index < (int)_listOfScenes.size(); ++index)
 		{
 			if (_listOfScenes[index].scene != nullptr)
-				_listOfScenes[index].scene->init(_window, _textures);
+			{
+				try
+				{
+					std::cout << "try to init scene " << _listOfScenes[index].sceneType << " :" << std::endl;
+					_listOfScenes[index].scene->init(_window, _textures);
+					std::cout << "scene inited" << std::endl;
+				}
+				catch (Exception e)
+				{
+					// sus quand le init d'un map a failed
+					std::cout << "INIT FAILED FOR SCENE INDEX : " << index << std::endl;
+				}
+			}
 		}
 		Moo::d3d::getInstance().getCamera()->reset();
+		std::cout << "resetAllScenes ends" << std::endl;
 	}
 
 	// a appeller qu'une fois au debut pour initialiser les Scenes + lance automatiquement l'execution du jeu en lancant MAIN MENU + contient la game loop
@@ -74,16 +84,10 @@ namespace Moo
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
 		createScene(WIN, new WinScene());
-		createScene(LEVEL1, new LevelScene("Maps/TempleRun.json"));
-		createScene(LEVEL2, new LevelScene("Maps/TheBreach.json"));
-		createScene(LEVEL3, new LevelScene("Maps/Yamakasi.json"));
-		//createScene(LEVEL4, new LevelScene("Maps/Raining.json"));
-		//createScene(LEVEL5, new LevelScene("Maps/Yamakasi.json"));
-		//createScene(LEVEL6, new LevelScene("Maps/TempleRun.json"));
-		//createScene(LEVEL7, new LevelScene("Maps/TheElevator.json"));
+		readMapFiles();
+		_levelCounter = 0;
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
-		readMapFiles();
 		_isGameRunning = true;
 		while (_isGameRunning) {
 			update();
@@ -101,7 +105,7 @@ namespace Moo
 	// a appeller quand on veut passer d'une scene a l'autre.
 	void			Game::runScene(e_scene type, bool isContinue)
 	{
-		std::cout << "RUN SCENE " << type << " NUMBER OF SCENE : " << _listOfScenes.size() << std::endl;
+		std::cout << "RUN SCENE " << type  << std::endl;
 		s_scene *tmpSceneForPrev = _currentScene;
 		s_scene *tmpScene = getSceneByType(type);
 		if (tmpScene != nullptr)
@@ -109,7 +113,7 @@ namespace Moo
 		else
 			return;
 		Moo::d3d::getInstance().getCamera()->reset();
-		if ((int)type >= (int)LEVEL1) {
+		if (type == LEVEL) {
 			if (!isContinue)
 				cleanCurrentScene();
 			d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getInfoMap());
@@ -118,15 +122,18 @@ namespace Moo
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
 				((LevelScene*)_currentScene->scene)->themeChan->setPaused(false);
 		}
-		if ((type == PAUSE_MENU && (int)(tmpSceneForPrev->sceneType) >= (int)LEVEL1) || type == CONTROLS_MENU)
+		if ((type == PAUSE_MENU && tmpSceneForPrev->sceneType == LEVEL) || type == CONTROLS_MENU)
 			_currentScene->prevScene = tmpSceneForPrev;
-		if (type == MAIN_MENU)
+		if (type == MAIN_MENU) {
+			_levelCounter = 0;
 			_currentScene->prevScene = nullptr;
+		}
 	}
 
 	// retour en arriere sert a pauser le jeu, et revenir en arriere dans les menu principaux
 	void			Game::backToPrevScene()
 	{
+		std::cout << "backToPrevScene called" << std::endl;
 		if (_currentScene != nullptr && _currentScene->prevScene != nullptr)
 			runScene(_currentScene->prevScene->sceneType, true);
 		else if (_currentScene != nullptr && _currentScene->sceneType == WIN)
@@ -136,12 +143,13 @@ namespace Moo
 	// charge la scene de jeu suivant
 	void			Game::goToNextScene()
 	{
-		if (_currentScene != nullptr && (int)_currentScene->sceneType >= (int)LEVEL1) {
-			if ((int)_currentScene->sceneType < (int)NUMBER_OF_SCENE - 1)
-				runScene((e_scene)((int)_currentScene->sceneType + 1), false);
-			else
-				runScene(WIN, false);
+		std::cout << "goToNextScene called" << std::endl;
+		if (_currentScene != nullptr && _currentScene->sceneType == LEVEL && _currentScene->level < _nbOfLevels) {
+			++_levelCounter;
+			runScene(LEVEL, false);
 		}
+		if (_currentScene != nullptr && _currentScene->sceneType == LEVEL && _levelCounter >= _nbOfLevels)
+			runScene(WIN, false);
 		else if (_currentScene != nullptr && _currentScene->sceneType == WIN)
 			runScene(MAIN_MENU, false);
 	}
@@ -158,7 +166,7 @@ namespace Moo
 		if (_currentScene != nullptr && _currentScene->scene != nullptr) {
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Escape))
 				backToPrevScene();
-			if (Moo::Keyboard::isDown(Moo::Keyboard::P) && (int)_currentScene->sceneType >= (int)LEVEL1 && (int)_currentScene->sceneType < (int)NUMBER_OF_SCENE)
+			if (Moo::Keyboard::isDown(Moo::Keyboard::P) && _currentScene->sceneType == LEVEL)
 				goToNextScene();
 			if (!_currentScene->scene->runUpdate())
 				exit();
@@ -173,14 +181,18 @@ namespace Moo
 		newScene.scene = sceneRef;
 		newScene.sceneType = sceneType;
 		newScene.prevScene = nullptr;
+		newScene.level = _levelCounter;
 		_listOfScenes.push_back(newScene);
+		if (sceneType == LEVEL)
+			++_levelCounter;
 	}
 
 	// renvoie la reference de la scene via son type (parmi les scenes crees)
 	Game::s_scene*		Game::getSceneByType(e_scene sceneType)
 	{
 		for (auto &scene : _listOfScenes) {
-			if (scene.sceneType == sceneType)
+			if ((scene.sceneType == sceneType && sceneType != LEVEL) ||
+				(scene.sceneType == sceneType && sceneType == LEVEL && scene.level == _levelCounter))
 				return &scene;
 		}
 		return nullptr;
@@ -223,8 +235,9 @@ namespace Moo
 				if (isFileNameOk(std::string(ffd.cFileName)))
 				{
 					std::cout << "mapfile : " << ffd.cFileName << std::endl;
-					// rajouter les maps dans la scene liste et tenter de les load avec levelscene manager si ca marche on les garde sinon on les vire
-					// il faut creer les enum en consequence
+					std::string mapFileName = std::string(ffd.cFileName);
+					createScene(LEVEL, new LevelScene("Maps/" + mapFileName));
+					++_nbOfLevels;
 				}
 			}
 		}
@@ -241,7 +254,7 @@ namespace Moo
 		char buffer[MAX_PATH];
 		GetModuleFileName(NULL, buffer, MAX_PATH);
 		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-		std::string path = std::string(buffer).substr(0, pos) +"\\..\\..\\GameEngine\\Maps\\";
+		std::string path = std::string(buffer).substr(0, pos) + MAP_FILES_PATH;
 		std::cout << "PATH : " << path << std::endl;
 		return path;
 	}

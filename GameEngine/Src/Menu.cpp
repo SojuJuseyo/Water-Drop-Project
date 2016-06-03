@@ -60,7 +60,7 @@ namespace Moo
 			switch (_offset)
 			{
 			case e_menu::PLAY:
-				Game::getInstance().runScene(Game::LEVEL1, false);
+				Game::getInstance().runScene(Game::LEVEL, false);
 				return true;
 				break;
 			case e_menu::CONTROLS:
