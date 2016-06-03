@@ -16,6 +16,7 @@
 
 #define WINDOW_WIDTH 800.f
 #define WINDOW_HEIGHT 600.f
+#define MAP_FILES_PATH "\\..\\..\\GameEngine\\Maps\\"
 
 namespace Moo
 {
@@ -34,6 +35,7 @@ namespace Moo
 		{
 			e_scene						sceneType;
 			Scene*						scene = nullptr;
+			int							level;
 			struct s_scene				*prevScene;
 		};
 
@@ -65,6 +67,8 @@ namespace Moo
 		std::map<std::string, Texture> _textures;
 
 		s_scene*						_currentScene = nullptr;
+		int								_levelCounter = 0;
+		int								_nbOfLevels = 0;
 		bool							_isGameRunning = false;
 		bool							_isInGame = false;
 	};
