@@ -5,7 +5,6 @@ namespace Moo
 	Window::Window(HINSTANCE hInstance, WindowSettings &config)
 	{
 		_config = config;
-		_fpsLimit = FPS_LIMIT;
 		initialize(hInstance);
 	}
 
