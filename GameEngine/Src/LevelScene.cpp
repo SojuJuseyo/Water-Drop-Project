@@ -86,7 +86,7 @@ namespace Moo
 		_spriteSheet["Block"] = Moo::Vector2f(0, 0);
 		_spriteSheet["Platform"] = Moo::Vector2f(4, 0);
 		_spriteSheet["Ground"] = Moo::Vector2f(1, 0);
-		_spriteSheet["Exit"] = Moo::Vector2f(6, 0);
+		_spriteSheet["Exit"] = Moo::Vector2f(5, 0);
 	}
 
 	void	LevelScene::fillStaticEntitiesList(EntityType type, Tile tile, bool isHeatZone)
@@ -211,15 +211,9 @@ namespace Moo
 
 		//Enemies
 		for (auto enemyTile : enemyTiles)
-		{
 			createEnemy(enemyTile, characterHealth);
-			/*std::cout << "Size: " << enemyTile.getProperties().getSize() << std::endl;
-			if (enemyTile.getProperties().getSize() != 40)
-				fillDynamicEntitiesList(48, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), playerWidth, playerHeight, playerMass, playerHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
-			else
-				fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), characterWidth, characterHeight, characterMass, characterHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());*/
-		}
 
+		//Player
 		Tile playerTile = playerTiles.front();
 		fillDynamicEntitiesList(EntityType::PLAYER, playerTile.getPosX(), playerTile.getPosY(),
 								characterWidth * playerMultiplier, characterHeight * playerMultiplier, characterMass * playerMultiplier, characterHealth * playerMultiplier,
@@ -802,7 +796,7 @@ namespace Moo
 		displayHitboxesAndSprites();
 
 		//Display the HUD elements
-		displayHudInfos();
+		//displayHudInfos();
 
 		//Drawing all that is inside the window
 		_window->display();

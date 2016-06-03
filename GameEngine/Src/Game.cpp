@@ -26,6 +26,18 @@ namespace Moo
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("You_Lost_DDS.dds"));
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("You_Won_DDS.dds"));
 		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("bullet.dds"));
+
+		//Menu related textures
+		_textures["Menu_Background"].loadFromFile(GRAPHICS_PATH + std::string("Menu/background.dds"));
+		_textures["Menu_Title"].loadFromFile(GRAPHICS_PATH + std::string("Menu/title.dds"));
+		_textures["Menu_Play"].loadFromFile(GRAPHICS_PATH + std::string("Menu/PLAY.dds"));
+		_textures["Menu_Play_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/PLAY On.dds"));
+		_textures["Menu_HowToPlay"].loadFromFile(GRAPHICS_PATH + std::string("Menu/How to play.dds"));
+		_textures["Menu_HowToPlay_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/How to play On.dds"));
+		_textures["Menu_Options"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Options.dds"));
+		_textures["Menu_Options_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Options On.dds"));
+		_textures["Menu_Quit"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit.dds"));
+		_textures["Menu_Quit_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit On.dds"));
 	}
 
 	Game::~Game()

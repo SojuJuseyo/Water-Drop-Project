@@ -8,7 +8,7 @@ namespace Moo
 	enum e_menu_pause
 	{
 		RESUME,
-		HOW_TO_PLAY,
+		HOW_TO_PLAY_PAUSE,
 		EXIT
 	};
 

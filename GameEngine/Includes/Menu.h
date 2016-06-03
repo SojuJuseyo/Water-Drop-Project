@@ -8,7 +8,8 @@ namespace Moo
 	enum e_menu
 	{
 		PLAY,
-		CONTROLS,
+		HOW_TO_PLAY,
+		OPTIONS,
 		QUIT
 	};
 

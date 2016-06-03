@@ -62,7 +62,7 @@ namespace Moo
 				Game::getInstance().backToPrevScene();
 				return true;
 				break;
-			case e_menu_pause::HOW_TO_PLAY:
+			case e_menu_pause::HOW_TO_PLAY_PAUSE:
 				Game::getInstance().runScene(Game::CONTROLS_MENU, false);
 				return true;
 				break;
@@ -79,11 +79,11 @@ namespace Moo
 			case e_menu_pause::RESUME:
 				_offset = e_menu_pause::EXIT;
 				break;
-			case e_menu_pause::HOW_TO_PLAY:
+			case e_menu_pause::HOW_TO_PLAY_PAUSE:
 				_offset = e_menu_pause::RESUME;
 				break;
 			case e_menu_pause::EXIT:
-				_offset = e_menu_pause::HOW_TO_PLAY;
+				_offset = e_menu_pause::HOW_TO_PLAY_PAUSE;
 				break;
 			}
 		}
@@ -92,9 +92,9 @@ namespace Moo
 			switch (_offset)
 			{
 			case e_menu_pause::RESUME:
-				_offset = e_menu_pause::HOW_TO_PLAY;
+				_offset = e_menu_pause::HOW_TO_PLAY_PAUSE;
 				break;
-			case e_menu_pause::HOW_TO_PLAY:
+			case e_menu_pause::HOW_TO_PLAY_PAUSE:
 				_offset = e_menu_pause::EXIT;
 				break;
 			case e_menu_pause::EXIT:
@@ -111,7 +111,7 @@ namespace Moo
 		case e_menu_pause::RESUME:
 			_window->draw(_sprites["Resume"].get());
 			break;
-		case e_menu_pause::HOW_TO_PLAY:
+		case e_menu_pause::HOW_TO_PLAY_PAUSE:
 			_window->draw(_sprites["Controls"].get());
 			break;
 		case e_menu_pause::EXIT:
