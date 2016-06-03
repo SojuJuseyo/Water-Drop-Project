@@ -257,6 +257,9 @@
     <Media Include="Ressources\Sounds\jump.wav" />
     <Media Include="Ressources\Sounds\Menu.wav" />
     <Media Include="Ressources\Sounds\powerup.wav" />
+    <Media Include="Ressources\Sounds\powerup2.wav" />
+    <Media Include="Ressources\Sounds\powerup3.wav" />
+    <Media Include="Ressources\Sounds\powerup4.wav" />
     <Media Include="Ressources\Sounds\shoot.wav" />
     <Media Include="Ressources\Sounds\shoot2.wav" />
     <Media Include="Ressources\Sounds\shoot3.wav" />

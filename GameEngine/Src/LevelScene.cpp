@@ -743,7 +743,7 @@ namespace Moo
 								|| (secondDynamicEntity->getEntityType() == EntityType::PLAYER && std::static_pointer_cast<Moo::Character>(secondDynamicEntity)->isGodMode() == true)))
 								|| (dynamicEntity->getEntityType() == EntityType::BULLET && secondDynamicEntity->getEntityType() != EntityType::PLAYER))
 							{
-								_soundSystem->playSound("powerup", false);
+								_soundSystem->playSoundRandom ("powerup");
 
 								secondDynamicEntity->changeHealth(dynamicEntity->getHealth() * 33 / 100);
 
