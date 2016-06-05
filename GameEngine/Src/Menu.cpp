@@ -10,6 +10,13 @@ namespace Moo
 	{
 	}
 
+	void	Menu::addSprite(std::string name, std::string filename, float width, float height, float x, float y, float divider)
+	{
+		_sprites[name] = std::make_shared<Sprite>(width, height, x, y);
+		_sprites[name]->loadTexture(&_textures.get()->at(filename));
+		_sprites[name]->setX(d3d::getInstance().getScreenSize().x / divider - _sprites[name]->getWidth() / 2);
+	}
+
 	bool Menu::init(std::shared_ptr<Moo::Window> window, std::map<std::string, Texture> textures)
 	{
 		_window = window;
@@ -21,56 +28,31 @@ namespace Moo
 
 		//Buttons attributes
 		float spaceBetweenButtons = 30;
-		float middleOfScreen = d3d::getInstance().getScreenSize().x / 2.f;
 
 		//Title
 		_sprites["Title"] = std::make_shared<Moo::Sprite>(529.f, 153.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 7);
 		_sprites["Title"]->loadTexture(&_textures.get()->at("Menu_Title"));
 		_sprites["Title"]->setScale(Vector2f(0.75f, 0.75f));
-		_sprites["Title"]->setX(middleOfScreen - _sprites["Title"]->getWidth() / 2);
+		_sprites["Title"]->setX(d3d::getInstance().getScreenSize().x / 2.f - _sprites["Title"]->getWidth() / 2);
 
 		//Button Play && Play On
-		_sprites["Play"] = std::make_shared<Sprite>(129.f, 43.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 5);
-		_sprites["Play"]->loadTexture(&_textures.get()->at("Menu_Play"));
-		_sprites["Play"]->setX(middleOfScreen - _sprites["Play"]->getWidth() / 2);
-
-		_sprites["Play_On"] = std::make_shared<Sprite>(161.f, 54.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 5);
-		_sprites["Play_On"]->loadTexture(&_textures.get()->at("Menu_Play_On"));
-		_sprites["Play_On"]->setX(middleOfScreen - _sprites["Play_On"]->getWidth() / 2);
-
+		addSprite("Play", "Menu_Play", 129.f, 43.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 5, 2);
+		addSprite("Play_On", "Menu_Play_On", 161.f, 54.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 5, 2);
 		_sprites["Play_Current"] = _sprites["Play"];
 
 		//Button HowToPlay && HowToPlay On
-		_sprites["HowToPlay"] = std::make_shared<Sprite>(334.f, 42.f, 0.f, _sprites["Play"]->getY() - _sprites["Play"]->getHeight() - spaceBetweenButtons);
-		_sprites["HowToPlay"]->loadTexture(&_textures.get()->at("Menu_HowToPlay"));
-		_sprites["HowToPlay"]->setX(middleOfScreen - _sprites["HowToPlay"]->getWidth() / 2);
-
-		_sprites["HowToPlay_On"] = std::make_shared<Sprite>(418.f, 53.f, 0.f, _sprites["Play"]->getY() - _sprites["Play"]->getHeight() - spaceBetweenButtons);
-		_sprites["HowToPlay_On"]->loadTexture(&_textures.get()->at("Menu_HowToPlay_On"));
-		_sprites["HowToPlay_On"]->setX(middleOfScreen - _sprites["HowToPlay_On"]->getWidth() / 2);
-
+		addSprite("HowToPlay", "Menu_HowToPlay", 334.f, 42.f, 0.f, _sprites["Play"]->getY() - _sprites["Play"]->getHeight() - spaceBetweenButtons, 2);
+		addSprite("HowToPlay_On", "Menu_HowToPlay_On", 418.f, 53.f, 0.f, _sprites["HowToPlay"]->getY(), 2);
 		_sprites["HowToPlay_Current"] = _sprites["HowToPlay"];
 
 		//Button Options && Options On
-		_sprites["Options"] = std::make_shared<Sprite>(225.f, 42.f, 0.f, _sprites["HowToPlay"]->getY() - _sprites["HowToPlay"]->getHeight() - spaceBetweenButtons);
-		_sprites["Options"]->loadTexture(&_textures.get()->at("Menu_Options"));
-		_sprites["Options"]->setX(middleOfScreen - _sprites["Options"]->getWidth() / 2);
-
-		_sprites["Options_On"] = std::make_shared<Sprite>(282.f, 53.f, 0.f, _sprites["HowToPlay"]->getY() - _sprites["HowToPlay"]->getHeight() - spaceBetweenButtons);
-		_sprites["Options_On"]->loadTexture(&_textures.get()->at("Menu_Options_On"));
-		_sprites["Options_On"]->setX(middleOfScreen - _sprites["Options_On"]->getWidth() / 2);
-
+		addSprite("Options", "Menu_Options", 225.f, 42.f, 0.f, _sprites["HowToPlay"]->getY() - _sprites["HowToPlay"]->getHeight() - spaceBetweenButtons, 2);
+		addSprite("Options_On", "Menu_Options_On", 282.f, 53.f, 0.f, _sprites["Options"]->getY(), 2);
 		_sprites["Options_Current"] = _sprites["Options"];
 
 		//Button Quit && Quit On
-		_sprites["Quit"] = std::make_shared<Sprite>(129.f, 49.f, 0.f, _sprites["Options"]->getY() - _sprites["Options"]->getHeight() - spaceBetweenButtons);
-		_sprites["Quit"]->loadTexture(&_textures.get()->at("Menu_Quit"));
-		_sprites["Quit"]->setX(middleOfScreen - _sprites["Quit"]->getWidth() / 2);
-
-		_sprites["Quit_On"] = std::make_shared<Sprite>(162.f, 61.f, 0.f, _sprites["Options"]->getY() - _sprites["Options"]->getHeight() - spaceBetweenButtons);
-		_sprites["Quit_On"]->loadTexture(&_textures.get()->at("Menu_Quit_On"));
-		_sprites["Quit_On"]->setX(middleOfScreen - _sprites["Quit_On"]->getWidth() / 2);
-
+		addSprite("Quit", "Menu_Quit", 129.f, 49.f, 0.f, _sprites["Options"]->getY() - _sprites["Options"]->getHeight() - spaceBetweenButtons, 2);
+		addSprite("Quit_On", "Menu_Quit_On", 162.f, 61.f, 0.f, _sprites["Quit"]->getY(), 2);
 		_sprites["Quit_Current"] = _sprites["Quit"];
 
 		_offset = e_menu::PLAY;
