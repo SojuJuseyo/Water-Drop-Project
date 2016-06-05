@@ -38,6 +38,22 @@ namespace Moo
 		_textures["Menu_Options_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Options On.dds"));
 		_textures["Menu_Quit"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit.dds"));
 		_textures["Menu_Quit_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit On.dds"));
+
+		//Settings related textures
+		_textures["Settings_Background"].loadFromFile(GRAPHICS_PATH + std::string("Settings/background.dds"));
+		_textures["Settings_Title"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Settings.dds"));
+		_textures["Settings_Fullscreen"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Fullscreen.dds"));
+		_textures["Settings_Fullscreen_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Fullscreen On.dds"));
+		_textures["Settings_Music"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Music.dds"));
+		_textures["Settings_Music_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Music On.dds"));
+		_textures["Settings_Sound_Effects"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Sound Effects.dds"));
+		_textures["Settings_Sound_Effects_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Sound Effects On.dds"));
+		_textures["Settings_Back"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Back.dds"));
+		_textures["Settings_Back_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Back On.dds"));
+		_textures["Settings_Save"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Save.dds"));
+		_textures["Settings_Save_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Save On.dds"));
+		_textures["Settings_Checkbox_Unchecked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/case.dds"));
+		_textures["Settings_Checkbox_Checked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/casecochee.dds"));
 	}
 
 	Game::~Game()
@@ -94,7 +110,8 @@ namespace Moo
 		displayLoadingScreen();
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
-		createScene(CONTROLS_MENU, new ControleScene());
+		createScene(HOWTOPLAY_MENU, new ControleScene());
+		createScene(SETTINGS_MENU, new SettingsScreen());
 		createScene(WIN, new WinScene());
 		readMapFiles();
 		_levelCounter = 0;
@@ -134,7 +151,7 @@ namespace Moo
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
 				((LevelScene*)_currentScene->scene)->themeChan->setPaused(false);
 		}
-		if ((type == PAUSE_MENU && tmpSceneForPrev->sceneType == LEVEL) || type == CONTROLS_MENU)
+		if ((type == PAUSE_MENU && tmpSceneForPrev->sceneType == LEVEL) || type == HOWTOPLAY_MENU || type == SETTINGS_MENU)
 			_currentScene->prevScene = tmpSceneForPrev;
 		if (type == MAIN_MENU) {
 			_levelCounter = 0;

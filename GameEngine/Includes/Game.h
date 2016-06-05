@@ -12,6 +12,7 @@
 #include "WinScene.h"
 #include "SoundSystem.h"
 #include "LoadingScene.h"
+#include "SettingsScreen.h"
 #include "Texture.h"
 
 #define WINDOW_WIDTH 800.f
@@ -27,7 +28,8 @@ namespace Moo
 			LOADING,
 			MAIN_MENU,
 			PAUSE_MENU,
-			CONTROLS_MENU,
+			HOWTOPLAY_MENU,
+			SETTINGS_MENU,
 			WIN,
 			LEVEL
 		};

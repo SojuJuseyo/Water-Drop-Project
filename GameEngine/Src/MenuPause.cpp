@@ -63,7 +63,7 @@ namespace Moo
 				return true;
 				break;
 			case e_menu_pause::HOW_TO_PLAY_PAUSE:
-				Game::getInstance().runScene(Game::CONTROLS_MENU, false);
+				Game::getInstance().runScene(Game::HOWTOPLAY_MENU, false);
 				return true;
 				break;
 			case e_menu_pause::EXIT:

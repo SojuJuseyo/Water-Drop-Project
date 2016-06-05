@@ -91,10 +91,12 @@ namespace Moo
 				return true;
 				break;
 			case e_menu::HOW_TO_PLAY:
-				Game::getInstance().runScene(Game::CONTROLS_MENU, false);
+				Game::getInstance().runScene(Game::HOWTOPLAY_MENU, false);
 				return true;
 				break;
 			case e_menu::OPTIONS:
+				Game::getInstance().runScene(Game::SETTINGS_MENU, false);
+				return true;
 				break;
 			case e_menu::QUIT:
 				return false;

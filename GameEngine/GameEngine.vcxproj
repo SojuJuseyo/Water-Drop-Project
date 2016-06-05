@@ -184,6 +184,7 @@
     <ClInclude Include="Includes\pch.h" />
     <ClInclude Include="Includes\Scene.h" />
     <ClInclude Include="Includes\Settings.h" />
+    <ClInclude Include="Includes\SettingsScreen.h" />
     <ClInclude Include="Includes\SoundSystem.h" />
     <ClInclude Include="Includes\Sprite.h" />
     <ClInclude Include="Includes\StaticEntity.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="Src\pch.cpp" />
     <ClCompile Include="Src\Scene.cpp" />
     <ClCompile Include="Src\Settings.cpp" />
+    <ClCompile Include="Src\SettingsScreen.cpp" />
     <ClCompile Include="Src\SoundSystem.cpp" />
     <ClCompile Include="Src\Sprite.cpp" />
     <ClCompile Include="Src\StaticEntity.cpp" />
