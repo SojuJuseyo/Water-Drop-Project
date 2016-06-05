@@ -39,6 +39,11 @@ namespace Moo
 		_textures["Menu_Quit"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit.dds"));
 		_textures["Menu_Quit_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit On.dds"));
 
+		//Pause Menu related textures
+		_textures["Pause_Menu_Title"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Pause.dds"));
+		_textures["Pause_Menu_Resume"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume On.dds"));
+		_textures["Pause_Menu_Resume_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume On.dds"));
+
 		//Settings related textures
 		_textures["Settings_Background"].loadFromFile(GRAPHICS_PATH + std::string("Settings/background.dds"));
 		_textures["Settings_Title"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Settings.dds"));
