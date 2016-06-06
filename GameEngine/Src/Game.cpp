@@ -13,7 +13,7 @@ namespace Moo
 	{
 		_soundSystem = std::make_shared<SoundSystem>();
 		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("player.dds"));
-		_textures["Background_Controle"].loadFromFile(GRAPHICS_PATH + std::string("controle.dds"));
+		_textures["Background_Controle"].loadFromFile(GRAPHICS_PATH + std::string("controls.dds"));
 		_textures["Background_Menu"].loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
 		_textures["Hitbox"].loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 		_textures["Background_Menu_Pause"].loadFromFile(GRAPHICS_PATH + std::string("Menu_Pause_WTP_DDS.dds"));

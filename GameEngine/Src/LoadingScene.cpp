@@ -15,9 +15,8 @@ namespace Moo
 	{
 		_window = window;
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
-		_backgroundSprite = std::make_shared<Moo::Sprite>(1280.f, 1080.f, 0.f, 0.f);
+		_backgroundSprite = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f);
 		_backgroundSprite->loadTexture(&_textures.get()->at("Background_Controle"));
-		_backgroundSprite->setScale(Vector2f(0.65f, 0.56f));
 		_hasBeenInited = true;
 		return true;
 	}
