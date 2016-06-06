@@ -41,7 +41,7 @@ namespace Moo
 
 		//Pause Menu related textures
 		_textures["Pause_Menu_Title"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Pause.dds"));
-		_textures["Pause_Menu_Resume"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume On.dds"));
+		_textures["Pause_Menu_Resume"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume.dds"));
 		_textures["Pause_Menu_Resume_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume On.dds"));
 
 		//Settings related textures

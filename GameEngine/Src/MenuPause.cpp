@@ -34,7 +34,7 @@ namespace Moo
 		addSprite("Pause", "Pause_Menu_Title", 274.f, 55.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 8, 2);
 
 		//Button Resume && Resume On
-		addSprite("Resume", "Pause_Menu_Resume", 243.f, 54.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 6, 2);
+		addSprite("Resume", "Pause_Menu_Resume", 193.f, 42.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 6, 2);
 		addSprite("Resume_On", "Pause_Menu_Resume_On", 243.f, 54.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 6, 2);
 		_sprites["Resume_Current"] = _sprites["Resume"];
 
