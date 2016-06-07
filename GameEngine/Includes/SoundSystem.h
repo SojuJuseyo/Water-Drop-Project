@@ -18,6 +18,7 @@ private:
 	std::map<std::string, SoundClass> soundMap;
 	std::map<std::string, int> soundVersionMap;
 	float _volume;
+	float _backgroundVolume;
 
 	bool createSound(SoundClass * sound, const char * file);
 public:
@@ -30,8 +31,13 @@ public:
 	void initAllSounds();
 	void releaseAllSounds();
 	FMOD::Channel *playSound(std::string soundName, bool loop);
+	FMOD::Channel *playBackgroundSound(std::string soundName);
 	FMOD::Channel *SoundSystem::playSoundRandom(std::string soundName);
 	void playSoundTilEnd(std::string soundName);
 	float getVolume();
-	void setVolume(float volume);
+	float getBackgroundVolume();
+	void unmuteBackgroundVolume();
+	void muteBackgroundVolume();
+	void unmuteVolume();
+	void muteVolume();
 };

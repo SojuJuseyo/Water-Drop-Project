@@ -86,6 +86,14 @@ namespace Moo
 				Moo::Game::getInstance().backToPrevScene();
 			}
 			*/
+			if (msg.message == WM_PAUSEGAME) {
+				Keyboard::getInstance().focused = false;
+				if (Moo::Game::getInstance()._currentScene->sceneType == Moo::Game::LEVEL)
+					Moo::Game::getInstance().runScene(Moo::Game::PAUSE_MENU, true);
+			}
+			if (msg.message == WM_UNPAUSEGAME) {
+				Keyboard::getInstance().focused = true;
+			}
 			if (msg.message == WM_QUIT) {
 				// croix
 				Moo::Game::getInstance().exit();

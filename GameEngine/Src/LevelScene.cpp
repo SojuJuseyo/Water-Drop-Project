@@ -118,7 +118,7 @@ namespace Moo
 
 		sprite->loadTexture(&_textures.get()->at(getEntityTypeName(type)));
 		if (type == EntityType::PLAYER)
-			sprite->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
+			sprite->setRectFromSpriteSheet(Moo::Vector2f(0, 1), Moo::Vector2f(36, 42));
 		if (type == EntityType::ENEMY)
 			sprite->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(36, 42));
 		if (isCharacter == true)
@@ -258,10 +258,10 @@ namespace Moo
 
 		_camera.setInfoMap(_map);
 		_camera.resetToPlayer(_player->getHitbox());
-		_lose = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
+		_lose = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f);
 		_lose->loadTexture(&_textures.get()->at("Lose"));
 
-		_win = std::make_shared<Moo::Sprite>(400.f, 133.f, 0.f, 0.f);
+		_win = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f);
 		_win->loadTexture(&_textures.get()->at("Win"));
 
 		_hud = std::make_shared<Moo::Sprite>(48.f, 48.f, 650.f, 550.f);
@@ -281,7 +281,7 @@ namespace Moo
 				std::cout << "music failed" << std::endl;
 				themeChan = nullptr;
 			}
-			themeChan = _soundSystem->playSound("custom", true);
+			themeChan = _soundSystem->playBackgroundSound("custom");
 		}
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
@@ -377,7 +377,7 @@ namespace Moo
 			if (_player->getDirection() != Direction::RIGHT)
 			{
 				_player->setDirection(Direction::RIGHT);
-				_player->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
+				_player->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(0, 1), Moo::Vector2f(36, 42));
 			}
 			_player->move(Direction::RIGHT);
 		}
@@ -462,14 +462,9 @@ namespace Moo
 
 	void	LevelScene::exitReached()
 	{
-		_win->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
-			(Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
-			((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
-				(Moo::d3d::getInstance().getScreenSize().y / 2))
-			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
-		_window->draw(_win.get());
+		_window->inCameradraw(_win.get());
 		_window->display();
 		_soundSystem->playSoundTilEnd("victory");
 		Game::getInstance().goToNextScene();
@@ -477,14 +472,9 @@ namespace Moo
 
 	void	LevelScene::playerDead()
 	{
-		_lose->setPosition(((Moo::d3d::getInstance().getCamera()->getPosition().x * -1) +
-			(Moo::d3d::getInstance().getScreenSize().x / 2 - 200)),
-			((Moo::d3d::getInstance().getCamera()->getPosition().y * -1) +
-				(Moo::d3d::getInstance().getScreenSize().y / 2))
-			);
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
-		_window->draw(_lose.get());
+		_window->inCameradraw(_lose.get());
 		_window->display();
 		_soundSystem->playSoundTilEnd("defeat");
 		Game::getInstance().cleanCurrentScene();
@@ -796,7 +786,7 @@ namespace Moo
 		displayHitboxesAndSprites();
 
 		//Display the HUD elements
-		//displayHudInfos();
+		displayHudInfos();
 
 		//Drawing all that is inside the window
 		_window->display();

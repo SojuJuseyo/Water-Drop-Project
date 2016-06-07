@@ -5007,6 +5007,132 @@
       },
       {
         "collidable": true,
+        "coordx": 68,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 69,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 70,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 71,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 72,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 73,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 74,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 75,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 76,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 77,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 78,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 79,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 80,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 81,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 82,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 83,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 84,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 85,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 86,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 87,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 88,
+        "coordy": 0,
+        "properties": null
+      },
+      {
+        "collidable": true,
         "coordx": 89,
         "coordy": 0,
         "properties": null
@@ -5189,6 +5315,7 @@
         "coordy": 13,
         "properties": null
       }
+<<<<<<< HEAD
     ]
   },
   "playerTileList": {
@@ -5394,6 +5521,27 @@
           "size": 6,
           "orientation": 0
         }
+=======
+    ],
+    "12": [
+      {
+        "collidable": true,
+        "coordx": 28,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 34,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 41,
+        "coordy": 10,
+        "properties": null
+>>>>>>> refs/remotes/origin/master
       }
     ]
   },
@@ -5543,6 +5691,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 1,
@@ -5550,6 +5699,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 2,
       "properties": null
@@ -5687,6 +5839,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 88,
       "coordy": 2,
@@ -5700,6 +5853,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 3,
       "properties": null
@@ -5832,17 +5988,21 @@
     },
     {
       "collidable": true,
+<<<<<<< HEAD
       "coordx": 87,
       "coordy": 3,
       "properties": null
     },
     {
       "collidable": true,
+=======
+>>>>>>> refs/remotes/origin/master
       "coordx": 88,
       "coordy": 3,
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 3,
@@ -5850,6 +6010,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 4,
       "properties": null
@@ -5976,12 +6139,15 @@
     },
     {
       "collidable": true,
+<<<<<<< HEAD
       "coordx": 86,
       "coordy": 4,
       "properties": null
     },
     {
       "collidable": true,
+=======
+>>>>>>> refs/remotes/origin/master
       "coordx": 87,
       "coordy": 4,
       "properties": null
@@ -5993,6 +6159,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 4,
@@ -6000,6 +6167,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 5,
       "properties": null
@@ -6120,12 +6290,15 @@
     },
     {
       "collidable": true,
+<<<<<<< HEAD
       "coordx": 85,
       "coordy": 5,
       "properties": null
     },
     {
       "collidable": true,
+=======
+>>>>>>> refs/remotes/origin/master
       "coordx": 86,
       "coordy": 5,
       "properties": null
@@ -6143,6 +6316,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 5,
@@ -6150,6 +6324,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 6,
       "properties": null
@@ -6293,6 +6470,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 6,
@@ -6300,6 +6478,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 7,
       "properties": null
@@ -6443,6 +6624,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 7,
@@ -6450,6 +6632,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 8,
       "properties": null
@@ -6593,6 +6778,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 8,
@@ -6600,6 +6786,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 9,
       "properties": null
@@ -6743,6 +6932,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 9,
@@ -6750,6 +6940,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 10,
       "properties": null
@@ -6893,6 +7086,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 10,
@@ -6900,6 +7094,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 11,
       "properties": null
@@ -7043,6 +7240,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 11,
@@ -7050,6 +7248,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 12,
       "properties": null
@@ -7193,6 +7394,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 12,
@@ -7200,6 +7402,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 13,
       "properties": null
@@ -7343,6 +7548,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 13,
@@ -7350,6 +7556,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 14,
       "properties": null
@@ -7493,6 +7702,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 14,
@@ -7500,6 +7710,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 15,
       "properties": null
@@ -7643,6 +7856,7 @@
       "properties": null
     },
     {
+<<<<<<< HEAD
       "collidable": true,
       "coordx": 89,
       "coordy": 15,
@@ -7650,6 +7864,9 @@
     },
     {
       "collidable": true,
+=======
+      "collidable": false,
+>>>>>>> refs/remotes/origin/master
       "coordx": 65,
       "coordy": 16,
       "properties": null
@@ -7791,12 +8008,15 @@
       "coordx": 88,
       "coordy": 16,
       "properties": null
+<<<<<<< HEAD
     },
     {
       "collidable": true,
       "coordx": 89,
       "coordy": 16,
       "properties": null
+=======
+>>>>>>> refs/remotes/origin/master
     }
   ],
   "otherTileList": []

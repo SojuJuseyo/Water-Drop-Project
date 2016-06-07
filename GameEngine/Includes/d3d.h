@@ -83,20 +83,21 @@ namespace Moo
 
 			HRESULT hresult = D3D11CreateDeviceAndSwapChain(
 				nullptr,
-				D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_WARP,
+				D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
 				nullptr,
-				deviceFlags,
-				levels,
-				ARRAYSIZE(levels),
+				NULL,
+				nullptr,
+				NULL,
 				D3D11_SDK_VERSION,
 				&sd,
 				_swapchain.GetAddressOf(),
 				_dev.GetAddressOf(),
-				&_featureLevel,
+				NULL,
 				_devcon.GetAddressOf()
 				);
 
 			_camera = std::make_unique<Camera>();
+			configureBackBuffer();
 			setFullScreenState(false);
 		}
 
@@ -177,8 +178,8 @@ namespace Moo
 		{
 			releaseBackBuffer();
 
-			UINT windowWidth = _fullscreenstate ? 1920 : 0;
-			UINT windowHeight = _fullscreenstate ? 1080 : 0;
+			UINT windowWidth = state ? 1920 : 0;
+			UINT windowHeight = state ? 1080 : 0;
 
 			_swapchain->ResizeBuffers(0, windowWidth, windowHeight, DXGI_FORMAT_UNKNOWN, 0);
 

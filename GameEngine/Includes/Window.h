@@ -12,8 +12,8 @@
 #include "Sprite.h"
 
 #define WM_FULLSCREEN WM_USER + 0
-#define WM_LEFT WM_USER + 1
-#define WM_RIGHT WM_USER + 2
+#define WM_PAUSEGAME WM_USER + 1
+#define WM_UNPAUSEGAME WM_USER + 2
 #define WM_CLICK WM_USER + 3
 
 namespace Moo
@@ -50,6 +50,13 @@ namespace Moo
 
 static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if ((message == WM_SYSCOMMAND && (wParam & 0xF020) == SC_MINIMIZE) ||
+		message == WM_KILLFOCUS) {
+		PostMessage(hWnd, WM_PAUSEGAME, 0, 0);
+	}
+	if (message == WM_SETFOCUS) {
+		PostMessage(hWnd, WM_UNPAUSEGAME, 0, 0);
+	}
 	if (wParam == VK_F1) {
 		PostMessage(hWnd, WM_FULLSCREEN, 0, 0);
 	}

@@ -29,18 +29,25 @@ namespace Moo
 	void Keyboard::updateInput()
 	{
 		Keyboard &keyBoard = Keyboard::getInstance();
-
-		for (int i = 0; i < NUM_KEYS; i++) {
-			if (KEYPRESSED(keyBoard._keyCodes[i])) {
-				if (0 == keyBoard._keyStates[i])	
-					keyBoard._keyStates[i] = PRESSED | TAPPED;
-				else			
-					keyBoard._keyStates[i] = PRESSED;
-			} else {
-				if (keyBoard._keyStates[i] && (0 == (KEYUP&keyBoard._keyStates[i])))
-					keyBoard._keyStates[i] = KEYUP;
-				else
-					keyBoard._keyStates[i] = 0;
+		if (keyBoard.focused == true){
+			for (int i = 0; i < NUM_KEYS; i++) {
+				if (KEYPRESSED(keyBoard._keyCodes[i])) {
+					if (0 == keyBoard._keyStates[i])
+						keyBoard._keyStates[i] = PRESSED | TAPPED;
+					else
+						keyBoard._keyStates[i] = PRESSED;
+				}
+				else {
+					if (keyBoard._keyStates[i] && (0 == (KEYUP&keyBoard._keyStates[i])))
+						keyBoard._keyStates[i] = KEYUP;
+					else
+						keyBoard._keyStates[i] = 0;
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < NUM_KEYS; i++) {
+				keyBoard._keyStates[i] = 0;
 			}
 		}
 	}

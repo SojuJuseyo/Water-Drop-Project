@@ -20,6 +20,8 @@ namespace Moo
 		this->setMass(mass);
 		this->setGravity(hasGravity);
 		this->_acceleration.y = this->_mass / FPS_LIMIT;
+		_defaultVelocity = 666;
+		_isJumping = false;
 
 		//Save variables
 		_oldVelocity = this->_velocity;
@@ -89,20 +91,83 @@ namespace Moo
 		return (false);
 	}
 
+	float tmp = 0;
+
 	void	Character::update()
 	{
 		//Updating Y velocity
 		if (_velocity.y > 0 && _velocity.y < GRAVITY)
+		{
 			_acceleration.y = _mass * 10;
+		}
 		_acceleration.y += (_mass * 10 / FPS_LIMIT);
 		if (_velocity.y > MINIMUM_VELOCITY_Y)
+		{
 			_velocity.y -= (_velocity.y + _acceleration.y) / FPS_LIMIT;
+			if (_defaultVelocity == 666)
+			{
+				_defaultVelocity = _velocity.y;
+			}
+		}
 		_sprite->setY(_sprite->getY() + (_velocity.y - GRAVITY) / FPS_LIMIT);
 
 		//Updating X velocity
 		if (_velocity.x >= STANDARD_VELOCITY_X || _velocity.x <= -STANDARD_VELOCITY_X)
 			_sprite->setX(_sprite->getX() + _velocity.x / FPS_LIMIT);
 		_velocity.x -= _velocity.x / FPS_LIMIT;
+		tmp = _velocity.y;
+		if (_velocity.y > _defaultVelocity)
+		{
+			_isJumping = true;
+			if (this->getDirection() == Direction::LEFT)
+			{
+				if (_velocity.y > 525)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
+				if (_velocity.y < 525 && _velocity.y > 350)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(2, 0), Moo::Vector2f(36, 42));
+				if (_velocity.y < 175)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(3, 0), Moo::Vector2f(36, 42));
+			}
+			else
+			{
+				if (_velocity.y > 525)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(1, 1), Moo::Vector2f(36, 42));
+				if (_velocity.y < 525 && _velocity.y > 350)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(2, 1), Moo::Vector2f(36, 42));
+				if (_velocity.y < 175)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(3, 1), Moo::Vector2f(36, 42));
+			}
+		}
+		if (_velocity.y < _defaultVelocity && _isJumping == true)
+		{
+
+			if (this->getDirection() == Direction::LEFT)
+			{
+				if (_velocity.y > -72)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(2, 0), Moo::Vector2f(36, 42));
+				if (_velocity.y < -72 && _velocity.y > -147)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(1, 0), Moo::Vector2f(36, 42));
+				if (_velocity.y < -219)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(36, 42));
+			}
+			else
+			{
+				if (_velocity.y > -72)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(2, 1), Moo::Vector2f(36, 42));
+				if (_velocity.y < -72 && _velocity.y > -147)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(1, 1), Moo::Vector2f(36, 42));
+				if (_velocity.y < -219)
+					this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(0, 1), Moo::Vector2f(36, 42));
+			}
+		}
+		if (_velocity.y == _defaultVelocity)
+		{
+			_isJumping = false;
+			if (this->getDirection() == Direction::LEFT)
+				this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(36, 42));
+			else
+				this->getSprite()->setRectFromSpriteSheet(Moo::Vector2f(0, 1), Moo::Vector2f(36, 42));
+		}
 	}
 
 	void Character::setGodMode(bool _godMode)

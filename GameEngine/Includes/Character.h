@@ -34,6 +34,8 @@ namespace Moo
 	private:
 		std::chrono::time_point<std::chrono::system_clock> _startingTime, _lastEvaporation;
 		bool	_godMode;
+		bool	_isJumping;
+		float	_defaultVelocity;
 
 		//Save variables
 		Vector2f						_oldVelocity;

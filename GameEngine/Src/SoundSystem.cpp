@@ -7,9 +7,10 @@ SoundSystem::SoundSystem()
 {
 	// FMOD default value
 	_volume = 0.1f;
+	_backgroundVolume = 0.1f;
 
 	//init rand
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	
 	FMOD_RESULT res;
 	res = FMOD::System_Create(&m_pSystem);
@@ -84,6 +85,30 @@ void SoundSystem::initAllSounds()
 	createSound(&soundMap["powerup3"], "powerup3.wav");
 	createSound(&soundMap["powerup4"], "powerup4.wav");
 
+}
+
+// Returns a channel FMOD, use it's method stop() to stop the sound
+FMOD::Channel *SoundSystem::playBackgroundSound(std::string soundName)
+{
+	SoundClass pSound = soundMap[soundName];
+
+	if ((pSound) == nullptr) {
+		//throw Moo::Exception("Attempted to play an unknown sound.");
+		return nullptr;
+	}
+
+	pSound->setMode(FMOD_LOOP_NORMAL);
+	pSound->setLoopCount(-1);
+
+	FMOD::Channel *channel;
+
+	FMOD_RESULT res = m_pSystem->playSound(pSound, 0, false, &channel);
+	if (res != FMOD_OK) {
+		throw Moo::Exception("Play " + soundName + "sound failed, " + std::string(FMOD_ErrorString(res)));
+		return nullptr;
+	}
+	channel->setVolume(_backgroundVolume);
+	return channel;
 }
 
 // Returns a channel FMOD, use it's method stop() to stop the sound
@@ -197,7 +222,27 @@ float SoundSystem::getVolume()
 	return _volume;
 }
 
-void SoundSystem::setVolume(float volume)
+void SoundSystem::muteVolume()
 {
-	_volume = volume;
+	_volume = 0.f;
+}
+
+void SoundSystem::unmuteVolume()
+{
+	_volume = 0.1f;
+}
+
+float SoundSystem::getBackgroundVolume()
+{
+	return _backgroundVolume;
+}
+
+void SoundSystem::muteBackgroundVolume()
+{
+	_backgroundVolume = 0.f;
+}
+
+void SoundSystem::unmuteBackgroundVolume()
+{
+	_backgroundVolume = 0.1f;
 }
