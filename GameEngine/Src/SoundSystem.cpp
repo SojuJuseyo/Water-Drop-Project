@@ -222,9 +222,14 @@ float SoundSystem::getVolume()
 	return _volume;
 }
 
-void SoundSystem::setVolume(float volume)
+void SoundSystem::muteVolume()
 {
-	_volume = volume;
+	_volume = 0.f;
+}
+
+void SoundSystem::unmuteVolume()
+{
+	_volume = 0.1f;
 }
 
 float SoundSystem::getBackgroundVolume()

@@ -35,8 +35,9 @@ public:
 	FMOD::Channel *SoundSystem::playSoundRandom(std::string soundName);
 	void playSoundTilEnd(std::string soundName);
 	float getVolume();
-	void setVolume(float volume);
 	float getBackgroundVolume();
 	void unmuteBackgroundVolume();
 	void muteBackgroundVolume();
+	void unmuteVolume();
+	void muteVolume();
 };
