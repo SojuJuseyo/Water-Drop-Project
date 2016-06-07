@@ -3,7 +3,7 @@
   "size": "50/25",
   "audio": null,
   "background": null,
-  "blockTileList": {
+  "tileList": {
     "0": [
       {
         "collidable": false,
@@ -3108,7 +3108,7 @@
         "properties": null
       },
       {
-        "collidable": true,
+        "collidable": false,
         "coordx": 0,
         "coordy": 22,
         "properties": null
@@ -3270,7 +3270,7 @@
         "properties": null
       },
       {
-        "collidable": true,
+        "collidable": false,
         "coordx": 0,
         "coordy": 23,
         "properties": null
@@ -3432,7 +3432,7 @@
         "properties": null
       },
       {
-        "collidable": true,
+        "collidable": false,
         "coordx": 0,
         "coordy": 24,
         "properties": null
@@ -4034,6 +4034,104 @@
         "properties": null
       }
     ],
+    "3": [
+      {
+        "collidable": true,
+        "coordx": 8,
+        "coordy": 1,
+        "properties": {
+          "text": "",
+          "x2": 8,
+          "y2": 1,
+          "size": 24,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 19,
+        "coordy": 1,
+        "properties": {
+          "text": "",
+          "x2": 19,
+          "y2": 1,
+          "size": 24,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 31,
+        "coordy": 1,
+        "properties": {
+          "text": "",
+          "x2": 31,
+          "y2": 1,
+          "size": 16,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 35,
+        "coordy": 1,
+        "properties": {
+          "text": "",
+          "x2": 35,
+          "y2": 1,
+          "size": 16,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 44,
+        "coordy": 1,
+        "properties": {
+          "text": "",
+          "x2": 44,
+          "y2": 1,
+          "size": 5,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 48,
+        "coordy": 1,
+        "properties": {
+          "text": "",
+          "x2": 48,
+          "y2": 1,
+          "size": 5,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 45,
+        "coordy": 4,
+        "properties": {
+          "text": "",
+          "x2": 45,
+          "y2": 4,
+          "size": 5,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 47,
+        "coordy": 4,
+        "properties": {
+          "text": "",
+          "x2": 47,
+          "y2": 4,
+          "size": 5,
+          "orientation": 0
+        }
+      }
+    ],
     "4": [
       {
         "collidable": true,
@@ -4072,122 +4170,20 @@
         "properties": null
       }
     ],
-    "6": [
-      {
-        "collidable": true,
-        "coordx": 46,
-        "coordy": 1,
-        "properties": null
-      }
-    ]
-  },
-  "playerTileList": {
-    "0": [
+    "5": [
       {
         "collidable": true,
         "coordx": 5,
         "coordy": 16,
         "properties": null
       }
-    ]
-  },
-  "enemyTileList": {
-    "0": [
+    ],
+    "6": [
       {
         "collidable": true,
-        "coordx": 8,
+        "coordx": 46,
         "coordy": 1,
-        "properties": {
-          "text": null,
-          "x2": 8,
-          "y2": 1,
-          "size": 6,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 19,
-        "coordy": 1,
-        "properties": {
-          "text": null,
-          "x2": 19,
-          "y2": 1,
-          "size": 6,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 31,
-        "coordy": 1,
-        "properties": {
-          "text": null,
-          "x2": 31,
-          "y2": 1,
-          "size": 6,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 35,
-        "coordy": 1,
-        "properties": {
-          "text": null,
-          "x2": 35,
-          "y2": 1,
-          "size": 6,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 44,
-        "coordy": 1,
-        "properties": {
-          "text": null,
-          "x2": 44,
-          "y2": 1,
-          "size": 6,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 48,
-        "coordy": 1,
-        "properties": {
-          "text": null,
-          "x2": 48,
-          "y2": 1,
-          "size": 6,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 45,
-        "coordy": 4,
-        "properties": {
-          "text": null,
-          "x2": 45,
-          "y2": 4,
-          "size": 6,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 47,
-        "coordy": 4,
-        "properties": {
-          "text": null,
-          "x2": 47,
-          "y2": 4,
-          "size": 6,
-          "orientation": 0
-        }
+        "properties": null
       }
     ]
   },
