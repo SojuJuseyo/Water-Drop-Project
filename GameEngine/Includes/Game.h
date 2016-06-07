@@ -12,10 +12,12 @@
 #include "WinScene.h"
 #include "SoundSystem.h"
 #include "LoadingScene.h"
+#include "SettingsScreen.h"
 #include "Texture.h"
 
 #define WINDOW_WIDTH 800.f
 #define WINDOW_HEIGHT 600.f
+#define MAP_FILES_PATH "\\..\\..\\GameEngine\\Maps\\"
 
 namespace Moo
 {
@@ -26,21 +28,16 @@ namespace Moo
 			LOADING,
 			MAIN_MENU,
 			PAUSE_MENU,
-			CONTROLS_MENU,
+			HOWTOPLAY_MENU,
+			SETTINGS_MENU,
 			WIN,
-			LEVEL1,
-			LEVEL2,
-			LEVEL3,
-			//LEVEL4,
-			//LEVEL5,
-			//LEVEL6,
-			//LEVEL7,
-			NUMBER_OF_SCENE
-		}; //note : les enum declares DOIVENT etre utilises dans les scenes declarees dans Game.cpp && les enum des niveau de jeu DOIVENT etre cites en dernier, precedant le dernier "NUMBER_OF_SCENE"
+			LEVEL
+		};
 		struct s_scene
 		{
 			e_scene						sceneType;
 			Scene*						scene = nullptr;
+			int							level;
 			struct s_scene				*prevScene;
 		};
 
@@ -62,6 +59,9 @@ namespace Moo
 		void							createScene(e_scene, Scene*);
 		void							displayLoadingScreen();
 		s_scene*						getSceneByType(e_scene sceneType);
+		void							readMapFiles();
+		std::string						GetMapFolder();
+		bool							isFileNameOk(std::string filename);
 
 		std::vector<s_scene>			_listOfScenes;
 		std::shared_ptr<Moo::Window>	_window;
@@ -69,6 +69,8 @@ namespace Moo
 		std::map<std::string, Texture> _textures;
 
 		s_scene*						_currentScene = nullptr;
+		int								_levelCounter = 0;
+		int								_nbOfLevels = 0;
 		bool							_isGameRunning = false;
 		bool							_isInGame = false;
 	};

@@ -1,14 +1,19 @@
 #include "GameManagmentHeader.h"
 #include "log.h"
 
+#include <windows.h>
+#include <tchar.h> 
+#include <stdio.h>
+#include <strsafe.h>
+#pragma comment(lib, "User32.lib")
+
 namespace Moo
 {
 	Game::Game()
 	{
 		_soundSystem = std::make_shared<SoundSystem>();
 		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("playerJump.dds"));
-		_textures["Player_Jump"].loadFromFile(GRAPHICS_PATH + std::string("playerJump.dds"));
-		_textures["Background_Controle"].loadFromFile(GRAPHICS_PATH + std::string("controle.dds"));
+		_textures["Background_Controle"].loadFromFile(GRAPHICS_PATH + std::string("controls.dds"));
 		_textures["Background_Menu"].loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
 		_textures["Hitbox"].loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 		_textures["Background_Menu_Pause"].loadFromFile(GRAPHICS_PATH + std::string("Menu_Pause_WTP_DDS.dds"));
@@ -22,6 +27,39 @@ namespace Moo
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("victoryScreen.dds"));
 		_textures["End"].loadFromFile(GRAPHICS_PATH + std::string("theEnd.dds"));
 		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("bullet.dds"));
+
+		//Menu related textures
+		_textures["Menu_Background"].loadFromFile(GRAPHICS_PATH + std::string("Menu/background.dds"));
+		_textures["Menu_Title"].loadFromFile(GRAPHICS_PATH + std::string("Menu/title.dds"));
+		_textures["Menu_Play"].loadFromFile(GRAPHICS_PATH + std::string("Menu/PLAY.dds"));
+		_textures["Menu_Play_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/PLAY On.dds"));
+		_textures["Menu_HowToPlay"].loadFromFile(GRAPHICS_PATH + std::string("Menu/How to play.dds"));
+		_textures["Menu_HowToPlay_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/How to play On.dds"));
+		_textures["Menu_Options"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Options.dds"));
+		_textures["Menu_Options_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Options On.dds"));
+		_textures["Menu_Quit"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit.dds"));
+		_textures["Menu_Quit_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit On.dds"));
+
+		//Pause Menu related textures
+		_textures["Pause_Menu_Title"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Pause.dds"));
+		_textures["Pause_Menu_Resume"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume.dds"));
+		_textures["Pause_Menu_Resume_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume On.dds"));
+
+		//Settings related textures
+		_textures["Settings_Background"].loadFromFile(GRAPHICS_PATH + std::string("Settings/background.dds"));
+		_textures["Settings_Title"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Settings.dds"));
+		_textures["Settings_Fullscreen"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Fullscreen.dds"));
+		_textures["Settings_Fullscreen_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Fullscreen On.dds"));
+		_textures["Settings_Music"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Music.dds"));
+		_textures["Settings_Music_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Music On.dds"));
+		_textures["Settings_Sound_Effects"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Sound Effects.dds"));
+		_textures["Settings_Sound_Effects_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Sound Effects On.dds"));
+		_textures["Settings_Back"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Back.dds"));
+		_textures["Settings_Back_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Back On.dds"));
+		_textures["Settings_Save"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Save.dds"));
+		_textures["Settings_Save_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Save On.dds"));
+		_textures["Settings_Checkbox_Unchecked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/case.dds"));
+		_textures["Settings_Checkbox_Checked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/casecochee.dds"));
 	}
 
 	Game::~Game()
@@ -37,27 +75,37 @@ namespace Moo
 	// fait un clean sur la scene actuelle
 	void			Game::cleanCurrentScene()
 	{
-		for (auto &scene : _listOfScenes)
-		{
-			if (scene.sceneType == _currentScene->sceneType && (int)_currentScene->sceneType >= (int)LEVEL1)
-			{
-				((LevelScene *)(scene.scene))->clean();
-				d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(scene.scene)->getCamera().getInfoMap());
-				d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(scene.scene)->getCamera().getPosition());
-				break;
-			}
+		std::cout << "cleanCurrentScene called" << std::endl;
+		if (_currentScene != nullptr && _currentScene->sceneType == LEVEL) {
+			_currentScene->scene->clean();
+			d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getInfoMap());
+			d3d::getInstance().getCamera()->setPosition(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getPosition());
 		}
 	}
 
 	// fait un init sur toute les scenes (sauf la scene du loading screen) et reset la camera generale
 	void			Game::resetAllScenes()
 	{
+		std::cout << "resetAllScenes called" << std::endl;
 		for (int index = 1; index < (int)_listOfScenes.size(); ++index)
 		{
 			if (_listOfScenes[index].scene != nullptr)
-				_listOfScenes[index].scene->init(_window, _textures);
+			{
+				try
+				{
+					std::cout << "try to init scene " << _listOfScenes[index].sceneType << " :" << std::endl;
+					_listOfScenes[index].scene->init(_window, _textures);
+					std::cout << "scene inited" << std::endl;
+				}
+				catch (Exception e)
+				{
+					// sus quand le init d'un map a failed
+					std::cout << "INIT FAILED FOR SCENE INDEX : " << index << std::endl;
+				}
+			}
 		}
 		Moo::d3d::getInstance().getCamera()->reset();
+		std::cout << "resetAllScenes ends" << std::endl;
 	}
 
 	// a appeller qu'une fois au debut pour initialiser les Scenes + lance automatiquement l'execution du jeu en lancant MAIN MENU + contient la game loop
@@ -68,16 +116,11 @@ namespace Moo
 		displayLoadingScreen();
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
-		createScene(CONTROLS_MENU, new ControleScene());
-		createScene(WIN, new WinScene()); 
-		//createScene(LEVEL1, new LevelScene("Maps/Sam.json"));
-		createScene(LEVEL1, new LevelScene("Maps/TestScript.json"));
-		createScene(LEVEL2, new LevelScene("Maps/TheBreach.json"));
-		createScene(LEVEL3, new LevelScene("Maps/Shoot.json"));
-		//createScene(LEVEL4, new LevelScene("Maps/Raining.json"));
-		//createScene(LEVEL5, new LevelScene("Maps/Yamakasi.json"));
-		//createScene(LEVEL6, new LevelScene("Maps/TempleRun.json"));
-		//createScene(LEVEL7, new LevelScene("Maps/TheElevator.json"));
+		createScene(HOWTOPLAY_MENU, new ControleScene());
+		createScene(SETTINGS_MENU, new SettingsScreen());
+		createScene(WIN, new WinScene());
+		readMapFiles();
+		_levelCounter = 0;
 		resetAllScenes();
 		runScene(MAIN_MENU, false);
 		_isGameRunning = true;
@@ -97,7 +140,7 @@ namespace Moo
 	// a appeller quand on veut passer d'une scene a l'autre.
 	void			Game::runScene(e_scene type, bool isContinue)
 	{
-		std::cout << "RUN SCENE " << type << " NUMBER OF SCENE : " << _listOfScenes.size() << std::endl;
+		std::cout << "RUN SCENE " << type  << std::endl;
 		s_scene *tmpSceneForPrev = _currentScene;
 		s_scene *tmpScene = getSceneByType(type);
 		if (tmpScene != nullptr)
@@ -105,7 +148,7 @@ namespace Moo
 		else
 			return;
 		Moo::d3d::getInstance().getCamera()->reset();
-		if ((int)type >= (int)LEVEL1) {
+		if (type == LEVEL) {
 			if (!isContinue)
 				cleanCurrentScene();
 			d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getInfoMap());
@@ -114,15 +157,18 @@ namespace Moo
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
 				((LevelScene*)_currentScene->scene)->themeChan->setPaused(false);
 		}
-		if ((type == PAUSE_MENU && (int)(tmpSceneForPrev->sceneType) >= (int)LEVEL1) || type == CONTROLS_MENU)
+		if ((type == PAUSE_MENU && tmpSceneForPrev->sceneType == LEVEL) || type == HOWTOPLAY_MENU || type == SETTINGS_MENU)
 			_currentScene->prevScene = tmpSceneForPrev;
-		if (type == MAIN_MENU)
+		if (type == MAIN_MENU) {
+			_levelCounter = 0;
 			_currentScene->prevScene = nullptr;
+		}
 	}
 
 	// retour en arriere sert a pauser le jeu, et revenir en arriere dans les menu principaux
 	void			Game::backToPrevScene()
 	{
+		std::cout << "backToPrevScene called" << std::endl;
 		if (_currentScene != nullptr && _currentScene->prevScene != nullptr)
 			runScene(_currentScene->prevScene->sceneType, true);
 		else if (_currentScene != nullptr && _currentScene->sceneType == WIN)
@@ -132,12 +178,13 @@ namespace Moo
 	// charge la scene de jeu suivant
 	void			Game::goToNextScene()
 	{
-		if (_currentScene != nullptr && (int)_currentScene->sceneType >= (int)LEVEL1) {
-			if ((int)_currentScene->sceneType < (int)NUMBER_OF_SCENE - 1)
-				runScene((e_scene)((int)_currentScene->sceneType + 1), false);
-			else
-				runScene(WIN, false);
+		std::cout << "goToNextScene called" << std::endl;
+		if (_currentScene != nullptr && _currentScene->sceneType == LEVEL && _currentScene->level < _nbOfLevels) {
+			++_levelCounter;
+			runScene(LEVEL, false);
 		}
+		if (_currentScene != nullptr && _currentScene->sceneType == LEVEL && _levelCounter >= _nbOfLevels)
+			runScene(WIN, false);
 		else if (_currentScene != nullptr && _currentScene->sceneType == WIN)
 			runScene(MAIN_MENU, false);
 	}
@@ -154,6 +201,8 @@ namespace Moo
 		if (_currentScene != nullptr && _currentScene->scene != nullptr) {
 			if (Moo::Keyboard::isDown(Moo::Keyboard::Escape))
 				backToPrevScene();
+			if (Moo::Keyboard::isDown(Moo::Keyboard::P) && _currentScene->sceneType == LEVEL)
+				goToNextScene();
 			if (!_currentScene->scene->runUpdate())
 				exit();
 		}
@@ -167,14 +216,18 @@ namespace Moo
 		newScene.scene = sceneRef;
 		newScene.sceneType = sceneType;
 		newScene.prevScene = nullptr;
+		newScene.level = _levelCounter;
 		_listOfScenes.push_back(newScene);
+		if (sceneType == LEVEL)
+			++_levelCounter;
 	}
 
 	// renvoie la reference de la scene via son type (parmi les scenes crees)
 	Game::s_scene*		Game::getSceneByType(e_scene sceneType)
 	{
 		for (auto &scene : _listOfScenes) {
-			if (scene.sceneType == sceneType)
+			if ((scene.sceneType == sceneType && sceneType != LEVEL) ||
+				(scene.sceneType == sceneType && sceneType == LEVEL && scene.level == _levelCounter))
 				return &scene;
 		}
 		return nullptr;
@@ -193,5 +246,60 @@ namespace Moo
 				return;
 			}
 		}
+	}
+
+	void Game::readMapFiles()
+	{
+		WIN32_FIND_DATA ffd;
+		LARGE_INTEGER filesize;
+		TCHAR szDir[MAX_PATH];
+		size_t length_of_arg;
+		HANDLE hFind = INVALID_HANDLE_VALUE;
+		DWORD dwError = 0;
+		std::string path = GetMapFolder();
+		StringCchLength(path.c_str(), MAX_PATH, &length_of_arg);
+		StringCchCopy(szDir, MAX_PATH, path.c_str());
+		StringCchCat(szDir, MAX_PATH, TEXT("\\*"));
+		hFind = FindFirstFile(szDir, &ffd);
+		if (INVALID_HANDLE_VALUE == hFind)
+			return ;
+		do{
+			if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)){
+				filesize.LowPart = ffd.nFileSizeLow;
+				filesize.HighPart = ffd.nFileSizeHigh;
+				if (isFileNameOk(std::string(ffd.cFileName)))
+				{
+					std::cout << "mapfile : " << ffd.cFileName << std::endl;
+					std::string mapFileName = std::string(ffd.cFileName);
+					createScene(LEVEL, new LevelScene("Maps/" + mapFileName));
+					++_nbOfLevels;
+				}
+			}
+		}
+		while (FindNextFile(hFind, &ffd) != 0);
+		dwError = GetLastError();
+		if (dwError != ERROR_NO_MORE_FILES)
+			return;
+		FindClose(hFind);
+		return;
+	}
+
+	std::string Game::GetMapFolder()
+	{
+		char buffer[MAX_PATH];
+		GetModuleFileName(NULL, buffer, MAX_PATH);
+		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+		std::string path = std::string(buffer).substr(0, pos) + MAP_FILES_PATH;
+		std::cout << "PATH : " << path << std::endl;
+		return path;
+	}
+
+	bool Game::isFileNameOk(std::string fileName)
+	{
+		std::string fileType = ".json";
+		std::string enfFile = fileName.substr(fileName.size() - fileType.size(), fileType.size());
+		if (enfFile.compare(fileType) == 0)
+			return true;
+		return false;
 	}
 }

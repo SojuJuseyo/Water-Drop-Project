@@ -791,18 +791,6 @@
       },
       {
         "collidable": true,
-        "coordx": 19,
-        "coordy": 3,
-        "properties": {
-          "text": null,
-          "x2": 19,
-          "y2": 3,
-          "size": 4,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
         "coordx": 5,
         "coordy": 4,
         "properties": {
@@ -818,10 +806,22 @@
         "coordx": 16,
         "coordy": 5,
         "properties": {
-          "text": null,
+          "text": "",
           "x2": 16,
           "y2": 5,
-          "size": 4,
+          "size": 12,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 19,
+        "coordy": 5,
+        "properties": {
+          "text": "",
+          "x2": 19,
+          "y2": 5,
+          "size": 6,
           "orientation": 0
         }
       },

@@ -165,6 +165,10 @@
     <ClInclude Include="Includes\Font.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\FailScene.h" />
+    <ClInclude Include="Includes\SettingsScreen.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp">
@@ -275,6 +279,10 @@
     <ClCompile Include="Src\Font.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="Src\FailScene.cpp" />
+    <ClCompile Include="Src\SettingsScreen.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Ressources\Graphics\background.dds">
@@ -332,6 +340,27 @@
       <Filter>Resource Files</Filter>
     </Media>
     <Media Include="Ressources\Sounds\shoot.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\powerup2.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\powerup3.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\powerup4.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\shoot2.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\shoot3.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\shoot4.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\walljump.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>

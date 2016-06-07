@@ -167,6 +167,7 @@
     <ClInclude Include="Includes\Entity.h" />
     <ClInclude Include="Includes\Exceptions.h" />
     <ClInclude Include="Includes\Font.h" />
+    <ClInclude Include="Includes\FailScene.h" />
     <ClInclude Include="Includes\Fps.h" />
     <ClInclude Include="Includes\Game.h" />
     <ClInclude Include="Includes\GameManagmentHeader.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Includes\pch.h" />
     <ClInclude Include="Includes\Scene.h" />
     <ClInclude Include="Includes\Settings.h" />
+    <ClInclude Include="Includes\SettingsScreen.h" />
     <ClInclude Include="Includes\SoundSystem.h" />
     <ClInclude Include="Includes\Sprite.h" />
     <ClInclude Include="Includes\StaticEntity.h" />
@@ -206,6 +208,7 @@
     <ClCompile Include="Src\Drawable.cpp" />
     <ClCompile Include="Src\DynamicEntity.cpp" />
     <ClCompile Include="Src\Entity.cpp" />
+    <ClCompile Include="Src\FailScene.cpp" />
     <ClCompile Include="Src\Font.cpp" />
     <ClCompile Include="Src\Fps.cpp" />
     <ClCompile Include="Src\Game.cpp" />
@@ -221,6 +224,7 @@
     <ClCompile Include="Src\pch.cpp" />
     <ClCompile Include="Src\Scene.cpp" />
     <ClCompile Include="Src\Settings.cpp" />
+    <ClCompile Include="Src\SettingsScreen.cpp" />
     <ClCompile Include="Src\SoundSystem.cpp" />
     <ClCompile Include="Src\Sprite.cpp" />
     <ClCompile Include="Src\StaticEntity.cpp" />
@@ -255,8 +259,15 @@
     <Media Include="Ressources\Sounds\jump.wav" />
     <Media Include="Ressources\Sounds\Menu.wav" />
     <Media Include="Ressources\Sounds\powerup.wav" />
+    <Media Include="Ressources\Sounds\powerup2.wav" />
+    <Media Include="Ressources\Sounds\powerup3.wav" />
+    <Media Include="Ressources\Sounds\powerup4.wav" />
     <Media Include="Ressources\Sounds\shoot.wav" />
+    <Media Include="Ressources\Sounds\shoot2.wav" />
+    <Media Include="Ressources\Sounds\shoot3.wav" />
+    <Media Include="Ressources\Sounds\shoot4.wav" />
     <Media Include="Ressources\Sounds\Victory.wav" />
+    <Media Include="Ressources\Sounds\walljump.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

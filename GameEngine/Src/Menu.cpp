@@ -10,44 +10,53 @@ namespace Moo
 	{
 	}
 
+	void	Menu::addSprite(std::string name, std::string filename, float width, float height, float x, float y, float divider)
+	{
+		_sprites[name] = std::make_shared<Sprite>(width, height, x, y);
+		_sprites[name]->loadTexture(&_textures.get()->at(filename));
+		_sprites[name]->setX(d3d::getInstance().getScreenSize().x / divider - _sprites[name]->getWidth() / 2);
+	}
+
 	bool Menu::init(std::shared_ptr<Moo::Window> window, std::map<std::string, Texture> textures)
 	{
 		_window = window;
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
 
 		//background
-		_sprites["Background"] = std::make_shared<Moo::Sprite>(1280.f, 1080.f, 0.f, 0.f);
-		_sprites["Background"]->loadTexture(&_textures.get()->at("Background_Menu"));
-		_sprites["Background"]->setScale(Vector2f(0.65f, 0.56f));
+		_sprites["Background"] = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f);
+		_sprites["Background"]->loadTexture(&_textures.get()->at("Menu_Background"));
 
 		//Buttons attributes
-		float spaceBetweenButtons = 10;
-		float positionOfButtonsX = d3d::getInstance().getScreenSize().x / 5.f * 2.5f;
-		float widthOfButtons = 200;
-		float heightOfButtons = 75;
+		float spaceBetweenButtons = 30;
 
-		//Button Play
-		_sprites["Play"] = std::make_shared<Sprite>(widthOfButtons,
-			heightOfButtons,
-			positionOfButtonsX,
-			d3d::getInstance().getScreenSize().y / 10 * 6);
-		_sprites["Play"]->loadTexture(&_textures.get()->at("Hitbox"));
+		//Title
+		_sprites["Title"] = std::make_shared<Moo::Sprite>(529.f, 153.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 7);
+		_sprites["Title"]->loadTexture(&_textures.get()->at("Menu_Title"));
+		_sprites["Title"]->setScale(Vector2f(0.75f, 0.75f));
+		_sprites["Title"]->setX(d3d::getInstance().getScreenSize().x / 2.f - _sprites["Title"]->getWidth() / 2);
 
-		//Button Controls
-		_sprites["Controls"] = std::make_shared<Sprite>(widthOfButtons,
-			heightOfButtons,
-			positionOfButtonsX,
-			_sprites["Play"]->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Play button
-		_sprites["Controls"]->loadTexture(&_textures.get()->at("Hitbox"));
+		//Button Play && Play On
+		addSprite("Play", "Menu_Play", 129.f, 43.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 5, 2);
+		addSprite("Play_On", "Menu_Play_On", 161.f, 54.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 5, 2);
+		_sprites["Play_Current"] = _sprites["Play"];
 
-		//Button Quit
-		_sprites["Quit"] = std::make_shared<Sprite>(widthOfButtons,
-			heightOfButtons,
-			positionOfButtonsX,
-			_sprites["Controls"]->getY() - heightOfButtons - spaceBetweenButtons); //Place it below the Controls button
-		_sprites["Quit"]->loadTexture(&_textures.get()->at("Hitbox"));
+		//Button HowToPlay && HowToPlay On
+		addSprite("HowToPlay", "Menu_HowToPlay", 334.f, 42.f, 0.f, _sprites["Play"]->getY() - _sprites["Play"]->getHeight() - spaceBetweenButtons, 2);
+		addSprite("HowToPlay_On", "Menu_HowToPlay_On", 418.f, 53.f, 0.f, _sprites["HowToPlay"]->getY(), 2);
+		_sprites["HowToPlay_Current"] = _sprites["HowToPlay"];
+
+		//Button Options && Options On
+		addSprite("Options", "Menu_Options", 225.f, 42.f, 0.f, _sprites["HowToPlay"]->getY() - _sprites["HowToPlay"]->getHeight() - spaceBetweenButtons, 2);
+		addSprite("Options_On", "Menu_Options_On", 282.f, 53.f, 0.f, _sprites["Options"]->getY(), 2);
+		_sprites["Options_Current"] = _sprites["Options"];
+
+		//Button Quit && Quit On
+		addSprite("Quit", "Menu_Quit", 129.f, 49.f, 0.f, _sprites["Options"]->getY() - _sprites["Options"]->getHeight() - spaceBetweenButtons, 2);
+		addSprite("Quit_On", "Menu_Quit_On", 162.f, 61.f, 0.f, _sprites["Quit"]->getY(), 2);
+		_sprites["Quit_Current"] = _sprites["Quit"];
 
 		_offset = e_menu::PLAY;
+		_sprites["Play_Current"] = _sprites["Play_On"];
 		return true;
 	}
 
@@ -60,11 +69,15 @@ namespace Moo
 			switch (_offset)
 			{
 			case e_menu::PLAY:
-				Game::getInstance().runScene(Game::LEVEL1, false);
+				Game::getInstance().runScene(Game::LEVEL, false);
 				return true;
 				break;
-			case e_menu::CONTROLS:
-				Game::getInstance().runScene(Game::CONTROLS_MENU, false);
+			case e_menu::HOW_TO_PLAY:
+				Game::getInstance().runScene(Game::HOWTOPLAY_MENU, false);
+				return true;
+				break;
+			case e_menu::OPTIONS:
+				Game::getInstance().runScene(Game::SETTINGS_MENU, false);
 				return true;
 				break;
 			case e_menu::QUIT:
@@ -72,32 +85,56 @@ namespace Moo
 				break;
 			}
 
-		if (Keyboard::isDown(Keyboard::Up)) {
+		if (Keyboard::isDown(Keyboard::Up))
+		{
 			Game::getInstance().getSoundSystem()->playSound("Menu", false);
 			switch (_offset)
 			{
 			case e_menu::PLAY:
+				_sprites["Play_Current"] = _sprites["Play"];
+				_sprites["Quit_Current"] = _sprites["Quit_On"];
 				_offset = e_menu::QUIT;
 				break;
-			case e_menu::CONTROLS:
+			case e_menu::HOW_TO_PLAY:
+				_sprites["HowToPlay_Current"] = _sprites["HowToPlay"];
+				_sprites["Play_Current"] = _sprites["Play_On"];
 				_offset = e_menu::PLAY;
 				break;
+			case e_menu::OPTIONS:
+				_sprites["Options_Current"] = _sprites["Options"];
+				_sprites["HowToPlay_Current"] = _sprites["HowToPlay_On"];
+				_offset = e_menu::HOW_TO_PLAY;
+				break;
 			case e_menu::QUIT:
-				_offset = e_menu::CONTROLS;
+				_sprites["Quit_Current"] = _sprites["Quit"];
+				_sprites["Options_Current"] = _sprites["Options_On"];
+				_offset = e_menu::OPTIONS;
 				break;
 			}
 		}
-		else if (Keyboard::isDown(Keyboard::Down)) {
+		else if (Keyboard::isDown(Keyboard::Down))
+		{
 			Game::getInstance().getSoundSystem()->playSound("Menu", false);
 			switch (_offset)
 			{
 			case e_menu::PLAY:
-				_offset = e_menu::CONTROLS;
+				_sprites["Play_Current"] = _sprites["Play"];
+				_sprites["HowToPlay_Current"] = _sprites["HowToPlay_On"];
+				_offset = e_menu::HOW_TO_PLAY;
 				break;
-			case e_menu::CONTROLS:
+			case e_menu::HOW_TO_PLAY:
+				_sprites["HowToPlay_Current"] = _sprites["HowToPlay"];
+				_sprites["Options_Current"] = _sprites["Options_On"];
+				_offset = e_menu::OPTIONS;
+				break;
+			case e_menu::OPTIONS:
+				_sprites["Options_Current"] = _sprites["Options"];
+				_sprites["Quit_Current"] = _sprites["Quit_On"];
 				_offset = e_menu::QUIT;
 				break;
 			case e_menu::QUIT:
+				_sprites["Quit_Current"] = _sprites["Quit"];
+				_sprites["Play_Current"] = _sprites["Play_On"];
 				_offset = e_menu::PLAY;
 				break;
 			}
@@ -105,20 +142,13 @@ namespace Moo
 
 		_window->clear();
 		_window->draw(_sprites["Background"].get());
-
-		switch (_offset)
-		{
-		case e_menu::PLAY:
-			_window->draw(_sprites["Play"].get());
-			break;
-		case e_menu::CONTROLS:
-			_window->draw(_sprites["Controls"].get());
-			break;
-		case e_menu::QUIT:
-			_window->draw(_sprites["Quit"].get());
-			break;
-		}
+		_window->draw(_sprites["Title"].get());
+		_window->draw(_sprites["Play_Current"].get());
+		_window->draw(_sprites["HowToPlay_Current"].get());
+		_window->draw(_sprites["Options_Current"].get());
+		_window->draw(_sprites["Quit_Current"].get());
 		_window->display();
+
 		return true;
 	}
 

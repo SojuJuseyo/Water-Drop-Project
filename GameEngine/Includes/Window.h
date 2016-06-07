@@ -44,6 +44,7 @@ namespace Moo
 		ComPtr<ID3D11Device> _dev;
 		ComPtr<ID3D11DeviceContext> _devcon;
 		d3d _system;
+		Fps _fps;
 	};
 }
 

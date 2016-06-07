@@ -86,7 +86,7 @@ namespace Moo
 		_spriteSheet["Block"] = Moo::Vector2f(0, 0);
 		_spriteSheet["Platform"] = Moo::Vector2f(4, 0);
 		_spriteSheet["Ground"] = Moo::Vector2f(1, 0);
-		_spriteSheet["Exit"] = Moo::Vector2f(6, 0);
+		_spriteSheet["Exit"] = Moo::Vector2f(5, 0);
 	}
 
 	void	LevelScene::fillStaticEntitiesList(EntityType type, Tile tile, bool isHeatZone)
@@ -94,7 +94,7 @@ namespace Moo
 		auto sprite = std::make_shared<Moo::Sprite>(BLOCK_SIZE, BLOCK_SIZE, tile.getPosX() * BLOCK_SIZE, tile.getPosY() * BLOCK_SIZE);
 		sprite->loadTexture(&_textures.get()->at("Tileset"));
 
-		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(16.f, 16.f));
+		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(48.f, 48.f));
 		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, tile.getIsCollidable());
 		if (tile.getProperties().getIsSet() == true)
 		{
@@ -211,15 +211,9 @@ namespace Moo
 
 		//Enemies
 		for (auto enemyTile : enemyTiles)
-		{
 			createEnemy(enemyTile, characterHealth);
-			/*std::cout << "Size: " << enemyTile.getProperties().getSize() << std::endl;
-			if (enemyTile.getProperties().getSize() != 40)
-				fillDynamicEntitiesList(48, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), playerWidth, playerHeight, playerMass, playerHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());
-			else
-				fillDynamicEntitiesList(40, EntityType::ENEMY, enemyTile.getPosX(), enemyTile.getPosY(), characterWidth, characterHeight, characterMass, characterHealth, true, enemyTile.getProperties().getDirection(), enemyTile.getProperties());*/
-		}
 
+		//Player
 		Tile playerTile = playerTiles.front();
 		fillDynamicEntitiesList(EntityType::PLAYER, playerTile.getPosX(), playerTile.getPosY(),
 								characterWidth * playerMultiplier, characterHeight * playerMultiplier, characterMass * playerMultiplier, characterHealth * playerMultiplier,
@@ -329,7 +323,7 @@ namespace Moo
 			Moo::Game::getInstance().cleanCurrentScene();
 
 		if (Moo::Keyboard::isDown(Moo::Keyboard::D))
-			std::cout << "fps:" << 1.0f / Moo::Fps::getInstance().getFrameTime() << std::endl;
+			std::cout << "fps:" << _window->getFps() << std::endl;
 
 		//Cheats
 		if (Moo::Keyboard::isDown(Moo::Keyboard::GodMode))
@@ -392,7 +386,7 @@ namespace Moo
 		{
 			if (_player->getHealth() > 2.f)
 			{
-				_soundSystem->playSound("shoot", false);
+				_soundSystem->playSoundRandom("shoot");
 
 				float startPosX;
 				if (_player->getDirection() == Direction::RIGHT)
@@ -464,8 +458,6 @@ namespace Moo
 					_window->draw(entity->getSprite());
 					//_window->draw(entity->getHitboxSprite());
 				}
-		//_fps->setText("FPS " + std::to_string((int)(_window->getFps())));
-		//_fps->draw(*_window.get());
 	}
 
 	void	LevelScene::exitReached()
@@ -735,8 +727,7 @@ namespace Moo
 								|| (secondDynamicEntity->getEntityType() == EntityType::PLAYER && std::static_pointer_cast<Moo::Character>(secondDynamicEntity)->isGodMode() == true)))
 								|| (dynamicEntity->getEntityType() == EntityType::BULLET && secondDynamicEntity->getEntityType() != EntityType::PLAYER))
 							{
-								if (dynamicEntity->getEntityType() != EntityType::BULLET && secondDynamicEntity->getEntityType() == EntityType::PLAYER)
-									_soundSystem->playSound("powerup", false);
+								_soundSystem->playSoundRandom ("powerup");
 
 								secondDynamicEntity->changeHealth(dynamicEntity->getHealth() * 33 / 100);
 
@@ -763,17 +754,23 @@ namespace Moo
 			this->exitReached();
 	}
 
+	void	LevelScene::displayHudInfos()
+	{
+		_window->inCameradraw(_hud.get());
+
+		_life.get()->setText(std::to_string(static_cast<int>(_player->getHealth())));
+		_window->inCameradraw(_life.get());
+
+		_fps->setText("FPS " + std::to_string(_window->getFps()));
+		_window->inCameradraw(_fps.get());
+	}
+
 	bool	LevelScene::runUpdate()
 	{
-		/*
-		if (themeChan != nullptr)
-		themeChan->setPaused(false);
-		*/
-
-		//Gtting the inputs of the player
-		std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
-		if (elapsed_time_start.count() > 0.75)
-			inputHandling();
+		////Gtting the inputs of the player
+		//std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
+		//if (elapsed_time_start.count() > 0.75)
+		inputHandling();
 
 		//Applying scripts
 		updateScriptsStatic();
@@ -788,19 +785,11 @@ namespace Moo
 		//Display the game elements
 		displayHitboxesAndSprites();
 
-		_window->inCameradraw(_hud.get());
-		std::ostringstream oss;
-		oss << static_cast<int>(_player->getHealth());
-		_life.get()->setText(oss.str());
-		_window->inCameradraw(_life.get());
+		//Display the HUD elements
+		//displayHudInfos();
 
 		//Drawing all that is inside the window
 		_window->display();
-
-		/*
-		if (themeChan != nullptr)
-		themeChan->setPaused(true);
-		*/
 
 		if (_playerDead == true)
 			this->playerDead();

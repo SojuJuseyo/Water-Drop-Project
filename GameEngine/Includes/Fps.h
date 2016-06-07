@@ -16,12 +16,6 @@ namespace Moo
 		void setState(bool);
 		bool getState();
 
-		static Fps& Fps::getInstance()
-		{
-			static Fps instance;
-			return instance;
-		}
-
 	private:
 		float _lastTime;
 		float _frameTime;
