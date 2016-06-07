@@ -786,7 +786,7 @@ namespace Moo
 		displayHitboxesAndSprites();
 
 		//Display the HUD elements
-		//displayHudInfos();
+		displayHudInfos();
 
 		//Drawing all that is inside the window
 		_window->display();

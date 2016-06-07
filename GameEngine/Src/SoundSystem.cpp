@@ -9,7 +9,7 @@ SoundSystem::SoundSystem()
 	_volume = 0.1f;
 
 	//init rand
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	
 	FMOD_RESULT res;
 	res = FMOD::System_Create(&m_pSystem);
