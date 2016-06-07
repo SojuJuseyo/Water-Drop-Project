@@ -17,7 +17,7 @@
 
 #define WINDOW_WIDTH 800.f
 #define WINDOW_HEIGHT 600.f
-#define MAP_FILES_PATH "\\..\\..\\GameEngine\\Maps\\"
+#define MAP_FILES_PATH "\\Maps\\"
 
 namespace Moo
 {
