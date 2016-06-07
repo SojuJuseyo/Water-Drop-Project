@@ -281,7 +281,7 @@ namespace Moo
 				std::cout << "music failed" << std::endl;
 				themeChan = nullptr;
 			}
-			themeChan = _soundSystem->playSound("custom", true);
+			themeChan = _soundSystem->playBackgroundSound("custom");
 		}
 		if (themeChan != nullptr)
 			themeChan->setPaused(true);
