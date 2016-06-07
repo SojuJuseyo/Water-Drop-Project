@@ -45,7 +45,7 @@ namespace Moo
 		static bool isPressed(Keyboard::Key key);
 		static bool isDown(Keyboard::Key key);
 		static void updateInput();
-
+		bool focused = true;
 	private:
 		UINT _lastKey;
 		int _keyCodes[NUM_KEYS] = {

@@ -50,6 +50,7 @@ namespace Moo
 		void							cleanCurrentScene();										// clean la scene actuel
 		void							resetAllScenes();											// reset (init) toutes les scenes
 		std::shared_ptr<SoundSystem>	getSoundSystem();
+		s_scene*						_currentScene = nullptr;
 
 	private:
 		Game();
@@ -68,7 +69,6 @@ namespace Moo
 		std::shared_ptr<SoundSystem>	_soundSystem;
 		std::map<std::string, Texture> _textures;
 
-		s_scene*						_currentScene = nullptr;
 		int								_levelCounter = 0;
 		int								_nbOfLevels = 0;
 		bool							_isGameRunning = false;
