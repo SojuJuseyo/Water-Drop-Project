@@ -70,6 +70,7 @@ namespace Moo
 		_sprites["Fullscreen_Current"] = _sprites["Fullscreen_On"];
 
 		return true;
+		//d3d::getInstance().setFullScreenState(true);
 	}
 
 	bool	SettingsScreen::runUpdate()
