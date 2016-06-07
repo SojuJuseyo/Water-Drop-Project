@@ -160,8 +160,8 @@ namespace Moo
 	void	LevelScene::getEntitiesFromMap(std::shared_ptr<MapInfos> map)
 	{			
 		//All the data contained in the map - dynamic
-		std::list<Tile> enemyTiles = map->getTilesFromSprite("3");
-		std::list<Tile> playerTiles = map->getTilesFromSprite("5");
+		std::list<Tile> enemyTiles = map->getEnemyTilesFromSprite("0");
+		std::list<Tile> playerTiles = map->getPlayerTilesFromSprite("0");
 
 		//All the data contained in the map - static
 		std::list<Tile> blockTiles = map->getTilesFromSprite("0");

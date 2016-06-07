@@ -37,7 +37,8 @@ namespace Moo
 	void	JsonParser::defineFileFieldNames()
 	{
 		if (this->_fileType == FileType::MAP)
-			_fieldNames = { MAP_NAME_ATTRIBUTE, MAP_SIZE_ATTRIBUTE, MAP_TILE_LIST_ATTRIBUTE, MAP_AUDIO_ATTRIBUTE, MAP_BACKGROUND_ATTRIBUTE, MAP_HEATZONE_LIST_ATTRIBUTE, MAP_OTHER_TILE_LIST };
+			_fieldNames = { MAP_NAME_ATTRIBUTE, MAP_SIZE_ATTRIBUTE, MAP_BLOCK_TILE_LIST_ATTRIBUTE, MAP_PLAYER_TILE_LIST_ATTRIBUTE, 
+			MAP_ENEMY_TILE_LIST_ATTRIBUTE, MAP_AUDIO_ATTRIBUTE, MAP_BACKGROUND_ATTRIBUTE, MAP_HEATZONE_LIST_ATTRIBUTE, MAP_OTHER_TILE_LIST };
 		else if (this->_fileType == FileType::SETTINGS)
 			_fieldNames = { SETTINGS_RESOLUTION, SETTINGS_KEYS_MAPPING, SETTINGS_VOLUME, SETTINGS_FULLSCREEN, SETTINGS_FPS };
 	}
@@ -45,7 +46,7 @@ namespace Moo
 	// Function parsing the Json file and setting the map variables
 	MapInfos JsonParser::parseMap()
 	{
-		Json::Value		tileListObject;
+		Json::Value		blockTileListObject, playerTileListObject, enemyTileListObject;
 		MapInfos		map;
 
 		map.setMapName(_fileContent[MAP_NAME_ATTRIBUTE].asString());
@@ -55,16 +56,21 @@ namespace Moo
 		map.setMapAudioFile(_fileContent[MAP_AUDIO_ATTRIBUTE].asString());
 		map.setMapBackgroundFile(_fileContent[MAP_BACKGROUND_ATTRIBUTE].asString());
 
-		tileListObject = _fileContent[MAP_TILE_LIST_ATTRIBUTE];
-		// Get a vector of sprites used
-		std::vector<std::string> spritesUsed = tileListObject.getMemberNames();
-		std::list<std::pair<std::string, std::list<Tile>>> mapTileList;
+		blockTileListObject = _fileContent[MAP_BLOCK_TILE_LIST_ATTRIBUTE];
+		playerTileListObject = _fileContent[MAP_PLAYER_TILE_LIST_ATTRIBUTE];
+		enemyTileListObject = _fileContent[MAP_ENEMY_TILE_LIST_ATTRIBUTE];
+
+		// Get a vector of sprites used for blocks, players and enemies
+		std::vector<std::string> blockSpritesUsed = blockTileListObject.getMemberNames();
+		std::vector<std::string> playerSpritesUsed = playerTileListObject.getMemberNames();
+		std::vector<std::string> enemySpritesUsed = enemyTileListObject.getMemberNames();
+		std::list<std::pair<std::string, std::list<Tile>>> blockTileList, playerTileList, enemyTileList;
 
 		// C++11 foreach
-		for (std::string sprite : spritesUsed)
+		for (std::string sprite : blockSpritesUsed)
 		{
 			std::list<Tile> selectedSpriteTileList;
-			Json::Value selectedSpriteTileListObject = tileListObject[sprite];
+			Json::Value selectedSpriteTileListObject = blockTileListObject[sprite];
 			Json::Value::iterator itr = selectedSpriteTileListObject.begin();
 
 			// Iterate through the list of tiles using a given sprite
@@ -102,9 +108,101 @@ namespace Moo
 
 			std::pair<std::string, std::list<Tile>> spriteTileListPair;
 			spriteTileListPair = std::make_pair(sprite, selectedSpriteTileList);
-			mapTileList.push_back(spriteTileListPair);
+			blockTileList.push_back(spriteTileListPair);
 		}
-		map.setMapTileList(mapTileList);
+		map.setBlockTileList(blockTileList);
+
+		// C++11 foreach
+		for (std::string sprite : playerSpritesUsed)
+		{
+			std::list<Tile> selectedSpriteTileList;
+			Json::Value selectedSpriteTileListObject = playerTileListObject[sprite];
+			Json::Value::iterator itr = selectedSpriteTileListObject.begin();
+
+			// Iterate through the list of tiles using a given sprite
+			for (Json::ValueIterator itr = selectedSpriteTileListObject.begin(); itr != selectedSpriteTileListObject.end(); itr++)
+			{
+				Tile newTile;
+				Json::Value itrValue = (*itr);
+
+				newTile.setPosX(itrValue[MAP_COORD_X].asFloat());
+				newTile.setPosY(itrValue[MAP_COORD_Y].asFloat());
+				std::string tmp = itrValue[MAP_COLLIDABLE_TILE].asString();
+				if (tmp == "true")
+					newTile.setIsCollidable(true);
+				else
+					newTile.setIsCollidable(false);
+
+				Json::Value properties = itrValue[MAP_PROPERTIES];
+
+				TileProperties newTileProperties;
+				if (properties.getMemberNames().size() != 0)
+				{
+					newTileProperties.setText(properties["text"].asString());
+					newTileProperties.setX2(properties["x2"].asInt());
+					newTileProperties.setY2(properties["y2"].asInt());
+					newTileProperties.setSize(properties["size"].asInt());
+					newTileProperties.setDirection((Direction)properties["orientation"].asInt());
+					newTileProperties.setIsSet(true);
+				}
+				else
+					newTileProperties.setIsSet(false);
+				newTile.setProperties(newTileProperties);
+
+				selectedSpriteTileList.push_back(newTile);
+			}
+
+			std::pair<std::string, std::list<Tile>> spriteTileListPair;
+			spriteTileListPair = std::make_pair(sprite, selectedSpriteTileList);
+			playerTileList.push_back(spriteTileListPair);
+		}
+		map.setPlayerTileList(playerTileList);
+
+		// C++11 foreach
+		for (std::string sprite : enemySpritesUsed)
+		{
+			std::list<Tile> selectedSpriteTileList;
+			Json::Value selectedSpriteTileListObject = enemyTileListObject[sprite];
+			Json::Value::iterator itr = selectedSpriteTileListObject.begin();
+
+			// Iterate through the list of tiles using a given sprite
+			for (Json::ValueIterator itr = selectedSpriteTileListObject.begin(); itr != selectedSpriteTileListObject.end(); itr++)
+			{
+				Tile newTile;
+				Json::Value itrValue = (*itr);
+
+				newTile.setPosX(itrValue[MAP_COORD_X].asFloat());
+				newTile.setPosY(itrValue[MAP_COORD_Y].asFloat());
+				std::string tmp = itrValue[MAP_COLLIDABLE_TILE].asString();
+				if (tmp == "true")
+					newTile.setIsCollidable(true);
+				else
+					newTile.setIsCollidable(false);
+
+				Json::Value properties = itrValue[MAP_PROPERTIES];
+
+				TileProperties newTileProperties;
+				if (properties.getMemberNames().size() != 0)
+				{
+					newTileProperties.setText(properties["text"].asString());
+					newTileProperties.setX2(properties["x2"].asInt());
+					newTileProperties.setY2(properties["y2"].asInt());
+					newTileProperties.setSize(properties["size"].asInt());
+					newTileProperties.setDirection((Direction)properties["orientation"].asInt());
+					newTileProperties.setIsSet(true);
+				}
+				else
+					newTileProperties.setIsSet(false);
+				newTile.setProperties(newTileProperties);
+
+				selectedSpriteTileList.push_back(newTile);
+			}
+
+			std::pair<std::string, std::list<Tile>> spriteTileListPair;
+			spriteTileListPair = std::make_pair(sprite, selectedSpriteTileList);
+			enemyTileList.push_back(spriteTileListPair);
+		}
+		map.setEnemyTileList(enemyTileList);
 
 		Json::Value		heatZonesListObject = _fileContent[MAP_HEATZONE_LIST_ATTRIBUTE];
 		std::list<Tile> heatZoneTileList;
@@ -167,7 +265,7 @@ namespace Moo
 		map.setOtherTileList(otherTileList);
 
 		std::cout << "Map successfully loaded." << std::endl;
-		//map.displayMapInfos();
+		map.displayMapInfos();
 		return (map);
 	}
 
