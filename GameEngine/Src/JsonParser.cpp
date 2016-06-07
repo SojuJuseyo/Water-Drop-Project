@@ -265,7 +265,7 @@ namespace Moo
 		map.setOtherTileList(otherTileList);
 
 		std::cout << "Map successfully loaded." << std::endl;
-		map.displayMapInfos();
+		//map.displayMapInfos();
 		return (map);
 	}
 
