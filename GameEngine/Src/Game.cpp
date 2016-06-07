@@ -6,7 +6,8 @@ namespace Moo
 	Game::Game()
 	{
 		_soundSystem = std::make_shared<SoundSystem>();
-		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("player.dds"));
+		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("playerJump.dds"));
+		_textures["Player_Jump"].loadFromFile(GRAPHICS_PATH + std::string("playerJump.dds"));
 		_textures["Background_Controle"].loadFromFile(GRAPHICS_PATH + std::string("controle.dds"));
 		_textures["Background_Menu"].loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
 		_textures["Hitbox"].loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
@@ -17,8 +18,9 @@ namespace Moo
 		_textures["Interface"].loadFromFile(GRAPHICS_PATH + std::string("interfaceTest.dds"));
 		_textures["Drop"].loadFromFile(GRAPHICS_PATH + std::string("drop_icon.dds"));
 		// Temp texture for the bullet
-		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("You_Lost_DDS.dds"));
-		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("You_Won_DDS.dds"));
+		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("defeatScreen.dds"));
+		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("victoryScreen.dds"));
+		_textures["End"].loadFromFile(GRAPHICS_PATH + std::string("theEnd.dds"));
 		_textures["Bullet"].loadFromFile(GRAPHICS_PATH + std::string("bullet.dds"));
 	}
 
@@ -67,7 +69,8 @@ namespace Moo
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(CONTROLS_MENU, new ControleScene());
-		createScene(WIN, new WinScene());
+		createScene(WIN, new WinScene()); 
+		//createScene(LEVEL1, new LevelScene("Maps/Sam.json"));
 		createScene(LEVEL1, new LevelScene("Maps/TestScript.json"));
 		createScene(LEVEL2, new LevelScene("Maps/TheBreach.json"));
 		createScene(LEVEL3, new LevelScene("Maps/Shoot.json"));
