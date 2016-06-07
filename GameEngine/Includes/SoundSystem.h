@@ -37,5 +37,6 @@ public:
 	float getVolume();
 	void setVolume(float volume);
 	float getBackgroundVolume();
-	void setBackgroundVolume(float volume);
+	void unmuteBackgroundVolume();
+	void muteBackgroundVolume();
 };
