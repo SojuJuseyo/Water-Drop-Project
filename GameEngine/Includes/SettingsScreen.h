@@ -22,6 +22,7 @@ namespace Moo
 		~SettingsScreen();
 		void	addSprite(std::string, std::string, float, float, float, float, float);
 		bool	init(std::shared_ptr<Moo::Window> window, std::map<std::string, Texture>);
+		void	saveSettings();
 		bool	runUpdate();
 		void	clean();
 

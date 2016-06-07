@@ -70,7 +70,6 @@ namespace Moo
 		_sprites["Fullscreen_Current"] = _sprites["Fullscreen_On"];
 
 		return true;
-		//d3d::getInstance().setFullScreenState(true);
 	}
 
 	bool	SettingsScreen::runUpdate()
@@ -122,7 +121,7 @@ namespace Moo
 				return true;
 				break;
 			case e_settings::SAVE:
-				//Save settings
+				saveSettings();
 				Game::getInstance().backToPrevScene();
 				return true;
 				break;
@@ -251,6 +250,24 @@ namespace Moo
 		_window->display();
 
 		return true;
+	}
+
+	void	SettingsScreen::saveSettings()
+	{
+		if (_fullscreenOn == true)
+			d3d::getInstance().setFullScreenState(true);
+		else
+			d3d::getInstance().setFullScreenState(false);
+
+		if (_musicOn == true)
+			Game::getInstance().getSoundSystem()->unmuteBackgroundVolume();
+		else
+			Game::getInstance().getSoundSystem()->muteBackgroundVolume();
+
+		if (_soundEffectsOn == true)
+			Game::getInstance().getSoundSystem()->unmuteVolume();
+		else
+			Game::getInstance().getSoundSystem()->muteVolume();
 	}
 
 	void	SettingsScreen::clean() {}
