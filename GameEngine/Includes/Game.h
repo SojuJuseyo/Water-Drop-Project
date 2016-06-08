@@ -12,6 +12,7 @@
 #include "WinScene.h"
 #include "SoundSystem.h"
 #include "LoadingScene.h"
+#include "CreditsScene.h"
 #include "SettingsScreen.h"
 #include "Texture.h"
 
@@ -30,6 +31,7 @@ namespace Moo
 			PAUSE_MENU,
 			HOWTOPLAY_MENU,
 			SETTINGS_MENU,
+			CREDITS,
 			WIN,
 			LEVEL
 		};

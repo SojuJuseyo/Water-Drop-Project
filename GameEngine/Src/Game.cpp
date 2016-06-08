@@ -15,6 +15,7 @@ namespace Moo
 		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("playerJump.dds"));
 		_textures["Background_Controle"].loadFromFile(GRAPHICS_PATH + std::string("controls.dds"));
 		_textures["Background_Menu"].loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
+		_textures["Background_Credits"].loadFromFile(GRAPHICS_PATH + std::string("credits.dds"));
 		_textures["Hitbox"].loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 		_textures["Background_Menu_Pause"].loadFromFile(GRAPHICS_PATH + std::string("Menu_Pause_WTP_DDS.dds"));
 		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
@@ -125,6 +126,7 @@ namespace Moo
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(HOWTOPLAY_MENU, new ControleScene());
 		createScene(SETTINGS_MENU, new SettingsScreen());
+		createScene(CREDITS, new CreditsScene());
 		createScene(WIN, new WinScene());
 		readMapFiles();
 		_levelCounter = 0;
@@ -164,7 +166,7 @@ namespace Moo
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
 				((LevelScene*)_currentScene->scene)->themeChan->setPaused(false);
 		}
-		if ((type == PAUSE_MENU && tmpSceneForPrev->sceneType == LEVEL) || type == HOWTOPLAY_MENU || type == SETTINGS_MENU)
+		if ((type == PAUSE_MENU && tmpSceneForPrev->sceneType == LEVEL) || type == HOWTOPLAY_MENU || type == SETTINGS_MENU || type == CREDITS)
 			_currentScene->prevScene = tmpSceneForPrev;
 		if (type == MAIN_MENU) {
 			_levelCounter = 0;

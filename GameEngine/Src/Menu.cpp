@@ -86,7 +86,7 @@ namespace Moo
 				return true;
 				break;
 			case e_menu::CREDITS:
-				//Game::getInstance().runScene(Game::CREDITS, false);
+				Game::getInstance().runScene(Game::CREDITS, false);
 				return true;
 				break;
 			case e_menu::QUIT:
