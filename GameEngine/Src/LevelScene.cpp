@@ -761,8 +761,8 @@ namespace Moo
 		_life.get()->setText(std::to_string(static_cast<int>(_player->getHealth())));
 		_window->inCameradraw(_life.get());
 
-		_fps->setText("FPS " + std::to_string(_window->getFps()));
-		_window->inCameradraw(_fps.get());
+		//_fps->setText("FPS " + std::to_string(_window->getFps()));
+		//_window->inCameradraw(_fps.get());
 	}
 
 	bool	LevelScene::runUpdate()
