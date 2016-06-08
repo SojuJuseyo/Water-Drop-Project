@@ -69,7 +69,7 @@ void SoundSystem::initAllSounds()
 {
 	createSound(&soundMap["jump"], "jump.wav");
 	createSound(&soundMap["walljump"], "walljump.wav");
-	createSound(&soundMap["victory"], "Victory.wav");
+	createSound(&soundMap["victory"], "victory.mp3");
 	createSound(&soundMap["defeat"], "defeat.mp3");
 	createSound(&soundMap["menu"], "Menu.wav");
 	createSound(&soundMap["menuMove"], "menuMove.wav");
