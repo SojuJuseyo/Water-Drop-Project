@@ -70,7 +70,8 @@ namespace Moo
 	{
 		Moo::Keyboard::updateInput();
 
-		if (Moo::Keyboard::isDown(Keyboard::Enter))
+		if (Moo::Keyboard::isDown(Keyboard::Enter)) {
+			Game::getInstance().getSoundSystem()->playSound("menuMove", false);
 			switch (_offset)
 			{
 			case e_menu::PLAY:
@@ -93,10 +94,10 @@ namespace Moo
 				return false;
 				break;
 			}
-
+		}
 		if (Keyboard::isDown(Keyboard::Up))
 		{
-			Game::getInstance().getSoundSystem()->playSound("Menu", false);
+			Game::getInstance().getSoundSystem()->playSound("menu", false);
 			switch (_offset)
 			{
 			case e_menu::PLAY:
@@ -128,7 +129,7 @@ namespace Moo
 		}
 		else if (Keyboard::isDown(Keyboard::Down))
 		{
-			Game::getInstance().getSoundSystem()->playSound("Menu", false);
+			Game::getInstance().getSoundSystem()->playSound("menu", false);
 			switch (_offset)
 			{
 			case e_menu::PLAY:
