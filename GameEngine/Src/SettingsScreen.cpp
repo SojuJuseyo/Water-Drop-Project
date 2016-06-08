@@ -76,7 +76,8 @@ namespace Moo
 	{
 		Moo::Keyboard::updateInput();
 
-		if (Moo::Keyboard::isDown(Keyboard::Enter))
+		if (Moo::Keyboard::isDown(Keyboard::Enter)) {
+			Game::getInstance().getSoundSystem()->playSound("menuMove", false);
 			switch (_offset)
 			{
 			case e_settings::FULLSCREEN:
@@ -126,10 +127,11 @@ namespace Moo
 				return true;
 				break;
 			}
+		}
 
 		if (Keyboard::isDown(Keyboard::Up))
 		{
-			Game::getInstance().getSoundSystem()->playSound("Menu", false);
+			Game::getInstance().getSoundSystem()->playSound("menu", false);
 			switch (_offset)
 			{
 			case e_settings::FULLSCREEN:
@@ -161,7 +163,7 @@ namespace Moo
 		}
 		else if (Keyboard::isDown(Keyboard::Down))
 		{
-			Game::getInstance().getSoundSystem()->playSound("Menu", false);
+			Game::getInstance().getSoundSystem()->playSound("menu", false);
 			switch (_offset)
 			{
 			case e_settings::FULLSCREEN:
@@ -193,7 +195,7 @@ namespace Moo
 		}
 		else if (Keyboard::isDown(Keyboard::Right))
 		{
-			Game::getInstance().getSoundSystem()->playSound("Menu", false);
+			Game::getInstance().getSoundSystem()->playSound("menu", false);
 			switch (_offset)
 			{
 			case e_settings::FULLSCREEN:
@@ -213,7 +215,7 @@ namespace Moo
 		}
 		else if (Keyboard::isDown(Keyboard::Left))
 		{
-			Game::getInstance().getSoundSystem()->playSound("Menu", false);
+			Game::getInstance().getSoundSystem()->playSound("menu", false);
 			switch (_offset)
 			{
 			case e_settings::FULLSCREEN:
