@@ -231,7 +231,7 @@ namespace Moo
 		_window = window;
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
 		_font = std::make_shared<Font>();
-		_font->loadFromFile("font.dds");
+		_font->loadFromFile("Font.dds");
 		_fps = std::make_shared<Text>("FPS XX", 2.f, 10.f, WINDOW_HEIGHT - 50.f, _font); // text;size;position.x;position.y;font
 
 		//We get the map
@@ -774,13 +774,13 @@ namespace Moo
 
 		//Applying scripts
 		updateScriptsStatic();
-
-		//Applying gravity to dynamic entities and checking all collisions
-		applyGravityAndCollisions();
 		
 		//Reseting the positon of the camera
 		Moo::d3d::getInstance().getCamera()->update(_player->getHitbox());
 		_camera = *Moo::d3d::getInstance().getCamera();
+
+		//Applying gravity to dynamic entities and checking all collisions
+		applyGravityAndCollisions();
 
 		//Display the game elements
 		displayHitboxesAndSprites();

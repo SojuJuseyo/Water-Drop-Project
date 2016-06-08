@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Scene.h"
+#include "Game.h"
+#include "Font.h"
 
 namespace Moo
 {
@@ -17,5 +19,8 @@ namespace Moo
 		std::shared_ptr<Sprite>		_backgroundSprite;
 		std::shared_ptr<Moo::Window> _window;
 		std::shared_ptr<std::map<std::string, Texture>> _textures;
+		std::shared_ptr<Moo::Font> _font;
+		std::shared_ptr<Moo::Text> _time;
+		std::string	_endTime;
 	};
 }

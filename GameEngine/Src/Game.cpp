@@ -60,6 +60,8 @@ namespace Moo
 		_textures["Settings_Save_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Save On.dds"));
 		_textures["Settings_Checkbox_Unchecked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/case.dds"));
 		_textures["Settings_Checkbox_Checked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/casecochee.dds"));
+
+		_gameTime = nullptr;
 	}
 
 	Game::~Game()
@@ -149,6 +151,8 @@ namespace Moo
 			return;
 		Moo::d3d::getInstance().getCamera()->reset();
 		if (type == LEVEL) {
+			if (_gameTime == nullptr)
+				_gameTime = new Timer;
 			if (!isContinue)
 				cleanCurrentScene();
 			d3d::getInstance().getCamera()->setInfoMap(dynamic_cast<LevelScene *>(_currentScene->scene)->getCamera().getInfoMap());
@@ -160,6 +164,8 @@ namespace Moo
 		if ((type == PAUSE_MENU && tmpSceneForPrev->sceneType == LEVEL) || type == HOWTOPLAY_MENU || type == SETTINGS_MENU)
 			_currentScene->prevScene = tmpSceneForPrev;
 		if (type == MAIN_MENU) {
+			delete _gameTime;
+			_gameTime = nullptr;
 			_levelCounter = 0;
 			_currentScene->prevScene = nullptr;
 		}
@@ -172,7 +178,10 @@ namespace Moo
 		if (_currentScene != nullptr && _currentScene->prevScene != nullptr)
 			runScene(_currentScene->prevScene->sceneType, true);
 		else if (_currentScene != nullptr && _currentScene->sceneType == WIN)
+		{
+			_currentScene->scene->clean();
 			runScene(MAIN_MENU, false);
+		}
 	}
 
 	// charge la scene de jeu suivant
@@ -225,6 +234,7 @@ namespace Moo
 	// renvoie la reference de la scene via son type (parmi les scenes crees)
 	Game::s_scene*		Game::getSceneByType(e_scene sceneType)
 	{
+		std::cout << "_levelCounter : " << _levelCounter << std::endl;
 		for (auto &scene : _listOfScenes) {
 			if ((scene.sceneType == sceneType && sceneType != LEVEL) ||
 				(scene.sceneType == sceneType && sceneType == LEVEL && scene.level == _levelCounter))

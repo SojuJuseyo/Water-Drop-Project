@@ -24,14 +24,26 @@ namespace Moo
 
 	bool WinScene::runUpdate()
 	{
+		if (_endTime.size() == 0)
+		{
+			std::ostringstream oss;
+			oss << static_cast<int>(Game::getInstance()._gameTime->getElapsedSeconds());
+			_endTime = oss.str();
+		}
+
 		Moo::Keyboard::updateInput();
 		_window->clear();
 		_window->draw(_backgroundSprite.get());
+		_font = std::make_shared<Font>();
+		_font->loadFromFile("Font.dds");
+		_time = std::make_shared<Text>(_endTime, 3.f, 310.f, 224.f, _font);
+		_window->inCameradraw(_time.get());
 		_window->display();
 		return true;
 	}
 
 	void WinScene::clean()
 	{
+		_endTime.clear();
 	}
 }
