@@ -37,13 +37,17 @@ namespace Moo
 		_textures["Menu_HowToPlay_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/How to play On.dds"));
 		_textures["Menu_Options"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Options.dds"));
 		_textures["Menu_Options_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Options On.dds"));
-		_textures["Menu_Quit"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit.dds"));
-		_textures["Menu_Quit_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit On.dds"));
+		_textures["Menu_Credits"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Credits.dds"));
+		_textures["Menu_Credits_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Credits On.dds"));
+		_textures["Menu_Quit"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit Game.dds"));
+		_textures["Menu_Quit_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit Game On.dds"));
 
 		//Pause Menu related textures
 		_textures["Pause_Menu_Title"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Pause.dds"));
-		_textures["Pause_Menu_Resume"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume.dds"));
-		_textures["Pause_Menu_Resume_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume On.dds"));
+		_textures["Pause_Menu_Resume"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume Game.dds"));
+		_textures["Pause_Menu_Resume_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume Game On.dds"));
+		_textures["Pause_Menu_Back_To_Menu"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Back to menu.dds"));
+		_textures["Pause_Menu_Back_To_Menu_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/back to menu On.dds"));
 
 		//Settings related textures
 		_textures["Settings_Background"].loadFromFile(GRAPHICS_PATH + std::string("Settings/background.dds"));

@@ -10,6 +10,7 @@ namespace Moo
 		PLAY,
 		HOW_TO_PLAY,
 		OPTIONS,
+		CREDITS,
 		QUIT
 	};
 

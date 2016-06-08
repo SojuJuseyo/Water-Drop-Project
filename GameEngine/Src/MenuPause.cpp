@@ -34,8 +34,8 @@ namespace Moo
 		addSprite("Pause", "Pause_Menu_Title", 274.f, 55.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 8, 2);
 
 		//Button Resume && Resume On
-		addSprite("Resume", "Pause_Menu_Resume", 193.f, 42.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 6, 2);
-		addSprite("Resume_On", "Pause_Menu_Resume_On", 243.f, 54.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 6, 2);
+		addSprite("Resume", "Pause_Menu_Resume", 334.f, 42.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 6, 2);
+		addSprite("Resume_On", "Pause_Menu_Resume_On", 418.f, 54.f, 0.f, d3d::getInstance().getScreenSize().y / 10 * 6, 2);
 		_sprites["Resume_Current"] = _sprites["Resume"];
 
 		//Button HowToPlay && HowToPlay On
@@ -48,9 +48,14 @@ namespace Moo
 		addSprite("Options_On", "Menu_Options_On", 282.f, 53.f, 0.f, _sprites["Options"]->getY(), 2);
 		_sprites["Options_Current"] = _sprites["Options"];
 
+		//Button Back To Menu && Back To Menu On
+		addSprite("Back_To_Menu", "Pause_Menu_Back_To_Menu", 306.f, 42.f, 0.f, _sprites["Options"]->getY() - _sprites["Options"]->getHeight() - spaceBetweenButtons, 2);
+		addSprite("Back_To_Menu_On", "Pause_Menu_Back_To_Menu_On", 433.f, 54.f, 0.f, _sprites["Back_To_Menu"]->getY(), 2);
+		_sprites["Back_To_Menu_Current"] = _sprites["Back_To_Menu"];
+
 		//Button Quit && Quit On
-		addSprite("Quit", "Menu_Quit", 129.f, 49.f, 0.f, _sprites["Options"]->getY() - _sprites["Options"]->getHeight() - spaceBetweenButtons, 2);
-		addSprite("Quit_On", "Menu_Quit_On", 162.f, 61.f, 0.f, _sprites["Quit"]->getY(), 2);
+		addSprite("Quit", "Menu_Quit", 269.f, 49.f, 0.f, _sprites["Back_To_Menu"]->getY() - _sprites["Back_To_Menu"]->getHeight() - spaceBetweenButtons, 2);
+		addSprite("Quit_On", "Menu_Quit_On", 337.f, 61.f, 0.f, _sprites["Quit"]->getY(), 2);
 		_sprites["Quit_Current"] = _sprites["Quit"];
 
 		_offset = e_menu_pause::RESUME;
@@ -78,8 +83,11 @@ namespace Moo
 				Game::getInstance().runScene(Game::SETTINGS_MENU, false);
 				return true;
 				break;
+			case e_menu_pause::BACK_TO_MENU:
+				Game::getInstance().runScene(Game::MAIN_MENU, false);
+				return true;
+				break;
 			case e_menu_pause::EXIT:
-				//Game::getInstance().runScene(Game::MAIN_MENU, false);
 				return false;
 				break;
 			}
@@ -104,10 +112,15 @@ namespace Moo
 				_sprites["HowToPlay_Current"] = _sprites["HowToPlay_On"];
 				_offset = e_menu_pause::HOW_TO_PLAY_PAUSE;
 				break;
-			case e_menu_pause::EXIT:
-				_sprites["Quit_Current"] = _sprites["Quit"];
+			case e_menu_pause::BACK_TO_MENU:
+				_sprites["Back_To_Menu_Current"] = _sprites["Back_To_Menu"];
 				_sprites["Options_Current"] = _sprites["Options_On"];
 				_offset = e_menu_pause::SETTINGS_PAUSE;
+				break;
+			case e_menu_pause::EXIT:
+				_sprites["Quit_Current"] = _sprites["Quit"];
+				_sprites["Back_To_Menu_Current"] = _sprites["Back_To_Menu_On"];
+				_offset = e_menu_pause::BACK_TO_MENU;
 				break;
 			}
 		}
@@ -128,6 +141,11 @@ namespace Moo
 				break;
 			case e_menu_pause::SETTINGS_PAUSE:
 				_sprites["Options_Current"] = _sprites["Options"];
+				_sprites["Back_To_Menu_Current"] = _sprites["Back_To_Menu_On"];
+				_offset = e_menu_pause::BACK_TO_MENU;
+				break;
+			case e_menu_pause::BACK_TO_MENU:
+				_sprites["Back_To_Menu_Current"] = _sprites["Back_To_Menu"];
 				_sprites["Quit_Current"] = _sprites["Quit_On"];
 				_offset = e_menu_pause::EXIT;
 				break;
@@ -145,6 +163,7 @@ namespace Moo
 		_window->draw(_sprites["Resume_Current"].get());
 		_window->draw(_sprites["HowToPlay_Current"].get());
 		_window->draw(_sprites["Options_Current"].get());
+		_window->draw(_sprites["Back_To_Menu_Current"].get());
 		_window->draw(_sprites["Quit_Current"].get());
 		_window->display();
 

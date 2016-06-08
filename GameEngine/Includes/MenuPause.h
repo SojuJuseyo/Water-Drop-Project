@@ -10,6 +10,7 @@ namespace Moo
 		RESUME,
 		HOW_TO_PLAY_PAUSE,
 		SETTINGS_PAUSE,
+		BACK_TO_MENU,
 		EXIT
 	};
 
