@@ -98,7 +98,7 @@ namespace Moo
 
 			_camera = std::make_unique<Camera>();
 			configureBackBuffer();
-			setFullScreenState(false);
+			setFullScreenState(true);
 		}
 
 		void d3d::configureBackBuffer()

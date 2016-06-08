@@ -14,7 +14,7 @@ namespace Moo
 		bool	runUpdate();
 
 	private:
-		std::shared_ptr<Sprite>		_backgroundSprite;
+		std::shared_ptr<Sprite>		_animation;
 		std::shared_ptr<Moo::Window> _window;
 		std::shared_ptr<std::map<std::string, Texture>> _textures;
 	};

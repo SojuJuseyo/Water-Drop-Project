@@ -20,8 +20,8 @@ namespace Moo
 		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
 		_textures["Tileset"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
-		_textures["Interface"].loadFromFile(GRAPHICS_PATH + std::string("interfaceTest.dds"));
-		_textures["Drop"].loadFromFile(GRAPHICS_PATH + std::string("drop_icon.dds"));
+		//_textures["Interface"].loadFromFile(GRAPHICS_PATH + std::string("interfaceTest.dds"));
+		_textures["Drop"].loadFromFile(GRAPHICS_PATH + std::string("HUD.dds"));
 		// Temp texture for the bullet
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("defeatScreen.dds"));
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("victoryScreen.dds"));
@@ -60,6 +60,9 @@ namespace Moo
 		_textures["Settings_Save_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Save On.dds"));
 		_textures["Settings_Checkbox_Unchecked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/case.dds"));
 		_textures["Settings_Checkbox_Checked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/casecochee.dds"));
+
+		//Loading related textures
+		_textures["Loading"].loadFromFile(GRAPHICS_PATH + std::string("loading.dds"));
 	}
 
 	Game::~Game()
