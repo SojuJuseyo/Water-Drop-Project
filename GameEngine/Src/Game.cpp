@@ -60,6 +60,9 @@ namespace Moo
 		_textures["Settings_Save_On"].loadFromFile(GRAPHICS_PATH + std::string("Settings/Save On.dds"));
 		_textures["Settings_Checkbox_Unchecked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/case.dds"));
 		_textures["Settings_Checkbox_Checked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/casecochee.dds"));
+
+		//Loading related textures
+		_textures["Loading"].loadFromFile(GRAPHICS_PATH + std::string("loading.dds"));
 	}
 
 	Game::~Game()

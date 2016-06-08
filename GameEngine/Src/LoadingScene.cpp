@@ -15,8 +15,9 @@ namespace Moo
 	{
 		_window = window;
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
-		_backgroundSprite = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f);
-		_backgroundSprite->loadTexture(&_textures.get()->at("Background_Controle"));
+		_animation = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f, 1.f, 6, 2);
+		_animation->loadTexture(&_textures.get()->at("Loading"));
+		_animation->setRectFromSpriteSheet(Moo::Vector2f(0, 0), Moo::Vector2f(800.f, 600.f));
 		_hasBeenInited = true;
 		return true;
 	}
@@ -24,7 +25,7 @@ namespace Moo
 	bool LoadingScene::runUpdate()
 	{
 		_window->clear();
-		_window->draw(_backgroundSprite.get());
+		_window->draw(_animation.get());
 		_window->display();
 		return true;
 	}
