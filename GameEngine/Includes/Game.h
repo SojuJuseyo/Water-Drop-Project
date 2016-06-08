@@ -51,6 +51,7 @@ namespace Moo
 		void							resetAllScenes();											// reset (init) toutes les scenes
 		std::shared_ptr<SoundSystem>	getSoundSystem();
 		s_scene*						_currentScene = nullptr;
+		s_scene*						getSceneByType(e_scene sceneType);
 
 	private:
 		Game();
@@ -59,7 +60,6 @@ namespace Moo
 		bool							update();
 		void							createScene(e_scene, Scene*);
 		void							displayLoadingScreen();
-		s_scene*						getSceneByType(e_scene sceneType);
 		void							readMapFiles();
 		std::string						GetMapFolder();
 		bool							isFileNameOk(std::string filename);

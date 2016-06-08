@@ -259,11 +259,26 @@ namespace Moo
 		else
 			d3d::getInstance().setFullScreenState(false);
 
-		if (_musicOn == true)
+		if (_musicOn == true) 
+		{
 			Game::getInstance().getSoundSystem()->unmuteBackgroundVolume();
+			if (Game::getInstance().getSceneByType(Moo::Game::LEVEL) != nullptr &&
+				((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan != nullptr)
+			{
+				((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setVolume(0.1f);
+				((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setPaused(false);
+			}
+		}
 		else
+		{
 			Game::getInstance().getSoundSystem()->muteBackgroundVolume();
-
+			if (Game::getInstance().getSceneByType(Moo::Game::LEVEL) != nullptr &&
+				((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan != nullptr)
+			{
+				((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setVolume(0.f);
+				((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setPaused(true);
+			}
+		}
 		if (_soundEffectsOn == true)
 			Game::getInstance().getSoundSystem()->unmuteVolume();
 		else
