@@ -15,20 +15,19 @@ namespace Moo
 		_isAnimated = false;
 	}
 
-	Sprite::Sprite(float width, float height, float x, float y, float framesPerSecond, int rows, int columns)
+	Sprite::Sprite(float width, float height, float x, float y, int rows, int columns)
 	{
 		_width = width;
 		_height = height;
-		setPosition(x, y);
+		_position.x = x;
+		_position.y = y;
 
 		_dev = d3d::getInstance().getD3DDevice();
 		_devcon = d3d::getInstance().getContext();
 		_rect = nullptr;
-		_framesPerSecond = framesPerSecond;
 		_rows = rows;
 		_columns = columns;
 		_isAnimated = true;
-		_timer = nullptr;
 		_currentFrame = 0;
 	}
 
@@ -142,20 +141,13 @@ namespace Moo
 	{
 		if (_isAnimated)
 		{
-			if (_timer == nullptr)
-				_timer = new Timer;
-			if (_timer->getElapsedSeconds() > _framesPerSecond)
-			{
-				_currentFrame++;
-				if (_currentFrame == _rows * _columns)
-					_currentFrame = 0;
-				this->setRectFromSpriteSheet(Moo::Vector2f(float(_currentFrame % _columns), float(_currentFrame / _columns)), Moo::Vector2f(16, 16));
-				_timer->reset();
-			}
-		}
-		if (_texture == nullptr) {
-			std::cout << "Texture null, call loadTexture before draw" << std::endl;
-			return;
+			if (_currentFrame == _rows * _columns)
+			_currentFrame = 0;
+			std::cout << "_currentFrame : " << _currentFrame << std::endl;
+			std::cout << "_currentFrame % _columns : " << _currentFrame % _columns << std::endl;
+			std::cout << "_currentFrame / _columns : " << _currentFrame / _columns << std::endl;
+			this->setRectFromSpriteSheet(Moo::Vector2f(float(_currentFrame % _columns), float(_currentFrame / _columns)), Moo::Vector2f(800, 600));
+			_currentFrame++;
 		}
 		unsigned int stride = sizeof(VERTEX);
 		unsigned int offset = 0;

@@ -100,6 +100,7 @@ namespace Moo
 		{
 			if (_listOfScenes[index].scene != nullptr)
 			{
+				displayLoadingScreen();
 				try
 				{
 					std::cout << "try to init scene " << _listOfScenes[index].sceneType << " :" << std::endl;
@@ -111,6 +112,7 @@ namespace Moo
 					// sus quand le init d'un map a failed
 					std::cout << "INIT FAILED FOR SCENE INDEX : " << index << std::endl;
 				}
+				displayLoadingScreen();
 			}
 		}
 		Moo::d3d::getInstance().getCamera()->reset();
@@ -122,16 +124,18 @@ namespace Moo
 	{
 		_window = theUsedWindow;
 		createScene(LOADING, new LoadingScene());
-		displayLoadingScreen();
 		createScene(MAIN_MENU, new Menu());
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(HOWTOPLAY_MENU, new ControleScene());
 		createScene(SETTINGS_MENU, new SettingsScreen());
 		createScene(CREDITS, new CreditsScene());
 		createScene(WIN, new WinScene());
+		displayLoadingScreen();
 		readMapFiles();
+		displayLoadingScreen();
 		_levelCounter = 0;
 		resetAllScenes();
+		displayLoadingScreen();
 		runScene(MAIN_MENU, false);
 		_isGameRunning = true;
 		while (_isGameRunning) {
@@ -242,7 +246,6 @@ namespace Moo
 	// renvoie la reference de la scene via son type (parmi les scenes crees)
 	Game::s_scene*		Game::getSceneByType(e_scene sceneType)
 	{
-		std::cout << "_levelCounter : " << _levelCounter << std::endl;
 		for (auto &scene : _listOfScenes) {
 			if ((scene.sceneType == sceneType && sceneType != LEVEL) ||
 				(scene.sceneType == sceneType && sceneType == LEVEL && scene.level == _levelCounter))

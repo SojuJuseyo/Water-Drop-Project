@@ -20,7 +20,7 @@ namespace Moo
 	public:
 		Sprite() {}
 		Sprite(float width, float height, float x, float y);
-		Sprite(float width, float height, float x, float y, float framesPerSecond, int rows, int columns);
+		Sprite(float width, float height, float x, float y, int rows, int columns);
 		~Sprite();
 
 		void* operator new(size_t i)
@@ -56,9 +56,7 @@ namespace Moo
 
 		D3D11_SUBRESOURCE_DATA _resourceData;
 
-		Timer *_timer;
 		bool _isAnimated;
-		float _framesPerSecond;
 		int _rows;
 		int _columns;
 		int _currentFrame;
