@@ -34,8 +34,8 @@ namespace Moo
 		addSprite("Fullscreen_State_On", "Settings_Checkbox_Checked", 36.f, 36.f, 0.f, _sprites["Fullscreen"]->getY(), 1.6f);
 		addSprite("Fullscreen_State_Off", "Settings_Checkbox_Unchecked", 36.f, 36.f, 0.f, _sprites["Fullscreen"]->getY(), 1.6f);
 		_sprites["Fullscreen_Current"] = _sprites["Fullscreen"];
-		_fullscreenOn = false;
-		_sprites["Fullscreen_State"] = _sprites["Fullscreen_State_Off"];
+		_fullscreenOn = true;
+		_sprites["Fullscreen_State"] = _sprites["Fullscreen_State_On"];
 
 		//Buttons related to Music
 		addSprite("Music", "Settings_Music", 123.f, 33.f, 0.f, _sprites["Fullscreen"]->getY() - _sprites["Fullscreen"]->getHeight() - spaceBetweenButtons, 3);

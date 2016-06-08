@@ -48,7 +48,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	try
 	{
 		//Getting the game window
-		auto window = std::make_shared<Moo::Window>(hInstance, Moo::WindowSettings("Water Drop", Moo::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)));
+		auto window = std::make_shared<Moo::Window>(hInstance, Moo::WindowSettings("Water Drop Project", Moo::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT)));
 		window->setFpsLimit(FPS_LIMIT);
 		Moo::Game::getInstance().startGame(window);
 
