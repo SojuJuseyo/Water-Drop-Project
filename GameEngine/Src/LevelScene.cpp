@@ -264,11 +264,11 @@ namespace Moo
 		_win = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f);
 		_win->loadTexture(&_textures.get()->at("Win"));
 
-		_hud = std::make_shared<Moo::Sprite>(48.f, 48.f, 650.f, 550.f);
+		_hud = std::make_shared<Moo::Sprite>(150.f, 75.f, 600.f, 500.f);
 		_hud->loadTexture(&_textures.get()->at("Drop"));
 		std::ostringstream oss;
 		oss << _player->getHealth();
-		_life = std::make_shared<Text>(oss.str(), 2.f, 700.f, 550.f, _font);
+		_life = std::make_shared<Text>(oss.str(), 1.8f, 680.f, 525.f, _font);
 
 		//init sound system
 		_soundSystem = Game::getInstance().getSoundSystem();

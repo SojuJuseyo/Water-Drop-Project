@@ -161,6 +161,7 @@
     <ClInclude Include="Includes\Camera.h" />
     <ClInclude Include="Includes\Character.h" />
     <ClInclude Include="Includes\ControleScene.h" />
+    <ClInclude Include="Includes\CreditsScene.h" />
     <ClInclude Include="Includes\d3d.h" />
     <ClInclude Include="Includes\Drawable.h" />
     <ClInclude Include="Includes\DynamicEntity.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="Src\Character.cpp" />
     <ClCompile Include="Src\ControleScene.cpp" />
+    <ClCompile Include="Src\CreditsScene.cpp" />
     <ClCompile Include="Src\d3d.cpp" />
     <ClCompile Include="Src\Drawable.cpp" />
     <ClCompile Include="Src\DynamicEntity.cpp" />
@@ -267,7 +269,7 @@
     <Media Include="Ressources\Sounds\shoot2.wav" />
     <Media Include="Ressources\Sounds\shoot3.wav" />
     <Media Include="Ressources\Sounds\shoot4.wav" />
-    <Media Include="Ressources\Sounds\Victory.wav" />
+    <Media Include="Ressources\Sounds\victory.mp3" />
     <Media Include="Ressources\Sounds\walljump.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

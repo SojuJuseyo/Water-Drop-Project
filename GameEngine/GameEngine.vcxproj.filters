@@ -169,6 +169,9 @@
     <ClInclude Include="Includes\SettingsScreen.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="Includes\CreditsScene.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp">
@@ -283,6 +286,9 @@
     <ClCompile Include="Src\SettingsScreen.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="Src\CreditsScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Ressources\Graphics\background.dds">
@@ -321,9 +327,6 @@
     <Image Include="Ressources\Graphics\player.dds" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="Ressources\Sounds\Defeat.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
     <Media Include="Ressources\Sounds\Heart_of_Courage_8_Bit_s075.mp3">
       <Filter>Resource Files\sounds</Filter>
     </Media>
@@ -331,9 +334,6 @@
       <Filter>Resource Files\sounds</Filter>
     </Media>
     <Media Include="Ressources\Sounds\Menu.wav">
-      <Filter>Resource Files\sounds</Filter>
-    </Media>
-    <Media Include="Ressources\Sounds\Victory.wav">
       <Filter>Resource Files\sounds</Filter>
     </Media>
     <Media Include="Ressources\Sounds\powerup.wav">
@@ -363,5 +363,10 @@
     <Media Include="Ressources\Sounds\walljump.wav">
       <Filter>Resource Files</Filter>
     </Media>
+    <Media Include="Ressources\Sounds\defeat.mp3" />
+    <Media Include="Ressources\Sounds\menuMove.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\victory.mp3" />
   </ItemGroup>
 </Project>

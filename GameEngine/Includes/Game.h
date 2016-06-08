@@ -12,6 +12,7 @@
 #include "WinScene.h"
 #include "SoundSystem.h"
 #include "LoadingScene.h"
+#include "CreditsScene.h"
 #include "SettingsScreen.h"
 #include "Texture.h"
 
@@ -30,6 +31,7 @@ namespace Moo
 			PAUSE_MENU,
 			HOWTOPLAY_MENU,
 			SETTINGS_MENU,
+			CREDITS,
 			WIN,
 			LEVEL
 		};
@@ -52,6 +54,7 @@ namespace Moo
 		std::shared_ptr<SoundSystem>	getSoundSystem();
 		s_scene*						_currentScene = nullptr;
 		Timer							*_gameTime;
+		s_scene*						getSceneByType(e_scene sceneType);
 
 	private:
 		Game();
@@ -60,7 +63,6 @@ namespace Moo
 		bool							update();
 		void							createScene(e_scene, Scene*);
 		void							displayLoadingScreen();
-		s_scene*						getSceneByType(e_scene sceneType);
 		void							readMapFiles();
 		std::string						GetMapFolder();
 		bool							isFileNameOk(std::string filename);

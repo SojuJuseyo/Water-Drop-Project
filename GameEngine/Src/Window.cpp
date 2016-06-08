@@ -88,11 +88,18 @@ namespace Moo
 			*/
 			if (msg.message == WM_PAUSEGAME) {
 				Keyboard::getInstance().focused = false;
-				if (Moo::Game::getInstance()._currentScene->sceneType == Moo::Game::LEVEL)
+				if (Moo::Game::getInstance()._currentScene->sceneType == Moo::Game::LEVEL) {
 					Moo::Game::getInstance().runScene(Moo::Game::PAUSE_MENU, true);
+				}
+				if (Game::getInstance().getSceneByType(Moo::Game::LEVEL) != nullptr &&
+					((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan != nullptr)
+					((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setPaused(true);
 			}
 			if (msg.message == WM_UNPAUSEGAME) {
 				Keyboard::getInstance().focused = true;
+				if (Game::getInstance().getSceneByType(Moo::Game::LEVEL) != nullptr &&
+					((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan != nullptr)
+					((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setPaused(false);
 			}
 			if (msg.message == WM_QUIT) {
 				// croix
@@ -113,7 +120,7 @@ namespace Moo
 
 	void	Window::clear()
 	{
-		float color[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
+		float color[4] = { 0.12f, 0.12f, 0.12f, 1.0f };
 		d3d::getInstance().clearWindow(color);
 	}
 

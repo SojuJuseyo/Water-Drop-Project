@@ -15,13 +15,14 @@ namespace Moo
 		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("playerJump.dds"));
 		_textures["Background_Controle"].loadFromFile(GRAPHICS_PATH + std::string("controls.dds"));
 		_textures["Background_Menu"].loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
+		_textures["Background_Credits"].loadFromFile(GRAPHICS_PATH + std::string("credits.dds"));
 		_textures["Hitbox"].loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 		_textures["Background_Menu_Pause"].loadFromFile(GRAPHICS_PATH + std::string("Menu_Pause_WTP_DDS.dds"));
 		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
 		_textures["Tileset"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
-		_textures["Interface"].loadFromFile(GRAPHICS_PATH + std::string("interfaceTest.dds"));
-		_textures["Drop"].loadFromFile(GRAPHICS_PATH + std::string("drop_icon.dds"));
+		//_textures["Interface"].loadFromFile(GRAPHICS_PATH + std::string("interfaceTest.dds"));
+		_textures["Drop"].loadFromFile(GRAPHICS_PATH + std::string("HUD.dds"));
 		// Temp texture for the bullet
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("defeatScreen.dds"));
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("victoryScreen.dds"));
@@ -37,13 +38,17 @@ namespace Moo
 		_textures["Menu_HowToPlay_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/How to play On.dds"));
 		_textures["Menu_Options"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Options.dds"));
 		_textures["Menu_Options_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Options On.dds"));
-		_textures["Menu_Quit"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit.dds"));
-		_textures["Menu_Quit_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit On.dds"));
+		_textures["Menu_Credits"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Credits.dds"));
+		_textures["Menu_Credits_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Credits On.dds"));
+		_textures["Menu_Quit"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit Game.dds"));
+		_textures["Menu_Quit_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Quit Game On.dds"));
 
 		//Pause Menu related textures
 		_textures["Pause_Menu_Title"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Pause.dds"));
-		_textures["Pause_Menu_Resume"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume.dds"));
-		_textures["Pause_Menu_Resume_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume On.dds"));
+		_textures["Pause_Menu_Resume"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume Game.dds"));
+		_textures["Pause_Menu_Resume_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Resume Game On.dds"));
+		_textures["Pause_Menu_Back_To_Menu"].loadFromFile(GRAPHICS_PATH + std::string("Menu/Back to menu.dds"));
+		_textures["Pause_Menu_Back_To_Menu_On"].loadFromFile(GRAPHICS_PATH + std::string("Menu/back to menu On.dds"));
 
 		//Settings related textures
 		_textures["Settings_Background"].loadFromFile(GRAPHICS_PATH + std::string("Settings/background.dds"));
@@ -62,6 +67,8 @@ namespace Moo
 		_textures["Settings_Checkbox_Checked"].loadFromFile(GRAPHICS_PATH + std::string("Settings/casecochee.dds"));
 
 		_gameTime = nullptr;
+		//Loading related textures
+		_textures["Loading"].loadFromFile(GRAPHICS_PATH + std::string("loading.dds"));
 	}
 
 	Game::~Game()
@@ -120,6 +127,7 @@ namespace Moo
 		createScene(PAUSE_MENU, new MenuPause());
 		createScene(HOWTOPLAY_MENU, new ControleScene());
 		createScene(SETTINGS_MENU, new SettingsScreen());
+		createScene(CREDITS, new CreditsScene());
 		createScene(WIN, new WinScene());
 		readMapFiles();
 		_levelCounter = 0;
@@ -161,7 +169,7 @@ namespace Moo
 			if (((LevelScene*)_currentScene->scene)->themeChan != nullptr)
 				((LevelScene*)_currentScene->scene)->themeChan->setPaused(false);
 		}
-		if ((type == PAUSE_MENU && tmpSceneForPrev->sceneType == LEVEL) || type == HOWTOPLAY_MENU || type == SETTINGS_MENU)
+		if ((type == PAUSE_MENU && tmpSceneForPrev->sceneType == LEVEL) || type == HOWTOPLAY_MENU || type == SETTINGS_MENU || type == CREDITS)
 			_currentScene->prevScene = tmpSceneForPrev;
 		if (type == MAIN_MENU) {
 			delete _gameTime;
