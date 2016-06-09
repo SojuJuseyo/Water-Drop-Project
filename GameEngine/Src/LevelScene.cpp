@@ -65,7 +65,7 @@ namespace Moo
 			themeChan = _soundSystem->playSound("custom", true);
 		}
 		if (themeChan != nullptr)
-			themeChan->setPaused(true);
+			themeChan->setPaused(false);
 
 		//Various variables
 		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
