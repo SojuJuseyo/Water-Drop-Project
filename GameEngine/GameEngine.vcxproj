@@ -199,6 +199,7 @@
     <ClInclude Include="Includes\Window.h" />
     <ClInclude Include="Includes\WindowSettings.h" />
     <ClInclude Include="Includes\WinScene.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp" />
@@ -251,6 +252,7 @@
     <Image Include="Ressources\Graphics\Menu_Pause_WTP_DDS.dds" />
     <Image Include="Ressources\Graphics\Menu_WTP_DDS.dds" />
     <Image Include="Ressources\Graphics\player.dds" />
+    <Image Include="Ressources\Graphics\superhappywater.ico" />
     <Image Include="Ressources\Graphics\tileset.dds" />
     <Image Include="Ressources\Graphics\You_Lost_DDS.dds" />
     <Image Include="Ressources\Graphics\You_Won_DDS.dds" />
@@ -271,6 +273,9 @@
     <Media Include="Ressources\Sounds\shoot4.wav" />
     <Media Include="Ressources\Sounds\victory.mp3" />
     <Media Include="Ressources\Sounds\walljump.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
