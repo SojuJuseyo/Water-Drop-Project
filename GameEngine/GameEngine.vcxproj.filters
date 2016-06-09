@@ -172,6 +172,7 @@
     <ClInclude Include="Includes\CreditsScene.h">
       <Filter>Includes</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp">
@@ -325,6 +326,9 @@
       <Filter>Resource Files\graphics</Filter>
     </Image>
     <Image Include="Ressources\Graphics\player.dds" />
+    <Image Include="Ressources\Graphics\superhappywater.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="Ressources\Sounds\Heart_of_Courage_8_Bit_s075.mp3">
@@ -368,5 +372,10 @@
       <Filter>Resource Files</Filter>
     </Media>
     <Media Include="Ressources\Sounds\victory.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameEngine.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
