@@ -1,7 +1,7 @@
 {
-  "name": "2-1",
+  "name": "2_1_ToTheTemple",
   "size": "25/25",
-  "audio": "Heart_of_Courage_8_Bit_s075.mp3",
+  "audio": null,
   "background": null,
   "blockTileList": {
     "0": [
@@ -1761,7 +1761,7 @@
     "0": [
       {
         "collidable": true,
-        "coordx": 2,
+        "coordx": 1,
         "coordy": 1,
         "properties": {
           "text": "",
@@ -1774,30 +1774,5 @@
     ]
   },
   "heatZonesList": [],
-  "otherTileList": [
-    {
-      "collidable": false,
-      "coordx": 3,
-      "coordy": 12,
-      "properties": {
-        "text": "WALLS",
-        "x2": 3,
-        "y2": 12,
-        "size": 6,
-        "orientation": 0
-      }
-    },
-    {
-      "collidable": false,
-      "coordx": 2,
-      "coordy": 13,
-      "properties": {
-        "text": "JUMP FROM",
-        "x2": 2,
-        "y2": 13,
-        "size": 6,
-        "orientation": 0
-      }
-    }
-  ]
+  "otherTileList": []
 }

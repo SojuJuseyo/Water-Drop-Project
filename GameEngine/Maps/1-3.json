@@ -587,6 +587,30 @@
     "4": [
       {
         "collidable": true,
+        "coordx": 11,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 21,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 23,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 11,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": true,
         "coordx": 21,
         "coordy": 2,
         "properties": null
@@ -595,6 +619,12 @@
         "collidable": true,
         "coordx": 23,
         "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 11,
+        "coordy": 3,
         "properties": null
       },
       {
@@ -611,6 +641,12 @@
       },
       {
         "collidable": true,
+        "coordx": 11,
+        "coordy": 4,
+        "properties": null
+      },
+      {
+        "collidable": true,
         "coordx": 21,
         "coordy": 4,
         "properties": null
@@ -619,66 +655,6 @@
         "collidable": true,
         "coordx": 23,
         "coordy": 4,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 1,
-        "coordy": 5,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 2,
-        "coordy": 5,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 3,
-        "coordy": 5,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 4,
-        "coordy": 5,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 5,
-        "coordy": 5,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 6,
-        "coordy": 5,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 7,
-        "coordy": 5,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 8,
-        "coordy": 5,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 9,
-        "coordy": 5,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 10,
-        "coordy": 5,
         "properties": null
       },
       {
@@ -1101,31 +1077,43 @@
           "text": "",
           "x2": 15,
           "y2": 10,
-          "size": 4,
+          "size": 3,
           "orientation": 0
         }
       },
       {
         "collidable": true,
-        "coordx": 16,
-        "coordy": 14,
+        "coordx": 19,
+        "coordy": 10,
         "properties": {
           "text": "",
-          "x2": 16,
-          "y2": 14,
-          "size": 4,
+          "x2": 19,
+          "y2": 10,
+          "size": 3,
           "orientation": 0
         }
       },
       {
         "collidable": true,
-        "coordx": 20,
+        "coordx": 15,
         "coordy": 14,
         "properties": {
           "text": "",
-          "x2": 20,
+          "x2": 15,
           "y2": 14,
-          "size": 4,
+          "size": 3,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 19,
+        "coordy": 14,
+        "properties": {
+          "text": "",
+          "x2": 19,
+          "y2": 14,
+          "size": 3,
           "orientation": 0
         }
       }
@@ -1135,37 +1123,25 @@
   "otherTileList": [
     {
       "collidable": false,
-      "coordx": 15,
+      "coordx": 1,
+      "coordy": 4,
+      "properties": {
+        "text": "PREss R TO REsTART A LEVEL",
+        "x2": 1,
+        "y2": 4,
+        "size": 6,
+        "orientation": 0
+      }
+    },
+    {
+      "collidable": false,
+      "coordx": 13,
       "coordy": 8,
       "properties": {
-        "text": "PRESS F TO SHOOT BITS OF YOURSELF",
-        "x2": 15,
+        "text": "PRESS F TO SHOOT",
+        "x2": 13,
         "y2": 8,
         "size": 6,
-        "orientation": 0
-      }
-    },
-    {
-      "collidable": false,
-      "coordx": 2,
-      "coordy": 9,
-      "properties": {
-        "text": "PRESS R TO RESTART THE LEVEL",
-        "x2": 2,
-        "y2": 9,
-        "size": 6,
-        "orientation": 0
-      }
-    },
-    {
-      "collidable": false,
-      "coordx": 19,
-      "coordy": 10,
-      "properties": {
-        "text": "",
-        "x2": 19,
-        "y2": 10,
-        "size": 4,
         "orientation": 0
       }
     }

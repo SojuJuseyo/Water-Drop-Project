@@ -653,7 +653,7 @@
     "0": [
       {
         "collidable": true,
-        "coordx": 3,
+        "coordx": 2,
         "coordy": 1,
         "properties": null
       }
@@ -661,5 +661,18 @@
   },
   "enemyTileList": {},
   "heatZonesList": [],
-  "otherTileList": []
+  "otherTileList": [
+    {
+      "collidable": false,
+      "coordx": 2,
+      "coordy": 6,
+      "properties": {
+        "text": "PREss sPACE TO JUMP",
+        "x2": 2,
+        "y2": 6,
+        "size": 6,
+        "orientation": 0
+      }
+    }
+  ]
 }
