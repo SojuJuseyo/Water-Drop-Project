@@ -1081,8 +1081,56 @@
       }
     ]
   },
-  "playerTileList": {},
-  "enemyTileList": {},
+  "playerTileList": {
+    "0": [
+      {
+        "collidable": true,
+        "coordx": 4,
+        "coordy": 17,
+        "properties": null
+      }
+    ]
+  },
+  "enemyTileList": {
+    "0": [
+      {
+        "collidable": true,
+        "coordx": 15,
+        "coordy": 10,
+        "properties": {
+          "text": "",
+          "x2": 15,
+          "y2": 10,
+          "size": 4,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 16,
+        "coordy": 14,
+        "properties": {
+          "text": "",
+          "x2": 16,
+          "y2": 14,
+          "size": 4,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 20,
+        "coordy": 14,
+        "properties": {
+          "text": "",
+          "x2": 20,
+          "y2": 14,
+          "size": 4,
+          "orientation": 0
+        }
+      }
+    ]
+  },
   "heatZonesList": [],
   "otherTileList": [
     {
@@ -1106,6 +1154,18 @@
         "x2": 2,
         "y2": 9,
         "size": 6,
+        "orientation": 0
+      }
+    },
+    {
+      "collidable": false,
+      "coordx": 19,
+      "coordy": 10,
+      "properties": {
+        "text": "",
+        "x2": 19,
+        "y2": 10,
+        "size": 4,
         "orientation": 0
       }
     }
