@@ -233,6 +233,8 @@ namespace Moo
 		_font = std::make_shared<Font>();
 		_font->loadFromFile("Font.dds");
 		_fps = std::make_shared<Text>("FPS XX", 2.f, 10.f, WINDOW_HEIGHT - 50.f, _font); // text;size;position.x;position.y;font
+		_levelNameBackground = std::make_shared<Moo::Sprite>(63.f, 32.f, 10.f, 558.f);
+		_levelNameBackground->loadTexture(&_textures.get()->at("LevelNameBackground"));
 
 		//We get the map
 		if (_map == nullptr)
@@ -295,6 +297,7 @@ namespace Moo
 		_playerDead = false;
 
 		std::cout << std::endl << "---------- Init successful ----------" << std::endl;
+		_levelName = std::make_shared<Text>(_map->getMapName(), 1.f, 17.f, 568.f, _font);
 
 		return (true);
 	}
@@ -760,6 +763,9 @@ namespace Moo
 
 		_life.get()->setText(std::to_string(static_cast<int>(_player->getHealth())));
 		_window->inCameradraw(_life.get());
+
+		_window->inCameradraw(_levelNameBackground.get());
+		_window->inCameradraw(_levelName.get());
 
 		//_fps->setText("FPS " + std::to_string(_window->getFps()));
 		//_window->inCameradraw(_fps.get());

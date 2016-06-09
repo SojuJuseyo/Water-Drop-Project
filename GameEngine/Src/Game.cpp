@@ -66,6 +66,8 @@ namespace Moo
 		_gameTime = nullptr;
 		//Loading related textures
 		_textures["Loading"].loadFromFile(GRAPHICS_PATH + std::string("loading.dds"));
+
+		_textures["LevelNameBackground"].loadFromFile(GRAPHICS_PATH + std::string("levelNameBackground.dds"));
 	}
 
 	Game::~Game()
