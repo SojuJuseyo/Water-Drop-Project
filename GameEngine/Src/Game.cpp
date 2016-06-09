@@ -14,16 +14,13 @@ namespace Moo
 		_soundSystem = std::make_shared<SoundSystem>();
 		_textures["Player"].loadFromFile(GRAPHICS_PATH + std::string("playerJump.dds"));
 		_textures["Background_Controle"].loadFromFile(GRAPHICS_PATH + std::string("controls.dds"));
-		_textures["Background_Menu"].loadFromFile(GRAPHICS_PATH + std::string("Menu_WTP_DDS.dds"));
 		_textures["Background_Credits"].loadFromFile(GRAPHICS_PATH + std::string("credits.dds"));
 		_textures["Hitbox"].loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
-		_textures["Background_Menu_Pause"].loadFromFile(GRAPHICS_PATH + std::string("Menu_Pause_WTP_DDS.dds"));
 		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
 		_textures["Tileset"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
 		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
-		//_textures["Interface"].loadFromFile(GRAPHICS_PATH + std::string("interfaceTest.dds"));
 		_textures["Drop"].loadFromFile(GRAPHICS_PATH + std::string("HUD.dds"));
-		// Temp texture for the bullet
+
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("defeatScreen.dds"));
 		_textures["Win"].loadFromFile(GRAPHICS_PATH + std::string("victoryScreen.dds"));
 		_textures["End"].loadFromFile(GRAPHICS_PATH + std::string("theEnd.dds"));
