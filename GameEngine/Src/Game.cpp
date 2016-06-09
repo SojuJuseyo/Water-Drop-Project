@@ -201,6 +201,8 @@ namespace Moo
 		std::cout << "goToNextScene called" << std::endl;
 		if (_currentScene != nullptr && _currentScene->sceneType == LEVEL && _currentScene->level < _nbOfLevels) {
 			++_levelCounter;
+			if (((LevelScene *)_currentScene->scene)->themeChan != nullptr)
+				((LevelScene *)_currentScene->scene)->themeChan->setPaused(true);
 			runScene(LEVEL, false);
 		}
 		if (_currentScene != nullptr && _currentScene->sceneType == LEVEL && _levelCounter >= _nbOfLevels)
