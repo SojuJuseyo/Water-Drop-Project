@@ -1138,7 +1138,7 @@
       "coordx": 15,
       "coordy": 8,
       "properties": {
-        "text": "Press F to shoot bits of yourself",
+        "text": "PRESS F TO SHOOT BITS OF YOURSELF",
         "x2": 15,
         "y2": 8,
         "size": 6,
@@ -1150,7 +1150,7 @@
       "coordx": 2,
       "coordy": 9,
       "properties": {
-        "text": "Press R to restart the level",
+        "text": "PRESS R TO RESTART THE LEVEL",
         "x2": 2,
         "y2": 9,
         "size": 6,

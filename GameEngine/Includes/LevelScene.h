@@ -53,7 +53,7 @@ namespace Moo
 		std::shared_ptr<Moo::Text> _fps, _life, _levelName;
 
 
-		std::shared_ptr<std::vector<Moo::Text>>				_texts;
+		std::vector<Moo::Text>								_texts;
 		std::shared_ptr<MapInfos>							_map;
 		std::shared_ptr<std::map<std::string, Texture>>		_textures;
 		std::map<std::string, Moo::Vector2f>				_spriteSheet;

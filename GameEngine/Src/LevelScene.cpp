@@ -169,7 +169,6 @@ namespace Moo
 		std::list<Tile> platformTiles = map->getTilesFromSprite("4");
 		std::list<Tile> exitTiles = map->getTilesFromSprite("6");
 		std::list<Tile> heatZonesTiles = map->getHeatZonesTileList();
-
 		//platforms
 		for (auto platformTile : platformTiles)
 			fillStaticEntitiesList(EntityType::PLATFORM, platformTile, false);
@@ -198,6 +197,10 @@ namespace Moo
 				}
 			if (_wasInList == false)
 				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile, true);
+		}
+
+		for (auto text : map->getOtherTileList()) {
+			_texts.push_back(Moo::Text(text.getProperties().getText(), 1.f, text.getPosX() * BLOCK_SIZE, text.getPosY() * BLOCK_SIZE, _font));
 		}
 
 		//Character specs
@@ -461,6 +464,10 @@ namespace Moo
 					_window->draw(entity->getSprite());
 					//_window->draw(entity->getHitboxSprite());
 				}
+		//Draw text
+		for (auto text : _texts) {
+			text.draw();
+		}
 	}
 
 	void	LevelScene::exitReached()
