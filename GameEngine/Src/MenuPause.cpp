@@ -65,6 +65,9 @@ namespace Moo
 
 	bool MenuPause::runUpdate()
 	{
+		if (Game::getInstance().getSceneByType(Moo::Game::LEVEL) != nullptr &&
+			((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan != nullptr)
+			((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setPaused(true);
 		Moo::Keyboard::updateInput();
 
 		if (Moo::Keyboard::isDown(Keyboard::Enter))
@@ -73,6 +76,9 @@ namespace Moo
 			switch (_offset)
 			{
 			case e_menu_pause::RESUME:
+				if (Game::getInstance().getSceneByType(Moo::Game::LEVEL) != nullptr &&
+					((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan != nullptr)
+					((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setPaused(true);
 				Game::getInstance().backToPrevScene();
 				return true;
 				break;

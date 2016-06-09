@@ -97,9 +97,9 @@ namespace Moo
 			}
 			if (msg.message == WM_UNPAUSEGAME) {
 				Keyboard::getInstance().focused = true;
-				if (Game::getInstance().getSceneByType(Moo::Game::LEVEL) != nullptr &&
-					((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan != nullptr)
-					((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setPaused(false);
+				//if (Game::getInstance().getSceneByType(Moo::Game::LEVEL) != nullptr &&
+				//	((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan != nullptr)
+				//	((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setPaused(false);
 			}
 			if (msg.message == WM_QUIT) {
 				// croix
