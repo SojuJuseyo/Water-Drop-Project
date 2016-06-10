@@ -20,7 +20,7 @@ namespace Moo
 	public:
 		Sprite() {}
 		Sprite(float width, float height, float x, float y);
-		Sprite(float width, float height, float x, float y, int rows, int columns);
+		Sprite(float width, float height, float x, float y, int rows, int columns, bool looping, float framesPerSecond = -1);
 		~Sprite();
 
 		void* operator new(size_t i)
@@ -37,6 +37,7 @@ namespace Moo
 		void setResourceData();
 		void transform();
 		void setRectFromSpriteSheet(Vector2f pos, Vector2f size);
+		void doAnimation();
 		void draw();
 		float getWidth();
 		float getHeight();
@@ -60,5 +61,9 @@ namespace Moo
 		int _rows;
 		int _columns;
 		int _currentFrame;
+		float _framesPerSecond;
+		Timer *_timer;
+		bool _looping;
+		bool _launchAnim;
 	};
 }

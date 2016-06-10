@@ -15,7 +15,7 @@ namespace Moo
 	{
 		_window = window;
 		_textures = std::make_shared<std::map<std::string, Texture>>(textures);
-		_animation = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f, 2, 6);
+		_animation = std::make_shared<Moo::Sprite>(800.f, 600.f, 0.f, 0.f, 2, 6, true);
 		_animation->loadTexture(&_textures.get()->at("Loading"));
 		_hasBeenInited = true;
 		return true;
