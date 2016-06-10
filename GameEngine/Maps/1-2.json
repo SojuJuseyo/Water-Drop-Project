@@ -13,6 +13,144 @@
       },
       {
         "collidable": true,
+        "coordx": 51,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 52,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 53,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 54,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 55,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 56,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 57,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 58,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 59,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 60,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 61,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 62,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 63,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 64,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 1,
+        "properties": null
+      },
+      {
+        "collidable": true,
         "coordx": 74,
         "coordy": 1,
         "properties": null
@@ -25,6 +163,138 @@
       },
       {
         "collidable": true,
+        "coordx": 52,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 53,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 54,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 55,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 56,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 57,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 58,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 59,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 60,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 61,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 62,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 63,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 64,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 2,
+        "properties": null
+      },
+      {
+        "collidable": true,
         "coordx": 74,
         "coordy": 2,
         "properties": null
@@ -37,6 +307,132 @@
       },
       {
         "collidable": true,
+        "coordx": 53,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 54,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 55,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 56,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 57,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 58,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 59,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 60,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 61,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 62,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 63,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 64,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 65,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 66,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 67,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 68,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 69,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 70,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 71,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 72,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 73,
+        "coordy": 3,
+        "properties": null
+      },
+      {
+        "collidable": true,
         "coordx": 74,
         "coordy": 3,
         "properties": null
@@ -97,6 +493,108 @@
       },
       {
         "collidable": true,
+        "coordx": 57,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 58,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 59,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 60,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 61,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 62,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 63,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 64,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 65,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 66,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 67,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 68,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 69,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 70,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 71,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 72,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 73,
+        "coordy": 8,
+        "properties": null
+      },
+      {
+        "collidable": true,
         "coordx": 74,
         "coordy": 8,
         "properties": null
@@ -108,6 +606,102 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 58,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 59,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 60,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 61,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 62,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 63,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 64,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 9,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 9,
@@ -120,6 +714,96 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 59,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 60,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 61,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 62,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 63,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 64,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 10,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 10,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 10,
@@ -132,6 +816,90 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 60,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 61,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 62,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 63,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 64,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 11,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 11,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 11,
@@ -144,6 +912,84 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 61,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 62,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 63,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 64,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 12,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 12,
@@ -156,6 +1002,78 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 62,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 63,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 64,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 13,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 13,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 13,
@@ -168,6 +1086,72 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 63,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 64,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 14,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 14,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 14,
@@ -180,6 +1164,66 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 64,
+        "coordy": 15,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 15,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 15,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 15,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 15,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 15,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 15,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 15,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 15,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 15,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 15,
@@ -192,6 +1236,60 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 65,
+        "coordy": 16,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 16,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 16,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 16,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 16,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 16,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 16,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 16,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 16,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 16,
@@ -204,6 +1302,54 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 66,
+        "coordy": 17,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 17,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 17,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 17,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 17,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 17,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 17,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 17,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 17,
@@ -216,6 +1362,48 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 67,
+        "coordy": 18,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 18,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 18,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 18,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 18,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 18,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 18,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 18,
@@ -228,6 +1416,42 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 68,
+        "coordy": 19,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 19,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 19,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 19,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 19,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 19,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 19,
@@ -240,6 +1464,36 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 69,
+        "coordy": 20,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 20,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 20,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 20,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 20,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 20,
@@ -252,6 +1506,30 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 70,
+        "coordy": 21,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 21,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 21,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 21,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 21,
@@ -264,6 +1542,24 @@
         "properties": null
       },
       {
+        "collidable": false,
+        "coordx": 71,
+        "coordy": 22,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 22,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
+        "coordy": 22,
+        "properties": null
+      },
+      {
         "collidable": true,
         "coordx": 74,
         "coordy": 22,
@@ -272,6 +1568,18 @@
       {
         "collidable": true,
         "coordx": 0,
+        "coordy": 23,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 72,
+        "coordy": 23,
+        "properties": null
+      },
+      {
+        "collidable": false,
+        "coordx": 73,
         "coordy": 23,
         "properties": null
       },
@@ -1187,54 +2495,6 @@
     "4": [
       {
         "collidable": true,
-        "coordx": 44,
-        "coordy": 1,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 45,
-        "coordy": 1,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 46,
-        "coordy": 2,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 47,
-        "coordy": 2,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 48,
-        "coordy": 3,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 49,
-        "coordy": 3,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 50,
-        "coordy": 4,
-        "properties": null
-      },
-      {
-        "collidable": true,
-        "coordx": 51,
-        "coordy": 4,
-        "properties": null
-      },
-      {
-        "collidable": true,
         "coordx": 1,
         "coordy": 5,
         "properties": null
@@ -1433,154 +2693,478 @@
       },
       {
         "collidable": true,
+        "coordx": 1,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 2,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 3,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 4,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 5,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 6,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 7,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 8,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 9,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 10,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 11,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 12,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 13,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 14,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 15,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 16,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 17,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 18,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 19,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 20,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 21,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 22,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 23,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 24,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 25,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 26,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 27,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 28,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 29,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 30,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 31,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 32,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 33,
+        "coordy": 9,
+        "properties": null
+      },
+      {
+        "collidable": true,
         "coordx": 34,
-        "coordy": 5,
+        "coordy": 9,
         "properties": null
       },
       {
         "collidable": true,
         "coordx": 35,
-        "coordy": 5,
+        "coordy": 9,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 52,
-        "coordy": 5,
+        "coordx": 36,
+        "coordy": 9,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 53,
-        "coordy": 5,
+        "coordx": 37,
+        "coordy": 9,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 54,
-        "coordy": 6,
+        "coordx": 1,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 55,
-        "coordy": 6,
+        "coordx": 2,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 56,
-        "coordy": 7,
+        "coordx": 3,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 57,
-        "coordy": 7,
+        "coordx": 4,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 58,
-        "coordy": 8,
+        "coordx": 5,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 59,
-        "coordy": 8,
+        "coordx": 6,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 60,
-        "coordy": 8,
+        "coordx": 7,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 61,
-        "coordy": 8,
+        "coordx": 8,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 62,
-        "coordy": 8,
+        "coordx": 9,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 63,
-        "coordy": 8,
+        "coordx": 10,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 64,
-        "coordy": 8,
+        "coordx": 11,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 65,
-        "coordy": 8,
+        "coordx": 12,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 66,
-        "coordy": 8,
+        "coordx": 13,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 67,
-        "coordy": 8,
+        "coordx": 14,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 68,
-        "coordy": 8,
+        "coordx": 15,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 69,
-        "coordy": 8,
+        "coordx": 16,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 70,
-        "coordy": 8,
+        "coordx": 17,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 71,
-        "coordy": 8,
+        "coordx": 18,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 72,
-        "coordy": 8,
+        "coordx": 19,
+        "coordy": 12,
         "properties": null
       },
       {
         "collidable": true,
-        "coordx": 73,
-        "coordy": 8,
+        "coordx": 20,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 21,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 22,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 23,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 24,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 25,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 26,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 27,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 28,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 29,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 30,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 31,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 32,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 33,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 34,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 35,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 36,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 37,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 38,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 39,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 40,
+        "coordy": 12,
+        "properties": null
+      },
+      {
+        "collidable": true,
+        "coordx": 41,
+        "coordy": 12,
         "properties": null
       }
     ],
     "6": [
       {
         "collidable": true,
-        "coordx": 65,
-        "coordy": 9,
+        "coordx": 71,
+        "coordy": 4,
         "properties": null
       }
     ]
@@ -1589,8 +3173,8 @@
     "0": [
       {
         "collidable": true,
-        "coordx": 10,
-        "coordy": 6,
+        "coordx": 4,
+        "coordy": 10,
         "properties": null
       }
     ]
@@ -1599,49 +3183,13 @@
     "0": [
       {
         "collidable": true,
-        "coordx": 4,
+        "coordx": 17,
         "coordy": 1,
         "properties": {
           "text": "",
-          "x2": 43,
+          "x2": 50,
           "y2": 1,
-          "size": 6,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 9,
-        "coordy": 1,
-        "properties": {
-          "text": "",
-          "x2": 9,
-          "y2": 1,
-          "size": 4,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 13,
-        "coordy": 1,
-        "properties": {
-          "text": "",
-          "x2": 13,
-          "y2": 1,
-          "size": 4,
-          "orientation": 0
-        }
-      },
-      {
-        "collidable": true,
-        "coordx": 20,
-        "coordy": 1,
-        "properties": {
-          "text": "",
-          "x2": 20,
-          "y2": 1,
-          "size": 4,
+          "size": 12,
           "orientation": 0
         }
       },
@@ -1653,12 +3201,181 @@
           "text": "",
           "x2": 26,
           "y2": 1,
+          "size": 8,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 35,
+        "coordy": 1,
+        "properties": {
+          "text": "",
+          "x2": 35,
+          "y2": 1,
+          "size": 8,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 3,
+        "coordy": 6,
+        "properties": {
+          "text": "",
+          "x2": 60,
+          "y2": 6,
+          "size": 6,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 11,
+        "coordy": 6,
+        "properties": {
+          "text": "",
+          "x2": 11,
+          "y2": 6,
           "size": 4,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 18,
+        "coordy": 6,
+        "properties": {
+          "text": "",
+          "x2": 18,
+          "y2": 6,
+          "size": 4,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 21,
+        "coordy": 6,
+        "properties": {
+          "text": "",
+          "x2": 50,
+          "y2": 6,
+          "size": 12,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 26,
+        "coordy": 6,
+        "properties": {
+          "text": "",
+          "x2": 26,
+          "y2": 6,
+          "size": 4,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 15,
+        "coordy": 13,
+        "properties": {
+          "text": "",
+          "x2": 50,
+          "y2": 13,
+          "size": 6,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 20,
+        "coordy": 13,
+        "properties": {
+          "text": "",
+          "x2": 20,
+          "y2": 13,
+          "size": 4,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 25,
+        "coordy": 13,
+        "properties": {
+          "text": "",
+          "x2": 25,
+          "y2": 13,
+          "size": 5,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 30,
+        "coordy": 13,
+        "properties": {
+          "text": "",
+          "x2": 30,
+          "y2": 13,
+          "size": 6,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 35,
+        "coordy": 13,
+        "properties": {
+          "text": "",
+          "x2": 35,
+          "y2": 13,
+          "size": 7,
+          "orientation": 0
+        }
+      },
+      {
+        "collidable": true,
+        "coordx": 40,
+        "coordy": 13,
+        "properties": {
+          "text": "",
+          "x2": 40,
+          "y2": 13,
+          "size": 8,
           "orientation": 0
         }
       }
     ]
   },
   "heatZonesList": [],
-  "otherTileList": []
+  "otherTileList": [
+    {
+      "collidable": false,
+      "coordx": 11,
+      "coordy": 11,
+      "properties": {
+        "text": "QUICK",
+        "x2": 11,
+        "y2": 11,
+        "size": 6,
+        "orientation": 0
+      }
+    },
+    {
+      "collidable": false,
+      "coordx": 25,
+      "coordy": 11,
+      "properties": {
+        "text": "DONT GET ABSORBED",
+        "x2": 25,
+        "y2": 11,
+        "size": 6,
+        "orientation": 0
+      }
+    }
+  ]
 }
