@@ -15,7 +15,7 @@ namespace Moo
 		_isAnimated = false;
 	}
 
-	Sprite::Sprite(float width, float height, float x, float y, int rows, int columns)
+	Sprite::Sprite(float width, float height, float x, float y, int rows, int columns, bool looping, float framesPerSecond)
 	{
 		_width = width;
 		_height = height;
@@ -29,6 +29,13 @@ namespace Moo
 		_columns = columns;
 		_isAnimated = true;
 		_currentFrame = 0;
+		_framesPerSecond = framesPerSecond;
+		_looping = looping;
+		_timer = nullptr;
+		if (_looping)
+			_launchAnim = true;
+		else
+			_launchAnim = false;
 	}
 
 	Sprite::~Sprite()
@@ -137,17 +144,42 @@ namespace Moo
 		_devcon->UpdateSubresource(_constantBuffer.Get(), 0, 0, &mvp, 0, 0);
 	}
 
+	void    Sprite::doAnimation()
+	{
+		_launchAnim = true;
+	}
+
 	void	Sprite::draw()
 	{
 		if (_isAnimated)
 		{
-			if (_currentFrame == _rows * _columns)
-			_currentFrame = 0;
-			std::cout << "_currentFrame : " << _currentFrame << std::endl;
-			std::cout << "_currentFrame % _columns : " << _currentFrame % _columns << std::endl;
-			std::cout << "_currentFrame / _columns : " << _currentFrame / _columns << std::endl;
-			this->setRectFromSpriteSheet(Moo::Vector2f(float(_currentFrame % _columns), float(_currentFrame / _columns)), Moo::Vector2f(800, 600));
-			_currentFrame++;
+			if (_launchAnim)
+			{
+				if (_framesPerSecond != -1)
+				{
+					if (_timer == nullptr)
+						_timer = new Timer;
+					if (_timer->getElapsedSeconds() > _framesPerSecond)
+					{
+						_currentFrame++;
+						if (_currentFrame == _rows * _columns)
+						{
+							if (!_looping)
+								_launchAnim = false;
+							_currentFrame = 0;
+						}
+						this->setRectFromSpriteSheet(Moo::Vector2f(float(_currentFrame % _columns), float(_currentFrame / _columns)), Moo::Vector2f(_width, _height));
+						_timer->reset();
+					}
+				}
+				else
+				{
+					if (_currentFrame == _rows * _columns)
+						_currentFrame = 0;
+					this->setRectFromSpriteSheet(Moo::Vector2f(float(_currentFrame % _columns), float(_currentFrame / _columns)), Moo::Vector2f(_width, _height));
+					_currentFrame++;
+				}
+			}
 		}
 		unsigned int stride = sizeof(VERTEX);
 		unsigned int offset = 0;

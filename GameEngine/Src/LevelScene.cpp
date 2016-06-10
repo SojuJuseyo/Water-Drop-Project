@@ -91,22 +91,42 @@ namespace Moo
 
 	void	LevelScene::fillStaticEntitiesList(EntityType type, Tile tile, bool isHeatZone)
 	{
-		auto sprite = std::make_shared<Moo::Sprite>(BLOCK_SIZE, BLOCK_SIZE, tile.getPosX() * BLOCK_SIZE, tile.getPosY() * BLOCK_SIZE);
-		sprite->loadTexture(&_textures.get()->at("Tileset"));
-
-		sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(48.f, 48.f));
-		auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, tile.getIsCollidable());
-		if (tile.getProperties().getIsSet() == true)
+		if (isHeatZone)
 		{
-			staticEntity->setHitboxLastPos(
-				(float)tile.getProperties().getX2() * BLOCK_SIZE,
-				(float)tile.getProperties().getY2() * BLOCK_SIZE + sprite->getHeight(),
-				(float)tile.getProperties().getX2() * BLOCK_SIZE + sprite->getWidth(),
-				(float)tile.getProperties().getY2() * BLOCK_SIZE);
-			staticEntity->setHitboxFirstPos(staticEntity->getHitbox());
-			staticEntity->setIsScripted(true);
+			auto sprite = std::make_shared<Moo::Sprite>(BLOCK_SIZE, BLOCK_SIZE, tile.getPosX() * BLOCK_SIZE, tile.getPosY() * BLOCK_SIZE, 1, 4, true, 0.2f);
+			sprite->loadTexture(&_textures.get()->at("HeatZone"));
+			auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, tile.getIsCollidable());
+			if (tile.getProperties().getIsSet() == true)
+			{
+				staticEntity->setHitboxLastPos(
+					(float)tile.getProperties().getX2() * BLOCK_SIZE,
+					(float)tile.getProperties().getY2() * BLOCK_SIZE + sprite->getHeight(),
+					(float)tile.getProperties().getX2() * BLOCK_SIZE + sprite->getWidth(),
+					(float)tile.getProperties().getY2() * BLOCK_SIZE);
+				staticEntity->setHitboxFirstPos(staticEntity->getHitbox());
+				staticEntity->setIsScripted(true);
+			}
+			_staticEntities.push_back(staticEntity);
 		}
-		_staticEntities.push_back(staticEntity);
+		else
+		{
+			auto sprite = std::make_shared<Moo::Sprite>(BLOCK_SIZE, BLOCK_SIZE, tile.getPosX() * BLOCK_SIZE, tile.getPosY() * BLOCK_SIZE);
+			sprite->loadTexture(&_textures.get()->at("Tileset"));
+
+			sprite->setRectFromSpriteSheet(_spriteSheet[getEntityTypeName(type)], Moo::Vector2f(48.f, 48.f));
+			auto staticEntity = std::make_shared<Moo::StaticEntity>(sprite, type, isHeatZone, tile.getIsCollidable());
+			if (tile.getProperties().getIsSet() == true)
+			{
+				staticEntity->setHitboxLastPos(
+					(float)tile.getProperties().getX2() * BLOCK_SIZE,
+					(float)tile.getProperties().getY2() * BLOCK_SIZE + sprite->getHeight(),
+					(float)tile.getProperties().getX2() * BLOCK_SIZE + sprite->getWidth(),
+					(float)tile.getProperties().getY2() * BLOCK_SIZE);
+				staticEntity->setHitboxFirstPos(staticEntity->getHitbox());
+				staticEntity->setIsScripted(true);
+			}
+			_staticEntities.push_back(staticEntity);
+		}
 	}
 
 	void	LevelScene::fillDynamicEntitiesList(EntityType type, float posX, float posY, float width, float height, float mass, float health, bool isCharacter, Direction direction, TileProperties properties)
@@ -435,9 +455,11 @@ namespace Moo
 		//Draw static entities and their hitboxes
 		for (auto entity : _staticEntities)
 		{
-			if (entity->getEntityType() != EntityType::BLANK_HEAT_ZONE)
-				if (isVisible(*_player, *entity.get(), 800))
+			if (isVisible(*_player, *entity.get(), 800))
+			{
+				//if (entity->getEntityType() == EntityType::BLANK_HEAT_ZONE)
 					_window->draw(entity->getSprite());
+			}
 			//_window->draw(entity->getHitboxSprite());
 		}
 
