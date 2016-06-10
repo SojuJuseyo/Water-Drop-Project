@@ -165,14 +165,18 @@
     <ClInclude Include="Includes\Font.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\FailScene.h" />
     <ClInclude Include="Includes\SettingsScreen.h">
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="Includes\CreditsScene.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="Includes\FailScene.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Includes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Bullet.cpp">
@@ -283,11 +287,13 @@
     <ClCompile Include="Src\Font.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\FailScene.cpp" />
     <ClCompile Include="Src\SettingsScreen.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\CreditsScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\FailScene.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -325,9 +331,11 @@
     <Image Include="Ressources\Graphics\You_Won_DDS.dds">
       <Filter>Resource Files\graphics</Filter>
     </Image>
-    <Image Include="Ressources\Graphics\player.dds" />
     <Image Include="Ressources\Graphics\superhappywater.ico">
       <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Ressources\Graphics\player.dds">
+      <Filter>Resource Files\graphics</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -367,11 +375,15 @@
     <Media Include="Ressources\Sounds\walljump.wav">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="Ressources\Sounds\defeat.mp3" />
     <Media Include="Ressources\Sounds\menuMove.wav">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="Ressources\Sounds\victory.mp3" />
+    <Media Include="Ressources\Sounds\victory.mp3">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Ressources\Sounds\defeat.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameEngine.rc">

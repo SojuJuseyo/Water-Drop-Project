@@ -219,9 +219,8 @@ namespace Moo
 				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile, true);
 		}
 
-		for (auto text : map->getOtherTileList()) {
+		for (auto text : map->getOtherTileList())
 			_texts.push_back(Moo::Text(text.getProperties().getText(), 1.f, text.getPosX() * BLOCK_SIZE, text.getPosY() * BLOCK_SIZE, _font));
-		}
 
 		//Character specs
 		float characterHeight = 42.f;
@@ -460,15 +459,9 @@ namespace Moo
 
 		//Draw static entities and their hitboxes
 		for (auto entity : _staticEntities)
-		{
 			if (isVisible(*_player, *entity.get(), 800))
-			{
-				//if (entity->getEntityType() == EntityType::BLANK_HEAT_ZONE)
-					_window->draw(entity->getSprite());
-			}
-			//_window->draw(entity->getHitboxSprite());
-		}
-
+				_window->draw(entity->getSprite());
+	
 		//Draw dynamic entities and their hitboxes
 		for (auto entity : _dynamicEntities)
 			if (entity->getIsActivated() == true)
@@ -486,10 +479,10 @@ namespace Moo
 					_window->draw(entity->getSprite());
 					//_window->draw(entity->getHitboxSprite());
 				}
+
 		//Draw text
-		for (auto text : _texts) {
+		for (auto text : _texts)
 			text.draw();
-		}
 	}
 
 	void	LevelScene::exitReached()
@@ -509,9 +502,9 @@ namespace Moo
 		_window->inCameradraw(_lose.get());
 		_window->display();
 		_soundSystem->playSoundTilEnd("defeat");
-		Game::getInstance().cleanCurrentScene();
 		if (themeChan != nullptr)
 			themeChan->setPaused(false);
+		Game::getInstance().cleanCurrentScene();
 	}
 
 	static ScriptDirection getNewScriptDirection(ScriptDirection direction, Hitbox hitbox, Hitbox firstHitbox, Hitbox lastHitbox)
@@ -805,9 +798,7 @@ namespace Moo
 
 	bool	LevelScene::runUpdate()
 	{
-		////Gtting the inputs of the player
-		//std::chrono::duration<double>	elapsed_time_start = std::chrono::system_clock::now() - _startTime;
-		//if (elapsed_time_start.count() > 0.75)
+		//Getting the inputs of the player
 		inputHandling();
 
 		//Applying scripts
