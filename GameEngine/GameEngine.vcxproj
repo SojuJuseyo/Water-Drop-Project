@@ -183,6 +183,7 @@
     <ClInclude Include="Includes\MenuPause.h" />
     <ClInclude Include="Includes\ParticleEmitter.h" />
     <ClInclude Include="Includes\pch.h" />
+    <ClInclude Include="Includes\resource.h" />
     <ClInclude Include="Includes\Scene.h" />
     <ClInclude Include="Includes\Settings.h" />
     <ClInclude Include="Includes\SettingsScreen.h" />
