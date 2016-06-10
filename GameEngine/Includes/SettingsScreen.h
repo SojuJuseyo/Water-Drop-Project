@@ -26,6 +26,14 @@ namespace Moo
 		bool	runUpdate();
 		void	clean();
 
+		bool	getFullscreenOn() const;
+		bool	getMusicOn() const;
+		bool	getSoundEffectsOn() const;
+
+		void	setFullscreenOn(bool);
+		void	setMusicOn(bool);
+		void	setSoundEffectsOn(bool);
+
 	private:
 		e_settings	_offset;
 		bool		_fullscreenOn, _musicOn, _soundEffectsOn;

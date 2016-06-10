@@ -6,6 +6,18 @@ namespace Moo
 
 	SettingsScreen::~SettingsScreen() {}
 
+	bool	SettingsScreen::getFullscreenOn() const { return _fullscreenOn;	}
+
+	bool	SettingsScreen::getMusicOn() const { return _musicOn; }
+
+	bool	SettingsScreen::getSoundEffectsOn() const {	return _soundEffectsOn;	}
+
+	void	SettingsScreen::setFullscreenOn(bool fullscreenOn) { _fullscreenOn = fullscreenOn; }
+
+	void	SettingsScreen::setMusicOn(bool musicOn) { _musicOn = musicOn; }
+
+	void	SettingsScreen::setSoundEffectsOn(bool soundEffectsOn) { _soundEffectsOn = soundEffectsOn; }
+
 	void	SettingsScreen::addSprite(std::string name, std::string filename, float width, float height, float x, float y, float divider)
 	{
 		_sprites[name] = std::make_shared<Sprite>(width, height, x, y);
@@ -256,10 +268,7 @@ namespace Moo
 
 	void	SettingsScreen::saveSettings()
 	{
-		if (_fullscreenOn == true)
-			d3d::getInstance().setFullScreenState(true);
-		else
-			d3d::getInstance().setFullScreenState(false);
+		d3d::getInstance().setFullScreenState(_fullscreenOn);
 
 		if (_musicOn == true) 
 		{

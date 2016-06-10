@@ -174,9 +174,16 @@ namespace Moo
 			_swapchain->Present(1, 0);
 		}
 
+		bool d3d::getFullScreenState()
+		{
+			return _fullscreenstate;
+		}
+
 		void d3d::setFullScreenState(bool state)
 		{
 			releaseBackBuffer();
+
+			_fullscreenstate = state;
 
 			UINT windowWidth = state ? 1920 : 0;
 			UINT windowHeight = state ? 1080 : 0;

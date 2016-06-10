@@ -65,7 +65,7 @@ namespace Moo
 			themeChan = _soundSystem->playSound("custom", true);
 		}
 		if (themeChan != nullptr)
-			themeChan->setPaused(true);
+			themeChan->setPaused(false);
 
 		//Various variables
 		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
@@ -189,7 +189,6 @@ namespace Moo
 		std::list<Tile> platformTiles = map->getTilesFromSprite("4");
 		std::list<Tile> exitTiles = map->getTilesFromSprite("6");
 		std::list<Tile> heatZonesTiles = map->getHeatZonesTileList();
-
 		//platforms
 		for (auto platformTile : platformTiles)
 			fillStaticEntitiesList(EntityType::PLATFORM, platformTile, false);
@@ -218,6 +217,10 @@ namespace Moo
 				}
 			if (_wasInList == false)
 				fillStaticEntitiesList(EntityType::BLANK_HEAT_ZONE, heatZoneTile, true);
+		}
+
+		for (auto text : map->getOtherTileList()) {
+			_texts.push_back(Moo::Text(text.getProperties().getText(), 1.f, text.getPosX() * BLOCK_SIZE, text.getPosY() * BLOCK_SIZE, _font));
 		}
 
 		//Character specs
@@ -253,6 +256,8 @@ namespace Moo
 		_font = std::make_shared<Font>();
 		_font->loadFromFile("Font.dds");
 		_fps = std::make_shared<Text>("FPS XX", 2.f, 10.f, WINDOW_HEIGHT - 50.f, _font); // text;size;position.x;position.y;font
+		_levelNameBackground = std::make_shared<Moo::Sprite>(63.f, 32.f, 10.f, 558.f);
+		_levelNameBackground->loadTexture(&_textures.get()->at("LevelNameBackground"));
 
 		//We get the map
 		if (_map == nullptr)
@@ -315,6 +320,7 @@ namespace Moo
 		_playerDead = false;
 
 		std::cout << std::endl << "---------- Init successful ----------" << std::endl;
+		_levelName = std::make_shared<Text>(_map->getMapName(), 1.f, 17.f, 568.f, _font);
 
 		return (true);
 	}
@@ -480,6 +486,10 @@ namespace Moo
 					_window->draw(entity->getSprite());
 					//_window->draw(entity->getHitboxSprite());
 				}
+		//Draw text
+		for (auto text : _texts) {
+			text.draw();
+		}
 	}
 
 	void	LevelScene::exitReached()
@@ -783,8 +793,11 @@ namespace Moo
 		_life.get()->setText(std::to_string(static_cast<int>(_player->getHealth())));
 		_window->inCameradraw(_life.get());
 
-		_fps->setText("FPS " + std::to_string(_window->getFps()));
-		_window->inCameradraw(_fps.get());
+		_window->inCameradraw(_levelNameBackground.get());
+		_window->inCameradraw(_levelName.get());
+
+		//_fps->setText("FPS " + std::to_string(_window->getFps()));
+		//_window->inCameradraw(_fps.get());
 	}
 
 	bool	LevelScene::runUpdate()
