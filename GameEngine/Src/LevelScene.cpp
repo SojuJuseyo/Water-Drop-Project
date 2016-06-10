@@ -626,6 +626,9 @@ namespace Moo
 
 				if (dynamicEntity->getEntityType() == EntityType::PLAYER && _player->getHealth() > 1.f)
 					_player->checkEvaporation();
+				
+				if (dynamicEntity->getEntityType() == EntityType::PLAYER && _player->getHitbox().y2 < 0 - _player->getSprite()->getHeight())
+					playerDead();
 
 				dynamicEntity->setGravity(true);
 
