@@ -256,8 +256,8 @@ namespace Moo
 		std::cout << "Dynamic entities list is filled, size: " << _dynamicEntities.size() << std::endl;
 
 		//background
-		_background = std::make_shared<Moo::Sprite>(4000.f, 3000.f, 0.f, 0.f);
-		_background->loadTexture(&_textures.get()->at("Background"));
+		//_background = std::make_shared<Moo::Sprite>(4000.f, 3000.f, 0.f, 0.f);
+		//_background->loadTexture(&_textures.get()->at("Background"));
 
 		_player = std::static_pointer_cast<Moo::Character>(_dynamicEntities[0]);
 
@@ -432,7 +432,7 @@ namespace Moo
 	void	LevelScene::displayHitboxesAndSprites()
 	{
 		_window->clear();
-		_window->draw(_background.get());
+		//_window->draw(_background.get());
 
 		// Display hitbox if godmode is on
 		if (_player->isGodMode() == true)

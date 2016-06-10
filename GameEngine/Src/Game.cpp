@@ -18,7 +18,7 @@ namespace Moo
 		_textures["Hitbox"].loadFromFile(GRAPHICS_PATH + std::string("hitbox.dds"));
 		_textures["Enemy"].loadFromFile(GRAPHICS_PATH + std::string("enemy.dds"));
 		_textures["Tileset"].loadFromFile(GRAPHICS_PATH + std::string("tileset.dds"));
-		_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
+		//_textures["Background"].loadFromFile(GRAPHICS_PATH + std::string("background.dds"));
 		_textures["Drop"].loadFromFile(GRAPHICS_PATH + std::string("HUD.dds"));
 
 		_textures["Lose"].loadFromFile(GRAPHICS_PATH + std::string("defeatScreen.dds"));

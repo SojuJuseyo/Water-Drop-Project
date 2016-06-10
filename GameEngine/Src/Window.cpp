@@ -120,7 +120,7 @@ namespace Moo
 
 	void	Window::clear()
 	{
-		float color[4] = { 0.12f, 0.12f, 0.12f, 1.0f };
+		float color[4] = { 0.76f, 0.81f, 0.63f, 1.0f };
 		d3d::getInstance().clearWindow(color);
 	}
 
