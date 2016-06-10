@@ -97,6 +97,8 @@ namespace Moo
 			}
 			if (msg.message == WM_UNPAUSEGAME) {
 				Keyboard::getInstance().focused = true;
+				if (d3d::getInstance().getFullScreenState() == true)
+					d3d::getInstance().setFullScreenState(true);
 				//if (Game::getInstance().getSceneByType(Moo::Game::LEVEL) != nullptr &&
 				//	((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan != nullptr)
 				//	((LevelScene *)(Game::getInstance().getSceneByType(Moo::Game::LEVEL)->scene))->themeChan->setPaused(false);
